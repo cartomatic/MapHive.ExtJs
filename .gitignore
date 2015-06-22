@@ -1,0 +1,41 @@
+#jsduck - ignore the generated docs
+docs/docs/
+
+#aptana
+*.project
+
+#webstorm
+.idea
+
+############
+# Sencha #
+############
+
+temp/
+/build/
+.architect
+.project
+#.sencha/ #looks like stuff inside is needed for the package build process and is not dynamically created by cmd on each build
+.sass-cache/
+.sencha_backup/
+#yes, exclude ext framework
+ext/
+#yes, exclude touch framework
+touch/
+temp/
+build/
+
+
+bootstrap.css
+bootstrap.js
+bootstrap.json
+sass/example/bootstrap.css
+sass/example/bootstrap.js
+sass/example/bootstrap.json
+sass/example/example.css
+
+*slicer-temp*
+gwt-unitCache
+
+#merge backup files
+*.orig
