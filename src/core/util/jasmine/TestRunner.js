@@ -9,13 +9,13 @@
      * the actual app js stuff is also copied into the app's build dir so the test files are accessible; this also applies to jasmine files
      * @author mika
      */
-    Ext.define('gm.generic.util.jasmine.TestRunner', {
+    Ext.define('gm.core.util.jasmine.TestRunner', {
 
         requires: [
             'Ext.Object',
             'Ext.panel.Panel',
             'Ext.container.Viewport',
-            'gm.generic.util.Loader'
+            'gm.core.util.Loader'
         ],
 
         mixins: [
@@ -86,20 +86,20 @@
         /**
          * @event jasmineloaded
          * Fired when jasmine scripts are loaded
-         * @param {Jasmine.util.TestRunner} self
+         * @param {gm.core.util.jasmine.TestRunner} self
          */
 
         /**
          * @event jasmineconfigured
          * Fired when jasmine is configured
-         * @param {Jasmine.util.TestRunner} self
+         * @param {gm.core.util.jasmine.TestRunner} self
          */
 
 
         /**
          * @event testsloaded
          * Fired when tests are loaded
-         * @param {Jasmine.util.TestRunner} self
+         * @param {gm.core.util.jasmine.TestRunner} self
          */
 
         /**
@@ -136,7 +136,7 @@
                 jasminePath = this.getJasminePath() + '/jasmine-' + this.getJasmineVersion();
 
             //Load jasmine related scripts
-            Jasmine.util.Loader.load({
+            gm.core.util.Loader.load({
                 fileList: [
                     //the standard stuff needed for html reporter
                     jasminePath + '/jasmine.css',
@@ -161,7 +161,7 @@
         /**
          * 'jasmineloaded' evt listener; boots Jasmine
          * @private
-         * @param self {Jasmine.util.TestRunner}
+         * @param self {gm.core.util.jasmine.TestRunner}
          */
         onJasmineLoaded: function(self){
             //jasmine stuff has been loaded, so perform a Jasmine setup
@@ -260,7 +260,7 @@
 
         /**
          * 'jasmineconfigured' evt listener
-         * @param self {Jasmine.util.TestRunner}
+         * @param self {gm.core.util.jasmine.TestRunner}
          */
         onJasmineConfigured: function(self){
             //check if there are tests configured and if so load them
@@ -396,7 +396,10 @@
                  *
                  * Build up the functions that will be exposed as the Jasmine public interface. A project can customize, rename or alias any of these functions as desired, provided the implementation remains unchanged.
                  */
-                var jasmineInterface = jasmineRequire.interface(jasmine, env);
+                //Note:
+                //it looks like semncha cmd's yui compiler does not like the interface property name....
+                //var jasmineInterface = jasmineRequire.interface(jasmine, env);
+                var jasmineInterface = jasmineRequire['interface'](jasmine, env);
 
                 /**
                  * Add all of the Jasmine global/public interface to the global scope, so a project can use the public interface directly. For example, calling `describe` in specs instead of `jasmine.getEnv().describe`.
