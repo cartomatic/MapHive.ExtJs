@@ -80,8 +80,26 @@
             /**
              * name of the default test suite. used if an alternative is not provided when loading the tests
              */
-            defaultTestSuiteName: 'Test Suite'
+            defaultTestSuiteName: 'Test Suite',
+
+            /**
+             * Whether or not the Jasmine's console reporter should output the ansi colors too.
+             */
+            showColors: false
         },
+
+        /**
+         * @property {Object} jasmineEnv
+         * Jasmine's env
+         * @private
+         */
+        jasmineEnv: null,
+
+        /**
+         * @property {Object}
+         * @private
+         */
+        jasmineHtmlReporter: null,
 
         /**
          * @event jasmineloaded
@@ -130,7 +148,7 @@
          */
         loadJasmine: function(){
 
-            console.warn('[TEST RUNNER]- loading Jasmine stuff...');
+            console.warn('[GM JASMINE TEST RUNNER]- loading Jasmine stuff...');
 
             var me = this,
                 jasminePath = this.getJasminePath() + '/jasmine-' + this.getJasmineVersion();
@@ -150,7 +168,7 @@
                     //'jslibs/jasmine/lib/jasmine-2.3.4/boot.js'
                 ],
                 callback: function(){
-                    console.warn('[TEST RUNNER]- Jasmine stuff loaded!');
+                    console.warn('[GM JASMINE TEST RUNNER]- Jasmine stuff loaded!');
                     me.fireEvent('jasmineloaded', me)
                 },
                 scope: me,
@@ -184,20 +202,10 @@
             //just not load it directly but instead make it do the work here:
             this.bootJasmine();
 
+
+
             //init the reporter now - this will inject all the stuff to the body
             this.jasmineHtmlReporter.initialize();
-
-
-            var consoleReporter = new jasmineRequire.ConsoleReporter()({
-                showColors: true,
-                timer: new jasmine.Timer,
-                print: function() {
-                    console.log.apply(console, arguments)
-                }
-            });
-
-            jasmine.getEnv().addReporter(consoleReporter);
-
 
 
             //Note:
@@ -251,8 +259,25 @@
             Ext.get(document.getElementsByClassName('jasmine_html-reporter')[0]).replace(output);
 
 
-            console.warn('[TEST RUNNER] - Jasmine HTML reporter output container created!');
+            console.warn('[GM JASMINE TEST RUNNER] - Jasmine HTML reporter initiated!');
 
+
+            //If this is a headless mode - namely PhantomJS, initialise a console reporter too.
+            //console.log get's intercepted by the PhantomJs test runner script and evaluated further in order to print the msgs
+            if (navigator.userAgent.indexOf("PhantomJS") > 0) {
+
+                var consoleReporter = new jasmineRequire.ConsoleReporter()({
+                    showColors: this.getShowColors(),
+                    timer: new jasmine.Timer,
+                    print: function() {
+                        console.log.apply(console, arguments)
+                    }
+                });
+
+                this.jasmineEnv.addReporter(consoleReporter);
+
+                console.warn('[GM JASMINE TEST RUNNER] - Jasmine running in headless (PhantomJS) mode!!!');
+            }
 
 
             this.fireEvent('jasmineconfigured', this);
@@ -310,7 +335,7 @@
                             describe(suiteName, function(){
                                 for(t; t < tlen; t++){
 
-                                    console.warn('[TEST RUNNER] - loading tests for ' + tests[t]);
+                                    console.warn('[GM JASMINE TEST RUNNER] - loading tests for ' + tests[t]);
 
                                     T = Ext.create(tests[t]);
                                     if(Ext.isFunction(T.load)){
@@ -320,7 +345,7 @@
                             });
                         }
 
-                        console.warn('[TEST RUNNER] - tests loaded!');
+                        console.warn('[GM JASMINE TEST RUNNER] - tests loaded!');
 
                         me.fireEvent('testsloaded', me);
                     },
@@ -348,12 +373,14 @@
          * Executes the jasmine tests
          */
         executeTests: function(){
-            console.warn('[TEST RUNNER] - starting tests...');
+            console.warn('[GM JASMINE TEST RUNNER] - starting tests...');
             this.jasmineEnv.execute();
         },
 
         /**
-         * performs the jasmine boot; see the htmlReporter and env for details - they are both made accessible for the class instance
+         * performs the jasmine boot; see the 'custom' comments for details.
+         * there are also some minor changes that make it possible to built the class in sencha cmd;
+         * jasmine env as well as jasmine htmlReporter are made accessible at the class level
          */
         bootJasmine: function(){
 
@@ -396,6 +423,7 @@
                  *
                  * Build up the functions that will be exposed as the Jasmine public interface. A project can customize, rename or alias any of these functions as desired, provided the implementation remains unchanged.
                  */
+
                 //Note:
                 //it looks like semncha cmd's yui compiler does not like the interface property name....
                 //var jasmineInterface = jasmineRequire.interface(jasmine, env);
@@ -441,6 +469,8 @@
                  * The `jsApiReporter` also receives spec results, and is used by any environment that needs to extract the results  from JavaScript.
                  */
                 env.addReporter(jasmineInterface.jsApiReporter);
+
+
                 env.addReporter(htmlReporter);
 
                 /**
@@ -467,13 +497,14 @@
                  *
                  * Replace the browser window's `onload`, ensure it's called, and then run all of the loaded specs. This includes initializing the `HtmlReporter` instance and then executing the loaded Jasmine environment. All of this will happen after all of the specs are loaded.
                  */
-                //var currentWindowOnload = window.onload;
 
                 //custom
                 //---------------------------------------------------------------------------
                 //Note:
                 //do not wire up the window events - since the app is running it already happened
-                //instead make the env and htmlReporter accessible so can interact with them later
+                //instead make the env accessible so can interact with it later
+
+                //var currentWindowOnload = window.onload;
 
                 //window.onload = function() {
                 //    if (currentWindowOnload) {
