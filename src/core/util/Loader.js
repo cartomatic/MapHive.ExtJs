@@ -64,7 +64,7 @@
             if(!cfg) return;
 
             var fileList = cfg.fileList,
-                callback = cfg.callback,
+                callback = cfg.callback || Ext.emptyFn,
                 scope = cfg.scope,
                 preserveOrder = cfg.preserveOrder;
 
