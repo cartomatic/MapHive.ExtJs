@@ -90,6 +90,13 @@
         ]
     },
 
+	/**
+	 * this will copy the specified folders to the build/production/AppName/toolkit/resources/PackageName/
+	 */
+	"resources": [
+        "resources"
+    ],
+	
     /**
      * Controls the output directory.
      */
