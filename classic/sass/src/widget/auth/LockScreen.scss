@@ -1,0 +1,18 @@
+.gm-lock-screen{
+  .x-window-body {
+    /*
+    Note:
+    path is relative to build/production/AppName/toolkit/resources/
+    and the css ends up in the AppName-all.css
+    */
+    background-image:url('gm/images/lock-screen-background.jpg');
+    background-size:cover;
+    background-repeat:repeat;
+  }
+
+  &.x-window-default {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+}
