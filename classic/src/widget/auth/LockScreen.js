@@ -3,24 +3,16 @@
     'use strict';
 
     /**
-     * Lock screen used to lock the UI from user interaction; based on the admin dashboard template
+     * Lock screen used to lock the UI from user interaction; adds item to centered vbox layout
      */
     Ext.define('gm.widget.auth.LockScreen', {
-        extend: 'Ext.window.Window',
+        extend: 'gm.widget.auth.LockScreenBase',
 
         xtype: 'gm.lockscreen',
 
-        closable: false,
-        resizable: false,
-        autoShow: true,
-        titleAlign: 'center',
-        maximized: true,
-        modal: true,
-
-        header: false,
-
-        //css and image borrowed from admin dashboard template
-        cls: 'gm-lock-screen',
+        requires: [
+            'Ext.layout.container.VBox'
+        ],
 
         layout: {
             type: 'vbox',

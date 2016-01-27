@@ -7,7 +7,7 @@
      * Js script, css loader;
      * Modification of http://www.sencha.com/forum/showthread.php?107796-Ext.ux.Loader-Load-js-css-Files-Dynamically
      */
-    Ext.define('gm.core.util.Loader', {
+    Ext.define('gm.util.Loader', {
 
         singleton: true,
 

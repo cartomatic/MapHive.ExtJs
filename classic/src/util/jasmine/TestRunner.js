@@ -9,13 +9,13 @@
      * the actual app js stuff is also copied into the app's build dir so the test files are accessible; this also applies to jasmine files
      * @author mika
      */
-    Ext.define('gm.utils.jasmine.TestRunner', {
+    Ext.define('gm.util.jasmine.TestRunner', {
 
         requires: [
-            'Ext.Object',
-            'Ext.panel.Panel',
             'Ext.container.Viewport',
-            'gm.core.util.Loader'
+            'Ext.layout.container.Fit',
+            'Ext.panel.Panel',
+            'gm.util.Loader'
         ],
 
         mixins: [
