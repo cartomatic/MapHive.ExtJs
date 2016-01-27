@@ -5,10 +5,10 @@
     /**
      * Lock screen used to lock the UI from user interaction; adds item to centered vbox layout
      */
-    Ext.define('gm.widget.auth.LockScreen', {
-        extend: 'gm.widget.auth.LockScreenBase',
+    Ext.define('gm.widget.auth.LockingScreen', {
+        extend: 'gm.widget.auth.LockingScreenBase',
 
-        xtype: 'gm.lockscreen',
+        xtype: 'gm.lockingscreen',
 
         requires: [
             'Ext.layout.container.VBox'
