@@ -1,11 +1,11 @@
-.gm-locking-screen{
+.mh-locking-screen{
   .x-window-body {
     /*
     Note:
     path is relative to build/production/AppName/toolkit/resources/
     and the css ends up in the AppName-all.css
     */
-    background-image:url('gm/images/lock-screen-background.jpg');
+    background-image:url('mh/images/lock-screen-background.jpg');
     background-size:cover;
     background-repeat:repeat;
   }

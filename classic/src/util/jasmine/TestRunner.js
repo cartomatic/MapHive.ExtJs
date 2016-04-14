@@ -9,13 +9,13 @@
      * the actual app js stuff is also copied into the app's build dir so the test files are accessible; this also applies to jasmine files
      * @author mika
      */
-    Ext.define('gm.util.jasmine.TestRunner', {
+    Ext.define('mh.util.jasmine.TestRunner', {
 
         requires: [
             'Ext.container.Viewport',
             'Ext.layout.container.Fit',
             'Ext.panel.Panel',
-            'gm.util.Loader'
+            'mh.util.Loader'
         ],
 
         mixins: [
@@ -104,20 +104,20 @@
         /**
          * @event jasmineloaded
          * Fired when jasmine scripts are loaded
-         * @param {gm.core.util.jasmine.TestRunner} self
+         * @param {mh.core.util.jasmine.TestRunner} self
          */
 
         /**
          * @event jasmineconfigured
          * Fired when jasmine is configured
-         * @param {gm.core.util.jasmine.TestRunner} self
+         * @param {mh.core.util.jasmine.TestRunner} self
          */
 
 
         /**
          * @event testsloaded
          * Fired when tests are loaded
-         * @param {gm.core.util.jasmine.TestRunner} self
+         * @param {mh.core.util.jasmine.TestRunner} self
          */
 
         /**
@@ -148,13 +148,13 @@
          */
         loadJasmine: function(){
 
-            console.warn('[GM JASMINE TEST RUNNER]- loading Jasmine stuff...');
+            console.warn('[MH JASMINE TEST RUNNER]- loading Jasmine stuff...');
 
             var me = this,
                 jasminePath = this.getJasminePath() + '/jasmine-' + this.getJasmineVersion();
 
             //Load jasmine related scripts
-            gm.core.util.Loader.load({
+            mh.core.util.Loader.load({
                 fileList: [
                     //the standard stuff needed for html reporter
                     jasminePath + '/jasmine.css',
@@ -168,7 +168,7 @@
                     //'jslibs/jasmine/lib/jasmine-2.3.4/boot.js'
                 ],
                 callback: function(){
-                    console.warn('[GM JASMINE TEST RUNNER]- Jasmine stuff loaded!');
+                    console.warn('[MH JASMINE TEST RUNNER]- Jasmine stuff loaded!');
                     me.fireEvent('jasmineloaded', me)
                 },
                 scope: me,
@@ -179,7 +179,7 @@
         /**
          * 'jasmineloaded' evt listener; boots Jasmine
          * @private
-         * @param self {gm.core.util.jasmine.TestRunner}
+         * @param self {mh.core.util.jasmine.TestRunner}
          */
         onJasmineLoaded: function(self){
             //jasmine stuff has been loaded, so perform a Jasmine setup
@@ -259,7 +259,7 @@
             Ext.get(document.getElementsByClassName('jasmine_html-reporter')[0]).replace(output);
 
 
-            console.warn('[GM JASMINE TEST RUNNER] - Jasmine HTML reporter initiated!');
+            console.warn('[MH JASMINE TEST RUNNER] - Jasmine HTML reporter initiated!');
 
 
             //If this is a headless mode - namely PhantomJS, initialise a console reporter too.
@@ -276,7 +276,7 @@
 
                 this.jasmineEnv.addReporter(consoleReporter);
 
-                console.warn('[GM JASMINE TEST RUNNER] - Jasmine running in headless (PhantomJS) mode!!!');
+                console.warn('[MH JASMINE TEST RUNNER] - Jasmine running in headless (PhantomJS) mode!!!');
             }
 
 
@@ -285,7 +285,7 @@
 
         /**
          * 'jasmineconfigured' evt listener
-         * @param self {gm.core.util.jasmine.TestRunner}
+         * @param self {mh.core.util.jasmine.TestRunner}
          */
         onJasmineConfigured: function(self){
             //check if there are tests configured and if so load them
@@ -335,7 +335,7 @@
                             describe(suiteName, function(){
                                 for(t; t < tlen; t++){
 
-                                    console.warn('[GM JASMINE TEST RUNNER] - loading tests for ' + tests[t]);
+                                    console.warn('[MH JASMINE TEST RUNNER] - loading tests for ' + tests[t]);
 
                                     T = Ext.create(tests[t]);
                                     if(Ext.isFunction(T.load)){
@@ -345,7 +345,7 @@
                             });
                         }
 
-                        console.warn('[GM JASMINE TEST RUNNER] - tests loaded!');
+                        console.warn('[MH JASMINE TEST RUNNER] - tests loaded!');
 
                         me.fireEvent('testsloaded', me);
                     },
@@ -373,7 +373,7 @@
          * Executes the jasmine tests
          */
         executeTests: function(){
-            console.warn('[GM JASMINE TEST RUNNER] - starting tests...');
+            console.warn('[MH JASMINE TEST RUNNER] - starting tests...');
             this.jasmineEnv.execute();
         },
 

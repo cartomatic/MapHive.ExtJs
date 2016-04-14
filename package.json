@@ -2,7 +2,7 @@
     /**
      * The name of the package.
      */
-    "name": "gm",
+    "name": "mh",
 
     /**
      * Alternate names for this package.
@@ -16,7 +16,7 @@
       * As a general rule, all classes that belong to this package should be under this namespace
       * if multiple namespaces are part of this package, set this to "".
       */
-     "namespace": "gm",
+     "namespace": "mh",
 
     /**
      * The package type.
@@ -121,15 +121,15 @@
     "sass" : {
         /**
          * The namespace to which this package's SASS corresponds. The default value of
-         * "gm" means that the files in ./sass/src (and ./sass/var) match classes in
-         * the gm" root namespace. In other words, "gm.panel.Panel" maps to
+         * "mh" means that the files in ./sass/src (and ./sass/var) match classes in
+         * the mh" root namespace. In other words, "mh.panel.Panel" maps to
          * ./sass/src/panel/Panel.scss.
          *
          * To style classes from any namespace, set this to blank. If this is blank,
-         * then to style "gm.panel.Panel" you would put SASS in
-         * ./sass/src/gm/panel/Panel.scss.
+         * then to style "mh.panel.Panel" you would put SASS in
+         * ./sass/src/mh/panel/Panel.scss.
          */
-        "namespace": "gm",
+        "namespace": "mh",
 
         /**
          * Comma-separated list of files or folders containing extra Sass. These
