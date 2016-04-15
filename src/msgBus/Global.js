@@ -13,9 +13,12 @@
      */
     Ext.define('mh.msgBus.Global', {
 
-        requires: [
-            'mh.util.console.Custom'
+        mixins: [
+            'mh.util.console.Formatters'
         ],
+
+        evtHdrStyle: '_s::,green,',
+        evtNameStyle: '_s::,red,',
 
         /**
          * fires a global event
@@ -24,7 +27,7 @@
 
             if(logEventsToConsole){
                 //<debug>
-                console.warn('[MSG BUS]', evtName, evtData);
+                console.log(this.cStdIcon('evt'), '[MSG BUS]' + this.evtHdrStyle, 'broadcasted', evtName + this.evtNameStyle, 'with the following data;', evtData);
                 //</debug>
             }
 
@@ -42,7 +45,7 @@
 
             if(logEventsToConsole) {
                 //<debug>
-                console.warn('[MSG BUS] subscribed', evtName);
+                console.log(this.cStdIcon('evt_watch'), '[MSG BUS]' + this.evtHdrStyle, 'subscribed', evtName + this.evtNameStyle);
                 //</debug>
             }
 
@@ -59,7 +62,7 @@
 
             if(logEventsToConsole) {
                 //<debug>
-                console.warn('[MSG BUS] unsubscribed', evtName);
+                console.log(this.cStdIcon('evt_unwatch'), '[MSG BUS]' + this.evtHdrStyle, 'unsubscribed', evtName + this.evtNameStyle);
                 //</debug>
             }
 
