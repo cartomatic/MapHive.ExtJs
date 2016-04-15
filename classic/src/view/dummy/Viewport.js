@@ -9,11 +9,13 @@
 
         plugins: 'viewport',
 
-    requires: [
-        'Ext.plugin.Viewport'
-    ],
+        border: false,
 
-    html: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....'
+        requires: [
+            'Ext.plugin.Viewport'
+        ],
+
+        html: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....'
     });
 
 }());

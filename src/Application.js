@@ -47,7 +47,10 @@
 
         init: function(){
 
-            console.log('MapHive - Hello there mate!_s::3d,40px');
+            
+            console.log(this.getName() + ' - Hello there mate!_s::3d,40px');
+
+            mh.util.console.Custom.setAppName(this.getName());
 
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('app'),'initialised');

@@ -149,8 +149,16 @@
          * @param styleArgs
          */
         injectAppName: function(stringArgs, styleArgs){
-            stringArgs.push('%c[' + (this.getAppName() || '')/*.toUpperCase()*/ + ']');
+            stringArgs.push(this.getAppNameToken());
             styleArgs.push('color:blue');
+        },
+
+        /**
+         * Sets the application name to be used to show where the logs come from; this is handy when there are other apps nested in iframes
+         * @param name
+         */
+        setAppName: function(name){
+            this.appName = name;
         },
 
         appName: null,
@@ -159,14 +167,8 @@
          * Gets application name, so can properly distinguish logs from hosted apps
          * @returns {*}
          */
-        getAppName: function(){
-            if(!this.appName){
-                try {
-                    this.appName = Ext.app.Application.instance.getName();
-                }
-                catch(e){}
-            }
-            return this.appName;
+        getAppNameToken: function(){
+            return '%c' + (this.appName ? '[' + this.appName + ']' : '');
         },
 
         /**
