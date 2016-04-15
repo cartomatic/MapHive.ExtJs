@@ -31,7 +31,13 @@
                 //</debug>
             }
 
-            Ext.GlobalEvents.fireEvent(evtName, evtData);
+            //pretend the 'async' behavior. delaying the evt will result in it being queued before firing
+            setTimeout(
+                function(){
+                    Ext.GlobalEvents.fireEvent(evtName, evtData);
+                },
+                1
+            );
         },
 
         /**
