@@ -95,12 +95,16 @@
          */
         prepareArgs: function(args){
 
+            var stringArgs = [],
+                styleArgs = [],
+                nonStringArgs = [],
+                arg, a = 0;
+
+            //inject app name
+            this.injectAppName(stringArgs, styleArgs);
+
             //check if there are any style attributes provided. if so customise attributes, otherwise return original args
             if(this.containsStyleArg(args)){
-                var stringArgs = [],
-                    styleArgs = [],
-                    nonStringArgs = [],
-                    arg, a = 0;
 
                 //Do some hocus pocus here
                 //basically if an argument contains '_s::' string, it means the preceeding part should have a styling applied
@@ -128,11 +132,41 @@
                         nonStringArgs.push(arg);
                     }
                 }
-                return [stringArgs.join(' ')].concat(styleArgs).concat(nonStringArgs);
             }
             else {
-                return args;
+                for(a; a< args.length; a++){
+                    nonStringArgs.push(args[a]);
+                }
+                //return args;
             }
+
+            return [stringArgs.join(' ')].concat(styleArgs).concat(nonStringArgs);
+        },
+
+        /**
+         * injects app name into the console log
+         * @param stringArgs
+         * @param styleArgs
+         */
+        injectAppName: function(stringArgs, styleArgs){
+            stringArgs.push('%c[' + (this.getAppName() || '')/*.toUpperCase()*/ + ']');
+            styleArgs.push('color:blue');
+        },
+
+        appName: null,
+
+        /**
+         * Gets application name, so can properly distinguish logs from hosted apps
+         * @returns {*}
+         */
+        getAppName: function(){
+            if(!this.appName){
+                try {
+                    this.appName = Ext.app.Application.instance.getName();
+                }
+                catch(e){}
+            }
+            return this.appName;
         },
 
         /**
