@@ -51,6 +51,7 @@
 
             if(logEventsToConsole) {
                 //<debug>
+                //TODO - get the caller!
                 console.log(this.cStdIcon('evt_watch'), '[MSG BUS]' + this.evtHdrStyle, 'subscribed', evtName + this.evtNameStyle);
                 //</debug>
             }
