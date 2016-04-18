@@ -11,6 +11,7 @@
 
     requires: [
         'Ext.tip.QuickTipManager',
+        'mh.module.appBar.AppBar',
         'mh.view.dummy.Viewport'
     ],
 
@@ -21,7 +22,17 @@
             //TODO - use a standard viewport and push the standardised top toolbar there, provided the app runs in the standalone mode! otherwise do not use it of course but rather make sure the parent communication is established!
 
             //init the GUI
-            Ext.create('mh.view.dummy.Viewport');
+            Ext.create('mh.view.dummy.Viewport', {
+                dockedItems: [
+                    {
+                        xtype: 'mh-app-bar',
+                        api: {
+                            apps: 'packages/local/mh/devFakeApi/GetApps.json'
+                        }
+                    }
+                ]
+            });
+
         }
     });
 }());

@@ -1,0 +1,10 @@
+[
+  {
+    name: 'App 1',
+    url: 'https://apps.maphive.local/_hosted'
+  },
+  {
+    name: 'App 2',
+    url: 'https://apps.maphive.local/_hosted'
+  }
+]
