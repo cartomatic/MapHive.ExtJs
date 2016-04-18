@@ -12,11 +12,12 @@
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-app-bar',
 
-        requires: [
-            'mh.module.appBar.AppSwitcherButton'
-        ],
+    requires: [
+        'Ext.button.Button',
+        'mh.module.appBar.AppSwitcherButton'
+    ],
 
-        init: function(){
+    init: function(){
 
             //because need to pass some cfg to the child objects, they are inited here!
             var v = this.getView(),

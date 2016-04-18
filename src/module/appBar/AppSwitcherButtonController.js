@@ -62,9 +62,16 @@
          */
         onGetAppsSuccess: function(response){
 
-            console.warn('WHOAAA, got the apps', response);
-
-            this.getView().setVisible(this.apps && this.apps.length > 0 ? true : false);
+            //success, so this should be an array of appDTO objects
+            // this.apps = response;
+            //
+            // alert('WTF????? x1');
+            //
+            // console.warn(this.apps && this.apps.length > 0, this.apps, this.apps.length, this.getView());
+            //
+            // alert('WTF????? x2');
+            //
+            // this.getView().setVisible((this.apps && this.apps.length > 0));
         },
 
         /**
@@ -74,7 +81,7 @@
             //make it silent...
 
             //since it was not possible to get the apps info, make sure to hide the btn
-            this.getView().hide();
+            //this.getView().hide();
         }
     });
 
