@@ -265,6 +265,10 @@
         onAppBtnClick: function(btn, e, eOpts){
             this.hideAppsPanel();
 
+
+            //TODO - make it smarter. need app name too.
+            //TODO - also - not sure yet, bu think the apps info should be handled at the root level. this is because it is needed elswhere too. And also, the app potentially may have the hosted app specified in the hash by its friendlyName, uuid or something like this. So root will likely pull the data and make it globally available via events. This way all the components that rely in this data will have a chance to set themselves up properly!
+
             //load the new url
             this.fireGlobal('root::reloadapp', btn.app.url);
         }

@@ -62,7 +62,8 @@
 
         launch: function () {
 
-            //hide the splash screen
+            //hide the splash screen; do it early, so it starts fading out as the app UI builds.
+            //perhaps should move it to onAppLaunch?
             splash.hide();
 
             //<debug>
@@ -87,6 +88,10 @@
             //Both toolkits need a main view. So this is crucial each toolkit has the same entry point!
             //in this case though, the GUI creation is delegated to toolkit specific code, not directly created here
             Ext.create(this.appLauncher);
+
+
+            //TODO - fire cross frame evt in order to let the parent know app has loaded.
+
         }
     });
 }());
