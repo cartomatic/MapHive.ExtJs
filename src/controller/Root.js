@@ -47,6 +47,15 @@
          * fired in order to request the access token off the Auth controller
          */
 
+        /**
+         * @event root::getcustomhashparam
+         * this is actually a watched event. it should be fired by the components that need to obtain custom hash params data off this controller
+         */
+
+        /**
+         * @event root::customhashparam_param-name
+         * response event to the watched root::getcustomhashparam; param-name is the actual param-name the caller asked for; param value is sent as a param
+         */
 
         /**
          * Id of an iframe that hosts the apps
@@ -72,10 +81,23 @@
             this.extractTempParamsFromHash();
 
             //setup the required evt listeners
+            this.watchGlobal('root::getcustomhashparam', this.onGetCustomHashParam, this);
+
             this.watchGlobal('root::reloadapp', this.onAppReload, this);
             this.watchGlobal('root::setuphostiframe', this.onSetupHostIframe, this);
 
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this, {single: true});
+        },
+
+        onLaunch: function(){
+            //<debug>
+            console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'launched');
+            //</debug>
+
+            //do whatever needs to be done...
+
+            //and when ready request the user auth!
+            this.fireGlobal('root::authenticateuser');
         },
 
         /**
@@ -136,15 +158,16 @@
             this.customHashParams[inputSplit[0]] = inputSplit[1];
         },
 
-        onLaunch: function(){
-            //<debug>
-            console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'launched');
-            //</debug>
-
-            //do whatever needs to be done...
-
-            //and when ready request the user auth!
-            this.fireGlobal('root::authenticateuser');
+        /**
+         * root::getcustomhashparam callback; responds with root::customhashparam_param-name
+         * @param pName - name of a custom param
+         */
+        onGetCustomHashParam: function(pName){
+            var ret = null;
+            if(this.customHashParams && this.customHashParams[pName]){
+                ret = this.customHashParams[pName];
+            }
+            this.fireGlobal('root::customhashparam_' + pName, ret);
         },
 
         /**

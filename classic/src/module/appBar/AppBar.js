@@ -34,7 +34,9 @@
 
         items: [
             //child elements added in the view controller, so can control their setup properly
-        ]
+        ],
+
+        hidden: true
     });
 
 }());

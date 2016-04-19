@@ -17,10 +17,32 @@
             'mh.module.appBar.AppSwitcherButton'
         ],
 
+        mixins: [
+            'mh.msgBus.Global'
+        ],
+
+        /**
+         * @event root::getcustomhashparam
+         * fired in order to obtain some data off the root controller
+         */
+
         /**
          * constructor initialisation
          */
         init: function(){
+
+            //check if the tbar should be visible, or it should be suppressed
+            this.watchGlobal(
+                'root::customhashparam_suppress-app-toolbar',
+                function(value){
+                    if(value !== 'true'){
+                        this.getView().show();
+                    }
+                },
+                this,
+                {single: true}
+            );
+            this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar')
 
             //Note:
             //because there is a need to pass some cfg to the child objects, they are configured here, not through the standard UI declaration!
