@@ -264,7 +264,7 @@
         getBaseUrl: function(){
             if(!this.baseUrl){
                 var s = 0, sHref;
-                //obtain the url to the package resources based on the styleshit location;
+                //obtain the url to the package resources based on the stylesheet location;
                 //this way it will work in dev mode too (all the styles is taken dynamically from build/development/......
                 for(s = 0; s < document.styleSheets.length; s++){
                     sHref = document.styleSheets[s].href;

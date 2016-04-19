@@ -103,7 +103,7 @@
 
                     hashPart = hashParts[hp];
 
-                    if(hashPart.startsWith('at:') || hashPart.startsWith('supress-app-toolbar:') || hashPart.startsWith('supress-splash:')){
+                    if(hashPart.startsWith('at:') || hashPart.startsWith('suppress-app-toolbar:') || hashPart.startsWith('suppress-splash:')){
                         this.extractCustomHashParam(hashPart);
                     }
                     else {
@@ -214,12 +214,12 @@
             //having to reload (as would be the case with params of course)
 
             // params.push('at=' + accessToken);
-            // params.push('supress-app-toolbar=true');
-            // params.push('supress-splash=true');
+            // params.push('suppress-app-toolbar=true');
+            // params.push('suppress-splash=true');
 
             hash.push('at:' + accessToken);
-            hash.push('supress-app-toolbar:true');
-            hash.push('supress-splash:true');
+            hash.push('suppress-app-toolbar:true');
+            hash.push('suppress-splash:true');
 
             destinationUrl = baseUrl + '?' + (params.length > 0 ? params.join('&') : '') + (hash.length > 0 ? '#' + hash.join('|') : '') ;
 
