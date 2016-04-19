@@ -28,8 +28,7 @@
         //global shared controllers - they fire up automatically
         controllers: [
             'mh.controller.Root',
-            'mh.controller.Auth',
-            'mh.controller.AppReloader'
+            'mh.controller.Auth'
         ],
 
         //global / shared stores

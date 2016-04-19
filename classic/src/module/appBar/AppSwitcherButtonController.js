@@ -252,12 +252,12 @@
         },
 
         /**
-         * @event apploader::reloadapp
+         * @event root::reloadapp
          * fired whenever user requested app reload
          */
 
         /**
-         * App btn click callback - initiates app change procedure by firing the apploader::reloadapp that should be handled by mh.controller.AppLoader
+         * App btn click callback - initiates app change procedure by firing the root::reloadapp that should be handled by mh.controller.AppLoader
          * @param btn
          * @param e
          * @param eOpts
@@ -266,7 +266,7 @@
             this.hideAppsPanel();
 
             //load the new url
-            this.fireGlobal('apploader::reloadapp', btn.app.url);
+            this.fireGlobal('root::reloadapp', btn.app.url);
         }
 
     });
