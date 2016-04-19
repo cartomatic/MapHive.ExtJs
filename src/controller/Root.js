@@ -43,10 +43,23 @@
          */
 
         /**
+         * @event auth:gimmeaccesstoken
+         * fired in order to request the access token off the Auth controller
+         */
+
+
+        /**
          * Id of an iframe that hosts the apps
          * @private
          */
         iframeId: null,
+
+        /**
+         * @property {Object}
+         * Custom params passed in the hash
+         * @private
+         */
+        customHashParams: null,
 
         /**
          * initializes controller
@@ -65,8 +78,62 @@
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this, {single: true});
         },
 
+        /**
+         * Extracts custom params from hash, and reassembles it
+         */
         extractTempParamsFromHash: function(){
 
+            var urlParts = window.location.href.split('#'),
+                url = urlParts[0],
+                hash = urlParts[1],
+
+                hashParts, hp, hplen, hashPart,
+                outHashParts, outHash;
+
+            //only kick in if there was a hash part. otherwise there is no point really ;)
+            if(hash){
+
+                outHashParts = [];
+                hashParts = hash.split('|');
+                hp = 0;
+                hplen = hashParts.length;
+
+
+                for(hp; hp < hplen; hp++){
+
+                    hashPart = hashParts[hp];
+
+                    if(hashPart.startsWith('at:') || hashPart.startsWith('supress-app-toolbar:') || hashPart.startsWith('supress-splash:')){
+                        this.extractCustomHashParam(hashPart);
+                    }
+                    else {
+                        outHashParts.push(hashPart);
+                    }
+                }
+
+                outHash = outHashParts.join('|');
+
+                if(outHash !== hash){
+                    window.location.href = url + '#' + outHash;
+
+                    //<debug>
+                    console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'extracted custom hash params:', this.customHashParams);
+                    //</debug>
+                }
+            }
+        },
+
+        /**
+         * extracts the custom hash param and saves it into an object - property: value
+         * @param input
+         */
+        extractCustomHashParam: function(input){
+            var inputSplit = input.split(':');
+            if(!this.customHashParams)
+            {
+                this.customHashParams = {};
+            }
+            this.customHashParams[inputSplit[0]] = inputSplit[1];
         },
 
         onLaunch: function(){
