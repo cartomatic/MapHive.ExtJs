@@ -117,7 +117,9 @@
                     margin: '0 5 5 0', //trbl
                     listeners: {
                         click: Ext.bind(this.onAppBtnClick, this)
-                    }
+                    },
+                    ui: 'green-button',
+                    app: this.apps[a]
                 });
             }
 
@@ -193,18 +195,20 @@
                 listeners: {
                     afteranimate: function(){
                         //wire up a click evt on document. this is so it is possible to hide the app switcher menu whenever a user clicks outside
-                        Ext.get(document).on(
-                            'click',
-                            function(){
-                                this.hideAppSwitcherPanel();
-                            },
-                            this,
-                            {single: true} //just a single evt listener; need to waive it off after the apps panel is closed
-                        );
+                        Ext.get(document).on('click', this.docClickWatchCallback, this, {single: true});
+                        //just a single evt listener; need to waive it off after the apps panel is closed
+                        //Note: since app btns also close the app switcher panel, this evt is always waived off on panel hide
                     },
                     scope: this
                 }
             });
+        },
+
+        /**
+         * Doc click evtg callback - used to hide the app switcher panel if clicked outside it
+         */
+        docClickWatchCallback: function(){
+            this.hideAppsPanel();
         },
 
         /**
@@ -214,6 +218,9 @@
             var p = this.appSwitcherPanel,
                 //Note: panel's element should be already available, as the panel gets shown/hidden upon instantiation to ensure that
                 pel = p.getEl();
+
+            //Waive off the doc click watch!
+            Ext.get(document).un('click', this.docClickWatchCallback, this);
 
             //hocus pocus is to fade the panel out...
             pel.animate({
@@ -245,24 +252,16 @@
         },
 
         /**
-         * Hides the app switcher panel
-         */
-        hideAppSwitcherPanel: function(){
-            this.hideAppsPanel();
-        },
-
-        /**
-         * App btn click callback - initiates app change procedure
+         * App btn click callback - initiates app change procedure by firing the apploader::reloadapp that should be handled by mh.controller.AppLoader
          * @param btn
          * @param e
          * @param eOpts
          */
         onAppBtnClick: function(btn, e, eOpts){
-            //evt.stopPropagation();
-            console.warn('WHOAAAA');
+            this.hideAppsPanel();
 
-            // btn.Menu.hide();
-            // document.getElementById(me.iframeId).src="https://apps.maphive.local/_hosted";
+            //load the new url
+            this.fireGlobal('apploader::reloadapp', btn.app.url);
         }
 
     });

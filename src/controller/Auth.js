@@ -26,7 +26,6 @@
 
             //setup the required evt listeners
             this.watchGlobal('root::authenticateuser', this.onAuthenticateUser, this, {single: true});
-
         },
 
         onLaunch: function(){
@@ -38,6 +37,10 @@
         },
 
         onAuthenticateUser: function(evtData){
+
+            //TODO - extract the access token off the url and verify it by poking the backend. There should be a simple endpoint to do just that!
+            //TODO - potential customisation needed for the offline scenario - but in this case the GeoFutura.Gpr may well customise the auth controller
+
             console.log('Received root::authenticateuser evt with the following data: ', evtData);
             console.log('Faking authentication...');
 

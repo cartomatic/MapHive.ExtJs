@@ -15,7 +15,8 @@
             'Ext.plugin.Viewport'
         ],
 
-        html: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....'
+        html: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....' +
+            '<br/><br/>The app url is: <b>' + window.location.href + '</b>'
     });
 
 }());

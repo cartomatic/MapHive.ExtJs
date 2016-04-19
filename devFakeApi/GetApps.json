@@ -1,10 +1,14 @@
 [
   {
     name: 'App 1',
-    url: 'https://apps.maphive.local/_hosted'
+    url: 'https://apps.maphive.local/_AppOne'
   },
   {
     name: 'App 2',
-    url: 'https://apps.maphive.local/_hosted'
+    url: 'https://apps.maphive.local/_AppTwo'
+  },
+  {
+    name: 'App 3',
+    url: 'https://apps.maphive.local/_AppThree'
   }
 ]
