@@ -252,6 +252,11 @@
         },
 
         /**
+         * @event apploader::reloadapp
+         * fired whenever user requested app reload
+         */
+
+        /**
          * App btn click callback - initiates app change procedure by firing the apploader::reloadapp that should be handled by mh.controller.AppLoader
          * @param btn
          * @param e

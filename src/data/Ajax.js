@@ -498,8 +498,6 @@
     },
     function(){
 
-        console.warn('AJAX UTILS created or defined????');
-
         //we're not instance based here, so the access to the mixed in msgBus is not possible.
         //because of that, need to instantiate the msgBus - even though msgBus is meant to be used as a mixin it is save to do so
         //since msgBus is mixed into this class, it should be available here

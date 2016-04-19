@@ -28,16 +28,14 @@
             //after all a view controller kicks in whenever a view is instantiated
 
             var v = this.getView(),
-                api = v.getApi(),
-                iframe = v.getHostedAppsIframeId();
+                api = v.getApi();
 
             v.add([
                 {
                     xtype: 'mh-app-switcher-button',
                     api:{
                         apps: api.apps
-                    },
-                    hostedAppsIframeId: iframe
+                    }
                 },
                 '->',
                 {

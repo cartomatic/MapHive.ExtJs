@@ -19,6 +19,16 @@
          * @event auth::userauthenticated
          */
 
+        /**
+         * @event auth:accesstoken
+         * @param {string} accessToken
+         */
+
+        /**
+         * @event auth:gimmeaccesstoken
+         * this is actually a watched event. it should be fired by the components that need to obtain the access token because of some reason
+         */
+
         init: function(){
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('auth ctrl'), 'initialised');
@@ -26,6 +36,7 @@
 
             //setup the required evt listeners
             this.watchGlobal('root::authenticateuser', this.onAuthenticateUser, this, {single: true});
+            this.watchGlobal('auth:gimmeaccesstoken', this.onGimmeAccessToken, this);
         },
 
         onLaunch: function(){
@@ -36,6 +47,16 @@
             //so far nothing to do here
         },
 
+        onGimmeAccessToken: function(){
+            //TODO - local access token storag needed!!!
+
+            this.fireGlobal('auth:accesstoken', 'temp-access-token');
+        },
+
+        /**
+         * some module requested user authentication
+         * @param evtData
+         */
         onAuthenticateUser: function(evtData){
 
             //TODO - extract the access token off the url and verify it by poking the backend. There should be a simple endpoint to do just that!
@@ -55,7 +76,7 @@
             //     },
             //     1000
             // );
-            me.fireGlobal('auth::userauthenticated', 'some auth feedback data');
+            me.fireGlobal('auth::userauthenticated', {accessToken: 'temp-access-token'});
         }
     });
 

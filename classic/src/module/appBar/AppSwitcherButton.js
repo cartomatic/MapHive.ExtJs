@@ -24,12 +24,7 @@
              */
             api: {
                 apps: 'dummy.url'
-            },
-
-            /**
-             * Id of an iframe the application uses to host other apps; this is used to decide whether the apps should be reloaded into an iframe or own window
-             */
-            hostedAppsIframeId: null
+            }
         },
 
         ui: 'black-button',

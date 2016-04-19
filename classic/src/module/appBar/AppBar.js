@@ -29,12 +29,7 @@
              */
             api: {
                 apps: 'dummy.url'
-            },
-
-            /**
-             * Id of an iframe the application uses to host other apps; this is used to decide whether the apps should be reloaded into an iframe or own window; This setting is used by the mh.module.appBar.AppSwitcherButton
-             */
-            hostedAppsIframeId: null
+            }
         },
 
         items: [
