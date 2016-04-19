@@ -15,12 +15,12 @@
 
         name: 'MapHiveHosted',
 
-        requires: [
-            'mh.AppLauncher',
-            'mh.util.console.Custom'
-        ],
+    requires: [
+        'mh.util.console.Custom',
+        'mh.AppLauncher'
+    ],
 
-        mixins: [
+    mixins: [
             'mh.msgBus.Global',
             'mh.util.console.Formatters'
         ],

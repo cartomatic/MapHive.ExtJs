@@ -12,23 +12,32 @@
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-app-bar',
 
-    requires: [
-        'Ext.button.Button',
-        'mh.module.appBar.AppSwitcherButton'
-    ],
+        requires: [
+            'Ext.button.Button',
+            'mh.module.appBar.AppSwitcherButton'
+        ],
 
-    init: function(){
+        /**
+         * constructor initialisation
+         */
+        init: function(){
 
-            //because need to pass some cfg to the child objects, they are inited here!
+            //Note:
+            //because there is a need to pass some cfg to the child objects, they are configured here, not through the standard UI declaration!
+            //This is still lazy-loading, although since got here the child comps initialisation will happen straight after that.
+            //after all a view controller kicks in whenever a view is instantiated
+
             var v = this.getView(),
-                api = v.getApi();
+                api = v.getApi(),
+                iframe = v.getHostedAppsIframeId();
 
             v.add([
                 {
                     xtype: 'mh-app-switcher-button',
                     api:{
                         apps: api.apps
-                    }
+                    },
+                    hostedAppsIframeId: iframe
                 },
                 '->',
                 {

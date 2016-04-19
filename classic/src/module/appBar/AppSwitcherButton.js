@@ -19,14 +19,26 @@
         controller: 'mh-app-switcher-button',
 
         config: {
+            /**
+             * Set of API endpoints
+             */
             api: {
                 apps: 'dummy.url'
-            }
+            },
+
+            /**
+             * Id of an iframe the application uses to host other apps; this is used to decide whether the apps should be reloaded into an iframe or own window
+             */
+            hostedAppsIframeId: null
         },
 
         ui: 'black-button',
         scale: 'medium',
-        iconCls: 'x-fa fa-th-large'
+        iconCls: 'x-fa fa-th-large',
+
+        listeners: {
+            click: 'onAppSwitcherBtnClick'
+        }
     });
 
 }());
