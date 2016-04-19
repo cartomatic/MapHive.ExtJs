@@ -135,7 +135,9 @@
 
                 outHash = outHashParts.join('|');
 
-                if(outHash !== hash){
+                if(hash && hash !== outHash){
+
+                    //Note: if there was a #, it must remain, otherwise a browser will trigger a reload, not a simple hash change!
                     window.location.href = url + '#' + outHash;
 
                     //<debug>
@@ -241,8 +243,10 @@
             // params.push('suppress-splash=true');
 
             hash.push('at:' + accessToken);
-            hash.push('suppress-app-toolbar:true');
-            hash.push('suppress-splash:true');
+            if(iframe){
+                hash.push('suppress-app-toolbar:true');
+                hash.push('suppress-splash:true');
+            }
 
             destinationUrl = baseUrl + '?' + (params.length > 0 ? params.join('&') : '') + (hash.length > 0 ? '#' + hash.join('|') : '') ;
 
