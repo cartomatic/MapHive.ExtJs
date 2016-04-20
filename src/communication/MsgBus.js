@@ -22,22 +22,47 @@
 
         /**
          * fires a global event
+         * @param {string} evtName
+         * @param {Object} evtData
+         * @param {Object} [eOpts]
+         * @param {Bool} eOpts.suppressLocal
          */
-        fireGlobal: function(evtName, evtData){
+        fireGlobal: function(evtName, evtData, eOpts){
 
             if(logEventsToConsole){
                 //<debug>
-                console.log(this.cStdIcon('evt'), '[MSG BUS]' + this.evtHdrStyle, 'broadcasted', evtName + this.evtNameStyle, 'with the following data;', evtData);
+                console.log(this.cStdIcon('evt'), '[MSG BUS]' + this.evtHdrStyle, 'broadcasted', evtName + this.evtNameStyle, 'with the following data;', evtData, 'and opts:', eOpts);
                 //</debug>
             }
 
-            //pretend the 'async' behavior. delaying the evt will result in it being queued before firing
-            setTimeout(
-                function(){
-                    Ext.GlobalEvents.fireEvent(evtName, evtData);
-                },
-                1
-            );
+            //check if the event is not supposed to be suppressed locally
+            if(!eOpts || eOpts.suppressLocal !== true){
+                //pretend the 'async' behavior. delaying the evt will result in it being queued before firing
+                setTimeout(
+                    function(){
+                        Ext.GlobalEvents.fireEvent(evtName, evtData);
+                    },
+                    1
+                );
+            }
+
+            //basically if there are eOpts, at the time being it means, the event should be broadcasted to parent window or to child frames
+            //and obviously, the responsibility for handling it is on the MsgBusXFrame class
+            if(eOpts){
+                setTimeout(
+                    function(){
+                        Ext.GlobalEvents.fireEvent(
+                            'msgbus::postmessage',
+                            {
+                                eName: evtName,
+                                eData: evtData,
+                                eOpts: eOpts
+                            }
+                        );
+                    },
+                    1
+                );
+            }
         },
 
         /**

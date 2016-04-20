@@ -12,7 +12,8 @@
         border: false,
 
         requires: [
-            'Ext.plugin.Viewport'
+            'Ext.plugin.Viewport',
+            'mh.communication.MsgBus'
         ],
 
         items: [
@@ -26,19 +27,18 @@
                 text: 'Post Message',
                 listeners: {
                     click: function(){
-                        if(parent && parent !== window){ //pretty much always...
-                            console.warn('Ever get to postMessage???');
-                            parent.postMessage(
-                                {
-                                    name: 'test::event',
-                                    some: 'data'
-                                },
-                                '*'
-                            );
-                        }
-                        else {
-                            console.warn('Cmon, will not post message to myself...');
-                        }
+
+                        Ext.create('mh.communication.MsgBus').fireGlobal(
+                            'some_event_name',
+                            'some_event_data',
+                            {
+                                suppressLocal: true,
+                                host: true, //if being hosted, will post msg to host
+                                hosted: true, //if hosting, will post msg to hosted
+                                bubble: true, //just bubble the evt up the host stack
+                                drilldown: true //just bubble the evt down the hosted stack
+                            }
+                        );
                     }
                 }
             }

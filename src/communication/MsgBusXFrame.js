@@ -123,18 +123,51 @@
 
             if(isOriginAllowed(e.origin)){
                 //check the event name to see what to do...
-                var evtName = (e.data || {}).eventName || '';
+                var eData = (e.data || {}),
+                    evtName = eData.eventName || '',
+                    allowedBubbleLevels,
+                    allowedDrilldownLevels;
 
                 if(evtName.startsWith('handshake::')){
                     this.onHandShake(e);
                 }
                 else {
-                    //this should be any other evt
-                    console.warn('other evt', e.data);
 
+                    //first make sure, this event should be handled here!
+                    if(eData.initiator !== id && eData.recipient === id){
+
+                        //this should be any other evt
+                        console.warn('other evt', eData);
+
+                        //soo, since got here broadcast this event locally
+                        //make sure though to not include the eOpts again - they will be used here to decide whether to bubble or drilldown
+                        //no point in letting the MsgBus mince it on its own!
+                        this.fireGlobal(eData.eventName, eData.data);
+                        //Note - potentially should clone the data - the idea though is the listeners do not modify the incoming data
+
+                        //ok. now need to rebroadcast
+
+                        //how many levels is allowed to rebroadcast?
+                        allowedBubbleLevels  = (typeof eData.bubble === 'number' ? Math.abs(eData.bubble) : 1);
+                        allowedDrilldownLevels  = (typeof eData.drilldown === 'number' ? Math.abs(eData.drilldown) : 1);
+
+                        //FIXME - if broadcasting down - make sure to not broadcast back up again!!! Otherwise, it will just keep on sending same event back and forth!
+                        //FIXME - do i need the evt direction to be sure not to go back again??? Think so!!!
+
+                        //TODO - do i need the direction the evt came from?
+
+                        //if bubble && curentLevel < bubbleLvl then post again to parent
+
+                        //if drilldown && currentLevel *-1< drilldownlvl then post to children
+
+                    }
+                    
 
                     //since the evt has been received need to know how to handle it
                     //if this should be broadcasted within the app, between frames, bubbled, drilled
+
+                    //do not send to self - so no matter who was the initiator, make sure the evt is not sent back to sender
+                    //this applies to bot parent and children
                 }
             }
         },
@@ -153,15 +186,8 @@
                 case 'handshake::hellothere':
                     this.onHandshakeHelloThere(evt);
                     break;
-
-                case 'handshake::letmeintroducemyself':
-
-                    break;
-
             }
         },
-
-
 
 
         /**
@@ -233,25 +259,108 @@
 
         /**
          * handles posting messages to child frames or parent
+         * @param {Object} e
+         * @param {string} e.eventName
+         * original event name
+         * @param {Object} e.eData
+         * original event data
+         * @param {Object} e.eOpts
+         * options used to configure the x frame behavior
+         * @param {Boolean} e.eOpts.host
+         * if being hosted, will post msg to host
+         * @param {Boolean} e.eOpts.hosted
+         * if hosting, will post msg to hosted
+         * @param {Boolean} e.eOpts.bubble
+         * just bubble the evt up the host stack
+         * @param {Boolean} e.eOpts.drilldown
+         * just bubble the evt down the hosted stack
+         */
+        postMessage: function(e){
+
+            //Out evt data should be of mh.communication.PostMessageEvtData type!
+            //Note: initiator, sender, recipient are configured just before posting
+            var outEvtData = {
+                eventName: e.eName,
+                data: e.eData,
+                eOpts: e.eOpts
+            };
+
+            if(e.eOpts.host === true){
+                //send data to host
+                this.postUp(outEvtData);
+            }
+
+            if(e.eOpts.hosted === true){
+                this.postDown(outEvtData);
+            }
+        },
+
+        /**
+         * Posts a msg to parent
+         * @param {mh.communication.PostMessageEvtData'} eData
+         */
+        postUp: function(eData){
+
+            eData = eData || {};
+            if(typeof eData.currentLvl !== 'number'){
+                eData.currentLvl = 0;
+            }
+            eData.currentLvl ++;
+
+            //FIXME - if broadcasting up - make sure to not broadcast back down again!!! Otherwise, it will just keep on sending same event back and forth!
+
+
+            if(parent && parent !== window){ //mke sure to not send to self...
+                //recipient is not that important really as frame can have only one parent!
+
+                //Note: this is important so the incoming events can be always processed the very same way!
+                eData.recipient = parendId;
+
+                this.post(parent, parentOrigin, eData);
+            }
+        },
+
+        /**
+         * Posts a msg to registered iframes
+         */
+        postDown: function(eData){
+
+            eData = eData || {};
+            if(typeof eData.currentLvl !== 'number'){
+                eData.currentLvl = 0;
+            }
+            eData.currentLvl --;
+
+            //FIXME - if broadcasting down - make sure to not broadcast back up again!!! Otherwise, it will just keep on sending same event back and forth!
+
+
+            var keys = Ext.Object.getKeys(registeredIframes),
+                k = 0, klen = keys.length,
+                key, frame;
+            for(k; k < klen; k++){
+                key = keys[k];
+                frame=registeredIframes[key];
+
+                //Note: this is important so the incoming events can be always processed the very same way!
+                //in this case - if there are a couple of frames, each with the same origin, they will all hear the evt, so by passing the expected recipient
+                //identifier, it is now possible for recipient to verify if it should process the event or ignore it!
+                eData.recipient = key;
+
+                this.post(frame.window, frame.origin, eData);
+            }
+        },
+
+        /**
+         * posts message to specified object, with specified origin and data
+         * @param window
+         * @param origin - the allowed origin of a recipient
          * @param eData
          */
-        postMessage: function(eData){
-
-            //if parent and evt configured to go to parent - do so
-            //if child, then go to
-
-
-
-            //verify where to post it and post!
-            //can do the following:
-            //post to parent,
-            //post to children
-            //fire locally
-
-            //need to know where I am and how to handle that!
-
+        post: function(window, origin, eData){
+            eData.sender = id;
+            eData.initiator = eData.initiator || id;
+            window.postMessage(eData, origin);
         }
-
     });
 
 }());
