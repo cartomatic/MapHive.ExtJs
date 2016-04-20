@@ -20,6 +20,10 @@
         'mh.AppLauncher'
     ],
 
+        uses: [
+            'mh.msgBus.PostMessage'
+        ],
+
     mixins: [
             'mh.msgBus.Global',
             'mh.util.console.Formatters'
@@ -46,9 +50,6 @@
         appLauncher: 'mh.AppLauncher',
 
         init: function(){
-
-            
-            console.log(this.getName() + ' - Hello there mate!_s::3d,40px');
 
             mh.util.console.Custom.setAppName(this.getName());
 

@@ -41,6 +41,13 @@
 
             this.coustomiseConsoleWarn();
             this.customiseConsoleLog();
+
+
+            //Note: this way the hello will always show up first in the console!
+            //oh well, provided, the console.Custom is required first ;)
+            var appName = document.title || 'NoName';
+            console.log(appName + ' :: Hello there mate!_s::3d,40px');
+            this.setAppName(appName);
         },
 
         /**
