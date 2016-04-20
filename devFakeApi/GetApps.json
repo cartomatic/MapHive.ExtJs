@@ -1,14 +1,14 @@
 [
   {
     name: 'App 1',
-    url: 'https://apps.maphive.local/_AppOne#some/hash/123/456'
+    url: 'https://app1.maphive.local/#some/hash/123/456'
   },
   {
     name: 'App 2',
-    url: 'https://apps.maphive.local/_AppTwo?param=test param so can be sure paraterised app urls also work'
+    url: 'https://app2.maphive.local/?param=test param so can be sure paraterised app urls also work'
   },
   {
     name: 'App 3',
-    url: 'https://apps.maphive.local/_AppThree'
+    url: 'https://app3.maphive.local/'
   }
 ]

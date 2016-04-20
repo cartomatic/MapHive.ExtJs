@@ -15,8 +15,34 @@
             'Ext.plugin.Viewport'
         ],
 
-        html: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....' +
-            '<br/><br/>The app url is: <b>' + window.location.href + '</b>'
+        items: [
+            {
+                xtype: 'displayfield',
+                value: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....' +
+                '<br/><br/>The app url is: <b>' + window.location.href + '</b>'
+            },
+            {
+                xtype: 'button',
+                text: 'Post Message',
+                listeners: {
+                    click: function(){
+                        if(parent && parent !== window){ //pretty much always...
+                            console.warn('Ever get to postMessage???');
+                            parent.postMessage(
+                                {
+                                    name: 'test::event',
+                                    some: 'data'
+                                },
+                                '*'
+                            );
+                        }
+                        else {
+                            console.warn('Cmon, will not post message to myself...');
+                        }
+                    }
+                }
+            }
+        ]
     });
 
 }());
