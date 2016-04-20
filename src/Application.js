@@ -17,15 +17,12 @@
 
     requires: [
         'mh.util.console.Custom',
+        'mh.communication.MsgBusXFrame',
         'mh.AppLauncher'
     ],
 
-        uses: [
-            'mh.msgBus.PostMessage'
-        ],
-
     mixins: [
-            'mh.msgBus.Global',
+            'mh.communication.MsgBus',
             'mh.util.console.Formatters'
         ],
 

@@ -11,7 +11,7 @@
         extend: 'Ext.app.Controller',
 
         mixins: [
-            'mh.msgBus.Global',
+            'mh.communication.MsgBus',
             'mh.util.console.Formatters'
         ],
 

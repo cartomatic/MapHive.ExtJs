@@ -24,11 +24,11 @@
 
         requires: [
             'mh.data.AjaxRequestCfg',
-            'mh.msgBus.Global'
+            'mh.communication.MsgBus'
         ],
 
         mixins: [
-            'mh.msgBus.Global',
+            'mh.communication.MsgBus',
             'mh.util.console.Formatters'
         ],
 
@@ -498,10 +498,10 @@
     },
     function(){
 
-        //we're not instance based here, so the access to the mixed in msgBus is not possible.
-        //because of that, need to instantiate the msgBus - even though msgBus is meant to be used as a mixin it is save to do so
-        //since msgBus is mixed into this class, it should be available here
-        Ext.create('mh.msgBus.Global').watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
+        //we're not instance based here, so the access to the mixed in MsgBus is not possible.
+        //because of that, need to instantiate the MsgBus - even though MsgBus is meant to be used as a mixin it is save to do so
+        //since communication is mixed into this class, it should be available here
+        Ext.create('mh.communication.MsgBus').watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
 
         //TODO - some other listeners too, as the events become callable - session expire mainly, so can wipe out the access token! Also token refresh, as the session will be extended by utilising a refresh token.
     });

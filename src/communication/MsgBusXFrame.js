@@ -33,7 +33,7 @@
     /**
      * Provides functionality to communicate through the borders of iframes using postMessage
      */
-    Ext.define('mh.msgBus.PostMessage', {
+    Ext.define('mh.communication.MsgBusXFrame', {
 
         singleton: true,
 
@@ -43,7 +43,7 @@
         ],
 
         mixins: [
-            'mh.msgBus.Global'
+            'mh.communication.MsgBus'
         ],
 
         /**

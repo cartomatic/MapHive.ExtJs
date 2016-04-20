@@ -11,7 +11,7 @@
      * It really acts as a facade to Ext.GlobalEvents
      * this class is meant to be used as a mixin
      */
-    Ext.define('mh.msgBus.Global', {
+    Ext.define('mh.communication.MsgBus', {
 
         mixins: [
             'mh.util.console.Formatters'

@@ -7,7 +7,7 @@
     /**
      * An example of the event data sent using the postMessage msg bus; This class is never instantiaded, its main purpose is documentation
      */
-    Ext.define('mh.msgBus.PostMessageEvtData', {
+    Ext.define('mh.communication.PostMessageEvtData', {
 
         evenName: 'evt::name',
 
