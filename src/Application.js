@@ -88,8 +88,8 @@
             Ext.create(this.appLauncher);
 
 
-            //TODO - fire cross frame evt in order to let the parent know app has loaded.
-
+            //fire mhapp::loaded - make sure though to fire it only UP
+            this.fireGlobal('mhapp::loaded', null, {host:true, suppressLocal: true});
         }
     });
 }());

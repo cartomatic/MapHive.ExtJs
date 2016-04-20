@@ -25,7 +25,7 @@
          * @param {string} evtName
          * @param {Object} evtData
          * @param {Object} [eOpts]
-         * @param {Bool} eOpts.suppressLocal
+         * @param {Bool} [eOpts.suppressLocal]
          */
         fireGlobal: function(evtName, evtData, eOpts){
 

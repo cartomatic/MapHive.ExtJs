@@ -126,7 +126,8 @@
                 var eData = (e.data || {}),
                     evtName = eData.eventName || '',
                     allowedBubbleLevels,
-                    allowedDrilldownLevels;
+                    allowedDrilldownLevels,
+                    goingDown = false;
 
                 if(evtName.startsWith('handshake::')){
                     this.onHandShake(e);
@@ -136,8 +137,9 @@
                     //first make sure, this event should be handled here!
                     if(eData.initiator !== id && eData.recipient === id){
 
-                        //this should be any other evt
-                        console.warn('other evt', eData);
+                        //<debug>
+                        console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'Handling incoming event from:', e.origin, eData);
+                        //</debug>
 
                         //soo, since got here broadcast this event locally
                         //make sure though to not include the eOpts again - they will be used here to decide whether to bubble or drilldown
@@ -147,27 +149,28 @@
 
                         //ok. now need to rebroadcast
 
-                        //how many levels is allowed to rebroadcast?
-                        allowedBubbleLevels  = (typeof eData.bubble === 'number' ? Math.abs(eData.bubble) : 1);
-                        allowedDrilldownLevels  = (typeof eData.drilldown === 'number' ? Math.abs(eData.drilldown) : 1);
+                        //which direction is the event travelling???
+                        //this is important, as need to make sure to not bounce back events to the sender, otherwise it would result in an endless process obviously
+                        //so basically if the sender is same as parent id the event is traveling down (from parent to nested frames)
+                        goingDown = eData.sender === parendId;
 
-                        //FIXME - if broadcasting down - make sure to not broadcast back up again!!! Otherwise, it will just keep on sending same event back and forth!
-                        //FIXME - do i need the evt direction to be sure not to go back again??? Think so!!!
+                        //how many levels is allowed to rebroadcast? If not specified it just one, so effectively not rebroadcasting further
+                        allowedBubbleLevels  = (typeof eData.eOpts.bubble === 'number' ? Math.abs(eData.eOpts.bubble) : 1);
+                        allowedDrilldownLevels  = (typeof eData.eOpts.drilldown === 'number' ? Math.abs(eData.eOpts.drilldown) : 1);
 
-                        //TODO - do i need the direction the evt came from?
-
-                        //if bubble && curentLevel < bubbleLvl then post again to parent
-
-                        //if drilldown && currentLevel *-1< drilldownlvl then post to children
-
+                        if(goingDown){
+                            //rebroadcasting to children
+                            if(eData.eOpts.drilldown && eData.currentLvl < allowedDrilldownLevels){
+                                this.postDown(eData);
+                            }
+                        }
+                        else {
+                            //rebroadcasting to parent
+                            if(eData.eOpts.bubble && eData.currentLvl < allowedBubbleLevels){
+                                this.postUp(eData);
+                            }
+                        }
                     }
-                    
-
-                    //since the evt has been received need to know how to handle it
-                    //if this should be broadcasted within the app, between frames, bubbled, drilled
-
-                    //do not send to self - so no matter who was the initiator, make sure the evt is not sent back to sender
-                    //this applies to bot parent and children
                 }
             }
         },
@@ -307,15 +310,16 @@
             }
             eData.currentLvl ++;
 
-            //FIXME - if broadcasting up - make sure to not broadcast back down again!!! Otherwise, it will just keep on sending same event back and forth!
-
-
             if(parent && parent !== window){ //mke sure to not send to self...
                 //recipient is not that important really as frame can have only one parent!
 
                 //Note: this is important so the incoming events can be always processed the very same way!
                 eData.recipient = parendId;
 
+
+                //<debug>
+                console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'Posting UP to:', parentOrigin, eData);
+                //</debug>
                 this.post(parent, parentOrigin, eData);
             }
         },
@@ -331,9 +335,6 @@
             }
             eData.currentLvl --;
 
-            //FIXME - if broadcasting down - make sure to not broadcast back up again!!! Otherwise, it will just keep on sending same event back and forth!
-
-
             var keys = Ext.Object.getKeys(registeredIframes),
                 k = 0, klen = keys.length,
                 key, frame;
@@ -346,6 +347,9 @@
                 //identifier, it is now possible for recipient to verify if it should process the event or ignore it!
                 eData.recipient = key;
 
+                //<debug>
+                console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'Posting DOWN to:', frame.origin, eData);
+                //</debug>
                 this.post(frame.window, frame.origin, eData);
             }
         },
