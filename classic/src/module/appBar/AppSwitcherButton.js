@@ -33,7 +33,10 @@
 
         listeners: {
             click: 'onAppSwitcherBtnClick'
-        }
+        },
+
+        //hide the btn by default - it will only become visible when there is something to show
+        hidden: true
     });
 
 }());

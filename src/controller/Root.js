@@ -27,12 +27,13 @@
          */
 
         /**
-         * @event root:launchapp
+         * @event root::launchapp
+         * fired whenever the application is ready to start
          */
 
         /**
          * @event root::reloadapp
-         * @param {string} url - url to redirect to
+         * @param {mh.data.model.Application} app - app to redirect to
          * this is actually a watched event. it should be fired by the components that need to pass data to this controller
          */
 
@@ -43,7 +44,7 @@
          */
 
         /**
-         * @event auth:gimmeaccesstoken
+         * @event auth::gimmeaccesstoken
          * fired in order to request the access token off the Auth controller
          */
 
@@ -54,7 +55,24 @@
 
         /**
          * @event root::customhashparam_param-name
+         * @param {string} paramValue
          * response event to the watched root::getcustomhashparam; param-name is the actual param-name the caller asked for; param value is sent as a param
+         */
+
+        /**
+         * @event root::getapps
+         * this is actually a watched event. initiates apps retrieval procedure
+         */
+
+        /**
+         * @event root::appsretrieved
+         * @param {mh.data.model.Application[]} apps
+         * fired when new apps data is available
+         */
+
+        /**
+         * @event root::appreloadstart
+         * @param {mh.data.model.Application} app
          */
 
         /**
@@ -177,18 +195,68 @@
          * @param authData
          */
         onUserAuthenticated: function(evtData){
-            console.log('User authenticated, can now continue with the app launch!', evtData);
+            //Auth controller is responsible for handling the authentication. Whenever auth is happy to go fires the auth::userauthenticated event.
+            //depending on the setup a user may have already been authenticated but it also can be an anonymous user.
+            //the trick here is to p=take the appropriate actions depending on the scenario - authenticated / anonymous
+
+            //if anonymous just pull public apps
+
+            //if authenticated, will need to pull organisations first
+            //Note: so far it seems that obtaining a list of orgs in the Root is sensible. Auth should only handle auth related stuff
+            //when organisations are available then user is prompted to choose his scope and then the apps get pulled.
+            //when apps are available it is time to start!
+
 
             this.fireGlobal('root::launchapp');
         },
 
+        //----------------------------------------
+        /**
+         * Retrieves the available apps info for the current context. Context is a combination of an access token (a user pretty much) and an organisation a user has chosen to use as a context for the current session
+         */
+        getAppsInfo: function(){
+
+            this.doGet({
+                url: this.getView().getApi().apps || 'dummy.url', //so Ext.Ajax does not throw...
+                scope: this,
+                success: this.onGetAppsSuccess,
+                failure: this.onGetAppsFailure
+
+                //errs will be auto ignored
+            });
+        },
+
+        /**
+         * Apps data load was ok.
+         * @param response
+         */
+        onGetAppsSuccess: function(response){
+
+
+        },
+
+        /**
+         * Apps load failed. make sure to fail silently
+         */
+        onGetAppsFailure: function(){
+            //make it silent...
+
+            //since it was not possible to get the apps info, make sure to hide the btn
+            this.getView().hide();
+        },
+
+
+        //----------------------------------------
+
+
+
         /**
          * root::reloadapp evt listener
-         * @param url
+         * @param {mh.data.model.Application} app
          */
-        onAppReload: function(url){
+        onAppReload: function(app){
             //<debug>
-            console.log(this.cStdIcon('info'), this.cDbgHdr('apploader ctrl'), 'reloading app', url);
+            console.log(this.cStdIcon('info'), this.cDbgHdr('apploader ctrl'), 'reloading app', app.getData());
             //</debug>
 
             //Depending on the scenario - hosted app vs host app the appropriate action must be performed.
@@ -203,8 +271,8 @@
             //TODO - when this is a host app, current app should be shown in the app route!
 
             //need to obtain the access token first!
-            this.watchGlobal('auth:accesstoken', this.onAccessTokenRetrieved, {self: this, url: url}, {single: true});
-            this.fireGlobal('auth:gimmeaccesstoken');
+            this.watchGlobal('auth:accesstoken', this.onAppReloadAccessTokenRetrieved, {self: this, app: app}, {single: true});
+            this.fireGlobal('auth::gimmeaccesstoken');
         },
 
         /**
@@ -212,7 +280,7 @@
          * @private
          * @param accessToken
          */
-        onAccessTokenRetrieved: function(accessToken){
+        onAppReloadAccessTokenRetrieved: function(accessToken){
 
 
             //when params are attached to the url, they need to go before the url part!
@@ -222,7 +290,8 @@
             //Note:
             //since the idea is to be able to host external apps too, need to also take care of the params
 
-            var inUrl = this.url.split('#'),
+            var app = this.app,
+                inUrl = app.get('url').split('#'),
                 url = inUrl[0],
                 hash = inUrl[1] ? [inUrl[1]] : [],
                 urlParts = url.split('?'),
@@ -231,6 +300,9 @@
 
 
                 iframe = document.getElementById(this.self.iframeId),
+
+                useSplashscreen = app.get('useSplashscreen'),
+
                 destinationUrl;
 
             //Note:
@@ -245,17 +317,37 @@
             hash.push('at:' + accessToken);
             if(iframe){
                 hash.push('suppress-app-toolbar:true');
-                hash.push('suppress-splash:true');
+
+                //use app's splash if required to do so
+                //when hosting the apps in an iframe, it is ok to not use the app's splash screen but use own, customised one instead
+                //this is the default behavior. An application can be configured to use own splash instead though. In such case use it indeed
+                if(!useSplashscreen){
+                    hash.push('suppress-splash:true');
+                }
+
             }
 
             destinationUrl = baseUrl + '?' + (params.length > 0 ? params.join('&') : '') + (hash.length > 0 ? '#' + hash.join('|') : '') ;
 
             if(iframe){
-                //wipe out the iframe content first
-                iframe.src = 'about:blank'
 
-                //and load a new app
-                iframe.src = destinationUrl;
+                //app reload is about to start, so fire a app reload evt
+                this.fireGlobal('root::appreloadstart', app);
+
+                //also, initiate the reload with a slight timeout, so there is time to kick in with any root::appreloadstart listeners
+
+                //this should just position the callback at the end of the evt queue
+                setTimeout(
+                    function(){
+                        //wipe out the iframe content first
+                        iframe.src = 'about:blank'
+
+                        //and load a new app
+                        iframe.src = destinationUrl;
+                    },
+                    1
+                );
+
             }
             else {
                 window.location.href = destinationUrl;

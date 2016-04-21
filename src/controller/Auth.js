@@ -17,15 +17,17 @@
 
         /**
          * @event auth::userauthenticated
+         * @param {}
          */
 
         /**
-         * @event auth:accesstoken
+         * @event auth::accesstoken
          * @param {string} accessToken
+         * fired as a response to auth::gimmeaccesstoken
          */
 
         /**
-         * @event auth:gimmeaccesstoken
+         * @event auth::gimmeaccesstoken
          * this is actually a watched event. it should be fired by the components that need to obtain the access token because of some reason
          */
 
@@ -36,7 +38,7 @@
 
             //setup the required evt listeners
             this.watchGlobal('root::authenticateuser', this.onAuthenticateUser, this, {single: true});
-            this.watchGlobal('auth:gimmeaccesstoken', this.onGimmeAccessToken, this);
+            this.watchGlobal('auth::gimmeaccesstoken', this.onGimmeAccessToken, this);
         },
 
         onLaunch: function(){

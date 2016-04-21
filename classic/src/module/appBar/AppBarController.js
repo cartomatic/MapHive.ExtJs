@@ -42,34 +42,7 @@
                 this,
                 {single: true}
             );
-            this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar')
-
-            //Note:
-            //because there is a need to pass some cfg to the child objects, they are configured here, not through the standard UI declaration!
-            //This is still lazy-loading, although since got here the child comps initialisation will happen straight after that.
-            //after all a view controller kicks in whenever a view is instantiated
-
-            var v = this.getView(),
-                api = v.getApi();
-
-            v.add([
-                {
-                    xtype: 'mh-app-switcher-button',
-                    api:{
-                        apps: api.apps
-                    }
-                },
-                '->',
-                {
-                    xtype: 'button',
-                    text: 'some other btn'
-                }
-                //spacer
-                //userinfo
-                //spacer
-                //cfg btn
-            ]);
-
+            this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar');
         }
 
     });

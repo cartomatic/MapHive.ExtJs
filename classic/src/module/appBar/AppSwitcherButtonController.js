@@ -41,59 +41,29 @@
          * Called when the view is created
          */
         init: function() {
-            //get the configured apps
-            this.getAppsInfo();
+            //wire up the root::appsretrieved listener - whenever new apps become available it will be necessary to update the app picker!
+            this.watchGlobal('root::appsretrieved', this.onAppsRetrieved, this);
 
-            //also wire up the userAuthenticated listener - whenever a user autheticates it will be necessary to pull the apps
-            //that are not public (if any of course)
-            this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
+            //and make sure to poke the root to get the apps. the point here is that the root may have already received some data and fired event
+            //but at the same time this component was not yet active. poking root for the apps info ensures the module receives the needed data
+            this.fireGlobal('root::getapps');
+
+            //TODO - some kind of app loaded or something. also when there is only one app or running in a standalone mode! Potential problem is - the apps may have same urls and only start from ubfolders, or the url may have different hashes than the app. perhaps just comparing the part to # is a good idea. Actually whenever setting up the apps picker some check like this could be made...
         },
 
         /**
-         * auth::userauthenticated callback
+         *
+         * @param {mh.data.model.Application[]} apps
          */
-        onUserAuthenticated: function(evtData){
-            console.log('App switcher btn - user authenticated, need to pull new apps data!');
-        },
-
-        /**
-         * Retrieves the available apps info for the current context. Context is a combination of an access token (a user pretty much) and an organisation a user has chosen to use as a context for the current session
-         */
-        getAppsInfo: function(){
-
-            this.doGet({
-                url: this.getView().getApi().apps || 'dummy.url', //so Ext.Ajax does not throw...
-                scope: this,
-                success: this.onGetAppsSuccess,
-                failure: this.onGetAppsFailure
-
-                //errs will be auto ignored
-            });
-        },
-
-        /**
-         * Apps data load was ok.
-         * @param response
-         */
-        onGetAppsSuccess: function(response){
-
+        onAppsRetrieved: function(apps){
             //success, so this should be an array of appDTO objects
-            this.apps = response;
+            this.apps = apps;
             this.getView().setVisible((this.apps && this.apps.length > 0));
 
             //also re-create the app switcher panel - this is because after auth -> getapps, its content, order, etc. may have changed
             this.createAppSwitcherPanel();
         },
 
-        /**
-         * Apps load failed. make sure to fail silently
-         */
-        onGetAppsFailure: function(){
-            //make it silent...
-
-            //since it was not possible to get the apps info, make sure to hide the btn
-            this.getView().hide();
-        },
 
         /**
          * (re)creates the app switcher panel
@@ -110,7 +80,7 @@
             for(a; a < alen; a++){
                 btns.push({
                     xtype: 'button',
-                    text: this.apps[a].name,
+                    text: this.apps[a].get('name'),
                     height: 64,
                     width: 64,
                     columnWidth: 0.33,
@@ -265,12 +235,8 @@
         onAppBtnClick: function(btn, e, eOpts){
             this.hideAppsPanel();
 
-
-            //TODO - make it smarter. need app name too.
-            //TODO - also - not sure yet, bu think the apps info should be handled at the root level. this is because it is needed elswhere too. And also, the app potentially may have the hosted app specified in the hash by its friendlyName, uuid or something like this. So root will likely pull the data and make it globally available via events. This way all the components that rely in this data will have a chance to set themselves up properly!
-
             //load the new url
-            this.fireGlobal('root::reloadapp', btn.app.url);
+            this.fireGlobal('root::reloadapp', btn.app);
         }
 
     });

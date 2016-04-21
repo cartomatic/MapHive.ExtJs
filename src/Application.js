@@ -46,6 +46,11 @@
          */
         appLauncher: 'mh.AppLauncher',
 
+        /**
+         * @event mhapp::loaded
+         * fired whenever the configured AppLauncher has been Ext.create'd
+         */
+
         init: function(){
 
             mh.util.console.Custom.setAppName(this.getName());
@@ -58,14 +63,26 @@
             this.watchGlobal('root::launchapp', this.onLaunchApp, this, {single: true});
         },
 
-        launch: function () {
+        //app launch not used. need to wait until root configures all the mess that is required
+        // launch: function () {
+        //     //<debug>
+        //     console.log(this.cStdIcon('info'), this.cDbgHdr('app'),'launched');
+        //     //</debug>
+        // },
+
+        /**
+         * root::launchapp callback;
+         * called whenever root controller finishes whatever needs to be done prior to launching the actual app
+         * Launches the application launcher class
+         */
+        onLaunchApp: function(){
 
             //hide the splash screen; do it early, so it starts fading out as the app UI builds.
             //perhaps should move it to onAppLaunch?
             splash.hide();
 
             //<debug>
-            console.log(this.cStdIcon('info'), this.cDbgHdr('app'),'launched');
+            console.log(this.cStdIcon('info'), this.cDbgHdr('app'),'onLaunchApp');
             //</debug>
 
             //Note:
@@ -76,19 +93,15 @@
             //Note:
             //Two global controllers take over from here: Root & Auth. The main actor is the Root controller - see the code to see
             //how it interacts with the Auth controller.
-        },
 
-        /**
-         * Launches the application launcher class
-         */
-        onLaunchApp: function(){
+
             //Note:
             //Both toolkits need a main view. So this is crucial each toolkit has the same entry point!
             //in this case though, the GUI creation is delegated to toolkit specific code, not directly created here
             Ext.create(this.appLauncher);
 
 
-            //fire mhapp::loaded - make sure though to fire it only UP
+            //fire mhapp::loaded - make sure to fire it locally but also to parent if any
             this.fireGlobal('mhapp::loaded', null, {host:true, suppressLocal: true});
         }
     });

@@ -17,23 +17,26 @@
 
         controller: 'mh-app-bar',
 
-        requires: [
-            'mh.module.appBar.AppBarController'
-        ],
+    requires: [
+        'mh.module.appBar.AppBarController',
+        'mh.module.appBar.AppSwitcherButton'
+    ],
 
-        dock: 'top',
-
-        config: {
-            /**
-             * Set of API endpoints passed to child components
-             */
-            api: {
-                apps: 'dummy.url'
-            }
-        },
+    dock: 'top',
 
         items: [
-            //child elements added in the view controller, so can control their setup properly
+            {
+                xtype: 'mh-app-switcher-button'
+            },
+            '->',
+            {
+                xtype: 'button',
+                text: 'some other btn'
+            }
+            //spacer
+            //userinfo
+            //spacer
+            //cfg btn
         ],
 
         hidden: true
