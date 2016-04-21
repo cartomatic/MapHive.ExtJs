@@ -11,11 +11,13 @@
         extend: 'Ext.data.Model',
     
         fields: [
-            { name: 'id', type: 'string' },
-            { name: 'shortName', type: 'string' },
-            { name: 'name', type: 'string' },
-            { name: 'url', type: 'string' },
-            { name: 'useSplashscreen', type: 'boolean' }
+            { name: 'id', type: 'string', useNull: true },
+            { name: 'shortName', type: 'string', useNull: true },
+            { name: 'name', type: 'string', useNull: true },
+            { name: 'url', type: 'string', useNull: true },
+            { name: 'useSplashscreen', type: 'boolean' },
+
+            { name: 'requiresAuth', type: 'boolean' }
 
             //more to come!
         ]

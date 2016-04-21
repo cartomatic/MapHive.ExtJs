@@ -185,6 +185,8 @@
                                 this.postUp(eData);
                             }
                         }
+
+                        //TODO - also need an option to make the x window msg bus work as an umbrella between frames - this is a scenario, where it should be possible to receive an event from a child (so a UP going event) and rebroadcast it DOWN again, but omitting the event source. This is actually quite important!
                     }
                 }
             }

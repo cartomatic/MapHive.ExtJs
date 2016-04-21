@@ -36,10 +36,11 @@
 
             /**
              * auth::userauthenticated callback; stores the access token data for further usage
-             * @param evtData
+             * @param {string} token
+             * access token
              */
-            onUserAuthenticated: function(evtData){
-                accessToken = (evtData || {}).accessToken;
+            onUserAuthenticated: function(token){
+                accessToken = token
                 authorizationHeader = accessToken ? 'Bearer ' + accessToken : null;
             }
 

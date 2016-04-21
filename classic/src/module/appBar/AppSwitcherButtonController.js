@@ -56,6 +56,10 @@
          * @param {mh.data.model.Application[]} apps
          */
         onAppsRetrieved: function(apps){
+
+            //TODO - verify the incoming data. there may be no point in refreshing anything
+
+
             //success, so this should be an array of appDTO objects
             this.apps = apps;
             this.getView().setVisible((this.apps && this.apps.length > 0));

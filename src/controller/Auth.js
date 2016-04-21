@@ -17,17 +17,18 @@
 
         /**
          * @event auth::userauthenticated
-         * @param {}
-         */
-
-        /**
-         * @event auth::accesstoken
          * @param {string} accessToken
-         * fired as a response to auth::gimmeaccesstoken
+         * fired whenever user is authenticated
          */
 
         /**
-         * @event auth::gimmeaccesstoken
+         * @event auth:accesstoken
+         * @param {string} accessToken
+         * fired as a response to auth:gimmeaccesstoken
+         */
+
+        /**
+         * @event auth:gimmeaccesstoken
          * this is actually a watched event. it should be fired by the components that need to obtain the access token because of some reason
          */
 
@@ -38,7 +39,7 @@
 
             //setup the required evt listeners
             this.watchGlobal('root::authenticateuser', this.onAuthenticateUser, this, {single: true});
-            this.watchGlobal('auth::gimmeaccesstoken', this.onGimmeAccessToken, this);
+            this.watchGlobal('auth:gimmeaccesstoken', this.onGimmeAccessToken, this);
         },
 
         onLaunch: function(){
@@ -57,28 +58,28 @@
 
         /**
          * some module requested user authentication
-         * @param evtData
+         * @param e
          */
-        onAuthenticateUser: function(evtData){
+        onAuthenticateUser: function(e){
 
             //TODO - extract the access token off the url and verify it by poking the backend. There should be a simple endpoint to do just that!
             //TODO - potential customisation needed for the offline scenario - but in this case the GeoFutura.Gpr may well customise the auth controller
 
-            console.log('Received root::authenticateuser evt with the following data: ', evtData);
+            //TODO - make sure to obtain the refresh token too. all the usual stuff that will be required to handle session properly!
+
             console.log('Faking authentication...');
 
             //Note:
             //Authentication will require some UI. So it is crucial, there is a the same login view entry point for both toolkits.
             //otherwise requires will cause problems!
 
-            var me = this;
-            // setTimeout(
-            //     function(){
-            //         me.fireGlobal('auth::userauthenticated', 'some auth feedback data');
-            //     },
-            //     1000
-            // );
-            me.fireGlobal('auth::userauthenticated', {accessToken: 'temp-access-token'});
+            //TODO - maybe some logic should be done on the serverside in the aspx entry point???
+            //TODO - Basically if user specifies an app he wants to use it is necessary to know if this app requires authentication. If so, the module will have to trigger auth
+            //TODO - but if not, the app can let user in as an anonymous user
+
+            //Note: for anonymous users just return null as an access token.
+
+            this.fireGlobal('auth::userauthenticated', null);
         }
     });
 
