@@ -5,13 +5,27 @@
     'use strict';
 
 
-    var allowedOrigins = [],
+        //TODO - this would really benefit from being dynamically configurable
+    var allowedOrigins = ['maphive.local|maphive.net'],
+
+        regex = null,
 
         isOriginAllowed = function(origin){
 
-            //TODO - implement the verification logic!
+            if(!regex) {
+                //original regex comes from here: http://stackoverflow.com/questions/17236901/regex-to-validate-a-url-using-a-wildcard, http://www.debuggex.com/r/xOD3eBBPYnQq8Rb9
+                //^((\*|[\w\d]+(-[\w\d]+)*)\.)*(example|test)(\.com)$
 
-            return true;
+                //regex needs to be dynamic, so needs to be presented as an escaped string
+                var regexBase = '^(http|https)://((\\*|[\\w\\d]+(-[\\w\\d]+)*)\\.)*{DOMAINS}((/|\\?).*)?$',
+                    domains = allowedOrigins.join('|'); //the hardcoded part would look like this: (example|test)(\\.com)
+
+                //in this case, domains are provided with the extensions, so there is no cross join form them
+                regex = new RegExp(regexBase.replace('{DOMAINS}', domains));
+
+            }
+
+            return regex.test(origin);
         },
 
         registeredIframes = {},
@@ -24,11 +38,6 @@
         messageContext = null,
 
         id;
-
-    //TODO - private var for holding regexes that specify allowed domains. for the time being only maphive.net && maphive.local
-    //this should come from the backend. and should be configurable too!
-
-    //store iframes with their origns, so when posting, the comm goes to a proper origin and does not leak!
 
     /**
      * Provides functionality to communicate through the borders of iframes using postMessage
@@ -186,7 +195,7 @@
          * @param e
          */
         onHandShake: function(e){
-            switch(evt.data.eventName){
+            switch(e.data.eventName){
                 case 'handshake::hello':
                     this.onHandshakeHello(e);
                 break;
@@ -315,7 +324,7 @@
             }
             eData.currentLvl ++;
 
-            if(parent && parent !== window){ //mke sure to not send to self...
+            if(parentOrigin && parent && parent !== window){ //mke sure to not send to self...
                 //recipient is not that important really as frame can have only one parent!
 
                 //Note: this is important so the incoming events can be always processed the very same way!
