@@ -22,7 +22,7 @@
          */
 
         /**
-         * @event auth:accesstoken
+         * @event auth::accesstoken
          * @param {string} accessToken
          * fired as a response to auth:gimmeaccesstoken
          */
@@ -39,7 +39,7 @@
 
             //setup the required evt listeners
             this.watchGlobal('root::authenticateuser', this.onAuthenticateUser, this, {single: true});
-            this.watchGlobal('auth:gimmeaccesstoken', this.onGimmeAccessToken, this);
+            this.watchGlobal('auth::gimmeaccesstoken', this.onGimmeAccessToken, this);
         },
 
         onLaunch: function(){
@@ -53,7 +53,7 @@
         onGimmeAccessToken: function(){
             //TODO - local access token storag needed!!!
 
-            this.fireGlobal('auth:accesstoken', 'temp-access-token');
+            this.fireGlobal('auth::accesstoken', 'temp-access-token');
         },
 
         /**

@@ -14,15 +14,17 @@
 
         mixins: [
             'mh.communication.MsgBus',
-            'mh.util.console.Formatters'
+            'mh.util.console.Formatters',
+            'mh.data.Ajax'
         ],
 
-        requires: [
-            'Ext.app.Application',
-            'mh.AppLauncher'
-        ],
+    requires: [
+        'Ext.app.Application',
+        'mh.AppLauncher',
+        'mh.data.model.Application'
+    ],
 
-        /**
+    /**
          * @event root::authenticateuser
          */
 
@@ -66,6 +68,8 @@
          * @param {string} customCallback
          * if not empty, the event will reply with root::appsretrieved_customCallback; otherwise with just root::appsretrieved
          * callback customisation is used to provide direct communication between modules. This way other modules will ignore the evt even though in general they support it
+         *
+         * This event supports tunnelling
          */
 
         /**
@@ -275,7 +279,7 @@
             //TODO - when this is a host app, current app should be shown in the app route!
 
             //need to obtain the access token first!
-            this.watchGlobal('auth:accesstoken', this.onAppReloadAccessTokenRetrieved, {self: this, app: app}, {single: true});
+            this.watchGlobal('auth::accesstoken', this.onAppReloadAccessTokenRetrieved, {self: this, app: app}, {single: true});
             this.fireGlobal('auth::gimmeaccesstoken');
         },
 
@@ -295,6 +299,7 @@
             //since the idea is to be able to host external apps too, need to also take care of the params
 
             var app = this.app,
+                self = this.self,
                 inUrl = app.get('url').split('#'),
                 url = inUrl[0],
                 hash = inUrl[1] ? [inUrl[1]] : [],
@@ -303,7 +308,7 @@
                 params = urlParts[1] ? urlParts[1].split('&') : [],
 
 
-                iframe = document.getElementById(this.self.iframeId),
+                iframe = document.getElementById(self.iframeId),
 
                 useSplashscreen = app.get('useSplashscreen'),
 
@@ -328,7 +333,6 @@
                 if(!useSplashscreen){
                     hash.push('suppress-splash:true');
                 }
-
             }
 
             destinationUrl = baseUrl + '?' + (params.length > 0 ? params.join('&') : '') + (hash.length > 0 ? '#' + hash.join('|') : '') ;
@@ -336,7 +340,7 @@
             if(iframe){
 
                 //app reload is about to start, so fire a app reload evt
-                this.fireGlobal('root::appreloadstart', app);
+                self.fireGlobal('root::appreloadstart', app);
 
                 //also, initiate the reload with a slight timeout, so there is time to kick in with any root::appreloadstart listeners
 
@@ -372,14 +376,37 @@
 
         /**
          * root::getapps callback;
+         * @param e
+         * @param tunnel
          * triggers the procedure of apps retrieval. whenever procedure is finished, the resultset distributed through a root::appsretrieved event
          */
-        onGetApps: function(){
-            //TODO - api endpoints / hosts will have to be configurable!!!!
+        onGetApps: function(e, tunnel){
 
-            //in a case of an anonymous user, there isn't much to do. It is just required to start some app. either something configured as default or something
-            //or the first in collection, etc.
-            //so pretty much need to obtain the PUBLIC apps info of the server and then just pass the control back to the app launcher
+            if(this.apps){
+                this.fireGlobal(this.getTunneledEvtName('root::getapps', tunnel), this.apps);
+                return;
+            }
+
+            //expect many potential subsequent requests
+            //IMOPRTANT - cache the event by the output event name!!!!
+            this.bufferCurrentTunnel('root::appsretrieved', tunnel);
+
+            if(this.duringAppsRetrieval){
+                return;
+            }
+
+            this.duringAppsRetrieval = true;
+
+
+            //TODO - api endpoints / hosts will have to be configurable!!!!
+            this.doGet({
+                url: 'packages/local/mh/devFakeApi/GetApps.json', //so Ext.Ajax does not throw...
+                scope: this,
+                success: this.onGetAppsSuccess,
+                failure: this.onGetAppsFailure
+
+                //errs will be auto ignored
+            });
         },
 
         /**
@@ -395,31 +422,6 @@
          */
         apps: null,
 
-        /**
-         * Retrieves the available apps info for the current context. Context is a combination of an access token (a user pretty much) and an organisation a user has chosen to use as a context for the current session
-         */
-        getAppsInfo: function(callbacCustomisation){
-
-            if(this.duringAppsRetrieval)
-            {
-                return;
-            }
-
-            if(this.apps){
-
-                this.fireGlobal()
-                return;
-            }
-
-            this.doGet({
-                url: this.getView().getApi().apps || 'dummy.url', //so Ext.Ajax does not throw...
-                scope: this,
-                success: this.onGetAppsSuccess,
-                failure: this.onGetAppsFailure
-
-                //errs will be auto ignored
-            });
-        },
 
         /**
          * Apps data load was ok.
@@ -427,18 +429,28 @@
          */
         onGetAppsSuccess: function(response){
 
+            var me = this;
 
+            response = response || [];
+
+            this.apps = [];
+
+            Ext.Array.each(response, function(app){
+                me.apps.push(Ext.create('mh.data.model.Application', app));
+            });
+
+            //waive off app retrieval in progress flag
+            this.duringAppsRetrieval = false;
+
+            this.fireForBufferedTunnels('root::appsretrieved', this.apps);
         },
 
         /**
          * Apps load failed. make sure to fail silently
          */
         onGetAppsFailure: function(){
-            //make it silent...
-
-            //since it was not possible to get the apps info, make sure to hide the btn
-            this.getView().hide();
-        },
+            throw 'OOOPS, it was not possible to pull the apps. will have to handle this scenario at some point!'
+        }
 
     });
 

@@ -116,8 +116,55 @@
          */
         getTunneledEvtName: function(evtName, tunnel){
             return evtName + (tunnel ? '_' + tunnel : '');
-        }
+        },
 
+        /**
+         * evt tunnels buffer
+         */
+        tunnelsCache: null,
+
+        /**
+         * Buffers current tunnels for given evt name
+         * @param evtName
+         * @param tunnel
+         */
+        bufferCurrentTunnel: function(evtName, tunnel){
+            this.tunnelsCache = this.tunnelsCache || {};
+
+            //make sure to cache the common listener too
+            tunnel = tunnel || '____untunnelled____';
+
+            if(tunnel){
+                this.tunnelsCache[evtName] = this.tunnelsCache[evtName] || {};
+                this.tunnelsCache[evtName][tunnel] = true;
+            }
+        },
+
+        /**
+         * Fires event for buffered tunnels
+         * @param evtName
+         * @param evtData
+         */
+        fireForBufferedTunnels: function(evtName, evtData){
+
+            if(this.tunnelsCache && this.tunnelsCache[evtName]){
+                var me = this,
+                    keys = Ext.Object.getKeys(this.tunnelsCache[evtName]);
+
+                Ext.Array.each(keys, function(key){
+                    if(key === '____untunnelled____'){
+                        //looks like this was a standard evt, without a tunnel specified
+                        //but the handler supports tunneling and therefore called this method
+                        me.fireGlobal(evtName, evtData);
+                    }
+                    else {
+                        me.fireGlobal(me.getTunneledEvtName(evtName, key), evtData);
+                    }
+                });
+            }
+
+            delete this.tunnelsCache[evtName];
+        }
     });
 
 }());
