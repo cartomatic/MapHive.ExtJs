@@ -17,7 +17,7 @@
 
     requires: [
         'mh.util.console.Custom',
-        'mh.communication.MsgBusXFrame',
+        'mh.communication.MsgBusXWindow',
         'mh.AppLauncher'
     ],
 

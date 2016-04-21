@@ -40,9 +40,9 @@
         id;
 
     /**
-     * Provides functionality to communicate through the borders of iframes using postMessage
+     * Provides functionality to communicate through the borders of windows / iframes using postMessage
      */
-    Ext.define('mh.communication.MsgBusXFrame', {
+    Ext.define('mh.communication.MsgBusXWindow', {
 
         singleton: true,
 
