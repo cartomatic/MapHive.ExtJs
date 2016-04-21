@@ -8,6 +8,14 @@
      * MsgBus event opts. Documentation only class. class is used as extra cfg holder for the behavior of standard local events fired by the mh.communication.MsgBus as well as the cross window / frame events.
      */
     Ext.define('mh.communication.MsgBusEvtOpts', {
+
+        /**
+         * @property {string} tunnel
+         * if not empty, the outgoing event will be suffixed by the tunnel value; so for example instead of firing back 'someevtname', 'someevtname_tunnel' should be fired;
+         * this can be used to tunnel the communication between components so only specified instances get evt callbacks.
+         * Handy for generic events to avoid evt handling overhead in many modules at once
+         */
+
         /**
          * @property {Boolean} [suppressLocal = false]
          * Whether or not the event should be also fired locally; used to suppress firing local events when broadcasting events outside of a window

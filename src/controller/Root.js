@@ -50,6 +50,7 @@
 
         /**
          * @event root::getcustomhashparam
+         * @property {string} param-name
          * this is actually a watched event. it should be fired by the components that need to obtain custom hash params data off this controller
          */
 
@@ -62,10 +63,13 @@
         /**
          * @event root::getapps
          * this is actually a watched event. initiates apps retrieval procedure
+         * @param {string} customCallback
+         * if not empty, the event will reply with root::appsretrieved_customCallback; otherwise with just root::appsretrieved
+         * callback customisation is used to provide direct communication between modules. This way other modules will ignore the evt even though in general they support it
          */
 
         /**
-         * @event root::appsretrieved
+         * @event root::appsretrieved / root::appsretrieved_customCallback
          * @param {mh.data.model.Application[]} apps
          * fired when new apps data is available
          */
@@ -104,7 +108,11 @@
             this.watchGlobal('root::reloadapp', this.onAppReload, this);
             this.watchGlobal('root::setuphostiframe', this.onSetupHostIframe, this);
 
+
+            this.watchGlobal('auth::userauthenticated', this.onUserAuthenticatedResetAppsCache, this);
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this, {single: true});
+
+            this.watchGlobal('root::getapps', this.onGetApps, this);
         },
 
         onLaunch: function(){
@@ -181,23 +189,34 @@
         /**
          * root::getcustomhashparam callback; responds with root::customhashparam_param-name
          * @param pName - name of a custom param
+         * @param tunnel - this event handler supports evt tunneling
          */
-        onGetCustomHashParam: function(pName){
+        onGetCustomHashParam: function(pName, tunnel){
             var ret = null;
             if(this.customHashParams && this.customHashParams[pName]){
                 ret = this.customHashParams[pName];
             }
-            this.fireGlobal('root::customhashparam_' + pName, ret);
+            this.fireGlobal(this.getTunneledEvtName('root::customhashparam', tunnel), ret);
         },
 
         /**
-         * 'auth::userauthenticated' evt listener
-         * @param authData
+         * auth::userauthenticated evt listener
+         * resets the internal applications cache
          */
-        onUserAuthenticated: function(evtData){
-            //Auth controller is responsible for handling the authentication. Whenever auth is happy to go fires the auth::userauthenticated event.
-            //depending on the setup a user may have already been authenticated but it also can be an anonymous user.
-            //the trick here is to p=take the appropriate actions depending on the scenario - authenticated / anonymous
+        onUserAuthenticatedResetAppsCache: function(){
+            //always clean up apps cache. since an auth occurred, all the affected modules that depend on the maps info will also have to reconfigure
+            //and they will ask for the apps data. wiped out apps cache results in a data refresh.
+            this.apps = null;
+        },
+
+        /**
+         * auth::userauthenticated evt listener
+         * @param accessToken
+         */
+        onUserAuthenticated: function(accessToken){
+            //Auth controller is responsible for handling the authentication. Whenever auth is happy to go, it fires the auth::userauthenticated event.
+            //depending on the setup a user may have already been authenticated but he also can be an anonymous user.
+            //the trick here is to take the appropriate actions depending on the scenario - authenticated / anonymous
 
             //if anonymous just pull public apps
 
@@ -206,48 +225,33 @@
             //when organisations are available then user is prompted to choose his scope and then the apps get pulled.
             //when apps are available it is time to start!
 
+            //TODO - maybe some logic should be done on the serverside in the aspx entry point???
+            //TODO - since will have to check if user wants a specific app to kick off and verify if ok to run it in anonymous mode, maybe there is a point is dumping public apps info straight to the aspx output??? Dunno, will see!
 
+            if(!accessToken){
+                this.handleAnonymousUserStartup();
+            }
+            else {
+                this.handleAuthenticatedUserStartup();
+            }
+        },
+
+
+
+        /**
+         * Sets up the application for an anonymous user
+         */
+        handleAnonymousUserStartup: function(){
+            //not much to do really. Since the app has loaded, let it decide what to do now - what data to pull or not to pull and such.
             this.fireGlobal('root::launchapp');
         },
 
-        //----------------------------------------
         /**
-         * Retrieves the available apps info for the current context. Context is a combination of an access token (a user pretty much) and an organisation a user has chosen to use as a context for the current session
+         * Sets up the application for an authenticated user
          */
-        getAppsInfo: function(){
-
-            this.doGet({
-                url: this.getView().getApi().apps || 'dummy.url', //so Ext.Ajax does not throw...
-                scope: this,
-                success: this.onGetAppsSuccess,
-                failure: this.onGetAppsFailure
-
-                //errs will be auto ignored
-            });
+        handleAuthenticatedUserStartup: function(){
+            throw "Uthenticated user setup not implemented yet!";
         },
-
-        /**
-         * Apps data load was ok.
-         * @param response
-         */
-        onGetAppsSuccess: function(response){
-
-
-        },
-
-        /**
-         * Apps load failed. make sure to fail silently
-         */
-        onGetAppsFailure: function(){
-            //make it silent...
-
-            //since it was not possible to get the apps info, make sure to hide the btn
-            this.getView().hide();
-        },
-
-
-        //----------------------------------------
-
 
 
         /**
@@ -364,7 +368,78 @@
             //</debug>
 
             this.iframeId = iframeId;
-        }
+        },
+
+        /**
+         * root::getapps callback;
+         * triggers the procedure of apps retrieval. whenever procedure is finished, the resultset distributed through a root::appsretrieved event
+         */
+        onGetApps: function(){
+            //TODO - api endpoints / hosts will have to be configurable!!!!
+
+            //in a case of an anonymous user, there isn't much to do. It is just required to start some app. either something configured as default or something
+            //or the first in collection, etc.
+            //so pretty much need to obtain the PUBLIC apps info of the server and then just pass the control back to the app launcher
+        },
+
+        /**
+         * @property {boolean} [duringAppsRetrieval=false]
+         * Whether or not the apps retrieval process is in progress; used so potential multiple requests are simply merged into one call
+         */
+        duringAppsRetrieval: false,
+
+
+        /**
+         * @property {mh.data.model.Application[]} [apps=null]
+         * @private
+         */
+        apps: null,
+
+        /**
+         * Retrieves the available apps info for the current context. Context is a combination of an access token (a user pretty much) and an organisation a user has chosen to use as a context for the current session
+         */
+        getAppsInfo: function(callbacCustomisation){
+
+            if(this.duringAppsRetrieval)
+            {
+                return;
+            }
+
+            if(this.apps){
+
+                this.fireGlobal()
+                return;
+            }
+
+            this.doGet({
+                url: this.getView().getApi().apps || 'dummy.url', //so Ext.Ajax does not throw...
+                scope: this,
+                success: this.onGetAppsSuccess,
+                failure: this.onGetAppsFailure
+
+                //errs will be auto ignored
+            });
+        },
+
+        /**
+         * Apps data load was ok.
+         * @param response
+         */
+        onGetAppsSuccess: function(response){
+
+
+        },
+
+        /**
+         * Apps load failed. make sure to fail silently
+         */
+        onGetAppsFailure: function(){
+            //make it silent...
+
+            //since it was not possible to get the apps info, make sure to hide the btn
+            this.getView().hide();
+        },
+
     });
 
 }());

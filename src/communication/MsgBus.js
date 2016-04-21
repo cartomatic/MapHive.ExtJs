@@ -35,12 +35,14 @@
                 //</debug>
             }
 
+            eOpts = eOpts ||{};
+
             //check if the event is not supposed to be suppressed locally
-            if(!eOpts || eOpts.suppressLocal !== true){
+            if(eOpts.suppressLocal !== true){
                 //pretend the 'async' behavior. delaying the evt will result in it being queued before firing
                 setTimeout(
                     function(){
-                        Ext.GlobalEvents.fireEvent(evtName, evtData);
+                        Ext.GlobalEvents.fireEvent(evtName, evtData, eOpts.tunnel);
                     },
                     1
                 );
@@ -48,7 +50,7 @@
 
             //basically if there are eOpts, at the time being it means, the event should be broadcasted to parent window or to child frames
             //and obviously, the responsibility for handling it is on the MsgBusXFrame class
-            if(eOpts){
+            if(eOpts.host || eOpts.hosted){
                 setTimeout(
                     function(){
                         Ext.GlobalEvents.fireEvent(
@@ -73,6 +75,8 @@
          * @param {Object} [opts]
          */
         watchGlobal: function(evtName, handler, scope, opts){
+
+            evtName = this.getTunneledEvtName(evtName, (opts || {}).tunnel);
 
             if(logEventsToConsole) {
                 //<debug>
@@ -103,6 +107,15 @@
 
         toggleEventLogging: function(state){
             logEventsToConsole = !!state;
+        },
+
+        /**
+         * returns an evt name for the specified tunnel value.
+         * @param evtName
+         * @param tunnel
+         */
+        getTunneledEvtName: function(evtName, tunnel){
+            return evtName + (tunnel ? '_' + tunnel : '');
         }
 
     });

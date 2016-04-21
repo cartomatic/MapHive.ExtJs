@@ -32,17 +32,21 @@
         init: function(){
 
             //check if the tbar should be visible, or it should be suppressed
+            var tunnel = (new Date()).getTime();
             this.watchGlobal(
-                'root::customhashparam_suppress-app-toolbar',
+                'root::customhashparam',
                 function(value){
                     if(value !== 'true'){
                         this.getView().show();
                     }
                 },
                 this,
-                {single: true}
+                {
+                    single: true,
+                    tunnel: tunnel
+                }
             );
-            this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar');
+            this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar', {tunnel: tunnel});
         }
 
     });
