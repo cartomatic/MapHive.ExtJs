@@ -76,7 +76,7 @@
             //generate own identifier
             id = mh.utils.Generator.getUuid();
 
-            //set up msg context, so it is possible to wire the event on / off
+            //set up post msg context, so it is possible to wire the event on / off
             messageContext = Ext.bind(this.onMessage, this);
 
             this.startListening();
@@ -117,7 +117,13 @@
 
         /**
          * On message listener
-         * @param evt
+         * @param {Object} e
+         * incoming postMessage object
+         * @param {String} e.origin
+         * event origin
+         * @param e.data {mh.communication.PostMessageEvtData}
+         * DTO used to transfer data cross window
+         * @param e.data.eOpts {mh.communication.MsgBusEvtOpts}
          */
         onMessage: function(e){
 
@@ -177,17 +183,16 @@
 
         /**
          * received a handshake evt
-         * @param origin
-         * @param data
+         * @param e
          */
-        onHandShake: function(evt){
+        onHandShake: function(e){
             switch(evt.data.eventName){
                 case 'handshake::hello':
-                    this.onHandshakeHello(evt);
+                    this.onHandshakeHello(e);
                 break;
 
                 case 'handshake::hellothere':
-                    this.onHandshakeHelloThere(evt);
+                    this.onHandshakeHelloThere(e);
                     break;
             }
         },
@@ -231,7 +236,7 @@
             }
             //<debug>
             else {
-                console.warn(this.cStdIcon('cancel'), this.cDbgHdr('post msg'), 'Uuups, looks like the ' + e.origin + ' childed has not properly identified itself... further communication will be ignored!');
+                console.warn(this.cStdIcon('cancel'), this.cDbgHdr('post msg'), 'Uuups, looks like the ' + e.origin + ' child has not properly identified itself... further communication will be ignored!');
             }
             //</debug>
 
@@ -261,22 +266,22 @@
 
 
         /**
+         * msgbus::postmessage callback;
+         * msgbus::postmessage is only fired by the mh.communication.MsgBus based on the mh.communication.MsgBusEvtOpts event options supplied;
          * handles posting messages to child frames or parent
-         * @param {Object} e
-         * @param {string} e.eventName
+         *
+         * @param {string} e.eName
          * original event name
          * @param {Object} e.eData
-         * original event data
-         * @param {Object} e.eOpts
+         * original event DTO
+         * @param {mh.communication.MsgBusEvtOpts} e.eOpts
          * options used to configure the x frame behavior
          * @param {Boolean} e.eOpts.host
-         * if being hosted, will post msg to host
          * @param {Boolean} e.eOpts.hosted
-         * if hosting, will post msg to hosted
          * @param {Boolean} e.eOpts.bubble
-         * just bubble the evt up the host stack
          * @param {Boolean} e.eOpts.drilldown
-         * just bubble the evt down the hosted stack
+         *
+         * @returns {mh.communication.PostMessageEvtData}
          */
         postMessage: function(e){
 
@@ -326,6 +331,7 @@
 
         /**
          * Posts a msg to registered iframes
+         * @param {mh.communication.PostMessageEvtData'} eData
          */
         postDown: function(eData){
 
@@ -356,9 +362,10 @@
 
         /**
          * posts message to specified object, with specified origin and data
-         * @param window
-         * @param origin - the allowed origin of a recipient
-         * @param eData
+         * @param {Object} window
+         * @param {string} origin
+         * the allowed origin of a recipient
+         * @param {mh.communication.PostMessageEvtData} eData
          */
         post: function(window, origin, eData){
             eData.sender = id;

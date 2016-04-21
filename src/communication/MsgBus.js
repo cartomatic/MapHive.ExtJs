@@ -24,7 +24,7 @@
          * fires a global event
          * @param {string} evtName
          * @param {Object} evtData
-         * @param {Object} [eOpts]
+         * @param {mh.communication.MsgBusEvtOpts} [eOpts]
          * @param {Bool} [eOpts.suppressLocal]
          */
         fireGlobal: function(evtName, evtData, eOpts){

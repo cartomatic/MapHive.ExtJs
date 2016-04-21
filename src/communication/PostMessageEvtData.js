@@ -5,12 +5,19 @@
     'use strict';
     
     /**
-     * An example of the event data sent using the postMessage msg bus; This class is never instantiaded, its main purpose is documentation
+     * An example of the event data sent using the postMessage msg bus. This is a standardised DTO for all the cross window events
+     * This class is never instantiaded, its main purpose is documentation.
      */
     Ext.define('mh.communication.PostMessageEvtData', {
 
         /**
          * @property {string} eventName
+         */
+
+        /**
+         * @property {Number} currentLvl
+         * indicates the current level of the event. Usually increased / decreased just before firing.
+         * 0 means the level is the same as the firing window, positive numbers indicate the event is travelling up the window / parent stack, while negative number means the event is travelling down the child windows / frames stack
          */
 
         /**
@@ -35,18 +42,8 @@
          */
 
         /**
-         * @property {Object} eOpts
+         * @property {mh.communication.MsgBusEvtOpts} eOpts
          * event brodcasting options
-         * @property {Boolean} eOpts.host
-         * if being hosted, will post msg to host
-         * @property {Boolean} eOpts.hosted
-         * if hosting, will post msg to hosted
-         * @property {Boolean|Number} eOpts.bubble
-         * just bubble the evt up the host stack; if number is provided it specifies the number of levels to bubble up the stack and then stop
-         * @property {Boolean|Number} eOpts.drilldown
-         * just bubble the evt down the hosted stack; if number is provided it specifies the number of levels to drill down the stack and then stop
-         * @property {Number} currentLvl
-         * the level below or above the event initiator
          */
     });
 
