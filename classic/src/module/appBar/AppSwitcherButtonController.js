@@ -226,9 +226,6 @@
 
 
                 Ext.Array.each(this.apps, function(a){
-
-                    console.warn(appCoreUrl, fixUrl(a.get('url').split('#')[0]));
-
                     if(fixUrl(a.get('url').split('#')[0]) === appCoreUrl){
                         me.currentApp = a;
                         return false;
@@ -380,8 +377,10 @@
         onAppBtnClick: function(btn, e, eOpts){
             this.hideAppsPanel();
 
-            //load the new url
-            this.fireGlobal('root::reloadapp', btn.app);
+            if(!this.currentApp || btn.app.get('id') !== this.currentApp.get('id')){
+                //load the new url
+                this.fireGlobal('root::reloadapp', btn.app);
+            }
         }
 
     });
