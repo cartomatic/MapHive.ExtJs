@@ -31,6 +31,11 @@
         apps: null,
 
         /**
+         * the hosted application that is currently loaded.
+         */
+        currentApp: null,
+
+        /**
          * @property {Ext.panel.Panel}
          * Panel used to display the configured apps
          * @private
@@ -55,7 +60,7 @@
                         //wire up some evt listeners
                         this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
 
-                        //TODO - some kind of app loaded or something. also when there is only one app or running in a standalone mode! Potential problem is - the apps may have same urls and only start from subfolders, or the url may have different hashes than the app. perhaps just comparing the part to # is a good idea. Actually whenever setting up the apps picker some check like this could be made...
+                        this.watchGlobal('root::appreloadstart', this.onAppReloadStart, this);
 
                         //need to poke the root to get some apps
                         this.getApps();
@@ -68,6 +73,13 @@
                 }
             );
             this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar', {tunnel: tunnel})
+        },
+
+        /**
+         * root::appreloadstart callback. whenever Root ctrl decides to reload the app it informs about it.
+         */
+        onAppReloadStart: function(app){
+            this.currentApp = app;
         },
 
         /**
@@ -173,11 +185,72 @@
                                 evt.stopPropagation();
                             }
                         );
-                    }
+                    },
+                    beforeshow: this.onBeforeAppSwitcherShow,
+
+                    scope: this
                 }
             });
             this.initialiseAppsPanel();
         },
+
+        /**
+         * just before the apps panel is to be shown its a good moment to mark the current app as the active one
+         */
+        onBeforeAppSwitcherShow: function(){
+
+            var me = this,
+                appCoreUrl, appUrl;
+
+            //if there is no current app it means the hested app has not yet been loaded, or the app runs in a standalone mode and it is necessary to work out the app
+            //based on the url
+            if(this.currentApp === null){
+
+                var fixUrl = function(url, decode){
+                    if(decode)
+                    {
+                        url = decodeURIComponent(url);
+                    }
+
+                    //make sure the last ? and / are removed
+                    if(Ext.String.endsWith(url, '?')){
+                        url = url.substring(0, url.length - 1);
+                    }
+                    if(Ext.String.endsWith(url, '/')){
+                        url = url.substring(0, url.length - 1);
+                    }
+                    return url;
+                }
+
+                appCoreUrl = fixUrl(window.location.href.split('#')[0], true); //since taken from an address bar, make sure to decode it
+
+
+                Ext.Array.each(this.apps, function(a){
+
+                    console.warn(appCoreUrl, fixUrl(a.get('url').split('#')[0]));
+
+                    if(fixUrl(a.get('url').split('#')[0]) === appCoreUrl){
+                        me.currentApp = a;
+                        return false;
+                    }
+                });
+            }
+
+            //spin through the btns and mark the one for the currently active app!
+            Ext.Array.each(this.appSwitcherPanel.items.items, function(btn){
+                if(me.currentApp && btn.app.get('id') === me.currentApp.get('id')){
+                    //uhuh... got the one
+                    btn.setUI('red-button');
+                }
+                else {
+                    btn.setUI('green-button');
+                }
+                //Note - not breaking this loop as need to set / unset style on each btn of course!
+
+                //Note: perhaps should do something less dependant on the Azzurra theme at some point
+            });
+        },
+
 
         /**
          * Prepares the apps panel for the first use
