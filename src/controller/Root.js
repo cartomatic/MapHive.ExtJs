@@ -254,7 +254,16 @@
          * Sets up the application for an authenticated user
          */
         handleAuthenticatedUserStartup: function(){
-            throw "Uthenticated user setup not implemented yet!";
+
+            //user's identity is verified at this stage (albeit not known yet - only access token is present)
+            //because a user can work for different orgs, it is necessary to set up the app for a particular organisation so it works in a precise context
+            //the general flow here should therefore be following:
+            //1. obtain orgs for a user and if more than 1 as him to pick one; if one, pick it automatically, if none then a user is not yet assigned to an org at all
+            //2. when an org is known, pull apps for a user and when ready fire the root::launchapp evt
+            //3. app launcher will then take care of loading a default one (whatever the logic behind picking one is) if this is a host app, or will launch the app itself
+            //if the app runs in a standalone mode.
+
+            throw "Unauthenticated user setup not implemented yet!";
         },
 
 

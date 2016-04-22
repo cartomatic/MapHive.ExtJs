@@ -153,7 +153,7 @@
                     if(eData.initiator !== id && eData.recipient === id){
 
                         //<debug>
-                        console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'Handling incoming event from:', e.origin, eData);
+                        console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'LVL: ' + eData.currentLvl, 'Handling incoming event from: ' + e.origin, eData);
                         //</debug>
 
                         //soo, since got here broadcast this event locally
@@ -334,7 +334,7 @@
 
 
                 //<debug>
-                console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'Posting UP to:', parentOrigin, eData);
+                console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'LVL: ' + (eData.currentLvl - 1), 'Posting UP to: ' + parentOrigin, eData);
                 //</debug>
                 this.post(parent, parentOrigin, eData);
             }
@@ -365,7 +365,7 @@
                 eData.recipient = key;
 
                 //<debug>
-                console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'Posting DOWN to:', frame.origin, eData);
+                console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'LVL: ' + (eData.currentLvl + 1), 'Posting DOWN to: ' + frame.origin, eData);
                 //</debug>
                 this.post(frame.window, frame.origin, eData);
             }
