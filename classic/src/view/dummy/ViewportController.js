@@ -20,6 +20,8 @@
          */
         init: function() {
 
+            var me = this;
+
             this.watchGlobal('msgbus::xwindowtest', function(eData){
 
                 var el = Ext.get('msgbus_xwindowtest_feedback');
@@ -81,9 +83,16 @@
                     umbrellaApps.on(
                         'render',
                         function(){
+                            var tunnel = (new Date()).getTime();
+                            me.watchGlobal('root::appsretrieved', function(apps){
 
-                            document.getElementById('umbrella-iframe-1').src = 'https://app2.maphive.local/#some/hash/123/456|sidebyside:true|suppress-app-toolbar:true';
-                            document.getElementById('umbrella-iframe-2').src = 'https://app3.maphive.local/#sidebyside:true|suppress-app-toolbar:true';
+                                //since this is a demo, there should be 3 rec...
+
+                                document.getElementById('umbrella-iframe-1').src = apps[1].get('url').split('#')[0] + '#some/hash/123/456|sidebyside:true|suppress-app-toolbar:true';
+                                document.getElementById('umbrella-iframe-2').src = apps[2].get('url').split('#')[0] + '#sidebyside:true|suppress-app-toolbar:true';
+
+                            }, me, {single: true, tunnel: tunnel})
+                            me.fireGlobal('root::getapps', null, {tunnel: tunnel});
                         }
                     );
                 }
