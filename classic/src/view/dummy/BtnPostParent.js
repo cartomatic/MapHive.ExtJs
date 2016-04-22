@@ -12,7 +12,7 @@
     
         xtype: 'btn-postparent-test',
 
-    requires: [
+        requires: [
         'mh.communication.MsgBus'
     ],
 
@@ -22,8 +22,10 @@
             click: function(){
 
                 Ext.create('mh.communication.MsgBus').fireGlobal(
-                    'some_event_name',
-                    'some_event_data',
+                    'msgbus::xwindowtest',
+                    {
+                        origin: window.location.href
+                    },
                     {
                         suppressLocal: true,
                         host: true //if being hosted, will post msg to host

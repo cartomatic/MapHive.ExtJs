@@ -49,6 +49,8 @@
 
         /**
          * @property {boolean} [umbrella]
+         * indicates that an event is supposed to be passed to a parent window, that in return should redistribute it amongst the remaining child windows
+         * skipping the evt initiator window. event should not bubble nor be rebroadcasted locally at the parent level
          */
     });
 

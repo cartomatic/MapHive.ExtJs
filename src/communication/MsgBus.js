@@ -50,7 +50,7 @@
 
             //basically if there are eOpts, at the time being it means, the event should be broadcasted to parent window or to child frames
             //and obviously, the responsibility for handling it is on the MsgBusXFrame class
-            if(eOpts.host || eOpts.hosted){
+            if(eOpts.host || eOpts.hosted || eOpts.umbrella){
                 setTimeout(
                     function(){
                         Ext.GlobalEvents.fireEvent(

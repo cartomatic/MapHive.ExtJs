@@ -38,7 +38,7 @@
 
         //app's default route. if no alternative route is provided
         //this becomes the active route upon start
-        defaultToken : 'dashboard',
+        //defaultToken : 'dashboard',
 
         /**
          * The app launcher class that is initiated automatically after receiving a root::launchapp event

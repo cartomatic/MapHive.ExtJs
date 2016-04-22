@@ -159,8 +159,11 @@
                         //soo, since got here broadcast this event locally
                         //make sure though to not include the eOpts again - they will be used here to decide whether to bubble or drilldown
                         //no point in letting the MsgBus mince it on its own!
-                        this.fireGlobal(eData.eventName, eData.data);
-                        //Note - potentially should clone the data - the idea though is the listeners do not modify the incoming data
+                        //Note: when event is passed in the umbrella mode, it should not be rebroadcasted locally!
+                        if(eData.eOpts.umbrella !== true){
+                            this.fireGlobal(eData.eventName, eData.data);
+                            //Note - potentially should clone the data - the idea though is the listeners do not modify the incoming data
+                        }
 
                         //ok. now need to rebroadcast
 
@@ -175,13 +178,13 @@
                         allowedBubbleLevels  = (typeof eData.eOpts.bubble === 'number' ? Math.abs(eData.eOpts.bubble) : 0);
                         allowedDrilldownLevels  = (typeof eData.eOpts.drilldown === 'number' ? Math.abs(eData.eOpts.drilldown) : 0);
 
-                        console.warn('Allowed travel levels', allowedBubbleLevels, allowedDrilldownLevels);
-
                         if(goingDown){
                             //rebroadcasting to children
                             if(eData.eOpts.drilldown === true || (eData.eOpts.drilldown && Math.abs(eData.currentLvl) < allowedDrilldownLevels)){
                                 this.postDown(eData);
                             }
+
+                            //note: obviously umbrella opt does not work when going down
                         }
                         else {
                             //rebroadcasting to parent
@@ -190,7 +193,7 @@
                             }
 
                             //extra case of going up - child sent an event with the 'umbrella flag'
-                            //in this case the event does need to be bounced back, but only to children other than the sender!
+                            //in this case the event DOES need to be bounced back, but only to children other than the sender!
                             //this supports frame to frame communication within a hosting app. so child broadcasts an event to a parent and asks to distribute it
                             //amongst all the other possible children that possibly are around. This way a posting frame does not have to be aware of the other frames,
                             //their urls and such.
@@ -198,14 +201,17 @@
                             //- just advise own state change and forget about it; if there is any interested party that can digest my event it may reply. If on the other hand
                             //i can digest an event i will kick back in
                             if(eData.eOpts.umbrella === true){
-                                //need to wipe out some opts, so the event does not travel around in an unpredictable manner
+
+                                //basically the postMessage method responsible for redirecting events should  have cleaned up the options not allowed with the
+                                //umbrella mode. It may be the case though, the evt came from an app that has a xWindow msg bus implemented differently.
+                                //for such scenario need to wipe out the broadcasting opts, so the event does not travel around in an unpredictable manner
+                                delete eData.eOpts.host;
+                                delete eData.eOpts.hosted;
+                                delete eData.eOpts.umbrella;
+
+                                this.postDown(eData, eData.initiator); //umbrella - do not post to self!
                             }
-
                         }
-
-                        //TODO - also need an option to make the x window msg bus work as an umbrella between frames - this is a scenario, where it should be possible to receive an event from a child (so a UP going event) and rebroadcast it DOWN again, but omitting the event source. This is actually quite important!
-
-                        //umbrella - do not post to self!
                     }
                 }
             }
@@ -323,6 +329,17 @@
                 eOpts: e.eOpts
             };
 
+            if(e.eOpts.umbrella === true){
+                //send data to host
+                this.postUp(outEvtData);
+
+                //Note: not decided if umbrella mode should be mixed with any other mode at the same time.
+                //for the time being, when the event mode is umbrella it is not possible to fire same data to children and parent.
+                //one can always fire a couple of events if needed.
+                delete e.eOpts.host;
+                delete e.eOpts.hosted;
+            }
+
             if(e.eOpts.host === true){
                 //send data to host
                 this.postUp(outEvtData);
@@ -362,8 +379,9 @@
         /**
          * Posts a msg to registered iframes
          * @param {mh.communication.PostMessageEvtData'} eData
+         * @param {string} [suppressSenderId] id of a window that should not receive the event; used with the umbrella mode to suppress firing events back to evt sender
          */
-        postDown: function(eData){
+        postDown: function(eData, suppressSenderId){
 
             eData = eData || {};
             if(typeof eData.currentLvl !== 'number'){
@@ -378,15 +396,18 @@
                 key = keys[k];
                 frame=registeredIframes[key];
 
-                //Note: this is important so the incoming events can be always processed the very same way!
-                //in this case - if there are a couple of frames, each with the same origin, they will all hear the evt, so by passing the expected recipient
-                //identifier, it is now possible for recipient to verify if it should process the event or ignore it!
-                eData.recipient = key;
+                //make sure to suppress the postmsg if required
+                if(key != suppressSenderId){
+                    //Note: this is important so the incoming events can be always processed the very same way!
+                    //in this case - if there are a couple of frames, each with the same origin, they will all hear the evt, so by passing the expected recipient
+                    //identifier, it is now possible for recipient to verify if it should process the event or ignore it!
+                    eData.recipient = key;
 
-                //<debug>
-                console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'LVL: ' + (eData.currentLvl + 1), 'Posting DOWN to: ' + frame.origin, eData);
-                //</debug>
-                this.post(frame.window, frame.origin, eData);
+                    //<debug>
+                    console.log(this.cStdIcon('evt_xframe'), this.cDbgHdr('post msg'), 'LVL: ' + (eData.currentLvl + 1), 'Posting DOWN to: ' + frame.origin, eData);
+                    //</debug>
+                    this.post(frame.window, frame.origin, eData);
+                }
             }
         },
 
