@@ -102,6 +102,10 @@
          */
         prepareArgs: function(args){
 
+            if(Ext.isIE || Ext.isEdge){
+                return this.handleIeArgs(args);
+            }
+
             var stringArgs = [],
                 styleArgs = [],
                 nonStringArgs = [],
@@ -148,6 +152,27 @@
             }
 
             return [stringArgs.join(' ')].concat(styleArgs).concat(nonStringArgs);
+        },
+
+        handleIeArgs: function(args){
+            var outArgs = [],
+                a = 0, alen = args.length,
+                arg;
+
+            outArgs.push(this.getAppNameToken().replace('%c', ''));
+
+            for(a; a < alen; a++){
+                arg = args[a];
+                if(arg && typeof(arg) === 'string'){
+                    if(arg.indexOf('_s::') > -1){
+                        arg = arg.split('_s::')[0];
+                    }
+                }
+
+                outArgs.push(arg);
+            }
+
+            return outArgs;
         },
 
         /**
