@@ -7,7 +7,12 @@
     Ext.define('mh.view.dummy.Viewport', {
         extend: 'Ext.panel.Panel',
 
-        requires: [
+    requires: [
+        'mh.view.dummy.BtnPostChild',
+        'mh.view.dummy.BtnPostChildDrilldown',
+        'mh.view.dummy.BtnPostParent',
+        'mh.view.dummy.BtnPostParentBubble',
+        'mh.view.dummy.BtnPostUmbrella',
         'mh.view.dummy.ViewportController'
     ],
 
@@ -21,21 +26,7 @@
 
         title: (window.location.hash.indexOf('sidebyside:true') > -1 ? 'I am a "SideBySide" example of a hosted app running @' : 'I am a hosted app example running @') + ' <b>' + window.location.href + '</b>',
 
-    requires: [
-        'Ext.container.Container',
-        'Ext.form.field.Display',
-        'Ext.layout.container.HBox',
-        'Ext.layout.container.VBox',
-        'Ext.panel.Panel',
-        'Ext.plugin.Viewport',
-        'mh.communication.MsgBus',
-        'mh.view.dummy.BtnPostChild',
-        'mh.view.dummy.BtnPostChildDrilldown',
-        'mh.view.dummy.BtnPostParent',
-        'mh.view.dummy.BtnPostParentBubble',
-        'mh.view.dummy.BtnPostUmbrella',
-        'mh.view.dummy.ViewportController'
-    ],
+
 
     layout: {
             type: 'vbox',
