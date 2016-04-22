@@ -27,9 +27,6 @@
                     {
                         suppressLocal: true,
                         host: true //if being hosted, will post msg to host
-                        //hosted: true, //if hosting, will post msg to hosted
-                        //bubble: true, //just bubble the evt up the host stack
-                        //drilldown: true //just bubble the evt down the hosted stack
                     }
                 );
             }

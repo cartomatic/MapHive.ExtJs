@@ -47,8 +47,8 @@
                     'render',
                     function(){
 
-                        document.getElementById('umbrella-iframe-1').src = 'https://app1.maphive.local/#some/hash/123/456|sidebyside:true';
-                        document.getElementById('umbrella-iframe-2').src = 'https://app3.maphive.local/#sidebyside:true';
+                        document.getElementById('umbrella-iframe-1').src = 'https://app2.maphive.local/#some/hash/123/456|sidebyside:true|suppress-app-toolbar:true';
+                        document.getElementById('umbrella-iframe-2').src = 'https://app3.maphive.local/#sidebyside:true|suppress-app-toolbar:true';
                     }
                 );
             }

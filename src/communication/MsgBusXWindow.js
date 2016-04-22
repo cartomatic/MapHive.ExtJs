@@ -169,24 +169,43 @@
                         //so basically if the sender is same as parent id the event is traveling down (from parent to nested frames)
                         goingDown = eData.sender === parendId;
 
-                        //how many levels is allowed to rebroadcast? If not specified it just one, so effectively not rebroadcasting further
-                        allowedBubbleLevels  = (typeof eData.eOpts.bubble === 'number' ? Math.abs(eData.eOpts.bubble) : 1);
-                        allowedDrilldownLevels  = (typeof eData.eOpts.drilldown === 'number' ? Math.abs(eData.eOpts.drilldown) : 1);
+                        //how many levels is allowed to rebroadcast? If true all the way up or down,
+                        //if false or not a number cut the shit here
+                        //if a number then specifies ho far above the evt initiator an evt can travel
+                        allowedBubbleLevels  = (typeof eData.eOpts.bubble === 'number' ? Math.abs(eData.eOpts.bubble) : 0);
+                        allowedDrilldownLevels  = (typeof eData.eOpts.drilldown === 'number' ? Math.abs(eData.eOpts.drilldown) : 0);
+
+                        console.warn('Allowed travel levels', allowedBubbleLevels, allowedDrilldownLevels);
 
                         if(goingDown){
                             //rebroadcasting to children
-                            if(eData.eOpts.drilldown && eData.currentLvl < allowedDrilldownLevels){
+                            if(eData.eOpts.drilldown === true || (eData.eOpts.drilldown && Math.abs(eData.currentLvl) < allowedDrilldownLevels)){
                                 this.postDown(eData);
                             }
                         }
                         else {
                             //rebroadcasting to parent
-                            if(eData.eOpts.bubble && eData.currentLvl < allowedBubbleLevels){
+                            if(eData.eOpts.bubble === true || (eData.eOpts.bubble && Math.abs(eData.currentLvl) < allowedBubbleLevels)){
                                 this.postUp(eData);
                             }
+
+                            //extra case of going up - child sent an event with the 'umbrella flag'
+                            //in this case the event does need to be bounced back, but only to children other than the sender!
+                            //this supports frame to frame communication within a hosting app. so child broadcasts an event to a parent and asks to distribute it
+                            //amongst all the other possible children that possibly are around. This way a posting frame does not have to be aware of the other frames,
+                            //their urls and such.
+                            //It's pretty much a 'fire and forget' approach (as with all the post message variations here):
+                            //- just advise own state change and forget about it; if there is any interested party that can digest my event it may reply. If on the other hand
+                            //i can digest an event i will kick back in
+                            if(eData.eOpts.umbrella === true){
+                                //need to wipe out some opts, so the event does not travel around in an unpredictable manner
+                            }
+
                         }
 
                         //TODO - also need an option to make the x window msg bus work as an umbrella between frames - this is a scenario, where it should be possible to receive an event from a child (so a UP going event) and rebroadcast it DOWN again, but omitting the event source. This is actually quite important!
+
+                        //umbrella - do not post to self!
                     }
                 }
             }

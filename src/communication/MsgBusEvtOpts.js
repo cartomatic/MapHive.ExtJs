@@ -33,16 +33,22 @@
 
         /**
          * @property {Boolean|Number} [bubble]
-         * indicates whether or not events should be bubbled up the windows stack; when providing a boolean value it effectively means that an event chain will end when the
-         * fired event reaches a parent. Positive numbers specify the number of levels to travel up. 1 means the event bubbling will stop at the parent,
+         * indicates whether or not events should bubble up the windows stack;
+         * when providing a boolean true value it effectively means that an event will travel up to the top of the stack.
+         * Positive numbers specify the number of levels to travel up. 1 means the event bubbling will stop at the parent,
          * 2 at the parent's parent if any and so on.
          */
 
         /**
          * @property {Boolean|Number} [drilldown]
-         * indicates whether or not events should drill down the windows stack; when providing a boolean value it effectively means that an event chain will end when the
-         * fired event reaches a child (each child actually). Positive numbers specify the number of levels to travel down. 1 means the event drilldown will stop at the
+         * indicates whether or not events should drill down the windows stack;
+         * when providing a boolean true value it effectively means that an event will travel down to the bottom of the stack.
+         * Positive numbers specify the number of levels to travel down. 1 means the event drilldown will stop at the
          * child (each child), 2 at the child's children if any and so on.
+         */
+
+        /**
+         * @property {boolean} [umbrella]
          */
     });
 
