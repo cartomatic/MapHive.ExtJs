@@ -17,6 +17,7 @@
 xtype: 'btn-postchild-test',
 
         text: 'Post Message to child',
+        tooltip: 'this will make the event be heard within each direct child of the source window',
         margin: '0 10 0 0', //trbl
         listeners: {
             click: function(){

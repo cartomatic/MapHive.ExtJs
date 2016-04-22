@@ -17,6 +17,7 @@
         xtype: 'btn-postumbrella-test',
 
         text: 'Post Message to windows at the same level (use parent as an umbrella)',
+        tooltip:'This will request the parent to pass an event to another child.',
         margin: '0 10 0 0', //trbl
         listeners: {
             click: function(){

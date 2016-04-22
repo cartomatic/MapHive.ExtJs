@@ -17,6 +17,7 @@
     xtype: 'btn-postparentbubble-test',
 
         text: 'Post Message to Parent + bubble',
+        tooltip: 'this will make the event bubble up to the top of the windows stack',
         margin: '0 10 0 0', //trbl
         listeners: {
             click: function(){

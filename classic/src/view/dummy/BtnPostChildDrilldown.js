@@ -17,6 +17,7 @@
     ],
 
     text: 'Post Message to Child + drilldown',
+        tooltip: 'this will make the event drill down to the bottom of the windows stack',
         margin: '0 10 0 0', //trbl
         listeners: {
         click: function(){

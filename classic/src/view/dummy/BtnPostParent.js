@@ -17,6 +17,7 @@
     ],
 
     text: 'Post Message to Parent',
+        tooltip: 'this will fire an eent only visible to the parent',
         margin: '0 10 0 0', //trbl
         listeners: {
             click: function(){
