@@ -155,7 +155,7 @@
 
                     hashPart = hashParts[hp];
 
-                    if(hashPart.startsWith('at:') || hashPart.startsWith('suppress-app-toolbar:') || hashPart.startsWith('suppress-splash:')){
+                    if(Ext.String.startsWith(hashPart, 'at:') || Ext.String.startsWith(hashPart, 'suppress-app-toolbar:') || Ext.String.startsWith(hashPart, 'suppress-splash:')){
                         this.extractCustomHashParam(hashPart);
                     }
                     else {

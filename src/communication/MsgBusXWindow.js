@@ -144,7 +144,7 @@
                     allowedDrilldownLevels,
                     goingDown = false;
 
-                if(evtName.startsWith('handshake::')){
+                if(Ext.String.startsWith(evtName, 'handshake::')){
                     this.onHandShake(e);
                 }
                 else {
