@@ -10,13 +10,43 @@
     Ext.define('mh.view.dummy.ViewportController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.viewport',
-    
+
+        mixins: [
+            'mh.communication.MsgBus'
+        ],
+
         /**
          * Called when the view is created
          */
         init: function() {
 
+            this.watchGlobal('msgbus::xwindowtest', function(eData){
+
+                var el = Ext.get('msgbus_xwindowtest_feedback');
+                el.setHtml('[msgbus::xwindowtest] evt received from: ' + eData.origin);
+                el.animate({
+                    to: {
+                        duration: 250,
+                        backgroundColor: '#FECC00'
+                    },
+                    listeners: {
+                        afteranimate: function(){
+                            setTimeout(
+                                function(){
+                                    el.animate({
+                                        duration: 250,
+                                        backgroundColor: '#FFFFFF'
+                                    });
+                                },
+                                1500
+                            );
+                        }
+                    }
+                });
+            });
+
             var runningSideBySide = window.location.hash.indexOf('sidebyside:true') > -1,
+                suppressNestedApps = window.location.hash.indexOf('suppressnested:true') > -1,
                 umbrellaApps = this.lookupReference('umbrellaApps'),
                 btnPostParent = this.lookupReference('btnPostParent'),
                 btnPostParentBubble = this.lookupReference('btnPostParentBubble'),
@@ -37,20 +67,26 @@
                 //running as standalone, or nested, so need to wire up 2 nested umbrella com apps
                 //and show some btns
 
-                if(parent !== window){
+                if(suppressNestedApps){
+                    umbrellaApps.hide();
                     btnPostParent.show();
                 }
-
-                btnPostChild.show();
-
-                umbrellaApps.on(
-                    'render',
-                    function(){
-
-                        document.getElementById('umbrella-iframe-1').src = 'https://app2.maphive.local/#some/hash/123/456|sidebyside:true|suppress-app-toolbar:true';
-                        document.getElementById('umbrella-iframe-2').src = 'https://app3.maphive.local/#sidebyside:true|suppress-app-toolbar:true';
+                else {
+                    if(parent !== window){
+                        btnPostParent.show();
                     }
-                );
+
+                    btnPostChild.show();
+
+                    umbrellaApps.on(
+                        'render',
+                        function(){
+
+                            document.getElementById('umbrella-iframe-1').src = 'https://app2.maphive.local/#some/hash/123/456|sidebyside:true|suppress-app-toolbar:true';
+                            document.getElementById('umbrella-iframe-2').src = 'https://app3.maphive.local/#sidebyside:true|suppress-app-toolbar:true';
+                        }
+                    );
+                }
             }
         }
     });

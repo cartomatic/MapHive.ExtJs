@@ -46,7 +46,8 @@
             {
                 xtype: 'displayfield',
                 value: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....' +
-                '<br/><br/>The app url is: <b>' + window.location.href + '</b>'
+                '<br/><br/>The app url is: <b>' + window.location.href + '</b>' +
+                '<br/><br/><div id="msgbus_xwindowtest_feedback" style="height: 20px;"></div>',
             },
             {
                 xtype: 'panel',
