@@ -17,7 +17,9 @@
             { name: 'url', type: 'string', useNull: true },
             { name: 'useSplashscreen', type: 'boolean' },
 
-            { name: 'requiresAuth', type: 'boolean' }
+            { name: 'requiresAuth', type: 'boolean' },
+
+            { name: 'isDefault', type: 'boolean'}
 
             //more to come!
         ]

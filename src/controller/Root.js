@@ -309,6 +309,7 @@
 
             var app = this.app,
                 self = this.self,
+                appHash = 'app::'  + (app.get('shortName') || app.get('id')),
                 inUrl = app.get('url').split('#'),
                 url = inUrl[0],
                 hash = inUrl[1] ? [inUrl[1]] : [],
@@ -350,6 +351,9 @@
 
                 //app reload is about to start, so fire a app reload evt
                 self.fireGlobal('root::appreloadstart', app);
+
+                //update hash - this should set just an app hash at the host level
+                self.redirectTo(appHash);
 
                 //also, initiate the reload with a slight timeout, so there is time to kick in with any root::appreloadstart listeners
 

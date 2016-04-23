@@ -49,7 +49,7 @@
 
             //check if the tbar is visible, or it should be suppressed
             //if toolbar should be hidden, there is no point in triggering the full setup here, as the toolbar is not there anyway!
-            var tunnel = (new Date()).getTime();
+            var tunnel = this.getTunnelId();
 
             this.watchGlobal(
                 'root::customhashparam',
@@ -107,7 +107,7 @@
             this.getAppsInProgress = true;
 
             //wire up the root::appsretrieved listener - whenever new apps become available it will be necessary to update the app picker!
-            var tunnel = (new Date()).getTime();
+            var tunnel = this.getTunnelId();
             this.watchGlobal('root::appsretrieved', this.onAppsRetrieved, this, {single: true, tunnel: tunnel});
             this.fireGlobal('root::getapps', null, {tunnel: tunnel});
         },

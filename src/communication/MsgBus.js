@@ -105,8 +105,20 @@
             Ext.un(evtName, handler, scope);
         },
 
+        /**
+         * Toggles MsgBus evts logging on / off
+         * @param state
+         */
         toggleEventLogging: function(state){
             logEventsToConsole = !!state;
+        },
+
+        /**
+         * Shortcut to get a unique tunnel identifier
+         * @returns {number}
+         */
+        getTunnelId: function(){
+            return (new Date()).getTime();
         },
 
         /**

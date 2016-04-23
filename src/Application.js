@@ -99,6 +99,7 @@
             //Both toolkits need a main view. So this is crucial each toolkit has the same entry point!
             //in this case though, the GUI creation is delegated to toolkit specific code, not directly created here
             Ext.create(this.appLauncher);
+            //TODO - make sure the existing class exists. should be just a matter of testing the namespaces. In dev mode ExtJs will of course pull all the refs, but when built a ref in such cese may be missing. Making sure the class has been required at this stage is a good approach.
 
 
             //fire mhapp::loaded - make sure to fire it locally but also to parent if any
