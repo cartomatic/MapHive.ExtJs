@@ -47,8 +47,8 @@
                 });
             });
 
-            var runningSideBySide = window.location.hash.indexOf('sidebyside:true') > -1,
-                suppressNestedApps = window.location.hash.indexOf('suppressnested:true') > -1,
+            var runningSideBySide = window.location.href.indexOf('sidebyside=true') > -1,
+                suppressNestedApps = window.location.href.indexOf('suppressnested=true') > -1,
                 umbrellaApps = this.lookupReference('umbrellaApps'),
                 btnPostParent = this.lookupReference('btnPostParent'),
                 btnPostParentBubble = this.lookupReference('btnPostParentBubble'),
@@ -86,10 +86,41 @@
                             var tunnel = (new Date()).getTime();
                             me.watchGlobal('root::appsretrieved', function(apps){
 
+                                var modifyUrl = function(url){
+                                    var urlBase, urlParams = [], urlHash, urlParts;
+
+                                    if(url.indexOf('?') > -1){
+                                        urlParts = url.split('?');
+                                        urlBase = urlParts[0];
+
+                                        if(urlParts[1].indexOf('#') > -1){
+                                            urlParts = urlParts[1].split('#');
+                                            urlParams = urlParts[0].split('&');
+                                            urlHash = urlParts[1];
+                                        }
+                                        else {
+                                            urlParams = urlParts[1].split('&');
+                                        }
+                                    }
+                                    else {
+                                        //no params, maybe hash
+                                        urlParts = url.split('#');
+                                        urlBase = urlParts[0];
+                                        urlHash = urlParts[1];
+                                    }
+
+                                    urlParams.push('sidebyside=true');
+
+                                    urlHash = urlHash || '';
+                                    urlHash += ';suppress-app-toolbar:true';
+
+                                    return urlBase + (urlParams.length > 0? '?' + urlParams.join('&') : '') + (urlHash ? '#' + urlHash : '');
+                                }
+
                                 //since this is a demo, there should be 3 rec...
 
-                                document.getElementById('umbrella-iframe-1').src = apps[1].get('url').split('#')[0] + '#some/hash/123/456|sidebyside:true|suppress-app-toolbar:true';
-                                document.getElementById('umbrella-iframe-2').src = apps[2].get('url').split('#')[0] + '#sidebyside:true|suppress-app-toolbar:true';
+                                document.getElementById('umbrella-iframe-1').src = modifyUrl(apps[1].get('url').split('#')[0] + '#some/hash/123/456') ;
+                                document.getElementById('umbrella-iframe-2').src = modifyUrl(apps[2].get('url'));
 
                             }, me, {single: true, tunnel: tunnel})
                             me.fireGlobal('root::getapps', null, {tunnel: tunnel});

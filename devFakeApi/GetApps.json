@@ -3,13 +3,13 @@
     id: 'app1_id',
     shortName: 'app1',
     name: 'App 1',
-    url: 'https://app1.maphive.local/#some/hash/123/456|suppressnested:true',
+    url: 'https://app1.maphive.local/?suppressnested=true#some/hash/123/456',
 
   },
   {
     id: 'app2_id',
     name: 'App 2',
-    url: 'https://app2.maphive.local/?param=test param so can be sure paraterised app urls also work#suppressnested:true',
+    url: 'https://app2.maphive.local/?param=test param so can be sure paraterised app urls also work&suppressnested=true',
     useSplashscreen: true
   },
   {

@@ -33,7 +33,8 @@
             }
             console.log(sCallerName);
 
-
+            //err stack output in ff and chrome.
+            //https://developer.mozilla.org/en-US/docs/Web/API/Console/trace
 
             // var method;
             //

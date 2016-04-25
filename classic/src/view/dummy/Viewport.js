@@ -22,9 +22,9 @@
 
         border: false,
 
-        ui: window.location.hash.indexOf('sidebyside:true') > -1 ? 'orange-panel' : 'blue-panel',
+        ui: window.location.href.indexOf('sidebyside=true') > -1 ? 'orange-panel' : 'blue-panel',
 
-        title: (window.location.hash.indexOf('sidebyside:true') > -1 ? 'I am a "SideBySide" example of a hosted app running @' : 'I am a hosted app example running @') + ' <b>' + window.location.href + '</b>',
+        title: (window.location.href.indexOf('sidebyside=true') > -1 ? 'I am a "SideBySide" example of a hosted app running @' : 'I am a hosted app example running @') + ' <b>' + window.location.href + '</b>',
 
 
 

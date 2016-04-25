@@ -104,10 +104,60 @@
 
         /**
          * @property
-         * App name hash prefix; used in the url hash part to specify HOSTED application, that is / to be loaded by a HOST app
+         *
          * @private
          */
-        appHashPrefix: 'app::',
+        appHashPropertyName: 'a',
+
+        /**
+         * @propery {Object} appHashProperties
+         * @private
+         * hash properties
+         *
+         * @property {string} appHashProperties.app
+         * App name hash prefix; used in the url hash part to specify HOSTED application, that is / to be loaded by a HOST app
+         *
+         * @property {string} appHashProperties.route
+         * the actual app rpute passed between host and hosted
+         *
+         * @property {string} appHashProperties.accessToken
+         * access token as passed to the hosted app
+         *
+         * @property {string} appHashProperties.suppressAppToolbar
+         * suppress app toolbar
+         *
+         * @property {string} appHashProperties.suppressSplash
+         * suppress splash
+         */
+        appHashProperties: {
+            app: 'a',
+            route: 'r',
+            accessToken: 'at',
+            suppressAppToolbar: 'suppress-app-toolbar',
+            suppressSplash: 'suppress-splash'
+        },
+
+        /**
+         * @property
+         * @private
+         * hash param delimiter - used to split different hash params - for example a:app1;r:some/route
+         */
+        hashPropertyDelimiter: ';',
+
+        /**
+         * @property
+         * @private
+         * used to separate has property name and value - for example p1:v1
+         */
+        hashPropertyValueDelimiter: ':',
+
+        listen: {
+            controller: {
+                '#': {
+                    unmatchedroute: 'onUnmatchedRoute'
+                }
+            }
+        },
 
         /**
          * initializes controller
@@ -146,7 +196,7 @@
         },
 
         /**
-         * Extracts custom params from hash, and reassembles it
+         * Extracts custom params from hash, and reassembles hash back without the custom params
          */
         extractTempParamsFromHash: function(){
 
@@ -155,22 +205,28 @@
                 hash = urlParts[1],
 
                 hashParts, hp, hplen, hashPart,
-                outHashParts, outHash;
+                outHashParts, outHash,
+
+                at, sat, sspl;
 
             //only kick in if there was a hash part. otherwise there is no point really ;)
             if(hash){
 
                 outHashParts = [];
-                hashParts = hash.split('|');
+                hashParts = hash.split(this.hashPropertyDelimiter);
                 hp = 0;
-                hplen = hashParts.length;
+                hplen = hashParts.length,
+
+                at = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.accessToken),
+                sat = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressAppToolbar),
+                sspl = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressSplash);
 
 
                 for(hp; hp < hplen; hp++){
 
                     hashPart = hashParts[hp];
 
-                    if(Ext.String.startsWith(hashPart, 'at:') || Ext.String.startsWith(hashPart, 'suppress-app-toolbar:') || Ext.String.startsWith(hashPart, 'suppress-splash:')){
+                    if(Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, sat) || Ext.String.startsWith(hashPart, sspl)){
                         this.extractCustomHashParam(hashPart);
                     }
                     else {
@@ -178,7 +234,7 @@
                     }
                 }
 
-                outHash = outHashParts.join('|');
+                outHash = outHashParts.join(this.hashPropertyDelimiter);
 
                 if(hash && hash !== outHash){
 
@@ -197,7 +253,7 @@
          * @param input
          */
         extractCustomHashParam: function(input){
-            var inputSplit = input.split(':');
+            var inputSplit = input.split(this.hashPropertyValueDelimiter);
             if(!this.customHashParams)
             {
                 this.customHashParams = {};
@@ -291,6 +347,10 @@
             this.fireGlobal('root::getapps', null, {tunnel: tunnel});
         },
 
+        getHashPropertyNameWithValueDelimiter: function(pName){
+            return pName + this.hashPropertyValueDelimiter;
+        },
+
         /**
          * Responsible for loading a hosted application; listens to tunnelled root::appsretrieved
          * @param {mh.data.model.App;lication[]} apps
@@ -299,25 +359,26 @@
         loadHostedApp: function(apps){
 
             //the thing here is to load an appropriate application:
-            //* app can be specified by a shortname or id in the hash - this.appHashPrefix(shortname || uuid);
-            //  the default value of the appHashPrefix is app::, therefore an example of url hash app specifier is app:app_name_or_id;
+            //* app can be specified by a shortname or id in the hash - this.appHashProperties.app this.hashPropertyValueDelimiter (shortname || uuid);
+            //  the default value of the appHashPropertyName is 'a', and hashPropertyValueDelimiter ':' therefore an example of url hash app specifier is a:app_name_or_id;
             //  in this case it is necessary to look the app up
             //* if an app is not specified via hash one of the apps may have a 'isDefault' flag - in such need to pick the first one
             //* if there are no apps with the default flag, then need to pick the first one
 
             var rawHash = window.location.hash.substring(1),
-                hashparts = rawHash.split('|'),
+                hashparts = rawHash.split(this.hashPropertyDelimiter),
                 h = 0, hlen = hashparts.length,
                 hash,
                 appNameOrId,
                 app, a = 0, alen = apps.length,
-                appToLoad;
+                appToLoad,
+                appPropName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.app);
 
             //extract the app identifier off the hash
             for(h; h < hlen; h++){
                 hash = hashparts[h];
-                if(hash.indexOf(this.appHashPrefix) === 0){
-                    appNameOrId = hash.replace(this.appHashPrefix, '');
+                if(hash.indexOf(appPropName) === 0){
+                    appNameOrId = hash.replace(appPropName, '');
                     break;
                 }
             }
@@ -336,10 +397,10 @@
 
                         //grab an url without the hash part (if any)
                         var url = appToLoad.get('url').split('#')[0],
-                            customHash =  rawHash.replace(this.appHashPrefix + appNameOrId, '');
+                            customHash =  rawHash.replace(this.getHashPropertyNameWithValueDelimiter() + appNameOrId, '');
 
-                        //make sure hash does not start with a pipe; it would mean it's an empty route
-                        if(customHash.indexOf('|') === 0){
+                        //make sure hash does not start with a hash property delimiter;
+                        if(customHash.indexOf(this.hashPropertyDelimiter) === 0){
                             customHash = customHash.substring(1);
                         }
 
@@ -419,11 +480,13 @@
                 inUrl = app.get('url').split('#'),
                 url = inUrl[0],
                 hash = inUrl[1] ? [inUrl[1]] : [],
-                appHash = this.appHashPrefix  + (app.get('shortName') || app.get('id')) + (hash.length > 0 ? '|' + hash.join('|') : ''),
+                appHash =
+                    self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.app) + (app.get('shortName') || app.get('id')) +
+                    (hash.length > 0 ? self.hashPropertyDelimiter + self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.route) + inUrl[1] : ''),
+
                 urlParts = url.split('?'),
                 baseUrl = urlParts[0],
                 params = urlParts[1] ? urlParts[1].split('&') : [],
-
 
                 iframe = document.getElementById(self.iframeId),
 
@@ -440,19 +503,19 @@
             // params.push('suppress-app-toolbar=true');
             // params.push('suppress-splash=true');
 
-            hash.push('at:' + accessToken);
+            hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.accessToken) + accessToken);
             if(iframe){
-                hash.push('suppress-app-toolbar:true');
+                hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.suppressAppToolbar) + 'true');
 
                 //use app's splash if required to do so
                 //when hosting the apps in an iframe, it is ok to not use the app's splash screen but use own, customised one instead
                 //this is the default behavior. An application can be configured to use own splash instead though. In such case use it indeed
                 if(!useSplashscreen){
-                    hash.push('suppress-splash:true');
+                    hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.suppressSplash) + 'true');
                 }
             }
 
-            destinationUrl = baseUrl + '?' + (params.length > 0 ? params.join('&') : '') + (hash.length > 0 ? '#' + hash.join('|') : '') ;
+            destinationUrl = baseUrl + (params.length > 0 ? '?' + params.join('&') : '') + (hash.length > 0 ? '#' + hash.join(self.hashPropertyDelimiter) : '') ;
 
             if(iframe){
 
@@ -570,6 +633,16 @@
          */
         onGetAppsFailure: function(){
             throw 'OOOPS, it was not possible to pull the apps. will have to handle this scenario at some point!'
+        },
+
+        /**
+         * Unmatched / all the routes collector
+         * @param hash
+         */
+        onUnmatchedRoute: function(hash){
+            console.warn('UnmatchedRoute@ROOT', hash);
+
+            //depending on the scenario - /split on pipe and extract the
         }
 
     });
