@@ -47,6 +47,35 @@
                 });
             });
 
+            //this is the xWindow router messaging demo functionality
+            this.watchGlobal('root::applyexternalroute', function(newRoute){
+
+                //update a temp hash text box to
+                this.lookup('hashTextBox').setValue(newRoute);
+
+                var el = Ext.get('msgbus_xwindowroutertest_feedback');
+                el.setHtml('[root::applyexternalroute] ' + newRoute);
+                el.animate({
+                    to: {
+                        duration: 250,
+                        backgroundColor: '#FECC00'
+                    },
+                    listeners: {
+                        afteranimate: function(){
+                            setTimeout(
+                                function(){
+                                    el.animate({
+                                        duration: 250,
+                                        backgroundColor: '#FFFFFF'
+                                    });
+                                },
+                                1000
+                            );
+                        }
+                    }
+                });
+            }, this);
+
             var runningSideBySide = window.location.href.indexOf('sidebyside=true') > -1,
                 suppressNestedApps = window.location.href.indexOf('suppressnested=true') > -1,
                 umbrellaApps = this.lookupReference('umbrellaApps'),
@@ -128,6 +157,11 @@
                     );
                 }
             }
+        },
+
+        onSendHashToHost: function(){
+            //this will trigger the standard hash handling!
+            window.location.hash = this.lookup('hashTextBox').getValue();
         }
     });
 

@@ -90,6 +90,23 @@
          */
 
         /**
+         * root:watchexternalroutes
+         * @param {object} cfg
+         * @param {boolean} cfg.host
+         * watch host window route changes; advice own changes to host
+         * @param {boolean} cfg.hosted
+         * watch hosted window route changes; advise own changes to hosted window
+         *
+         * this is actually a watched event. it should be fired by the components that need to obtain custom hash params data off this controller
+         */
+
+        /**
+         * root::applyexternalroute
+         * @param {string} newRoute
+         * fired in order to apply an external route at parent or child level
+         */
+
+        /**
          * Id of an iframe that hosts the apps
          * @private
          */
@@ -151,14 +168,6 @@
          */
         hashPropertyValueDelimiter: ':',
 
-        listen: {
-            controller: {
-                '#': {
-                    unmatchedroute: 'onUnmatchedRoute'
-                }
-            }
-        },
-
         /**
          * initializes controller
          */
@@ -182,6 +191,8 @@
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this, {single: true});
 
             this.watchGlobal('root::getapps', this.onGetApps, this);
+
+            this.watchGlobal('root:watchexternalroutes', this.initXWindowRouteWatch, this);
         },
 
         onLaunch: function(){
@@ -365,23 +376,37 @@
             //* if an app is not specified via hash one of the apps may have a 'isDefault' flag - in such need to pick the first one
             //* if there are no apps with the default flag, then need to pick the first one
 
-            var rawHash = window.location.hash.substring(1),
+            var me = this,
+
+                rawHash = window.location.hash.substring(1),
                 hashparts = rawHash.split(this.hashPropertyDelimiter),
                 h = 0, hlen = hashparts.length,
                 hash,
-                appNameOrId,
+
+
                 app, a = 0, alen = apps.length,
                 appToLoad,
-                appPropName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.app);
 
-            //extract the app identifier off the hash
-            for(h; h < hlen; h++){
-                hash = hashparts[h];
-                if(hash.indexOf(appPropName) === 0){
-                    appNameOrId = hash.replace(appPropName, '');
-                    break;
-                }
-            }
+                //extracts a hash property value off the hash
+                extractHashProp = function(pName){
+                    h = 0;
+
+                    var ret = null,
+                        pWithDelimiter = me.getHashPropertyNameWithValueDelimiter(pName);
+
+                    //extract the app identifier off the hash
+                    for(h; h < hlen; h++){
+                        hash = hashparts[h];
+                        if(hash.indexOf(pWithDelimiter) === 0){
+                            ret = hash.replace(pWithDelimiter, '');
+                            break;
+                        }
+                    }
+                    return ret;
+                },
+
+                appNameOrId = extractHashProp(this.appHashProperties.app);
+
 
             //search for app by its shortname or uuid
             if(appNameOrId){
@@ -397,12 +422,13 @@
 
                         //grab an url without the hash part (if any)
                         var url = appToLoad.get('url').split('#')[0],
-                            customHash =  rawHash.replace(this.getHashPropertyNameWithValueDelimiter() + appNameOrId, '');
 
-                        //make sure hash does not start with a hash property delimiter;
-                        if(customHash.indexOf(this.hashPropertyDelimiter) === 0){
-                            customHash = customHash.substring(1);
-                        }
+                            //route hash param contains a route that should be used to load a child with proper context
+                            customHash = this.decodePipedRoute(extractHashProp(this.appHashProperties.route));
+
+                        //in a case multiple routes are supported - make them pipes, so the ExtJs router can recognised them
+                        //they are encoded at the parent (HOST) level, so a host app always deals with single unmatched route!
+
 
                         //set the url with the hash extracted from the address bar
                         appToLoad.set(
@@ -433,6 +459,27 @@
             }
 
             this.fireGlobal('root::reloadapp', appToLoad);
+        },
+
+
+        decodePipedRouteRegex: /___/g,
+
+        encodePipedRouteRegex: /\|/g,
+
+        /**
+         * Decodes a piped (multi) route so can use a proper url when redirecting
+         * @param route
+         */
+        decodePipedRoute: function(route){
+            return route.replace(this.decodePipedRouteRegex, '|');
+        },
+
+        /**
+         * Encodes a piepd (multi) route, so a HOST app can always work with a single route
+         * @param route
+         */
+        encodePipedRoute: function(route){
+            return route.replace(this.encodePipedRouteRegex, '___');
         },
 
         /**
@@ -636,13 +683,129 @@
         },
 
         /**
+         * xWindow route watch configuration object as passed through the root:watchexternalroutes event
+         * @private
+         */
+        xWindowRouteWatchCfg: null,
+
+        /**
+         * root:watchexternalroutes callback; starts an XFrame Route watch
+         * @private
+         * @param cfg {Object}
+         * @param {boolean} [cfg.host]
+         * watch route changes advised through postMessage by a parent window (HOST)
+         * @param {boolean} [cfg.hosted]
+         * watch route changes advised through postMessage by a child window (HOSTED)
+         */
+        initXWindowRouteWatch: function(cfg){
+
+            this.xWindowRouteWatchCfg = cfg || {};
+
+            //monitor all own hash changes
+            this.listen({
+                controller: {
+                    '#': {
+                        unmatchedroute: this.onUnmatchedRoute
+                    }
+                }
+            });
+
+            //watch events fired by a host or hosted
+            this.watchGlobal('root::applyexternalroute', this.onApplyExternalRoute, this);
+        },
+
+
+        /**
+         * @property {string} external route being applied. used to check if should skip unmatched route processing
+         * Whether or not an external route is being currently applied
+         * @private
+         */
+        applyingExternalRoute: false,
+
+        /**
+         * root::applyexternalroute listener. applies new route
+         * @param newRoute
+         */
+        onApplyExternalRoute: function(newRoute){
+
+            //if this is a host mode, need to update just the route (r:) param!
+            //Note: testing for hosted property because hosted means pass xwindow msg to hosted window - this is exactly as in mh.communication.MsgBusEvtOpts
+            //and since I am passing to hosted i am a host
+            if(this.xWindowRouteWatchCfg.hosted){
+
+                var hashParams = window.location.hash.substring(1).split(this.hashPropertyDelimiter),
+                    hp = 0, hplen = hashParams.length,
+                    pName;
+
+                for(hp; hp < hplen; hp++){
+                    pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
+                    if(hashParams[hp].indexOf(pName) === 0){
+                        //need to encode the incomimng route, so the rputer at the host level does not kick in multiple times. it must handle the route once only there!
+                        hashParams[hp] = pName + this.encodePipedRoute(newRoute);
+                        break;
+                    }
+                }
+                newRoute = hashParams.join(this.hashPropertyDelimiter);
+            }
+
+            if(this.lastRoute !== newRoute){
+                this.applyingExternalRoute = newRoute;
+                this.lastRoute = newRoute;
+
+                window.location.hash = newRoute;
+            }
+
+        },
+
+        /**
+         * Last collected route
+         */
+        lastRoute: null,
+        
+        /**
          * Unmatched / all the routes collector
          * @param hash
          */
         onUnmatchedRoute: function(hash){
-            console.warn('UnmatchedRoute@ROOT', hash);
 
-            //depending on the scenario - /split on pipe and extract the
+            //Note: router is evt based and kicks in after a hash changes. therefore using internal flags will not work here
+            //because of that, when applying an external route, the incoming route is saved to a var, and then whenever a hash is same the further processing is ignored
+            if(this.applyingExternalRoute === hash){
+                this.applyingExternalRoute = null;
+                return;
+            }
+
+            //Note:
+            //the idea here is to intercept every single route, and fire it either up or down cross window, so parent / child routes can be maintained properly
+
+            //Note: in order to support multiple / piped routes, need to grab the hash off the window.location.hash. This is so the route is complete
+            //because the router will fire for each route separately
+
+            var newRoute = window.location.hash.substring(1);
+
+            //if this is a host mode, need to extract a route off the hash, as it is under a r: param!
+            //Note: testing for hosted property because hosted means pass xwindow msg to hosted window - this is exactly as in mh.communication.MsgBusEvtOpts
+            //and since I am passing to hosted i am a host
+            if(this.xWindowRouteWatchCfg.hosted){
+                var hashParams = newRoute.split(this.hashPropertyDelimiter),
+                    hashParam,
+                    hp = 0, hplen = hashParams.length,
+                    pName;
+                for(hp; hp < hplen; hp++){
+                    hashParam = hashParams[hp];
+                    pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
+                    if(hashParam.indexOf(pName) === 0){
+                        //this is a parent sending a route to a child. so if a multi route - decode it, so rpouter at child level recognises separate rputes
+                        newRoute = this.decodePipedRoute(hashParam.replace(pName, ''));
+                        break;
+                    }
+                }
+            }
+
+            if(this.lastRoute !== newRoute){
+                this.lastRoute = newRoute;
+                this.fireGlobal('root::applyexternalroute', newRoute, {suppressLocal: true, host: this.xWindowRouteWatchCfg.host, hosted: this.xWindowRouteWatchCfg.hosted});
+            }
         }
 
     });
