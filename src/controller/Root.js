@@ -34,6 +34,12 @@
          */
 
         /**
+         * @event root::loadhostedapp
+         * takes care of loading a default hosted app; tries to obtain the app off the hash, then a default to fallback for the first app in the apps collection
+         * this is actually a watched event. it should be fired by the components that need to pass data to this controller
+         */
+
+        /**
          * @event root::reloadapp
          * @param {mh.data.model.Application} app - app to redirect to
          * this is actually a watched event. it should be fired by the components that need to pass data to this controller
@@ -97,6 +103,13 @@
         customHashParams: null,
 
         /**
+         * @property
+         * App name hash prefix; used in the url hash part to specify HOSTED application, that is / to be loaded by a HOST app
+         * @private
+         */
+        appHashPrefix: 'app::',
+
+        /**
          * initializes controller
          */
         init: function(){
@@ -108,6 +121,8 @@
 
             //setup the required evt listeners
             this.watchGlobal('root::getcustomhashparam', this.onGetCustomHashParam, this);
+
+            this.watchGlobal('root::loadhostedapp', this.onLoadHostedApp, this);
 
             this.watchGlobal('root::reloadapp', this.onAppReload, this);
             this.watchGlobal('root::setuphostiframe', this.onSetupHostIframe, this);
@@ -266,6 +281,98 @@
             throw "Unauthenticated user setup not implemented yet!";
         },
 
+        /**
+         * root::loadhostedapp callback; loads an appropriate hosted app
+         */
+        onLoadHostedApp: function(){
+            //get the apps off the root
+            var tunnel = this.getTunnelId();
+            this.watchGlobal('root::appsretrieved', this.loadHostedApp, this, {single: true, tunnel: tunnel});
+            this.fireGlobal('root::getapps', null, {tunnel: tunnel});
+        },
+
+        /**
+         * Responsible for loading a hosted application; listens to tunnelled root::appsretrieved
+         * @param {mh.data.model.App;lication[]} apps
+         * apps available in the environment
+         */
+        loadHostedApp: function(apps){
+
+            //the thing here is to load an appropriate application:
+            //* app can be specified by a shortname or id in the hash - this.appHashPrefix(shortname || uuid);
+            //  the default value of the appHashPrefix is app::, therefore an example of url hash app specifier is app:app_name_or_id;
+            //  in this case it is necessary to look the app up
+            //* if an app is not specified via hash one of the apps may have a 'isDefault' flag - in such need to pick the first one
+            //* if there are no apps with the default flag, then need to pick the first one
+
+            var rawHash = window.location.hash.substring(1),
+                hashparts = rawHash.split('|'),
+                h = 0, hlen = hashparts.length,
+                hash,
+                appNameOrId,
+                app, a = 0, alen = apps.length,
+                appToLoad;
+
+            //extract the app identifier off the hash
+            for(h; h < hlen; h++){
+                hash = hashparts[h];
+                if(hash.indexOf(this.appHashPrefix) === 0){
+                    appNameOrId = hash.replace(this.appHashPrefix, '');
+                    break;
+                }
+            }
+
+            //search for app by its shortname or uuid
+            if(appNameOrId){
+                for(a; a < alen; a++){
+                    app = apps[a];
+                    if(app.get('shortName') === appNameOrId || app.get('id') === appNameOrId){
+
+                        //create a clone! do not want to modify the original data!
+                        appToLoad = Ext.create(Ext.getClassName(app), app.getData());
+
+                        //since the app has been extracted from hash, it is necessary to pass the hash to the app when loading it
+                        //an app will then communicate the hash through postMsg, so it will be possible to update it url bar over here too
+
+                        //grab an url without the hash part (if any)
+                        var url = appToLoad.get('url').split('#')[0],
+                            customHash =  rawHash.replace(this.appHashPrefix + appNameOrId, '');
+
+                        //make sure hash does not start with a pipe; it would mean it's an empty route
+                        if(customHash.indexOf('|') === 0){
+                            customHash = customHash.substring(1);
+                        }
+
+                        //set the url with the hash extracted from the address bar
+                        appToLoad.set(
+                            'url',
+                            url + '#' + customHash
+                        );
+
+                        break;
+                    }
+                }
+            }
+
+            //get a default app
+            if(!appToLoad){
+                a = 0;
+                for(a; a < alen; a++){
+                    app = apps[a];
+                    if(app.get('isDefault') === true){
+                        appToLoad = app;
+                        break;
+                    }
+                }
+            }
+
+            //if failed to find the app to load, just pick the first one
+            if(!appToLoad){
+                appToLoad = apps[0];
+            }
+
+            this.fireGlobal('root::reloadapp', appToLoad);
+        },
 
         /**
          * root::reloadapp evt listener
@@ -309,10 +416,10 @@
 
             var app = this.app,
                 self = this.self,
-                appHash = 'app::'  + (app.get('shortName') || app.get('id')),
                 inUrl = app.get('url').split('#'),
                 url = inUrl[0],
                 hash = inUrl[1] ? [inUrl[1]] : [],
+                appHash = this.appHashPrefix  + (app.get('shortName') || app.get('id')) + (hash.length > 0 ? '|' + hash.join('|') : ''),
                 urlParts = url.split('?'),
                 baseUrl = urlParts[0],
                 params = urlParts[1] ? urlParts[1].split('&') : [],
