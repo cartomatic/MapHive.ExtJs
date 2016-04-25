@@ -613,7 +613,7 @@
         onGetApps: function(e, tunnel){
 
             if(this.apps){
-                this.fireGlobal(this.getTunneledEvtName('root::getapps', tunnel), this.apps);
+                this.fireGlobal(this.getTunneledEvtName('root::appsretrieved', tunnel), this.apps);
                 return;
             }
 

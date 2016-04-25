@@ -25,13 +25,13 @@
 
             console.warn('stack', stack);
 
-            var sCallerName;
-            {
-                let re = /(\w+)@|at (\w+) \(/g;
-                let aRegexResult = re.exec(new Error().stack);
-                sCallerName = aRegexResult[1] || aRegexResult[2];
-            }
-            console.log(sCallerName);
+            // var sCallerName;
+            // {
+            //     let re = /(\w+)@|at (\w+) \(/g;
+            //     let aRegexResult = re.exec(new Error().stack);
+            //     sCallerName = aRegexResult[1] || aRegexResult[2];
+            // }
+            // console.log(sCallerName);
 
             //err stack output in ff and chrome.
             //https://developer.mozilla.org/en-US/docs/Web/API/Console/trace
@@ -56,7 +56,7 @@
             return (method = this.callSuper.caller) &&
                 ((method = method.$owner ? method : method.caller) &&
                 method.$owner.superclass.self[method.$name]).apply(this, args || noArgs);
-        },
+        }
     });
 
 }());
