@@ -5,7 +5,7 @@
     'use strict';
 
     /**
-     * Created by domin on 4/22/2016.
+     * This is a simplistic example of a hosted app view. it simply sets up some 
      */
     Ext.define('mh.view.dummy.ViewportController', {
         extend: 'Ext.app.ViewController',

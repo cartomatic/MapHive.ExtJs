@@ -5,7 +5,7 @@
     'use strict';
 
     /**
-     * Created by domin on 4/22/2016.
+     * Example of a button sending an xwindow msgbus::xwindowtest to host windows in bubble mode
      */
     Ext.define('mh.view.dummy.BtnPostParentBubble', {
         extend: 'Ext.button.Button',

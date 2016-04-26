@@ -4,19 +4,22 @@
     //Make sure strict mode is on
     'use strict';
 
+    /**
+     * Dummy hosted app viewport with some basic examples of xWindow communication + xWindow hash exchange
+     */
     Ext.define('mh.view.dummy.Viewport', {
         extend: 'Ext.panel.Panel',
 
-    requires: [
-        'mh.view.dummy.BtnPostChild',
-        'mh.view.dummy.BtnPostChildDrilldown',
-        'mh.view.dummy.BtnPostParent',
-        'mh.view.dummy.BtnPostParentBubble',
-        'mh.view.dummy.BtnPostUmbrella',
-        'mh.view.dummy.ViewportController'
-    ],
+        requires: [
+            'mh.view.dummy.BtnPostChild',
+            'mh.view.dummy.BtnPostChildDrilldown',
+            'mh.view.dummy.BtnPostParent',
+            'mh.view.dummy.BtnPostParentBubble',
+            'mh.view.dummy.BtnPostUmbrella',
+            'mh.view.dummy.ViewportController'
+        ],
 
-    plugins: 'viewport',
+        plugins: 'viewport',
 
         controller: 'viewport',
 
@@ -28,12 +31,12 @@
 
 
 
-    layout: {
+        layout: {
             type: 'vbox',
             align: 'stretch'
         },
 
-    items: [
+        items: [
             {
                 xtype: 'displayfield',
                 value: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....' +

@@ -5,7 +5,7 @@
     'use strict';
 
     /**
-     * Created by domin on 4/22/2016.
+     * Example of a button sending an xwindow msgbus::xwindowtest to hosted windows in drilldown mode
      */
     Ext.define('mh.view.dummy.BtnPostChildDrilldown', {
         extend: 'Ext.button.Button',

@@ -716,14 +716,13 @@
 
 
         /**
-         * @property {string} external route being applied. used to check if should skip unmatched route processing
-         * Whether or not an external route is being currently applied
+         * @property {string} external route being applied. An external route is a a route passed fromanother window. used to check if should skip unmatched route processing
          * @private
          */
-        applyingExternalRoute: false,
+        externalRoute: false,
 
         /**
-         * root::applyexternalroute listener. applies new route
+         * root::applyexternalroute listener. applies new exrternal route
          * @param newRoute
          */
         onApplyExternalRoute: function(newRoute){
@@ -740,7 +739,7 @@
                 for(hp; hp < hplen; hp++){
                     pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
                     if(hashParams[hp].indexOf(pName) === 0){
-                        //need to encode the incomimng route, so the rputer at the host level does not kick in multiple times. it must handle the route once only there!
+                        //need to encode the incoming route, so the router at the host level does not kick in multiple times. it must handle the route once only there!
                         hashParams[hp] = pName + this.encodePipedRoute(newRoute);
                         break;
                     }
@@ -749,8 +748,12 @@
             }
 
             if(this.lastRoute !== newRoute){
-                this.applyingExternalRoute = newRoute;
+                this.externalRoute = newRoute;
                 this.lastRoute = newRoute;
+
+                //Note: need to use an extra var here, so can ignore external routes in the 'unmatched' routes listener.
+                //the point is the router kicks in asynchronously, so changing hash below, even though happens immediately itself, triggers the router callbacks
+                //with a slight delay
 
                 window.location.hash = newRoute;
             }
@@ -768,10 +771,11 @@
          */
         onUnmatchedRoute: function(hash){
 
-            //Note: router is evt based and kicks in after a hash changes. therefore using internal flags will not work here
-            //because of that, when applying an external route, the incoming route is saved to a var, and then whenever a hash is same the further processing is ignored
-            if(this.applyingExternalRoute === hash){
-                this.applyingExternalRoute = null;
+            //Note: router is evt based and kicks in after a hash changes. therefore using internal flags will not work here as they will change back well before
+            //router callbacks kick in.
+            //because of that, when applying an external route, the incoming route is saved to a var, and then whenever a hash is the same the further processing is ignored
+            if(this.externalRoute === hash){
+                this.externalRoute = null;
                 return;
             }
 
@@ -795,13 +799,14 @@
                     hashParam = hashParams[hp];
                     pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
                     if(hashParam.indexOf(pName) === 0){
-                        //this is a parent sending a route to a child. so if a multi route - decode it, so rpouter at child level recognises separate rputes
+                        //this is a parent sending a route to a child. so if a multi route - decode it, so router at child level recognises separate routes
                         newRoute = this.decodePipedRoute(hashParam.replace(pName, ''));
                         break;
                     }
                 }
             }
 
+            //Router may kick in for current url part / hash when forced to. need to make sure unchanged routes are not rebroadcasted
             if(this.lastRoute !== newRoute){
                 this.lastRoute = newRoute;
                 this.fireGlobal('root::applyexternalroute', newRoute, {suppressLocal: true, host: this.xWindowRouteWatchCfg.host, hosted: this.xWindowRouteWatchCfg.hosted});
