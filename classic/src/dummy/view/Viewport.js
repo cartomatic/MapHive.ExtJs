@@ -11,18 +11,19 @@
         extend: 'Ext.panel.Panel',
 
     requires: [
+        'mh.dummy.view.BtnModalModeStart',
+        'mh.dummy.view.BtnPostChild',
         'mh.dummy.view.BtnPostChild',
         'mh.dummy.view.BtnPostChildDrilldown',
+        'mh.dummy.view.BtnPostChildDrilldown',
         'mh.dummy.view.BtnPostParent',
+        'mh.dummy.view.BtnPostParent',
+        'mh.dummy.view.BtnPostParentBubble',
         'mh.dummy.view.BtnPostParentBubble',
         'mh.dummy.view.BtnPostUmbrella',
+        'mh.dummy.view.BtnPostUmbrella',
         'mh.dummy.view.ViewportController',
-        'mh.dummy.view.ViewportController',
-        'mh.dummy.view.BtnPostChild',
-        'mh.dummy.view.BtnPostChildDrilldown',
-        'mh.dummy.view.BtnPostParent',
-        'mh.dummy.view.BtnPostParentBubble',
-        'mh.dummy.view.BtnPostUmbrella'
+        'mh.dummy.view.ViewportController'
     ],
 
     plugins: 'viewport',
@@ -63,6 +64,12 @@
                     { xtype: 'btn-postchild-test', reference: 'btnPostChild', hidden: true  },
                     { xtype: 'btn-postchilddrilldown-test', reference: 'btnPostChildDrillDown', hidden: true },
                     { xtype: 'btn-postumbrella-test', reference: 'btnPostUmbrella', hidden: true }
+                ]
+            },
+            {
+                xtype: 'panel',
+                items: [
+                    { xtype: 'btn-modalmodestart-test', ui: 'red-button'}
                 ]
             },
             {

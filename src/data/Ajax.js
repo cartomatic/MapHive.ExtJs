@@ -499,7 +499,7 @@
     },
     function(){
 
-        //we're not instance based here, so the access to the mixed in MsgBus is not possible.
+        //we're not instance based here, so the access to the mixed in MsgBus is not possible. but wiring up events to statics is...
         //because of that, need to instantiate the MsgBus - even though MsgBus is meant to be used as a mixin it is save to do so
         //since communication is mixed into this class, it should be available here
         Ext.create('mh.communication.MsgBus').watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);

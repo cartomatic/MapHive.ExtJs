@@ -15,7 +15,8 @@
         mixins: [
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
-            'mh.data.Ajax'
+            'mh.data.Ajax',
+            'mh.mixin.ModalMode'
         ],
 
         requires: [
@@ -762,9 +763,10 @@
          */
         onUnmatchedRoute: function(hash){
 
-            //TODO - ignore processing when in 'modal mode'
-
-
+            //properly handle EDIT MODE! as a mater of fact - ignore all the changes ;)
+            if(this.getModalModeActive()){
+                return;
+            }
 
             //Note: router is evt based and kicks in after a hash changes. therefore using internal flags will not work here as they will change back well before
             //router callbacks kick in.

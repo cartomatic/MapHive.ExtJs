@@ -12,7 +12,8 @@
         alias: 'controller.viewport',
 
         mixins: [
-            'mh.communication.MsgBus'
+            'mh.communication.MsgBus',
+            'mh.mixin.ModalMode'
         ],
 
         routes: {
@@ -21,17 +22,58 @@
 
         onTest: function(){
             console.warn('TEST route detected');
+
+            //Note:
+            //This could really be a on before action handler...
+            //Alternatively - in a case of using a card layout to handle the app views handling may be redirected to a common view switcher
+            //that will take care of modal mode watching
+
+            //properly handle EDIT MODE!
+            if(this.getModalModeActive()){
+
+                //<debug>
+                console.warn('[ROUTER@Main]', 'prevented route adjustment - edit mode active!');
+                //</debug>
+
+                window.location.hash = this.getModalModeRouteSnapshot();
+                return;
+            }
+
+            //handle whatever is to be handled by a view
         },
 
 
         onUnmatchedRoute: function(){
             console.warn('TEST unmatched route in the main controller!');
+
+            //properly handle EDIT MODE!
+            if(this.getModalModeActive()){
+
+                //<debug>
+                console.warn('[ROUTER@Main]', 'prevented route adjustment - edit mode active!');
+                //</debug>
+
+                window.location.hash = this.getModalModeRouteSnapshot();
+                return;
+            }
+
+            //silently redirect to a default route
+            Ext.defer(
+                function(){
+                    //this.redirectTo(Ext.app.Application.instance.getDefaultToken() || '');
+                },
+                1,
+                this
+            );
         },
 
         /**
          * Called when the view is created
          */
         init: function() {
+
+            //it is required to init the History object prior to using it
+            Ext.util.History.init();
 
             var me = this;
 
