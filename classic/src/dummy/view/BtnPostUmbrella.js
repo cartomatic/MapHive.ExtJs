@@ -7,7 +7,7 @@
     /**
      * Example of a button sending an xwindow msgbus::xwindowtest in umbrella mode
      */
-    Ext.define('mh.view.dummy.BtnPostUmbrella', {
+    Ext.define('mh.dummy.view.BtnPostUmbrella', {
         extend: 'Ext.button.Button',
 
     requires: [

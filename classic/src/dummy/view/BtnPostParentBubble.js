@@ -7,7 +7,7 @@
     /**
      * Example of a button sending an xwindow msgbus::xwindowtest to host windows in bubble mode
      */
-    Ext.define('mh.view.dummy.BtnPostParentBubble', {
+    Ext.define('mh.dummy.view.BtnPostParentBubble', {
         extend: 'Ext.button.Button',
 
             requires: [

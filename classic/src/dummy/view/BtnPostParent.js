@@ -7,7 +7,7 @@
     /**
      * Example of a button sending an xwindow msgbus::xwindowtest to a host window
      */
-    Ext.define('mh.view.dummy.BtnPostParent', {
+    Ext.define('mh.dummy.view.BtnPostParent', {
         extend: 'Ext.button.Button',
     
         xtype: 'btn-postparent-test',

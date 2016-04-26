@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.view.dummy.Viewport', {
+    Ext.define('mh.dummy.view.Viewport', {
 
         extend: 'Ext.Container',
 

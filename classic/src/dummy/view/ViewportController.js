@@ -5,9 +5,9 @@
     'use strict';
 
     /**
-     * This is a simplistic example of a hosted app view. it simply sets up some 
+     * This is a simplistic example of a hosted app CLASSIC view. it simply sets up some
      */
-    Ext.define('mh.view.dummy.ViewportController', {
+    Ext.define('mh.dummy.view.ViewportController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.viewport',
 

@@ -7,7 +7,7 @@
     /**
      * Example of a button sending an xwindow msgbus::xwindowtest to hosted windows in drilldown mode
      */
-    Ext.define('mh.view.dummy.BtnPostChildDrilldown', {
+    Ext.define('mh.dummy.view.BtnPostChildDrilldown', {
         extend: 'Ext.button.Button',
     
         xtype: 'btn-postchilddrilldown-test',

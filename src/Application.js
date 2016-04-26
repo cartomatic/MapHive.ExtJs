@@ -18,7 +18,7 @@
     requires: [
         'mh.util.console.Custom',
         'mh.communication.MsgBusXWindow',
-        'mh.AppLauncher'
+        'mh.dummy.AppLauncher'
     ],
 
     mixins: [
@@ -42,9 +42,11 @@
 
         /**
          * The app launcher class that is initiated automatically after receiving a root::launchapp event
-         * To customise auto launch behavior override the onLaunchApp method
+         * Ususally responsible for creating application views
+         * Customise to provide own app launcher entry point, as the default is a dummy one firing up an example app
+         * In addition, to customise auto launch behavior override the onLaunchApp method
          */
-        appLauncher: 'mh.AppLauncher',
+        appLauncher: 'mh.dummy.AppLauncher',
 
         /**
          * @event mhapp::loaded

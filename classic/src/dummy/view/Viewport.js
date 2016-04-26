@@ -7,19 +7,25 @@
     /**
      * Dummy hosted app viewport with some basic examples of xWindow communication + xWindow hash exchange
      */
-    Ext.define('mh.view.dummy.Viewport', {
+    Ext.define('mh.dummy.view.Viewport', {
         extend: 'Ext.panel.Panel',
 
-        requires: [
-            'mh.view.dummy.BtnPostChild',
-            'mh.view.dummy.BtnPostChildDrilldown',
-            'mh.view.dummy.BtnPostParent',
-            'mh.view.dummy.BtnPostParentBubble',
-            'mh.view.dummy.BtnPostUmbrella',
-            'mh.view.dummy.ViewportController'
-        ],
+    requires: [
+        'mh.dummy.view.BtnPostChild',
+        'mh.dummy.view.BtnPostChildDrilldown',
+        'mh.dummy.view.BtnPostParent',
+        'mh.dummy.view.BtnPostParentBubble',
+        'mh.dummy.view.BtnPostUmbrella',
+        'mh.dummy.view.ViewportController',
+        'mh.dummy.view.ViewportController',
+        'mh.dummy.view.BtnPostChild',
+        'mh.dummy.view.BtnPostChildDrilldown',
+        'mh.dummy.view.BtnPostParent',
+        'mh.dummy.view.BtnPostParentBubble',
+        'mh.dummy.view.BtnPostUmbrella'
+    ],
 
-        plugins: 'viewport',
+    plugins: 'viewport',
 
         controller: 'viewport',
 
@@ -42,7 +48,7 @@
                 value: 'Soooo, you may actually think about customising the CLASSIC app launcher to do whatever is needed, no?<br/>Bzzzz, bzzz, bzzzzzz....' +
                 '<br/><br/>The app url is: <b>' + window.location.href + '</b>' +
                 '<br/><br/><div id="msgbus_xwindowtest_feedback" style="height: 20px;"></div>' +
-                '<br/><br/><div id="msgbus_xwindowroutertest_feedback" style="height: 20px;"></div>',
+                '<br/><br/><div id="msgbus_xwindowroutertest_feedback" style="height: 20px;"></div>'
             },
             {xtype: 'fieldcontainer', items: [
                 {xtype: 'textfield', reference: 'hashTextBox', width: 300},

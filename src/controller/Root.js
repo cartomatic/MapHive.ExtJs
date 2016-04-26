@@ -18,13 +18,13 @@
             'mh.data.Ajax'
         ],
 
-    requires: [
-        'Ext.app.Application',
-        'mh.AppLauncher',
-        'mh.data.model.Application'
-    ],
+        requires: [
+            'Ext.app.Application',
+            'mh.dummy.AppLauncher',
+            'mh.data.model.Application'
+        ],
 
-    /**
+        /**
          * @event root::authenticateuser
          */
 
@@ -471,6 +471,7 @@
          * @param route
          */
         decodePipedRoute: function(route){
+            route = route || '';
             return route.replace(this.decodePipedRouteRegex, '|');
         },
 

@@ -7,12 +7,12 @@
     /**
      * An example of a CLASSIC app launcher; does init just a DummyViewport
      */
-    Ext.define('mh.AppLauncher', {
+    Ext.define('mh.dummy.AppLauncher', {
 
     requires: [
         'Ext.tip.QuickTipManager',
         'mh.module.appBar.AppBar',
-        'mh.view.dummy.Viewport'
+        'mh.dummy.view.Viewport'
     ],
 
     constructor: function(config){
@@ -20,7 +20,7 @@
             Ext.QuickTips.init();
 
             //init the GUI
-            Ext.create('mh.view.dummy.Viewport', {
+            Ext.create('mh.dummy.view.Viewport', {
                 dockedItems: [
                     //standardised app top tbar
                     {

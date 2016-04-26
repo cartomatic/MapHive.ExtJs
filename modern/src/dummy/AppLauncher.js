@@ -5,17 +5,17 @@
     'use strict';
 
     /**
-     * A generic modern app launcher; does init just a DummyViewport
+     * A generic MODERN app launcher; does init just a DummyViewport
      */
-    Ext.define('mh.AppLauncher', {
+    Ext.define('mh.dummy.AppLauncher', {
 
         requires: [
-            'mh.view.dummy.Viewport'
+            'mh.dummy.view.Viewport'
         ],
 
         constructor: function(config){
             //init the GUI
-            Ext.create('mh.view.dummy.Viewport');
+            Ext.create('mh.dummy.view.Viewport');
         }
     });
 }());
