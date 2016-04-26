@@ -15,12 +15,35 @@
             'mh.communication.MsgBus'
         ],
 
+        routes: {
+            'test' : 'onTest'
+        },
+
+        onTest: function(){
+            console.warn('TEST route detected');
+        },
+
+
+        onUnmatchedRoute: function(){
+            console.warn('TEST unmatched route in the main controller!');
+        },
+
         /**
          * Called when the view is created
          */
         init: function() {
 
             var me = this;
+
+            this.listen({
+                controller: {
+                    '#': {
+                        unmatchedroute: this.onUnmatchedRoute
+                    }
+                }
+            });
+
+
 
             this.watchGlobal('msgbus::xwindowtest', function(eData){
 

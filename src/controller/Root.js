@@ -688,13 +688,17 @@
             this.xWindowRouteWatchCfg = cfg || {};
 
             //monitor all own hash changes
-            this.listen({
-                controller: {
-                    '#': {
-                        unmatchedroute: this.onUnmatchedRoute
-                    }
-                }
-            });
+            Ext.util.History.on('change', this.onUnmatchedRoute, this);
+            //Note: this kicks in later than the route handlers! This potentially may be a problem! or may be not
+
+            //NOTE: this will never kick in if a route is recognised by any of the controllers! So need think of a better way of auto hash change detection.
+            // this.listen({
+            //     controller: {
+            //         '#': {
+            //             unmatchedroute: this.onUnmatchedRoute
+            //         }
+            //     }
+            // });
 
             //watch events fired by a host or hosted
             this.watchGlobal('root::applyexternalroute', this.onApplyExternalRoute, this);
@@ -751,11 +755,16 @@
          */
         lastRoute: null,
         
+        
         /**
          * Unmatched / all the routes collector
          * @param hash
          */
         onUnmatchedRoute: function(hash){
+
+            //TODO - ignore processing when in 'modal mode'
+
+
 
             //Note: router is evt based and kicks in after a hash changes. therefore using internal flags will not work here as they will change back well before
             //router callbacks kick in.
