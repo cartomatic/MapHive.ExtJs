@@ -93,6 +93,9 @@
             //msg bus will automatically rebroadcast events that are configured properly, and will do it via event of course ;)
             this.watchGlobal('msgbus::postmessage', this.postMessage, this);
 
+            //on app reload start need to do some internal cleanup
+            this.watchGlobal('root::appreloadstart', this.onAppReloadStart, this);
+
             this.doHandshakeHello();
         },
 
@@ -122,6 +125,16 @@
                 //this is ie <= 9
                 window.removeEvent('onmessage', messageContext);
             }
+        },
+
+        /**
+         * root::appreloadstart callback; need some internal cleanup, so xwindow msg bus does not try to fire events to previously registered iframes / apps
+         * this does not seem to be a problem in FF (silently ignored), but chrome complains and throws.
+         * Also this is used in the HOST app scenario only.
+         */
+        onAppReloadStart: function(){
+            //wipe out the cache
+            registeredIframes = {};
         },
 
         /**

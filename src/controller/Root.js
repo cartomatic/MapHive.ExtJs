@@ -557,9 +557,6 @@
                 //app reload is about to start, so fire a app reload evt
                 self.fireGlobal('root::appreloadstart', app);
 
-                //update hash - this should set just an app hash at the host level
-                self.redirectTo(appHash);
-
                 //also, initiate the reload with a slight timeout, so there is time to kick in with any root::appreloadstart listeners
 
                 //this should just position the callback at the end of the evt queue
@@ -570,6 +567,9 @@
 
                         //and load a new app
                         iframe.src = destinationUrl;
+
+                        //update hash - this should set just an app hash at the host level
+                        self.redirectTo(appHash);
                     },
                     1
                 );
