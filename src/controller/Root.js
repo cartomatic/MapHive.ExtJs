@@ -492,17 +492,6 @@
             console.log(this.cStdIcon('info'), this.cDbgHdr('apploader ctrl'), 'reloading app', app.getData());
             //</debug>
 
-            //Depending on the scenario - hosted app vs host app the appropriate action must be performed.
-            //In a case this is a host app, the chosen child app needs to be loaded in an iframe
-            //
-            //In a case this is a hosted app, it is necessary to reload window with a new app's url
-            //
-            //In both scenarios, the access token needs to be appended to the loaded url.
-
-            //Also, if this is the host application, fire a global mask
-
-            //TODO - when this is a host app, current app should be shown in the app route!
-
             //need to obtain the access token first!
             this.watchGlobal('auth::accesstoken', this.onAppReloadAccessTokenRetrieved, {self: this, app: app}, {single: true});
             this.fireGlobal('auth::gimmeaccesstoken');
@@ -528,6 +517,8 @@
                 inUrl = app.get('url').split('#'),
                 url = inUrl[0],
                 hash = inUrl[1] ? [inUrl[1]] : [],
+
+                //app hash is used by a host app only
                 appHash =
                     self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.app) + (app.get('shortName') || app.get('id')) +
                     (hash.length > 0 ? self.hashPropertyDelimiter + self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.route) + inUrl[1] : ''),
@@ -546,10 +537,6 @@
             //in order to keep the url sensible (not so important when working in a frame of course),
             //pass the extra params through the hash. This way they can be extracted and wiped out on app init without
             //having to reload (as would be the case with params of course)
-
-            // params.push('at=' + accessToken);
-            // params.push('suppress-app-toolbar=true');
-            // params.push('suppress-splash=true');
 
             hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.accessToken) + accessToken);
             if(iframe){
@@ -594,7 +581,7 @@
         },
 
         /**
-         * root::setuphostiframe evt listener
+         * root::setuphostiframe evt listener; stores a reference to an iframe used by a host app to handle child apps
          * @param iframeId
          */
         onSetupHostIframe: function(iframeId){
@@ -635,8 +622,6 @@
                 scope: this,
                 success: this.onGetAppsSuccess,
                 failure: this.onGetAppsFailure
-
-                //errs will be auto ignored
             });
         },
 
@@ -806,6 +791,15 @@
                     }
                 }
             }
+
+            //Note: at this stage the new route is the actual hash that is to be sent out
+            //in a case of a host app, the only part that triggers the communication to child app is the route (r:) part of the full hash
+            //
+            //application name and any other non-hosted child settings are ignored
+            //maybe this will change in the future, for the time being this is not that important really.
+            //
+            //perhaps could just bring back previous values of non-external hash and ignore the change?
+
 
             //Router may kick in for current url part / hash when forced to. need to make sure unchanged routes are not rebroadcasted
             if(this.lastRoute !== newRoute){
