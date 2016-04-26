@@ -5,8 +5,8 @@
     /**
      * Lock screen used to lock the UI from user interaction; adds item to centered vbox layout
      */
-    Ext.define('mh.widget.auth.LockingScreen', {
-        extend: 'mh.widget.auth.LockingScreenBase',
+    Ext.define('mh.module.auth.LockingScreen', {
+        extend: 'mh.module.auth.LockingScreenBase',
 
         xtype: 'mh.lockingscreen',
 

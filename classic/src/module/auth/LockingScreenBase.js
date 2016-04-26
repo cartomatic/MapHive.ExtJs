@@ -5,7 +5,7 @@
     /**
      * Lock screen used to lock the UI from user interaction; based on the admin dashboard template
      */
-    Ext.define('mh.widget.auth.LockingScreenBase', {
+    Ext.define('mh.module.auth.LockingScreenBase', {
         extend: 'Ext.window.Window',
 
         xtype: 'mh.lockingscreenbase',
