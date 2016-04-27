@@ -62,7 +62,18 @@
          */
         onAuthenticateUser: function(e){
 
-            //TODO - extract the access token off the url and verify it by poking the backend. There should be a simple endpoint to do just that!
+            //TODO
+            // check if the auth is required! Depending on the application being accessed (or about to be accessed in a case of a HOST application),
+            // decide whether can continue unauthenticated or should force authentication prior to launching the application.
+
+
+
+            //TODO - extract the access token off the url and verify it by poking the backend. There should be a simple endpoint to do just that! If ok, then user is authenticated; otherwise check if the current scenario requires authentication - host needs to know what to load, hosted needs to know if it requires auth! In a case of a hosted app it should be easy, but can try to make it generic too. Also when hosted, need to fire evt to a parent that auth is required
+
+            //Note - access token is extracted off the hash by the root controller. Need to extract it
+
+
+
             //TODO - potential customisation needed for the offline scenario - but in this case the GeoFutura.Gpr may well customise the auth controller
 
             //TODO - make sure to obtain the refresh token too. all the usual stuff that will be required to handle session properly!
