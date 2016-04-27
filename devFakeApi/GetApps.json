@@ -17,5 +17,11 @@
     shortName: 'app3x3',
     name: 'App 3',
     url: 'https://app3.maphive.local/'
+  },
+  {
+    id: 'app4_hgis1',
+    shortName: 'hgis1',
+    name: 'HGIS v1',
+    url: 'https://hgis.maphive.local/'
   }
 ]
