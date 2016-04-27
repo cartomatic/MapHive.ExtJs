@@ -688,6 +688,9 @@
 
             this.xWindowRouteWatchCfg = cfg || {};
 
+            //save the current route, so changes from now on are monitored
+            this.lastRoute = this.getOutgoingRoute(window.location.hash.substring(1));
+
             //monitor all own hash changes
             Ext.util.History.on('change', this.onUnmatchedRoute, this);
             //Note: this kicks in later than the route handlers! This potentially may be a problem! or may be not
@@ -721,22 +724,7 @@
             //if this is a host mode, need to update just the route (r:) param!
             //Note: testing for hosted property because hosted means pass xwindow msg to hosted window - this is exactly as in mh.communication.MsgBusEvtOpts
             //and since I am passing to hosted i am a host
-            if(this.xWindowRouteWatchCfg.hosted){
-
-                var hashParams = window.location.hash.substring(1).split(this.hashPropertyDelimiter),
-                    hp = 0, hplen = hashParams.length,
-                    pName;
-
-                for(hp; hp < hplen; hp++){
-                    pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
-                    if(hashParams[hp].indexOf(pName) === 0){
-                        //need to encode the incoming route, so the router at the host level does not kick in multiple times. it must handle the route once only there!
-                        hashParams[hp] = pName + this.encodePipedRoute(newRoute);
-                        break;
-                    }
-                }
-                newRoute = hashParams.join(this.hashPropertyDelimiter);
-            }
+            newRoute = this.getIncomingRoute(newRoute);
 
             if(this.lastRoute !== newRoute){
                 this.externalRoute = newRoute;
@@ -755,7 +743,70 @@
          * Last collected route
          */
         lastRoute: null,
-        
+
+        /**
+         * gets a properly structured incoming route
+         * @param route
+         */
+        getIncomingRoute: function(route){
+            //if this is a host mode, need to update just the route (r:) param!
+            //Note: testing for hosted property because hosted means pass xwindow msg to hosted window - this is exactly as in mh.communication.MsgBusEvtOpts
+            //and since I am passing to hosted i am a host
+            if(this.xWindowRouteWatchCfg.hosted){
+
+                var hashParams = window.location.hash.substring(1).split(this.hashPropertyDelimiter),
+                    hp = 0, hplen = hashParams.length,
+                    pName, hashRouteUpdated;
+
+                for(hp; hp < hplen; hp++){
+                    pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
+                    if(hashParams[hp].indexOf(pName) === 0){
+                        //need to encode the incoming route, so the router at the host level does not kick in multiple times. it must handle the route once only there!
+                        hashParams[hp] = pName + this.encodePipedRoute(route);
+                        hashRouteUpdated = true;
+                        break;
+                    }
+                }
+                if(!hashRouteUpdated){
+                    hashParams.push(this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route) + this.encodePipedRoute(route));
+                }
+                route = hashParams.join(this.hashPropertyDelimiter);
+            }
+
+            return route;
+        },
+
+        /**
+         * Gets outgoing route - extracts it depending on mode (host / hosted)
+         * @param route
+         * @returns {*}
+         */
+        getOutgoingRoute: function(route){
+
+            //if this is a host mode, need to extract a route off the hash, as it is under a r: param!
+            //Note: testing for hosted property because hosted means pass xwindow msg to hosted window - this is exactly as in mh.communication.MsgBusEvtOpts
+            //and since I am passing to hosted i am a host
+            if(this.xWindowRouteWatchCfg.hosted){
+                var hashParams = route.split(this.hashPropertyDelimiter),
+                    hashParam,
+                    hp = 0, hplen = hashParams.length,
+                    pName, routeExtracted;
+                for(hp; hp < hplen; hp++){
+                    hashParam = hashParams[hp];
+                    pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
+                    if(hashParam.indexOf(pName) === 0){
+                        //this is a parent sending a route to a child. so if a multi route - decode it, so router at child level recognises separate routes
+                        route = this.decodePipedRoute(hashParam.replace(pName, ''));
+                        routeExtracted = true;
+                        break;
+                    }
+                }
+                if(!routeExtracted){
+                    route = '';
+                }
+            }
+            return route;
+        },
         
         /**
          * Unmatched / all the routes collector
@@ -782,26 +833,7 @@
             //Note: in order to support multiple / piped routes, need to grab the hash off the window.location.hash. This is so the route is complete
             //because the router will fire for each route separately
 
-            var newRoute = window.location.hash.substring(1);
-
-            //if this is a host mode, need to extract a route off the hash, as it is under a r: param!
-            //Note: testing for hosted property because hosted means pass xwindow msg to hosted window - this is exactly as in mh.communication.MsgBusEvtOpts
-            //and since I am passing to hosted i am a host
-            if(this.xWindowRouteWatchCfg.hosted){
-                var hashParams = newRoute.split(this.hashPropertyDelimiter),
-                    hashParam,
-                    hp = 0, hplen = hashParams.length,
-                    pName;
-                for(hp; hp < hplen; hp++){
-                    hashParam = hashParams[hp];
-                    pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
-                    if(hashParam.indexOf(pName) === 0){
-                        //this is a parent sending a route to a child. so if a multi route - decode it, so router at child level recognises separate routes
-                        newRoute = this.decodePipedRoute(hashParam.replace(pName, ''));
-                        break;
-                    }
-                }
-            }
+            var newRoute = this.getOutgoingRoute(window.location.hash.substring(1));
 
             //Note: at this stage the new route is the actual hash that is to be sent out
             //in a case of a host app, the only part that triggers the communication to child app is the route (r:) part of the full hash
