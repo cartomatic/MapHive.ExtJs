@@ -16,7 +16,9 @@
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
             'mh.data.Ajax',
-            'mh.mixin.ModalMode'
+            'mh.mixin.ModalMode',
+            'mh.mixin.InitialCfg',
+            'mh.mixin.ApiMap'
         ],
 
         requires: [
@@ -31,7 +33,7 @@
 
         /**
          * @event root::launchapp
-         * fired whenever the application is ready to start
+         * fired whenever the Root thinks the application is ready to start
          */
 
         /**
@@ -144,6 +146,9 @@
          * @property {string} appHashProperties.suppressAppToolbar
          * suppress app toolbar
          *
+         * @property {string} appHashProperties.hosted
+         * whether or not the app is actually hosted. MUST be set in order to properly 'inform' the app about the fact it's being hosted, so it can properly handle this info when authenticating for example
+         *
          * @property {string} appHashProperties.suppressSplash
          * suppress splash
          */
@@ -152,6 +157,7 @@
             route: 'r',
             accessToken: 'at',
             suppressAppToolbar: 'suppress-app-toolbar',
+            hosted: 'hosted',
             suppressSplash: 'suppress-splash'
         },
 
@@ -189,7 +195,7 @@
 
 
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticatedResetAppsCache, this);
-            this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this, {single: true});
+
 
             this.watchGlobal('root::getapps', this.onGetApps, this);
 
@@ -201,10 +207,34 @@
             console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'launched');
             //</debug>
 
-            //do whatever needs to be done...
+            //decide whether user should be authenticated or not. If so wire an evt listener and let the auth do its work first; if not just launch the app...
+            //The prerequisite here is to know what to do in advance. There were no service calls and such yet, so need to depend on whatever has been worked out
+            //on the serverside prior to returning the app entry point - default aspx;
+            if(this.getMhCfgProperty('requiresAuth')){
 
-            //and when ready request the user auth!
-            this.fireGlobal('root::authenticateuser');
+                //<debug>
+                console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'Auth required - passing control to the auth ctrl...');
+                //</debug>
+
+                this.watchGlobal('auth::userauthenticated', this.continueAppLaunchWhenUserAuthenticated, this, {single: true});
+
+                //and when ready request the user auth!
+                this.fireGlobal('root::authenticateuser');
+            }
+            else {
+                //looks like we're good to go, so can trigger the app launch straight away
+
+                //Note:
+                //in a case this is false positive no-auth, such app should fail with a very first call to a web service that enforces authorization and in return
+                //be kicked with 401.
+                //In this scenario an app will trigger auth independently so this is safe to assume app allows anonymous access.
+
+                //<debug>
+                console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'Anonymous user allowed - launching the app...');
+                //</debug>
+
+                this.fireGlobal('root::launchapp');
+            }
         },
 
         /**
@@ -219,7 +249,7 @@
                 hashParts, hp, hplen, hashPart,
                 outHashParts, outHash,
 
-                at, sat, sspl;
+                at, sat, sspl, hosted;
 
             //only kick in if there was a hash part. otherwise there is no point really ;)
             if(hash){
@@ -231,14 +261,15 @@
 
                 at = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.accessToken),
                 sat = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressAppToolbar),
-                sspl = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressSplash);
+                sspl = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressSplash),
+                hosted = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.hosted);
 
 
                 for(hp; hp < hplen; hp++){
 
                     hashPart = hashParts[hp];
 
-                    if(Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, sat) || Ext.String.startsWith(hashPart, sspl)){
+                    if(Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, sat) || Ext.String.startsWith(hashPart, sspl), Ext.String.startsWith(hashPart, hosted)){
                         this.extractCustomHashParam(hashPart);
                     }
                     else {
@@ -300,54 +331,20 @@
          * auth::userauthenticated evt listener
          * @param accessToken
          */
-        onUserAuthenticated: function(accessToken){
+        continueAppLaunchWhenUserAuthenticated: function(accessToken){
             //Auth controller is responsible for handling the authentication. Whenever auth is happy to go, it fires the auth::userauthenticated event.
-            //depending on the setup a user may have already been authenticated but he also can be an anonymous user.
-            //the trick here is to take the appropriate actions depending on the scenario - authenticated / anonymous
 
-            //if anonymous just pull public apps
-
-            //if authenticated, will need to pull organisations first
+            //when authenticated, will need to pull organisations first
             //Note: so far it seems that obtaining a list of orgs in the Root is sensible. Auth should only handle auth related stuff
             //when organisations are available then user is prompted to choose his scope and then the apps get pulled.
             //when apps are available it is time to start!
 
-            //TODO - maybe some logic should be done on the serverside in the aspx entry point???
-            //TODO - since will have to check if user wants a specific app to kick off and verify if ok to run it in anonymous mode, maybe there is a point is dumping public apps info straight to the aspx output??? Dunno, will see!
+            //TODO - orgs handling and stuff...
 
-            if(!accessToken){
-                this.handleAnonymousUserStartup();
-            }
-            else {
-                this.handleAuthenticatedUserStartup();
-            }
-        },
-
-
-
-        /**
-         * Sets up the application for an anonymous user
-         */
-        handleAnonymousUserStartup: function(){
-            //not much to do really. Since the app has loaded, let it decide what to do now - what data to pull or not to pull and such.
+            //for the time being just launch the app
             this.fireGlobal('root::launchapp');
         },
 
-        /**
-         * Sets up the application for an authenticated user
-         */
-        handleAuthenticatedUserStartup: function(){
-
-            //user's identity is verified at this stage (albeit not known yet - only access token is present)
-            //because a user can work for different orgs, it is necessary to set up the app for a particular organisation so it works in a precise context
-            //the general flow here should therefore be following:
-            //1. obtain orgs for a user and if more than 1 as him to pick one; if one, pick it automatically, if none then a user is not yet assigned to an org at all
-            //2. when an org is known, pull apps for a user and when ready fire the root::launchapp evt
-            //3. app launcher will then take care of loading a default one (whatever the logic behind picking one is) if this is a host app, or will launch the app itself
-            //if the app runs in a standalone mode.
-
-            throw "Unauthenticated user setup not implemented yet!";
-        },
 
         /**
          * root::loadhostedapp callback; loads an appropriate hosted app
@@ -542,6 +539,7 @@
             hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.accessToken) + accessToken);
             if(iframe){
                 hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.suppressAppToolbar) + 'true');
+                hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.hosted) + 'true');
 
                 //use app's splash if required to do so
                 //when hosting the apps in an iframe, it is ok to not use the app's splash screen but use own, customised one instead
@@ -616,10 +614,8 @@
 
             this.duringAppsRetrieval = true;
 
-
-            //TODO - api endpoints / hosts will have to be configurable!!!!
             this.doGet({
-                url: 'packages/local/mh/devFakeApi/GetApps.json', //so Ext.Ajax does not throw...
+                url: this.getApiEndPoint('applications'),
                 scope: this,
                 success: this.onGetAppsSuccess,
                 failure: this.onGetAppsFailure

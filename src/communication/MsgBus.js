@@ -23,7 +23,7 @@
         /**
          * fires a global event
          * @param {string} evtName
-         * @param {Object} evtData
+         * @param {Object} [evtData]
          * @param {mh.communication.MsgBusEvtOpts} [eOpts]
          * @param {Bool} [eOpts.suppressLocal]
          */

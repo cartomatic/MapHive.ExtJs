@@ -38,7 +38,8 @@
             //</debug>
 
             //setup the required evt listeners
-            this.watchGlobal('root::authenticateuser', this.onAuthenticateUser, this, {single: true});
+            this.watchGlobal('root::authenticateuser', this.onAuthenticateUser, this);
+            this.watchGlobal('auth::xwindowauthenticateuser', this.onXWindowAuthenticateUser, this);
             this.watchGlobal('auth::gimmeaccesstoken', this.onGimmeAccessToken, this);
         },
 
@@ -53,19 +54,26 @@
         onGimmeAccessToken: function(){
             //TODO - local access token storag needed!!!
 
-            this.fireGlobal('auth::accesstoken', 'temp-access-token');
+            this.fireGlobal('auth::accesstoken', this.getAccessToken());
+        },
+
+        /**
+         * returns a currently active access token
+         */
+        getAccessToken: function(){
+            return this.accessToken || 'no-auth';
         },
 
         /**
          * some module requested user authentication
          * @param e
          */
-        onAuthenticateUser: function(e){
+        onAuthenticateUser: function(e, tunnel){
 
-            //TODO
-            // check if the auth is required! Depending on the application being accessed (or about to be accessed in a case of a HOST application),
-            // decide whether can continue unauthenticated or should force authentication prior to launching the application.
+            //extract the access token and verify it. If ok, then just fire authenticated
+            //if not ok trigger the auth UI
 
+            //need to have own access token storage, so once retrieved it is kept here for further reference
 
 
             //TODO - extract the access token off the url and verify it by poking the backend. There should be a simple endpoint to do just that! If ok, then user is authenticated; otherwise check if the current scenario requires authentication - host needs to know what to load, hosted needs to know if it requires auth! In a case of a hosted app it should be easy, but can try to make it generic too. Also when hosted, need to fire evt to a parent that auth is required
@@ -90,7 +98,86 @@
 
             //Note: for anonymous users just return null as an access token.
 
-            this.fireGlobal('auth::userauthenticated', null);
+
+
+            //----------------------------------
+
+            //check the mode, the app is running in - if this is a hosted app it should fire a xWindow auth::xwindowauthenticateuser so the parent takes care of
+            //handling the auth!!!!
+            var me = this,
+                tunnel = this.getTunnelId();
+
+            //get the hosted info and trigger the appropriate action
+            this.watchGlobal(
+                'root::customhashparam',
+                function(hosted){
+                    if(hosted === 'true'){
+                        //this means need delegate the authentication to the parent
+                        me.handleAuthXWindow();
+                    }
+                    else {
+                        //can authenticate locally
+                        me.handleAuthLocally();
+                    }
+                },
+                this,
+                {single: true, tunnel: tunnel}
+            );
+
+            //custom param receive callback properly set up so just fire evt to get the data back
+            this.fireGlobal('root::getcustomhashparam', 'hosted', {tunnel: tunnel});
+        },
+
+        /**
+         * Handles auth locally
+         */
+        handleAuthLocally: function(){
+
+            //TODO - init auth UI, and pass it a callback, or subscrbe to evts, so can handle auth results back in proper methods. Same approach will be required for x window, so at least this part will be generic.
+
+            var at = 'some-locally-obtained-access-token';
+
+            //TODO - finall just pass the access token
+            this.fireGlobal('auth::userauthenticated', at);
+        },
+
+        /**
+         * fires an event to a parent, so it can process the authentication and talk back when ready!
+         */
+        handleAuthXWindow: function(){
+            //soooo.... need to fire a xWindow event. right...
+
+            //btw: since we're communicating x window, likely, there is no point in tunneling the communication ;)
+            //This would be a bit complex if there was a reason to tunnel it; not impossible though, but would require a proxy than can sunnel / untunnel the evt ;)
+
+            this.watchGlobal('auth::xwindowuserauthenticated', this.onXWindowUserAuthenticated, this);
+            this.fireGlobal('auth::xwindowauthenticateuser', null, {suppressLocal: true, host: true});
+        },
+
+        /**
+         * Received a request from a hosted app to authenticate a user. when done need to post back to hosted app!
+         * @param e
+         * @param tunnel
+         */
+        onXWindowAuthenticateUser: function(e, tunnel){
+
+            //TODO - init auth UI, and pass it a callback or subscribe to its events, so when authenticated, can process the auth data and pass it back to a child
+
+            var at = 'some-parent-obtained-auth-access-token-dude';
+
+            this.fireGlobal('auth::xwindowuserauthenticated', at, {suppressLocal: true, hosted: true}); //passinbg back to a child, so hosted direction only!
+        },
+
+        /**
+         * Received a response from parent after user has been xwindow authenticated
+         * @param e
+         */
+        onXWindowUserAuthenticated: function(e){
+
+            //TODO - save auth data properly!
+
+            //managed to authenticate in parent, need to distribute the auth info properly
+            this.fireGlobal('auth::userauthenticated', e);
         }
     });
 
