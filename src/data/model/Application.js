@@ -14,6 +14,7 @@
             { name: 'id', type: 'string', useNull: true },
             { name: 'shortName', type: 'string', useNull: true },
             { name: 'name', type: 'string', useNull: true },
+            { name: 'description', type: 'string', useNull: true },
             { name: 'url', type: 'string', useNull: true },
             { name: 'useSplashscreen', type: 'boolean' },
 

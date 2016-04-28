@@ -3,6 +3,7 @@
     id: 'app1_id',
     shortName: 'app1',
     name: 'App 1',
+    description: 'A test HOST app that suppresses nested framed apps',
     url: 'https://app1.maphive.local/?suppressnested=true#some/hash/123/456',
 
   },
@@ -22,6 +23,7 @@
     id: 'app4_hgis1',
     shortName: 'hgis1',
     name: 'HGIS v1',
+    description: 'An initial port of the Cartomatic\s HGIS',
     url: 'https://hgis.maphive.local/'
   }
 ]

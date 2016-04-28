@@ -151,6 +151,7 @@
                 btns.push({
                     xtype: 'button',
                     text: this.apps[a].get('name'),
+                    tooltip: this.apps[a].get('description') || undefined,
                     height: 64,
                     width: 64,
                     columnWidth: 0.33,
@@ -158,7 +159,7 @@
                     listeners: {
                         click: Ext.bind(this.onAppBtnClick, this)
                     },
-                    ui: 'green-button',
+                    ui: this.getView().getAppBtnUi(),
                     app: this.apps[a]
                 });
             }
@@ -237,14 +238,12 @@
             Ext.Array.each(this.appSwitcherPanel.items.items, function(btn){
                 if(me.currentApp && btn.app.get('id') === me.currentApp.get('id')){
                     //uhuh... got the one
-                    btn.setUI('red-button');
+                    btn.setUI(me.getView().getAppActiveBtnUi());
                 }
                 else {
-                    btn.setUI('green-button');
+                    btn.setUI(me.getView().getAppBtnUi());
                 }
                 //Note - not breaking this loop as need to set / unset style on each btn of course!
-
-                //Note: perhaps should do something less dependant on the Azzurra theme at some point
             });
         },
 
