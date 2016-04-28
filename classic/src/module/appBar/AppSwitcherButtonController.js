@@ -174,6 +174,11 @@
                 bodyPadding: '5 0 0 5', //trbl,
                 maxWidth: 225,
 
+
+                //See fix me in showAppsPanel
+                shadow: false,
+
+
                 items: btns,
 
                 //need to wire up click evt listeners, so the panel stays on, when clicked; on panel show there is a document evt click wired up
@@ -286,8 +291,11 @@
             //get the mask and set its opacity to 0.
             Ext.WindowManager.mask.setOpacity(0);
 
-
             p.showBy(btn, 'bl', [0, 5]);
+
+            //FIXME - when a panel has a shadow, this causes a shadow 'flicker', so need to work out some way of controlling the way the shadow fades in along with a panel
+
+
             //Note: panel's opacity should be 0 at this stage, so can nicely fade it in
 
             //hocus pocus is to fade the panel in...
