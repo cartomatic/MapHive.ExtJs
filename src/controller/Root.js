@@ -1,5 +1,5 @@
 //Disable some of the JSLint warnings
-/*global Ext,console,MapHive,mh*/
+/*global Ext,console,MapHive,mh,window*/
 (function(){
     //Make sure strict mode is on
     'use strict';
@@ -28,7 +28,8 @@
         ],
 
         /**
-         * @event root::authenticateuser
+         * @event auth::authenticateuser
+         * @param {string} [accessToken]
          */
 
         /**
@@ -186,19 +187,27 @@
             this.extractTempParamsFromHash();
 
             //setup the required evt listeners
+            //----------------------------------------------------------------------------------------------------------
+
+            //Root ctlr handles url part param extraction on app launch and can broadcast param values as required
             this.watchGlobal('root::getcustomhashparam', this.onGetCustomHashParam, this);
 
+            //in 'host' mode, whenever a host app is set up, it can ask ROOT to load an appropriate application
             this.watchGlobal('root::loadhostedapp', this.onLoadHostedApp, this);
 
+            //app reload requests watch
             this.watchGlobal('root::reloadapp', this.onAppReload, this);
+
+            //if this is the 'host' app provide functionality for app switching within an iframe. 'host' app just informs about an iframe it uses for app reloading
             this.watchGlobal('root::setuphostiframe', this.onSetupHostIframe, this);
 
-
+            //whenever user is authenticated or auth changes, do some house keeping works
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticatedResetAppsCache, this);
 
-
+            //triggers app retrieval
             this.watchGlobal('root::getapps', this.onGetApps, this);
 
+            //if required, turns on xWindow route watch
             this.watchGlobal('root:watchexternalroutes', this.initXWindowRouteWatch, this);
         },
 
@@ -206,6 +215,13 @@
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'launched');
             //</debug>
+
+            //NOTE:
+            //By default, the app entry point does an 'auth preflight' and checks if an app requires authentication. Depending on scenario, this may be
+            //hardcoded within an application or worked out dynamically, etc.
+            //the key point here is that even if an app that requires auth is allowed to start initially, some very first calls to backend should result in 401 that in
+            //return will trigger appropriate authentication procedure.
+
 
             //decide whether user should be authenticated or not. If so wire an evt listener and let the auth do its work first; if not just launch the app...
             //The prerequisite here is to know what to do in advance. There were no service calls and such yet, so need to depend on whatever has been worked out
@@ -219,7 +235,7 @@
                 this.watchGlobal('auth::userauthenticated', this.continueAppLaunchWhenUserAuthenticated, this, {single: true});
 
                 //and when ready request the user auth!
-                this.fireGlobal('root::authenticateuser');
+                this.fireGlobal('auth::authenticateuser', this.getCustomHashParam(this.appHashProperties.accessToken));
             }
             else {
                 //looks like we're good to go, so can trigger the app launch straight away
@@ -257,11 +273,11 @@
                 outHashParts = [];
                 hashParts = hash.split(this.hashPropertyDelimiter);
                 hp = 0;
-                hplen = hashParts.length,
+                hplen = hashParts.length;
 
-                at = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.accessToken),
-                sat = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressAppToolbar),
-                sspl = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressSplash),
+                at = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.accessToken);
+                sat = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressAppToolbar);
+                sspl = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressSplash);
                 hosted = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.hosted);
 
 
@@ -269,7 +285,7 @@
 
                     hashPart = hashParts[hp];
 
-                    if(Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, sat) || Ext.String.startsWith(hashPart, sspl), Ext.String.startsWith(hashPart, hosted)){
+                    if(Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, sat) || Ext.String.startsWith(hashPart, sspl) || Ext.String.startsWith(hashPart, hosted)){
                         this.extractCustomHashParam(hashPart);
                     }
                     else {
@@ -310,11 +326,20 @@
          * @param tunnel - this event handler supports evt tunneling
          */
         onGetCustomHashParam: function(pName, tunnel){
+            this.fireGlobal(this.getTunneledEvtName('root::customhashparam', tunnel), this.getCustomHashParam(pName));
+        },
+
+        /**
+         * Gets a custom hash param
+         * @param pName
+         * @returns {*}
+         */
+        getCustomHashParam: function(pName){
             var ret = null;
             if(this.customHashParams && this.customHashParams[pName]){
                 ret = this.customHashParams[pName];
             }
-            this.fireGlobal(this.getTunneledEvtName('root::customhashparam', tunnel), ret);
+            return ret;
         },
 
         /**
@@ -536,7 +561,10 @@
             //pass the extra params through the hash. This way they can be extracted and wiped out on app init without
             //having to reload (as would be the case with params of course)
 
-            hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.accessToken) + accessToken);
+            if(accessToken){
+                hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.accessToken) + accessToken);
+            }
+
             if(iframe){
                 hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.suppressAppToolbar) + 'true');
                 hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.hosted) + 'true');

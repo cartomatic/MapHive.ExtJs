@@ -7,7 +7,8 @@
     var initialCfg = null;
 
     /**
-     * Meant to be used as a mixin. Provides a unified way of accessing the initial configuration settings output on app load into global scope
+     * Meant to be used as a mixin. Provides a unified way of accessing the initial configuration settings output on app load into global scope;
+     * mh.data.InitialCfg is the expected model of the cfg.
      */
     Ext.define('mh.mixin.InitialCfg', {
 

@@ -4,6 +4,10 @@
     //Make sure strict mode is on
     'use strict';
 
+    var accessToken = null,
+        noAuthAllowedAccessToken = 'no-auth-access-allowed',
+        offlineAccessToken = 'offline-access-allowed';
+
     /**
      * Responsible for handling the uer authentication related functionality. The UI is toolkit specific; this controller uses the default modules
      */
@@ -12,7 +16,9 @@
 
         mixins: [
             'mh.communication.MsgBus',
-            'mh.util.console.Formatters'
+            'mh.util.console.Formatters',
+            'mh.mixin.ApiMap',
+            'mh.data.Ajax'
         ],
 
         /**
@@ -28,6 +34,12 @@
          */
 
         /**
+         * @event auth::authenticateuser
+         * @param {string} [accessToken]
+         * this is actually a watched event. it should be fired by components that need to trigger the authentication process
+         */
+
+        /**
          * @event auth:gimmeaccesstoken
          * this is actually a watched event. it should be fired by the components that need to obtain the access token because of some reason
          */
@@ -38,22 +50,24 @@
             //</debug>
 
             //setup the required evt listeners
-            this.watchGlobal('root::authenticateuser', this.onAuthenticateUser, this);
+            this.watchGlobal('auth::authenticateuser', this.onAuthenticateUser, this);
+            
             this.watchGlobal('auth::xwindowauthenticateuser', this.onXWindowAuthenticateUser, this);
             this.watchGlobal('auth::gimmeaccesstoken', this.onGimmeAccessToken, this);
         },
 
-        onLaunch: function(){
-            //<debug>
-            console.log(this.cStdIcon('info'), this.cDbgHdr('auth ctrl'), 'launched');
-            //</debug>
+        // onLaunch: function(){
+        //     //<debug>
+        //     console.log(this.cStdIcon('info'), this.cDbgHdr('auth ctrl'), 'launched');
+        //     //</debug>
+        //
+        //     //so far nothing to do here
+        // },
 
-            //so far nothing to do here
-        },
-
+        /**
+         * auth::gimmeaccesstoken callback; fires back auth::accesstoken with the current access token
+         */
         onGimmeAccessToken: function(){
-            //TODO - local access token storag needed!!!
-
             this.fireGlobal('auth::accesstoken', this.getAccessToken());
         },
 
@@ -61,47 +75,68 @@
          * returns a currently active access token
          */
         getAccessToken: function(){
-            return this.accessToken || 'no-auth';
+            return accessToken;
         },
 
         /**
          * some module requested user authentication
-         * @param e
+         * @param at
          */
-        onAuthenticateUser: function(e, tunnel){
+        onAuthenticateUser: function(at){
 
-            //extract the access token and verify it. If ok, then just fire authenticated
-            //if not ok trigger the auth UI
+            //Note - access token is extracted off the hash by the root controller and by default passed here for handling
 
-            //need to have own access token storage, so once retrieved it is kept here for further reference
+            //If access token has been provided, it means it should be verified; if ok, user is already authenticated, if not ok, a full auth procedure should kick in
+            if(at){
+
+                //depending on scenario, this is to bypass the initial token verification
+                if(at === noAuthAllowedAccessToken || at === offlineAccessToken){
+                    //good to go,
+                    this.broadcastUserAuthenticated(at);
+                }
+                else {
+                    this.doGet({
+                        url: this.getApiEndPoint('tokenValidation'),
+                        scope: this,
+                        params: {
+                            accessToken: at
+                        },
+                        success: this.onAccessTokenVerifySuccess,
+                        failure: this.onAccessTokenVerifyFailure
+                    });
+                }
+            }
+            else {
+                //access token not there, so just trigger the auth procedure
+                this.initiateUserAuthProcedure();
+            }
+        },
+
+        broadcastUserAuthenticated: function(at){
+            this.fireGlobal('auth::userauthenticated', at);
+        },
+
+        /**
+         * Access token verification success callback
+         */
+        onAccessTokenVerifySuccess: function(response){
+            //auth token must have been ok, so just fire back user authenticated
+            //grab the token off the response and broadcast it
+            this.broadcastUserAuthenticated(response);
+        },
+
+        /**
+         * Access token verification failure callback
+         */
+        onAccessTokenVerifyFailure: function(){
+            this.initiateUserAuthProcedure();
+        },
 
 
-            //TODO - extract the access token off the url and verify it by poking the backend. There should be a simple endpoint to do just that! If ok, then user is authenticated; otherwise check if the current scenario requires authentication - host needs to know what to load, hosted needs to know if it requires auth! In a case of a hosted app it should be easy, but can try to make it generic too. Also when hosted, need to fire evt to a parent that auth is required
-
-            //Note - access token is extracted off the hash by the root controller. Need to extract it
-
-
-
-            //TODO - potential customisation needed for the offline scenario - but in this case the GeoFutura.Gpr may well customise the auth controller
-
-            //TODO - make sure to obtain the refresh token too. all the usual stuff that will be required to handle session properly!
-
-            console.log('Faking authentication...');
-
-            //Note:
-            //Authentication will require some UI. So it is crucial, there is a the same login view entry point for both toolkits.
-            //otherwise requires will cause problems!
-
-            //TODO - maybe some logic should be done on the serverside in the aspx entry point???
-            //TODO - Basically if user specifies an app he wants to use it is necessary to know if this app requires authentication. If so, the module will have to trigger auth
-            //TODO - but if not, the app can let user in as an anonymous user
-
-            //Note: for anonymous users just return null as an access token.
-
-
-
-            //----------------------------------
-
+        /**
+         * Initiates user authentication procedure taking care of handling it appropriately - in own window or by delegating it to parent window depending on the app mode - host vs hosted
+         */
+        initiateUserAuthProcedure: function(){
             //check the mode, the app is running in - if this is a hosted app it should fire a xWindow auth::xwindowauthenticateuser so the parent takes care of
             //handling the auth!!!!
             var me = this,
@@ -132,13 +167,12 @@
          * Handles auth locally
          */
         handleAuthLocally: function(){
-
-            //TODO - init auth UI, and pass it a callback, or subscrbe to evts, so can handle auth results back in proper methods. Same approach will be required for x window, so at least this part will be generic.
-
-            var at = 'some-locally-obtained-access-token';
-
-            //TODO - finall just pass the access token
-            this.fireGlobal('auth::userauthenticated', at);
+            //show logon ui and pass it an appropriate callback
+            this.showLogonUi(
+                Ext.bind(function(at){
+                    this.broadcastUserAuthenticated(at);
+                }, this)
+            );
         },
 
         /**
@@ -159,13 +193,13 @@
          * @param e
          * @param tunnel
          */
-        onXWindowAuthenticateUser: function(e, tunnel){
-
-            //TODO - init auth UI, and pass it a callback or subscribe to its events, so when authenticated, can process the auth data and pass it back to a child
-
-            var at = 'some-parent-obtained-auth-access-token-dude';
-
-            this.fireGlobal('auth::xwindowuserauthenticated', at, {suppressLocal: true, hosted: true}); //passinbg back to a child, so hosted direction only!
+        onXWindowAuthenticateUser: function(e){
+            //show logon ui and pass it an appropriate callback
+            this.showLogonUi(
+                Ext.bind(function(at){
+                    this.fireGlobal('auth::xwindowuserauthenticated', at, {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
+                }, this)
+            );
         },
 
         /**
@@ -177,7 +211,19 @@
             //TODO - save auth data properly!
 
             //managed to authenticate in parent, need to distribute the auth info properly
-            this.fireGlobal('auth::userauthenticated', e);
+            this.broadcastUserAuthenticated(e);
+        },
+
+        /**
+         * Shows a logon UI. When user is authenticated, the control is passed back to caller
+         * @param {Function} successCallback
+         */
+        showLogonUi: function(successCallback){
+            //Note: Authentication will require some UI. So it is crucial, there is a the same login view entry point for both toolkits. otherwise requires will cause problems!
+
+            
+
+            successCallback('some-token');
         }
     });
 

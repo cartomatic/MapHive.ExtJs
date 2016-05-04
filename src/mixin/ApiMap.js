@@ -10,11 +10,14 @@
     Ext.define('mh.mixin.ApiMap', {
 
         mixins: [
-            'mh.mixin.InitialCfg',
+            'mh.mixin.InitialCfg'
         ],
 
+        //Note: it could be desirable to make it customisable externally...
         apiMap: {
-            applications: 'GetApps.json'
+            applications: 'GetApps.json',
+
+            tokenValidation: 'ValidateToken.json'//'auth/tokenvalidation'
         },
 
         getApiEndPoint: function(endPoint){

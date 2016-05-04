@@ -138,7 +138,7 @@
                 url: cfg.url,
                 method: cfg.method || 'POST',
                 headers: Ext.merge(this.getStandardHeaders(), cfg.headers),
-                params: Ext.isObject(cfg.params) ? Ext.JSON.encode(cfg.params) : null,
+                params: Ext.isObject(cfg.params) ? (cfg.method === 'GET' ? Ext.Object.toQueryString(cfg.params) : Ext.JSON.encode(cfg.params)) : null,
                 callback: Ext.bind(this._requestCallback, {self: this, cfg: cfg}),
                 disableCaching: cfg.disableCaching
             });
