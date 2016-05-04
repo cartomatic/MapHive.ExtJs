@@ -21,7 +21,11 @@
             'mh.data.Ajax'
         ],
 
-        /**
+    requires: [
+        'mh.module.auth.Auth'
+    ],
+
+    /**
          * @event auth::userauthenticated
          * @param {string} accessToken
          * fired whenever user is authenticated
@@ -221,9 +225,26 @@
         showLogonUi: function(successCallback){
             //Note: Authentication will require some UI. So it is crucial, there is a the same login view entry point for both toolkits. otherwise requires will cause problems!
 
-            
+            //this.getAuthUi().showLogonView(successCallback);
 
             successCallback('some-token');
+        },
+
+        /**
+         * @property {mh.module.auth.Auth}
+         * @private
+         */
+        authUi: null,
+
+        /**
+         * Gets an instance of auth UI
+         * @returns {null}
+         */
+        getAuthUi: function(){
+            if(!this.authUi){
+                this.authUi = Ext.create('mh.module.auth.Auth');
+            }
+            return this.authUi;
         }
     });
 

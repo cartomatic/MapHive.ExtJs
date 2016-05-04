@@ -3,21 +3,28 @@
     'use strict';
 
     /**
-     * Lock screen used to lock the UI from user interaction; adds item to centered vbox layout
+     * Lock screen used to lock the UI from user interaction; based on the admin dashboard template
      */
     Ext.define('mh.module.auth.LockingScreen', {
-        extend: 'mh.module.auth.LockingScreenBase',
+        extend: 'Ext.window.Window',
 
-        xtype: 'mh.lockingscreen',
+        xtype: 'mh.locking-screen',
 
-        requires: [
-            'Ext.layout.container.VBox'
-        ],
+        closable: false,
+        resizable: false,
+        titleAlign: 'center',
+        maximized: true,
+        modal: true,
 
-        layout: {
-            type: 'vbox',
-            align: 'center',
-            pack: 'center'
-        }
+        header: false,
+
+        border: false,
+        style: {
+            border: '0px',
+            padding: '0px'
+        },
+
+        //css borrowed from admin dashboard template
+        cls: 'mh-locking-screen'
     });
 }());
