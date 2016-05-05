@@ -24,11 +24,6 @@
             this.publishApi(['showLogonView']);
         },
 
-
-        onForgotPassBtnClick: function(btn){
-            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('forgotPassView'));
-        },
-
         /**
          * Traps an enter key within email or password field
          * @param txtField
@@ -36,7 +31,7 @@
          */
         trapLoginEnter: function(txtField, e){
             if (e.getKey() === e.ENTER) {
-                console.warn('GOT YA');
+                console.warn('GOT YA', txt.reference);
             }
         },
 
@@ -47,6 +42,14 @@
         showLogonView: function(callback){
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
             this.getView().show();
+        },
+
+        onForgotPassBtnClick: function(btn){
+            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('forgotPassView'));
+        },
+
+        onResetPassCancelBtnClick: function(btn){
+            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
         }
     });
 

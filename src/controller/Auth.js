@@ -126,6 +126,10 @@
         },
 
         broadcastUserAuthenticated: function(at){
+
+            //TODO - save auth stuff locally!
+            //perhaps will have access token along with refresh token
+
             this.fireGlobal('auth::userauthenticated', at);
         },
 

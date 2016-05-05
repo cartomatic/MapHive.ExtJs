@@ -54,7 +54,31 @@
              * @cfg {string} [forgotPassView|setUI]
              * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            'forgotPassView|setUI': null
+            'forgotPassView|setUI': null,
+
+            /**
+             * @cfg {string} [btnResetPass|setUI]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             */
+            'btnResetPass|setUI': null,
+
+            /**
+             * @cfg {string} [btnResetPass|setScale]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             */
+            'btnResetPass|setScale': null,
+
+            /**
+             * @cfg {string} [btnResetPassCancel|setUI]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             */
+            'btnResetPassCancel|setUI': null,
+
+            /**
+             * @cfg {string} [btnResetPassCancel|setScale]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             */
+            'btnResetPassCancel|setScale': null
         },
 
         layout: {
@@ -75,16 +99,20 @@
                 items: [
                     {
                         xtype: 'form',
-                        title: 'Login',
+                        header: {
+                            title: 'Login',
+                            iconCls: 'x-fa fa-lock',
+                            height: 35
+                        },
+
                         reference: 'loginView',
                         layout: 'form',
-                        iconCls: 'x-fa fa-lock',
+
                         items: [
                             {
                                 xtype: 'textfield',
-                                height: 30,
-                                hideLabel: true,
-                                hideEmptyLabel: true,
+                                reference: 'txtEmail',
+                                height: 35,
                                 emptyText: 'Email',
                                 enableKeyEvents: true,
                                 listeners: {
@@ -93,9 +121,8 @@
                             },
                             {
                                 xtype: 'textfield',
-                                height: 30,
-                                hideLabel: true,
-                                hideEmptyLabel: true,
+                                reference: 'txtPass',
+                                height: 35,
                                 emptyText: 'Password',
                                 inputType: 'password',
                                 enableKeyEvents: true,
@@ -129,11 +156,48 @@
                     },
                     {
                         xtype: 'panel',
-                        title: 'Forgot pass?',
+                        header: {
+                            title: 'Forgot pass?',
+                            iconCls: 'x-fa fa-exclamation-triangle',
+                            height: 35
+                        },
+                        layout: 'form',
                         reference: 'forgotPassView',
                         items: [
                             {
-                                xtype: 'textfield'
+                                xtype: 'textfield',
+                                reference: 'txtForgotPassEmail',
+                                height: 35,
+                                emptyText: 'Email',
+                                enableKeyEvents: true,
+                                listeners: {
+                                    keydown: 'trapLoginEnter'
+                                }
+                            }
+                        ],
+                        dockedItems: [
+                            {
+                                xtype: 'toolbar',
+                                dock: 'bottom',
+                                items: [
+                                    {
+                                        xtype: 'button',
+                                        reference: 'btnResetPass',
+                                        text:  'Reset pass',
+                                        listeners: {
+                                            //click: 'onResetPassBtnClick'
+                                        }
+                                    },
+                                    '->',
+                                    {
+                                        xtype: 'button',
+                                        text: 'Back to Login',
+                                        reference: 'btnResetPassCancel',
+                                        listeners: {
+                                            click: 'onResetPassCancelBtnClick'
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     }
