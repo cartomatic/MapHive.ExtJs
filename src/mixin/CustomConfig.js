@@ -17,13 +17,10 @@
          */
         applyCustomViewConfig: function(){
             var cfg = this.getView().config,
-                keys = Ext.Object.getKeys(cfg),
                 key, keyValue, keyParts,
-                i = 0, len = keys.length,
                 ref;
 
-            for(i; i < len; i++){
-                key = keys[i];
+            for(key in cfg){
                 keyValue = cfg[key];
 
                 //only consider pipe delimited properties

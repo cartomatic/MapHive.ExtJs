@@ -25,6 +25,15 @@
         'mh.module.auth.Auth'
     ],
 
+        config: {
+            /**
+             * @cfg {string} [authUi='mh.module.auth.Auth']
+             * Auth UI to be used by the Auth controller. Required to expose some standardised API.
+             * See mh.module.auth.Auth for details
+             */
+            authUi: 'mh.module.auth.Auth'
+        },
+
     /**
          * @event auth::userauthenticated
          * @param {string} accessToken
@@ -223,28 +232,28 @@
          * @param {Function} successCallback
          */
         showLogonUi: function(successCallback){
-            //Note: Authentication will require some UI. So it is crucial, there is a the same login view entry point for both toolkits. otherwise requires will cause problems!
+            //Note: Authentication controller requires a UI module exposing a standardised API! see mh.module.auth.Auth for details
 
-            //this.getAuthUi().showLogonView(successCallback);
+            this.createAuthUi().showLogonView();
+
+            //TODO - handle the callback somehow! think that need to handle server communication here... not yet sure though!
 
             successCallback('some-token');
         },
 
         /**
-         * @property {mh.module.auth.Auth}
-         * @private
-         */
-        authUi: null,
-
-        /**
          * Gets an instance of auth UI
          * @returns {null}
          */
-        getAuthUi: function(){
-            if(!this.authUi){
-                this.authUi = Ext.create('mh.module.auth.Auth');
+        createAuthUi: function(){
+            if(!this.getAuthUi()){
+                throw 'Auth controller requires the authUI to be properly configured!';
             }
-            return this.authUi;
+
+            if(Ext.isString(this.getAuthUi())){
+                this.setAuthUi(Ext.create(this.getAuthUi()));
+            }
+            return this.getAuthUi();
         }
     });
 
