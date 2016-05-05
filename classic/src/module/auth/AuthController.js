@@ -10,17 +10,19 @@
     Ext.define('mh.module.auth.AuthController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-auth',
-    
+
+        mixins: [
+            'mh.mixin.CustomConfig'
+        ],
+
         /**
          * Called when the view is created
          */
         init: function() {
-    
-            // var view = this.getView(),
-            //     loginVie = this.
             
-            
+            this.applyCustomViewConfig();
         },
+
 
         onForgotPassBtnClick: function(btn){
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('forgotPassView'));

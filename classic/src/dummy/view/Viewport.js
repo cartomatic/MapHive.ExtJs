@@ -11,7 +11,7 @@
         extend: 'Ext.panel.Panel',
 
         requires: [
-            'Ext.plugin.Viewport',
+            'Ext.plugin.Viewport'
         ],
 
         plugins: 'viewport',

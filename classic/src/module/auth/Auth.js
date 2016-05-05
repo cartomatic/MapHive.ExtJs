@@ -21,34 +21,40 @@
         config: {
 
             /**
-             * @cfg {string} [loginViewUi]
+             * @cfg {string} [loginView|setUI]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            loginViewUi: null,
+            'loginView|setUI': null,
 
             /**
-             * @cfg {string} [forgotPassVieUi]
+             * @cfg {string} [btnForgotPass|setUI]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            forgotPassVieUi: null,
+            'btnForgotPass|setUI': null,
 
             /**
-             * @cfg {string} [loginBtnUi]
+             * @cfg {string} [btnForgotPass|setScale]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            loginBtnUi: null,
+            'btnForgotPass|setScale': null,
 
             /**
-             * @cfg {string} [loginBtnScale]
+             * @cfg {string} [btnLogin|setUI]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            loginBtnScale: null,
+            'btnLogin|setUI': null,
 
             /**
-             * @cfg {string} [forgotPassBtnUi]
+             * @cfg {string} [btnLogin|setScale]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            forgotPassBtnUi: null,
+            'btnLogin|setScale': null,
 
             /**
-             * @cfg {string} [forgotPassBtnScale]
+             * @cfg {string} [forgotPassView|setUI]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            forgotPassBtnScale: null
+            'forgotPassView|setUI': null
         },
 
         layout: {
@@ -105,6 +111,7 @@
                                 items: [
                                     {
                                         xtype: 'button',
+                                        reference: 'btnForgotPass',
                                         text:  'Forgot pass?',
                                         listeners: {
                                             click: 'onForgotPassBtnClick'
@@ -113,7 +120,8 @@
                                     '->',
                                     {
                                         xtype: 'button',
-                                        text: 'Login'
+                                        text: 'Login',
+                                        reference: 'btnLogin'
                                     }
                                 ]
                             }
