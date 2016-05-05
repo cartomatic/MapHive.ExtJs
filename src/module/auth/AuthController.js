@@ -12,15 +12,16 @@
         alias: 'controller.mh-auth',
 
         mixins: [
-            'mh.mixin.CustomConfig'
+            'mh.mixin.CustomConfig',
+            'mh.mixin.PublishApi'
         ],
 
         /**
          * Called when the view is created
          */
         init: function() {
-            
             this.applyCustomViewConfig();
+            this.publishApi(['showLogonView']);
         },
 
 
@@ -37,6 +38,15 @@
             if (e.getKey() === e.ENTER) {
                 console.warn('GOT YA');
             }
+        },
+
+        /**
+         * shows a logon view
+         * @param callback
+         */
+        showLogonView: function(callback){
+            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
+            this.getView().show();
         }
     });
 
