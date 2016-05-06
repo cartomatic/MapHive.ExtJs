@@ -124,13 +124,6 @@
         customHashParams: null,
 
         /**
-         * @property
-         *
-         * @private
-         */
-        appHashPropertyName: 'a',
-
-        /**
          * @propery {Object} appHashProperties
          * @private
          * hash properties
@@ -176,13 +169,17 @@
          */
         hashPropertyValueDelimiter: ':',
 
+
         /**
          * initializes controller
          */
         init: function(){
+
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'initialised');
             //</debug>
+
+            this.setUpHashParams();
 
             this.extractTempParamsFromHash();
 
@@ -209,6 +206,26 @@
 
             //if required, turns on xWindow route watch
             this.watchGlobal('root:watchexternalroutes', this.initXWindowRouteWatch, this);
+        },
+
+        /**
+         * Sets up hash param names, based on the initial config output by the app entry point (aspx, etc)
+         */
+        setUpHashParams: function(){
+            var appHashProperties = this.getMhCfgProperty('appHashProperties'),
+                hashPropertyDelimiter = this.getMhCfgProperty('hashPropertyDelimiter'),
+                hashPropertyValueDelimiter = this.getMhCfgProperty('hashPropertyValueDelimiter');
+
+            if(appHashProperties){
+                this.appHashProperties.route = appHashProperties.route || this.appHashProperties.route;
+                this.appHashProperties.accessToken = appHashProperties.accessToken || this.appHashProperties.accessToken;
+                this.appHashProperties.suppressAppToolbar = appHashProperties.suppressAppToolbar || this.appHashProperties.suppressAppToolbar;
+                this.appHashProperties.hosted = appHashProperties.hosted || this.appHashProperties.hosted;
+                this.appHashProperties.suppressSplash = appHashProperties.suppressSplash || this.appHashProperties.suppressSplash;
+            }
+
+            this.hashPropertyDelimiter = hashPropertyDelimiter || this.hashPropertyDelimiter;
+            this.hashPropertyValueDelimiter = hashPropertyValueDelimiter || this.hashPropertyValueDelimiter;
         },
 
         onLaunch: function(){
