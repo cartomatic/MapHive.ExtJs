@@ -6,13 +6,19 @@
 
 
         //TODO - this would really benefit from being dynamically configurable
-    var allowedOrigins = ['maphive.local|maphive.net'],
+    var allowedOrigins = null,
 
         regex = null,
 
         isOriginAllowed = function(origin){
 
             if(!regex) {
+
+                //Note: creating Ext class instance as we're outside of a class instance here!
+                allowedOrigins = Ext.create('mh.mixin.InitialCfg').getMhCfgProperty('allowedXWindowMsgBusOrigins') || [];
+
+                console.error('wtf',allowedOrigins);
+
                 //original regex comes from here: http://stackoverflow.com/questions/17236901/regex-to-validate-a-url-using-a-wildcard, http://www.debuggex.com/r/xOD3eBBPYnQq8Rb9
                 //^((\*|[\w\d]+(-[\w\d]+)*)\.)*(example|test)(\.com)$
 
@@ -52,7 +58,8 @@
         ],
 
         mixins: [
-            'mh.communication.MsgBus'
+            'mh.communication.MsgBus',
+            'mh.mixin.InitialCfg'
         ],
 
         /**
