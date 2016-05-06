@@ -243,7 +243,7 @@
             //decide whether user should be authenticated or not. If so wire an evt listener and let the auth do its work first; if not just launch the app...
             //The prerequisite here is to know what to do in advance. There were no service calls and such yet, so need to depend on whatever has been worked out
             //on the serverside prior to returning the app entry point - default aspx;
-            if(this.getMhCfgProperty('requiresAuth')){
+            if(this.appRequiresAuth()){
 
                 //<debug>
                 console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'Auth required - passing control to the auth ctrl...');
@@ -268,6 +268,36 @@
 
                 this.fireGlobal('root::launchapp');
             }
+        },
+
+        /**
+         * Checks if an app requires auth; It tries to identify the app through the hash params or the url the app loads with; the app is then tested against some data
+         * collected and returned by the server upon app load (injected into the initial config).
+         * If app is recognised incorrectly as not requiring auth, a very call to a secured backend should trigger the authentication procedure anyway
+         */
+        appRequiresAuth: function(){
+
+            var requiresAuth = false,
+                appIdentifiers = this.getMhCfgProperty('authRequiredAppIdentifiers') || [],
+                ai = 0, ailen = appIdentifiers.length,
+
+                //initially assume hosted mode, so the app should be specified in the hash
+                appIdentifier = this.getCustomHashParam(this.appHashProperties.app);
+
+            //if the app identifier is not specified as a hash param, use url with params but without the url part (aka hash)
+            if(!appIdentifier) {
+                appIdentifier = decodeURIComponent(window.location.href.split('#')[0]);
+            }
+
+            //Depending on mode - HOST / HOSTED app is recognised by url or the app id / short name
+            for(ai; ai < ailen; ai++){
+                if(appIdentifiers[ai] === appIdentifier){
+                    requiresAuth = true;
+                    break;
+                }
+            }
+
+            return requiresAuth;
         },
 
         /**
