@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/cartomatic/MapHive.ExtJs.png?label=ready&title=Ready)](https://waffle.io/cartomatic/MapHive.ExtJs)
 # MapHive.ExtJs
 
 A set of abstracted classes used by the MapHive web apps.
