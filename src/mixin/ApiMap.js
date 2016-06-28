@@ -6,17 +6,37 @@
 
     var apiMapConfigured = false,
 
+        defaultParentIdentifier = '{parent_uuid}',
+
         //Note: this is overridable through the web.config... see the MhApiMap key for details
         apiMap = {
+
+            login: 'auth/login',
+
             applications: 'applications',
 
             tokenValidation: 'auth/tokenvalidation'
-        };
+        },
+
+        staticInstance = null;
 
     /**
      * Provides a centralised access point to the API endpoints
      */
     Ext.define('mh.mixin.ApiMap', {
+
+        statics: {
+            getApiEndPoint: function(endPoint){
+                if(!staticInstance){
+                    staticInstance = Ext.create('mh.mixin.ApiMap');
+                }
+                return staticInstance.getApiEndPoint(endPoint)
+            },
+
+            getDefaultParentIdentifier: function(){
+                return defaultParentIdentifier;
+            }
+        },
 
         mixins: [
             'mh.mixin.InitialCfg'
