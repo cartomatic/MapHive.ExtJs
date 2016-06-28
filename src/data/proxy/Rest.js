@@ -19,9 +19,7 @@
 
     requires: [
         'Ext.data.writer.Json',
-        'mh.data.reader.Json',
-        'mh.data.reader.Json',
-        'wg.data.reader.Json'
+        'mh.data.reader.Json'
     ],
 
     //writer used to send data out

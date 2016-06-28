@@ -8,7 +8,7 @@
      * There seems to be a bloody bug in the TriFilter activate method that shows up when trying to activate a filter programatically
      * therefore need to fix the mess in an override...
      */
-    Ext.define('wg.overrides.grid.filters.filter.TriFilter', {
+    Ext.define('mh.overrides.grid.filters.filter.TriFilter', {
         override: 'Ext.grid.filters.filter.TriFilter',
 
         /**

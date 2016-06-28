@@ -7,11 +7,12 @@
     /**
      * Created by domin on 5/11/2016.
      */
-    Ext.define('wg.localisation.LocalisationTemplate', {
-        requires: [
-            'wg.localisation.Localisation'
-        ],
-        statics: {
+    Ext.define('mh.localisation.LocalisationTemplate', {
+    requires: [
+        'mh.localisation.Localisation',
+        'mh.localisation.Localisation'
+    ],
+    statics: {
             localisation: {
                 /**
                  * Here go translations in a form of:
@@ -27,7 +28,7 @@
     }, function(){
         //register translations with a localisation service / mixin,
         //so requiring this class is enough for it to kick in
-        wg.localisation.Localisation.registerTranslations(this);
+        mh.localisation.Localisation.registerTranslations(this);
     });
 
 }());

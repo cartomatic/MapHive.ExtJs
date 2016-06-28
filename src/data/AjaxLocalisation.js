@@ -49,7 +49,7 @@
             }
         }
     }, function(){
-        wg.localisation.Localisation.registerTranslations(this);
+        mh.localisation.Localisation.registerTranslations(this);
     });
 
 }());

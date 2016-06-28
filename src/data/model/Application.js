@@ -8,13 +8,15 @@
      * Application object model
      */
     Ext.define('mh.data.model.Application', {
-        extend: 'Ext.data.Model',
-    
-        fields: [
-            /**
-             * identifier
-             */
-            { name: 'id', type: 'string', useNull: true },
+        extend: 'mh.data.model.Base',
+
+        requires: [
+        'mh.data.proxy.Rest',
+        'mh.mixin.ApiMap',
+        'mh.data.proxy.Rest'
+    ],
+
+    fields: [
 
             /**
              * Short name - used in the url part to indicate an active app (in host mode)
@@ -60,7 +62,13 @@
             { name: 'isDefault', type: 'boolean'}
 
             //more to come!
-        ]
+        ],
+
+        proxy: {
+            type: 'mhrest',
+            //this is at the Ext.define level so no access to instance based stuff. need to talk to a static method
+            url: mh.mixin.ApiMap.getApiEndPoint('applications')
+        }
     });
 
 }());

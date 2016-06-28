@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('wg.overrides.grid.filters.Filters', {
+    Ext.define('mh.overrides.grid.filters.Filters', {
 
         override: 'Ext.grid.filters.Filters',
 
