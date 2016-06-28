@@ -14,6 +14,7 @@
             login: 'auth/login',
 
             applications: 'applications',
+            userapps: 'applications/userapps',
 
             tokenValidation: 'auth/tokenvalidation'
         },

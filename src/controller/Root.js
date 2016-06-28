@@ -1,5 +1,5 @@
 //Disable some of the JSLint warnings
-/*global Ext,console,MapHive,mh,window*/
+/*global Ext,console,mh,window*/
 (function(){
     //Make sure strict mode is on
     'use strict';
@@ -28,7 +28,7 @@
         ],
 
         /**
-         * @event auth::authenticateuser
+         * @event auth::verifyauthstate
          * @param {string} [accessToken]
          */
 
@@ -56,8 +56,8 @@
          */
 
         /**
-         * @event auth::gimmeaccesstoken
-         * fired in order to request the access token off the Auth controller
+         * @event auth::gimmeauthtokens
+         * fired in order to request the access token and refresh token off the Auth controller
          */
 
         /**
@@ -137,6 +137,9 @@
          * @property {string} appHashProperties.accessToken
          * access token as passed to the hosted app
          *
+         * @property {string} appHashProperties.refreshToken
+         * refresh token as passed to the hosted app
+         *
          * @property {string} appHashProperties.suppressAppToolbar
          * suppress app toolbar
          *
@@ -150,6 +153,7 @@
             app: 'a',
             route: 'r',
             accessToken: 'at',
+            refreshToken: 'rt',
             suppressAppToolbar: 'suppress-app-toolbar',
             hosted: 'hosted',
             suppressSplash: 'suppress-splash'
@@ -219,6 +223,7 @@
             if(appHashProperties){
                 this.appHashProperties.route = appHashProperties.route || this.appHashProperties.route;
                 this.appHashProperties.accessToken = appHashProperties.accessToken || this.appHashProperties.accessToken;
+                this.appHashProperties.refreshToken = appHashProperties.refreshToken || this.appHashProperties.refreshToken;
                 this.appHashProperties.suppressAppToolbar = appHashProperties.suppressAppToolbar || this.appHashProperties.suppressAppToolbar;
                 this.appHashProperties.hosted = appHashProperties.hosted || this.appHashProperties.hosted;
                 this.appHashProperties.suppressSplash = appHashProperties.suppressSplash || this.appHashProperties.suppressSplash;
@@ -239,6 +244,10 @@
             //the key point here is that even if an app that requires auth is allowed to start initially, some very first calls to backend should result in 401 that in
             //return will trigger appropriate authentication procedure.
 
+            var tokens = {
+                accessToken: this.getCustomHashParam(this.appHashProperties.accessToken),
+                refreshToken: this.getCustomHashParam(this.appHashProperties.refreshToken)
+            };
 
             //decide whether user should be authenticated or not. If so wire an evt listener and let the auth do its work first; if not just launch the app...
             //The prerequisite here is to know what to do in advance. There were no service calls and such yet, so need to depend on whatever has been worked out
@@ -252,7 +261,7 @@
                 this.watchGlobal('auth::userauthenticated', this.continueAppLaunchWhenUserAuthenticated, this, {single: true});
 
                 //and when ready request the user auth!
-                this.fireGlobal('auth::authenticateuser', this.getCustomHashParam(this.appHashProperties.accessToken));
+                this.fireGlobal('auth::verifyauthstate', tokens);
             }
             else {
                 //looks like we're good to go, so can trigger the app launch straight away
@@ -265,6 +274,12 @@
                 //<debug>
                 console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'Anonymous user allowed - launching the app...');
                 //</debug>
+
+
+                //The application does not require authorisation, but may actually have received authentication information
+                //since the user should remain authenticated even though the app does not require auth, need to trigger silent token validation
+                tokens.remoteAuthRequired = false;
+                this.fireGlobal('auth::verifyauthstate', tokens);
 
                 this.fireGlobal('root::launchapp');
             }
@@ -312,7 +327,7 @@
                 hashParts, hp, hplen, hashPart,
                 outHashParts, outHash,
 
-                at, sat, sspl, hosted;
+                at, rt, sat, sspl, hosted;
 
             //only kick in if there was a hash part. otherwise there is no point really ;)
             if(hash){
@@ -323,6 +338,7 @@
                 hplen = hashParts.length;
 
                 at = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.accessToken);
+                rt = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.refreshToken);
                 sat = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressAppToolbar);
                 sspl = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressSplash);
                 hosted = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.hosted);
@@ -332,12 +348,13 @@
 
                     hashPart = hashParts[hp];
 
-                    if(Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, sat) || Ext.String.startsWith(hashPart, sspl) || Ext.String.startsWith(hashPart, hosted)){
-                        this.extractCustomHashParam(hashPart);
-                    }
-                    else {
+                    //trim the params that just mess in the toolbar.
+                    if(!(Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, rt) || Ext.String.startsWith(hashPart, sat) || Ext.String.startsWith(hashPart, sspl) || Ext.String.startsWith(hashPart, hosted))){
                         outHashParts.push(hashPart);
                     }
+
+                    //extract all the params, so can consult them later
+                    this.extractCustomHashParam(hashPart);
                 }
 
                 outHash = outHashParts.join(this.hashPropertyDelimiter);
@@ -364,7 +381,9 @@
             {
                 this.customHashParams = {};
             }
-            this.customHashParams[inputSplit[0]] = inputSplit[1];
+            if(inputSplit.length === 2) {
+                this.customHashParams[inputSplit[0]] = inputSplit[1];
+            }
         },
 
         /**
@@ -558,13 +577,26 @@
          * @param {mh.data.model.Application} app
          */
         onAppReload: function(app){
+
+            if(!app){
+                Ext.Msg.show({
+                    title: 'BOOOM!!!',
+                    message: 'Uuuups, it looks like the environment is somewhat misconfigured - there must at least be one app marked as common in order to use the HOST application',
+                    width: 350,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.MessageBox.ERROR
+                });
+
+                return;
+            }
+
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('apploader ctrl'), 'reloading app', app.getData());
             //</debug>
 
             //need to obtain the access token first!
-            this.watchGlobal('auth::accesstoken', this.onAppReloadAccessTokenRetrieved, {self: this, app: app}, {single: true});
-            this.fireGlobal('auth::gimmeaccesstoken');
+            this.watchGlobal('auth::authtokens', this.onAppReloadAuthTokensRetrieved, {self: this, app: app}, {single: true});
+            this.fireGlobal('auth::gimmeauthtokens');
         },
 
         /**
@@ -572,8 +604,7 @@
          * @private
          * @param accessToken
          */
-        onAppReloadAccessTokenRetrieved: function(accessToken){
-
+        onAppReloadAuthTokensRetrieved: function(tokens){
 
             //when params are attached to the url, they need to go before the url part!
             //when apps request reload or redirection, they do not care about any extra setup of course
@@ -590,7 +621,7 @@
 
                 //app hash is used by a host app only
                 appHash =
-                    self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.app) + (app.get('shortName') || app.get('id')) +
+                    self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.app) + (app.get('shortName') || app.get('uuid')) +
                     (hash.length > 0 ? self.hashPropertyDelimiter + self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.route) + inUrl[1] : ''),
 
                 urlParts = url.split('?'),
@@ -608,8 +639,11 @@
             //pass the extra params through the hash. This way they can be extracted and wiped out on app init without
             //having to reload (as would be the case with params of course)
 
-            if(accessToken){
-                hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.accessToken) + accessToken);
+            if(tokens.accessToken){
+                hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.accessToken) + tokens.accessToken);
+            }
+            if(tokens.refreshToken){
+                hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.refreshToken) + tokens.refreshToken);
             }
 
             if(iframe){
@@ -690,7 +724,7 @@
             this.duringAppsRetrieval = true;
 
             this.doGet({
-                url: this.getApiEndPoint('applications'),
+                url: this.getApiEndPoint('userapps'),
                 scope: this,
                 success: this.onGetAppsSuccess,
                 failure: this.onGetAppsFailure
