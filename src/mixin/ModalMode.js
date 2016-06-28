@@ -7,21 +7,31 @@
 
     var modalModeActive = false,
         modalModeRouteSnapshot = null,
+        modalModeLvl = 0,
 
         startModalMode = function(){
             modalModeRouteSnapshot = window.location.hash.replace('#', '');
             modalModeActive = true;
+
+            modalModeLvl += 1;
         },
 
         endModalMode = function(){
-            modalModeActive = false;
 
-            //bring back the pre-modal hash and reset it
-            //In a case route has been changed but not fixed because of some reason this will fix things
-            //WARNING - this may be potentially problematic when working with piped routes. They'd have to be applied prior to entering modal mode 'officially'
+            modalModeLvl -= 1;
 
-            window.location.hash = modalModeRouteSnapshot;
-            modalModeRouteSnapshot = null;
+            if(modalModeLvl <= 0){
+                modalModeLvl = 0;
+
+                modalModeActive = false;
+
+                //bring back the pre-modal hash and reset it
+                //In a case route has been changed but not fixed because of some reason this will fix things
+                //WARNING - this may be potentially problematic when working with piped routes. They'd have to be applied prior to entering modal mode 'officially'
+
+                window.location.hash = modalModeRouteSnapshot;
+                modalModeRouteSnapshot = null;
+            }
         };
 
 
@@ -41,16 +51,16 @@
 
         statics: {
             onModalModeStart: function(){
-                //<debug>
-                console.log('[MODAL MODE] - Started at child level.');
-                //</debug>
                 startModalMode();
+                //<debug>
+                console.log('[MODAL MODE] - Started at child level. Current lvl: ' + modalModeLvl);
+                //</debug>
             },
             onModalModeEnd: function(){
-                //<debug>
-                console.log('[MODAL MODE] - Ended at child level.');
-                //</debug>
                 endModalMode();
+                //<debug>
+                console.log('[MODAL MODE] - Ended at child level. Current lvl: ' + modalModeLvl);
+                //</debug>
             }
         },
 
@@ -74,28 +84,34 @@
          * modalMode started
          */
         startModalMode: function(){
-            //<debug>
-            console.log('[MODAL MODE] - started.');
-            //</debug>
             startModalMode();
+            //<debug>
+            console.log('[MODAL MODE] - started. Current lvl: ' + modalModeLvl);
+            //</debug>
 
-            //fire xWindow, so can have a 'shared' modal mode; firing only to host, pretty much because if a host is in modal mode
-            //it is likely to handle own modal mode anyway!
-            this.fireGlobal('modalmode::start', null, {suppressLocal: true, host: true});
+            //only fire once for xwindow. no point in tracking floating window count in parent
+            if(modalModeActive === 1){
+                //fire xWindow, so can have a 'shared' modal mode; firing only to host, pretty much because if a host is in modal mode
+                //it is likely to handle own modal mode anyway!
+                this.fireGlobal('modalmode::start', null, {suppressLocal: true, host: true});
+            }
         },
 
         /**
          * modal mode finished
          */
         endModalMode: function(){
-            //<debug>
-            console.log('[MODAL MODE] - etarted.');
-            //</debug>
             endModalMode();
+            //<debug>
+            console.log('[MODAL MODE] - ended. Current lvl: ' + modalModeLvl);
+            //</debug>
 
-            //fire xWindow, so can have a 'shared' modal mode; firing only to host, pretty much because if a host is in modal mode
-            //it is likely to handle own modal mode anyway!
-            this.fireGlobal('modalmode::end', null, {suppressLocal: true, host: true});
+            //only fire once for xwindow. no point in tracking floating window count in parent
+            if(!modalModeActive){
+                //fire xWindow, so can have a 'shared' modal mode; firing only to host, pretty much because if a host is in modal mode
+                //it is likely to handle own modal mode anyway!
+                this.fireGlobal('modalmode::end', null, {suppressLocal: true, host: true});
+            }
         },
 
         getModalModeActive: function(){
