@@ -4,9 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    var accessToken = null,
-        noAuthAllowedAccessToken = 'no-auth-access-allowed',
-        offlineAccessToken = 'offline-access-allowed';
+    var authTokens = null;
 
     /**
      * Responsible for handling the uer authentication related functionality. The UI is toolkit specific; this controller uses the default modules
@@ -34,22 +32,56 @@
             authUi: 'mh.module.auth.Auth'
         },
 
-    /**
+        /**
+         * @property {String} currentAuthMode
+         * the mode of the current authentication procedure - either 'local' or 'xwindow'
+         * @private
+         */
+        currentAuthMode: null,
+
+        /**
+         * @event auth::authenticateuser
+         * @param {Object} e
+         * @param {string} e.email
+         * @param {string} e.pass
+         *
+         * this is a watched event
+         */
+
+        /**
          * @event auth::userauthenticated
          * @param {string} accessToken
          * fired whenever user is authenticated
          */
 
         /**
-         * @event auth::accesstoken
-         * @param {string} accessToken
-         * fired as a response to auth:gimmeaccesstoken
+         * @event auth::userauthenticationfailed
          */
 
         /**
-         * @event auth::authenticateuser
-         * @param {string} [accessToken]
-         * this is actually a watched event. it should be fired by components that need to trigger the authentication process
+         * @event auth::xwindowauthenticateuser
+         * this is both watched and fired event
+         */
+
+        /**
+         * @event auth::xwindowuserauthenticated
+         * this is both watched and fired event
+         */
+
+        /**
+         * @event auth::resetpass
+         * @param {Object} e
+         * @param {string} e.email
+         *
+         * this is a watched event
+         */
+
+        /**
+         * @event auth::passreset
+         */
+
+        /**
+         * @event auth::passresetfailed
          */
 
         /**
@@ -57,16 +89,40 @@
          * this is actually a watched event. it should be fired by the components that need to obtain the access token because of some reason
          */
 
+        /**
+         * @event auth::authtokens
+         * @param {string} accessToken
+         * fired as a response to auth:gimmeauthtokens
+         */
+
+        /**
+         * @event auth::verifyauthstate
+         * @param {Object} data
+         * @param {string} data.accessToken
+         * @param {string} data.refreshToken
+         * @param {boolean} [data.remote=true] whether or not token verification should poke the backend; defaults to true; use false when token should not be verified but still passed to all the interested parties
+         *
+         * this is actually a watched event. it should be fired by components that need to to verify if auth is ok and to trigger the authentication process otherwise
+         */
+
+
         init: function(){
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('auth ctrl'), 'initialised');
             //</debug>
 
             //setup the required evt listeners
-            this.watchGlobal('auth::authenticateuser', this.onAuthenticateUser, this);
-            
+            this.watchGlobal('auth::verifyauthstate', this.onVerifyAuthState, this);
+
             this.watchGlobal('auth::xwindowauthenticateuser', this.onXWindowAuthenticateUser, this);
-            this.watchGlobal('auth::gimmeaccesstoken', this.onGimmeAccessToken, this);
+            this.watchGlobal('auth::gimmeauthtokens', this.onGimmeAuthTokens, this);
+
+            this.watchGlobal('auth::authenticateuser', this.onAuthenticateUser, this);
+            this.watchGlobal('auth::resetpass', this.onResetPass, this);
+
+
+            this.watchGlobal('ajax::unauthorized', this.onAjaxNonAuthorized, this);
+
         },
 
         // onLaunch: function(){
@@ -78,42 +134,63 @@
         // },
 
         /**
-         * auth::gimmeaccesstoken callback; fires back auth::accesstoken with the current access token
+         * Ajax non-authorised callback; provided all the ajax requests are routed via ajax utils, this should intercept 401 and in return display auth window
          */
-        onGimmeAccessToken: function(){
-            this.fireGlobal('auth::accesstoken', this.getAccessToken());
+        onAjaxNonAuthorized: function(){
+            //just show the logon screen
+            //depending on the scenario - host / vs hosted handle the auth properly!
+            this.initiateUserAuthProcedure();
+        },
+
+        /**
+         * auth::gimmeauthtokens callback; fires back auth::authtokens with the current access token
+         */
+        onGimmeAuthTokens: function(){
+            this.fireGlobal('auth::authtokens', this.getTokens());
         },
 
         /**
          * returns a currently active access token
          */
-        getAccessToken: function(){
-            return accessToken;
+        getTokens: function(){
+            return {
+                accessToken: authTokens ? authTokens.accessToken : null,
+                refreshToken: authTokens ? authTokens.refreshToken : null
+            };
         },
 
         /**
          * some module requested user authentication
          * @param at
          */
-        onAuthenticateUser: function(at){
+        onVerifyAuthState: function(data){
 
             //Note - access token is extracted off the hash by the root controller and by default passed here for handling
 
             //If access token has been provided, it means it should be verified; if ok, user is already authenticated, if not ok, a full auth procedure should kick in
-            if(at){
-
-                //depending on scenario, this is to bypass the initial token verification
-                if(at === noAuthAllowedAccessToken || at === offlineAccessToken){
-                    //good to go,
-                    this.broadcastUserAuthenticated(at);
+            //remote token verification procedure can be dismissed, but it must be stated explicitly
+            if(data && (data.remoteAuthRequired === false || data.accessToken)){
+                //see if the app actually requires auth against auth API...
+                //some apps are allowed to work without auth and therefore there is no need to verify the tokens here.
+                //if they are ok, then cool, services will pull user specific data, otherwise guest data will be returned
+                //
+                //then when user switches the app back to an authorisation requiring app, the auth will kick again.
+                if(data.remoteAuthRequired === false){
+                    //good to go, just let all the interested parties know the user is authenticated
+                    this.broadcastUserAuthenticated({accessToken: data.accessToken, refreshToken: data.refreshToken});
                 }
                 else {
+                    //uhuh, got the token, and remote auth has not been explicitly dismissed, so do token verification...
                     this.doGet({
                         url: this.getApiEndPoint('tokenValidation'),
-                        scope: this,
-                        params: {
-                            accessToken: at
+                        scope: {
+                            me: this,
+                            refreshToken: data.refreshToken
                         },
+                        params: {
+                            token: data.accessToken
+                        },
+                        autoHandleExceptions: false,
                         success: this.onAccessTokenVerifySuccess,
                         failure: this.onAccessTokenVerifyFailure
                     });
@@ -125,12 +202,19 @@
             }
         },
 
-        broadcastUserAuthenticated: function(at){
+        /**
+         * Broadcasts the auth::userauthenticated event for the listening modules
+         * @param tokens
+         */
+        broadcastUserAuthenticated: function(tokens){
 
-            //TODO - save auth stuff locally!
-            //perhaps will have access token along with refresh token
+            authTokens = {
+                accessToken: tokens.accessToken,
+                accessTokenExpirationTimeUtc: tokens.accessTokenExpirationTimeUtc,
+                refreshToken: tokens.refreshToken
+            };
 
-            this.fireGlobal('auth::userauthenticated', at);
+            this.fireGlobal('auth::userauthenticated', authTokens.accessToken);
         },
 
         /**
@@ -139,16 +223,26 @@
         onAccessTokenVerifySuccess: function(response){
             //auth token must have been ok, so just fire back user authenticated
             //grab the token off the response and broadcast it
-            this.broadcastUserAuthenticated(response);
+
+            //Note: using complex scope here
+            var me = this.me,
+                refreshToken = this.refreshToken;
+
+            //Note: this should be the very same object as the one returned from the login method
+            me.broadcastUserAuthenticated({
+                accessToken: response.accessToken,
+                refreshToken: response.refreshToken || refreshToken, //if no refresh token provided, use the one that is likely to have been obtained from the url part.
+                accessTokenExpirationTimeUtc: response.accessTokenExpirationTimeUtc
+            });
         },
 
         /**
          * Access token verification failure callback
          */
         onAccessTokenVerifyFailure: function(){
-            this.initiateUserAuthProcedure();
+            //Note: using complex scope here
+            this.me.initiateUserAuthProcedure();
         },
-
 
         /**
          * Initiates user authentication procedure taking care of handling it appropriately - in own window or by delegating it to parent window depending on the app mode - host vs hosted
@@ -185,11 +279,8 @@
          */
         handleAuthLocally: function(){
             //show logon ui and pass it an appropriate callback
-            this.showLogonUi(
-                Ext.bind(function(at){
-                    this.broadcastUserAuthenticated(at);
-                }, this)
-            );
+            this.currentAuthMode = 'local';
+            this.showLogonUi();
         },
 
         /**
@@ -211,12 +302,9 @@
          * @param tunnel
          */
         onXWindowAuthenticateUser: function(e){
-            //show logon ui and pass it an appropriate callback
-            this.showLogonUi(
-                Ext.bind(function(at){
-                    this.fireGlobal('auth::xwindowuserauthenticated', at, {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
-                }, this)
-            );
+            this.currentAuthMode = 'xwindow';
+            //show logon ui
+            this.showLogonUi();
         },
 
         /**
@@ -224,40 +312,127 @@
          * @param e
          */
         onXWindowUserAuthenticated: function(e){
-
-            //TODO - save auth data properly!
-
             //managed to authenticate in parent, need to distribute the auth info properly
             this.broadcastUserAuthenticated(e);
         },
 
         /**
-         * Shows a logon UI. When user is authenticated, the control is passed back to caller
-         * @param {Function} successCallback
+         * Shows a logon UI.
          */
-        showLogonUi: function(successCallback){
+        showLogonUi: function(){
             //Note: Authentication controller requires a UI module exposing a standardised API! see mh.module.auth.Auth for details
 
-            this.createAuthUi().showLogonView();
+            //hide splash - this will not cause problems if a splash has already been hidden
+            if(typeof(splash) !== 'undefined' && Ext.isFunction(splash.hide)){
+                splash.hide();
+            }
 
-            //TODO - handle the callback somehow! think that need to handle server communication here... not yet sure though!
-
-            successCallback('some-token');
+            //<debug>
+            if(true){
+                this.getAuthUiInstance().showLogonViewWithAutoLogon('webgistest@emapa.pl', 'test');
+            }
+            else {
+                //</debug>
+                this.getAuthUiInstance().showLogonView();
+                //<debug>
+            }
+            //</debug>
         },
 
         /**
          * Gets an instance of auth UI
          * @returns {null}
          */
-        createAuthUi: function(){
+        getAuthUiInstance: function(){
             if(!this.getAuthUi()){
                 throw 'Auth controller requires the authUI to be properly configured!';
             }
 
-            if(Ext.isString(this.getAuthUi())){
-                this.setAuthUi(Ext.create(this.getAuthUi()));
+            var authUi = this.getAuthUi();
+
+            if(Ext.isString(authUi)){
+                authUi = Ext.create(authUi)
+                this.setAuthUi(authUi);
             }
-            return this.getAuthUi();
+            return authUi;
+        },
+
+        /**
+         * Authenticates user against the backend
+         * @param e
+         * @param e.email
+         * @param e.pass
+         */
+        onAuthenticateUser: function(e){
+            this.doGet({
+                url: this.getApiEndPoint('login'),
+                scope: this,
+                params: {
+                    email: e.email,
+                    pass: e.pass
+                },
+                autoHandleExceptions: false,
+                success: this.authenticateUserSuccess,
+                failure: this.authenticateUserFailure
+            });
+        },
+
+        /**
+         * User authentication success callback
+         * @param response
+         */
+        authenticateUserSuccess: function(response){
+
+            if(response.success){
+
+                //extract the auth token and refresh token and pass it further
+                var tokens = {
+                    accessToken: response.accessToken,
+                    refreshToken: response.refreshToken,
+                    accessTokenExpirationTimeUtc: response.accessTokenExpirationTimeUtc
+                };
+
+                if(this.currentAuthMode === 'xwindow'){
+                    //broadcast locally
+                    this.broadcastUserAuthenticated(tokens);
+                    //and down to children
+                    this.fireGlobal('auth::xwindowuserauthenticated', tokens, {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
+                }
+                else {
+                    this.broadcastUserAuthenticated(tokens);
+                }
+
+                this.currentAuthMode = null;
+            }
+            else {
+                //just pass it to the default failure handler
+                this.authenticateUserFailure(response);
+            }
+        },
+
+        /**
+         * user authentication failure callback
+         * @param response
+         */
+        authenticateUserFailure: function(response){
+            this.fireGlobal('auth::userauthenticationfailed');
+        },
+
+        /**
+         * initiates a password reset procedure
+         * @param e
+         * @param e.email
+         */
+        onResetPass: function(e){
+            this.fireGlobal('auth::passreset');
+        },
+
+        onResetPassSuccess: function(e){
+            this.fireGlobal('auth::passreset');
+        },
+
+        onResetPassFailure: function(e){
+            this.fireGlobal('auth::passresetfailed');
         }
     });
 
