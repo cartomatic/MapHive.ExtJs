@@ -19,7 +19,7 @@
                 a = 0, alen = apis.length;
 
             for(a; a < alen; a++){
-                method = arguments[a];
+                method = apis[a];
 
                 if(!view[method] && Ext.isFunction(this[method])){
                     view[method] = Ext.bind(this[method], this);
