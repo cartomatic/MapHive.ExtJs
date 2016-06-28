@@ -79,7 +79,7 @@
         getGridIconWithTooltipHtml: function(iconCls, tooltip){
             return '<img ' +
                         (Ext.isString(tooltip) && tooltip !== '' ? 'data-qtip="' + tooltip +'"' : '') +
-                        'class="wg-grid-icon ' + iconCls + '"' +
+                        'class="mh-grid-icon ' + iconCls + '"' +
                         'src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="" role="button"' +
                     '/>';
         }

@@ -56,7 +56,7 @@
                 this.configureApiMap();
             }
 
-            return this.getMhCfgProperty('mhApiEndPoint') + apiMap[endPoint];
+            return this.getMhCfgProperty('apiEndPoint') + apiMap[endPoint];
         },
 
         /**

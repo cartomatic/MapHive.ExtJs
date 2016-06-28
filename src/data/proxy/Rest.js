@@ -31,7 +31,7 @@
         },
 
         reader: {
-            type: 'wgjson'
+            type: 'mhjson'
         },
 
 
