@@ -9,7 +9,7 @@
             'mh.localisation.Localisation'
         ],
         inheritableStatics: {
-            localization: {
+            localisation: {
                 error: {
                     en: 'Error',
                     pl: 'Błąd'

@@ -40,7 +40,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.injectLocalizationToViewModel();
+            this.injectLocalisationToViewModel();
 
             this.applyCustomViewConfig();
 
