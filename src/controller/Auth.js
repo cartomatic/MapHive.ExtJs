@@ -121,7 +121,7 @@
             this.watchGlobal('auth::resetpass', this.onResetPass, this);
 
 
-            this.watchGlobal('ajax::unauthorized', this.onAjaxNonAuthorized, this);
+            this.watchGlobal('ajax::unauthorised', this.onAjaxNonAuthorised, this);
 
         },
 
@@ -136,7 +136,7 @@
         /**
          * Ajax non-authorised callback; provided all the ajax requests are routed via ajax utils, this should intercept 401 and in return display auth window
          */
-        onAjaxNonAuthorized: function(){
+        onAjaxNonAuthorised: function(){
             //just show the logon screen
             //depending on the scenario - host / vs hosted handle the auth properly!
             this.initiateUserAuthProcedure();

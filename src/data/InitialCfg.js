@@ -6,7 +6,7 @@
     
     /**
      * Data model of a config output into the global scope on app load; class used for documentation purpose only;
-     * See the MapHive.Server.Core.InitialCfg for a reference
+     * See the MapHive.Server.Core.WebClientConfiguration for a reference
      */
     Ext.define('mh.data.InitialCfg', {
 
@@ -40,6 +40,16 @@
         /**
          * @property {Object} [mhApiMap]
          * Customised API map; used in order to override the defaults used by the mh.ExtJs
+         */
+
+        /**
+         * @property {string} [langCode]
+         * LangCode as detected on the serverside
+         */
+
+        /**
+         * localisation {Object} [localisation]
+         * localisation for the application
          */
 
     });

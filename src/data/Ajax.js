@@ -24,12 +24,14 @@
 
         requires: [
             'mh.data.AjaxRequestCfg',
-            'mh.communication.MsgBus'
+            'mh.communication.MsgBus',
+            'mh.data.AjaxLocalisation'
         ],
 
         mixins: [
             'mh.communication.MsgBus',
-            'mh.util.console.Formatters'
+            'mh.util.console.Formatters',
+            'mh.mixin.Localisation'
         ],
 
         statics: {
@@ -87,7 +89,7 @@
          * @returns {string}
          */
         emphasize: function(msg){
-            return '<span style="color: red; font-weight: bold;">' + msg + '</span>span>';
+            return '<span style="color: red; font-weight: bold;">' + msg + '</span>';
         },
 
 
@@ -283,12 +285,11 @@
                 //whether or not the op timed out
                 timedout = response ? response.timedout : false,
 
-                //TODO - LANG!!!
-                title = 'Error' + (cfg.exceptionMsg ? ' :: ' + cfg.exceptionMsg : ''),
+             //Note: need to explicitly specify the localisations namespace, as this class is meant to be used as a mixin and otherwise would use the class name of a classes it gets mixed into
+                title = this.getTranslation('error', 'mh.data.Ajax') + (cfg.exceptionMsg ? ' :: ' + cfg.exceptionMsg : ''),
 
-                //TODO - LANG
                 msg =
-                    'Server reported the following error: ' + this.emphasize(response.status + ' :: ' + response.statusText );
+                    this.getTranslation('srvErrMsg', 'mh.data.Ajax') + this.emphasize(response.status + ' :: ' + response.statusText );
 
 
             //add the retry to output too so it can be handled at the caller level when required!
@@ -307,22 +308,29 @@
                 //bad request - input syntax / form errors
                 case 400:
 
-                    showMsg = true;
+                    //see if the client is willing to handle the 400 on its own
+                    if(cfg.suppress400 !== true){
+                        showMsg = true;
 
-                    //since this is 400 - bad request, bad form data, etc. retrying the request will give the same errors
-                    //and there is no point in allowing user to retry
-                    allowRetry = false;
+                        //since this is 400 - bad request, bad form data, etc. retrying the request will give the same errors
+                        //and there is no point in allowing user to retry
+                        allowRetry = false;
+
+                        if(cfg.hideExceptionDetails !== true && response.responseText){
+                            msg += response.responseText && response.responseText !== '""' ? '<br/><br/>' + response.responseText : '';
+                        }
+                    }
 
                     break;
 
                 //unathorised
                 case 401:
-                    if (cfg && cfg.autoHandleUnauthorised === true) {
+                    if (cfg && cfg.autoHandleUnauthorised !== false) {
                         //auto request status broadcasting has not been waived off
 
                         //only report the request status if configured to do so...
                         //if one waved this off, then likely is about to handle it itself!
-                        if (cfg.adviseRequestStatus !== true) {
+                        if (cfg.adviseRequestStatus !== false) {
                             this.fireGlobal('ajax::unauthorised');
                         }
 
@@ -335,8 +343,7 @@
                 case 403:
                     showMsg = true;
                     msg +=
-                        //TODO - LANG!
-                        '<br/><br/>You are not allowed to view this resource.';
+                        '<br/><br/>' + this.getTranslation('code403', 'mh.data.Ajax');
                     break;
 
                 case 404:
@@ -344,7 +351,7 @@
                     //by default auto ignore 404
                     //this is because the standard grid searches will actually trigger 404 whenever there is no search results.
                     //after all the api is RESTful-ish (:))
-                    if (cfg.autoIgnore404 === true) {
+                    if (cfg.autoIgnore404 === false) {
                         showMsg = true;
                     }
 
@@ -359,17 +366,17 @@
                     showMsg = true;
 
                     if (timedout) {
-                        msg = '<br/><br/>' + this.emphasize('Operation timed out');
+                        msg = this.emphasize(this.getTranslation('opTimedOut', 'mh.data.Ajax'));
                     }
                     else {
-                        msg += '<br/><br/>Unrecognised exception';
+                        msg += '<br/><br/>' + this.getTranslation('unrecognisedErr', 'mh.data.Ajax');
                     }
                     break;
             }
 
 
             //show msg if needed
-            if (cfg.autoHandleExceptions === true && showMsg) {
+            if (cfg.autoHandleExceptions !== false && showMsg) {
 
                 //mark the output as handled
                 output.handled = true;
@@ -377,8 +384,7 @@
                 //check if a retry method is configured - if so make it clear a user can use it
                 if (retry && allowRetry) {
                     msg += '<br/><br/>' +
-                         //TODO - LANG!
-                        'Please try again or contact the SysAdmin';
+                        this.getTranslation('tryAgain', 'mh.data.Ajax');
                 }
 
 
@@ -390,7 +396,14 @@
                     //TODO - LANG!
                     //modify the buttons text so the
                     buttonText: //Note: looks like specyfying alternate text for buttons actually makes them show up...
-                        allowRetry && retry ? {ok: 'Try again', cancel: 'Cancel'} : {ok: 'Ok'},
+                        allowRetry && retry ?
+                        {
+                            ok: this.getTranslation('btnTryAgain', 'mh.data.Ajax'),
+                            cancel: this.getTranslation('btnCancel', 'mh.data.Ajax')
+                        } :
+                        {
+                            ok: this.getTranslation('btnOk', 'mh.data.Ajax')
+                        },
 
                     buttons: allowRetry && retry ? Ext.Msg.OKCANCEL : Ext.Msg.OK,
 
@@ -505,6 +518,11 @@
         Ext.create('mh.communication.MsgBus').watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
 
         //TODO - some other listeners too, as the events become callable - session expire mainly, so can wipe out the access token! Also token refresh, as the session will be extended by utilising a refresh token.
+
+        //set listeners globally - need to do it here, as need this class to exist!
+        //Ext.Ajax.on('beforerequest', this.onBeforeRequest);
+        //Ext.Ajax.on('requestcomplete', this.onRequestComplete);
+        //Ext.Ajax.on('requestexception', this.onRequestException);
     });
 
 }());
