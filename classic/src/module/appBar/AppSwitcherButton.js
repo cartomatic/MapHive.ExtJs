@@ -20,24 +20,22 @@
 
         config: {
             /**
-             * @cfg {string} [appBtnUi='green-button']
-             * The default MapHive app switcher app btn - relies on Codaxy's Azzurra or a derived theme. Make sure to reset it by either providing a 'default' theme
-             * or whatever you want to use
+             * @cfg {string} [appBtnUi='default']
+             * The default MapHive app switcher app btn - use whatever ui your theme provides
              */
-            appBtnUi: 'green-button',
+            appBtnUi: 'default',
 
             /**
              * @cfg {string} [appActiveBtnUi='red-button']
-             * The default MapHive app switcher active app btn - relies on Codaxy's Azzurra or a derived theme. Make sure to reset it by either providing a 'default' theme
-             * or whatever you want to use
+             * The default MapHive app switcher active app btn - use whatever ui your theme provides
              */
-            appActiveBtnUi: 'red-button'
+            appActiveBtnUi: 'default'
         },
 
         /**
-         * Depends on Codaxy's Azzurra or a derived theme. Make sure to provide own UI in a case Azzurra is not an option
+         * Depends on Codaxy's Azzurra or a derived theme. use whatever ui your theme provides
          */
-        ui: 'black-button',
+        ui: 'default',
 
         scale: 'medium',
         iconCls: 'x-fa fa-th-large',

@@ -384,7 +384,7 @@
         onAppBtnClick: function(btn, e, eOpts){
             this.hideAppsPanel();
 
-            if(!this.currentApp || btn.app.get('id') !== this.currentApp.get('id')){
+            if(!this.currentApp || btn.app.get('uuid') !== this.currentApp.get('uuid')){
                 //load the new url
                 this.fireGlobal('root::reloadapp', btn.app);
             }
