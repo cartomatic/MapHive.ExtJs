@@ -1,29 +1,22 @@
 [
   {
-    id: 'e645c160-e03d-40cf-8a5f-35eac0be7118',
+    uuid: 'e645c160-e03d-40cf-8a5f-35eac0be7118',
     shortName: 'app1',
     name: 'App 1',
     description: 'A test HOST app that suppresses nested framed apps',
-    url: 'https://app1.maphive.local/?suppressnested=true#some/hash/123/456',
+    url: 'https://test1.maphive.local/?suppressnested=true#some/hash/123/456',
 
   },
   {
-    id: '58ec63c7-afc9-4ba6-86be-c4822034c086',
+    uuid: '58ec63c7-afc9-4ba6-86be-c4822034c086',
     name: 'App 2',
-    url: 'https://app2.maphive.local/?param=test param so can be sure paraterised app urls also work&suppressnested=true',
+    url: 'https://test2.maphive.local/?param=test param so can be sure paraterised app urls also work&suppressnested=true',
     useSplashscreen: true
   },
   {
-    id: '9e263268-2da3-4134-9f05-fa65dfab44b',
+    uuid: '9e263268-2da3-4134-9f05-fa65dfab44b',
     shortName: 'app3x3',
     name: 'App 3',
-    url: 'https://app3.maphive.local/'
-  },
-  {
-    id: '413f8788-46c8-4bff-a516-56f3bcc30c9e',
-    shortName: 'hgis1',
-    name: 'HGIS v1',
-    description: 'An initial port of the Cartomatic\s HGIS',
-    url: 'https://hgis.maphive.local/'
+    url: 'https://test3.maphive.local/'
   }
 ]

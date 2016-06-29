@@ -4,9 +4,6 @@
     //Make sure strict mode is on
     'use strict';
 
-            /**
-     * Created by domin on 5/18/2016.
-     */
     Ext.define('mh.module.data.EditorModel', {
         extend: 'Ext.app.ViewModel',
         alias: 'viewmodel.mh-editor',

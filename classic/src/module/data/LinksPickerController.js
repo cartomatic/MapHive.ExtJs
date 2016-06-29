@@ -4,9 +4,6 @@
     //Make sure strict mode is on
     'use strict';
     
-    /**
-     * Created by domin on 6/9/2016.
-     */
     Ext.define('mh.module.data.LinksPickerController', {
 
         extend: 'Ext.app.ViewController',

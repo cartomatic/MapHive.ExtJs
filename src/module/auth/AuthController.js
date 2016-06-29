@@ -4,9 +4,6 @@
     //Make sure strict mode is on
     'use strict';
 
-    /**
-     * Created by domin on 5/4/2016.
-     */
     Ext.define('mh.module.auth.AuthController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-auth',

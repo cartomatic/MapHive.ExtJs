@@ -3,10 +3,7 @@
 (function(){
     //Make sure strict mode is on
     'use strict';
-    
-    /**
-     * Created by domin on 4/18/2016.
-     */
+
     Ext.define('mh.module.appBar.AppBarController', {
 
         extend: 'Ext.app.ViewController',

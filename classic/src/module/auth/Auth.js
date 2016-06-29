@@ -12,13 +12,23 @@
 
         controller: 'mh-auth',
 
-        requires: [
-            'Ext.layout.container.VBox',
-            'mh.module.auth.LockingScreen',
-            'mh.module.auth.AuthController'
-        ],
+        viewModel: true,
 
-        config: {
+    requires: [
+        'Ext.button.Button',
+        'Ext.container.Container',
+        'Ext.form.Panel',
+        'Ext.form.field.Text',
+        'Ext.layout.container.Card',
+        'Ext.layout.container.Form',
+        'Ext.layout.container.VBox',
+        'Ext.panel.Panel',
+        'Ext.toolbar.Fill',
+        'mh.module.auth.AuthController',
+        'mh.module.auth.LockingScreen'
+    ],
+
+    config: {
 
             /**
              * @cfg {string} [loginView|setUI]

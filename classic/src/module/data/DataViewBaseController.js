@@ -4,9 +4,6 @@
     //Make sure strict mode is on
     'use strict';
 
-    /**
-     * Created by domin on 5/13/2016.
-     */
     Ext.define('mh.module.data.DataViewBaseController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-dataview-base',

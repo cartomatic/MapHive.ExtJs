@@ -4,9 +4,6 @@
     //Make sure strict mode is on
     'use strict';
     
-    /**
-     * Created by domin on 5/17/2016.
-     */
     Ext.define('mh.data.proxy.Rest', {
         extend: 'Ext.data.proxy.Rest',
 

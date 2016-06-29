@@ -4,9 +4,6 @@
     //Make sure strict mode is on
     'use strict';
     
-    /**
-     * Created by domin on 5/11/2016.
-     */
     Ext.define('mh.localisation.LocalisationTemplate', {
     requires: [
         'mh.localisation.Localisation',
