@@ -140,9 +140,8 @@
          */
         getFriendlyServerValidationFeedback: function(validationFeedback){
             var feedback = false,
-
                 errData,
-                fields, f, flen;
+                f, flen;
 
             //first try to deserialise
             try {
@@ -151,12 +150,11 @@
 
                 errData = Ext.JSON.decode(validationFeedback);
 
-                //for each key, get a msg - key should be a failed field
-                fields = Ext.Object.getKeys(errData);
-                f = 0; flen = fields.length;
+                //this should be an arr
+                f = 0; flen = errData.length;
 
                 for(f; f < flen; f++){
-                    feedback.push(this.getFriendlyFieldServerValidationMsg(fields[f], errData[fields[f]]));
+                    feedback.push(this.getFriendlyFieldServerValidationMsg(errData[f]));
                 }
             }
             catch(e){
@@ -180,8 +178,13 @@
          * @param field
          * @param err
          */
-        getFriendlyFieldServerValidationMsg: function(field, err){
-            var msg;
+        getFriendlyFieldServerValidationMsg: function(err){
+
+            var msg,
+                //make sure there is an obj with xtra err info
+                errInfo = err.info || {},
+
+                propertyName = err.propertyName[0].toLowerCase() + err.propertyName.substring(1);
 
             switch(err.code){
 
@@ -191,14 +194,14 @@
 
                 case 'invalid_length':
 
-                    if(err.totalLength > err.maxLength){
+                    if(errInfo.totalLength > errInfo.maxLength){
                         msg = this.getErrTranslation('valueTooLongErr');
                     }
 
-                    if(err.totalLength < err.minLength){
+                    if(errInfo.totalLength < errInfo.minLength){
                         msg = this.getErrTranslation('valueTooShortErr');
                     }
-                    msg = msg.replace('{min_length}', err.minLength).replace('{max_length}', err.maxLength).replace('{total_length}', err.totalLength);
+                    msg = msg.replace('{min_length}', errInfo.minLength).replace('{max_length}', errInfo.maxLength).replace('{total_length}', errInfo.totalLength);
                     break;
 
                 case 'invalid_email':
@@ -219,7 +222,7 @@
 
             msg = msg.replace(
                 '{field_name}',
-                this.getTranslation(field, null, true) || this.getTranslation(field, 'mh.module.data.GenericEditFormController', true) || err.propertyName
+                this.getTranslation(propertyName, null, true) || this.getTranslation(propertyName, 'mh.module.data.GenericEditFormController', true) || propertyName
             );
 
             return msg;
