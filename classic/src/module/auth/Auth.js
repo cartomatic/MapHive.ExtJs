@@ -49,6 +49,12 @@
             'btnForgotPass|setScale': null,
 
             /**
+             * @cfg {string} [btnForgotPass|setIconCls]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             */
+            'btnForgotPass|setIconCls': null,
+
+            /**
              * @cfg {string} [btnLogin|setUI]
              * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
@@ -59,6 +65,12 @@
              * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
             'btnLogin|setScale': null,
+
+            /**
+             * @cfg {string} [btnLogin|setIconCls]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             */
+            'btnLogin|setIconCls': null,
 
             /**
              * @cfg {string} [forgotPassView|setUI]
@@ -79,6 +91,12 @@
             'btnResetPass|setScale': null,
 
             /**
+             * @cfg {string} [btnResetPass|setIconCls]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             */
+            'btnResetPass|setIconCls': null,
+
+            /**
              * @cfg {string} [btnResetPassCancel|setUI]
              * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
@@ -88,7 +106,13 @@
              * @cfg {string} [btnResetPassCancel|setScale]
              * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            'btnResetPassCancel|setScale': null
+            'btnResetPassCancel|setScale': null,
+
+            /**
+             * @cfg {string} [btnResetPassCancel|setIconCls]
+             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             */
+            'btnResetPassCancel|setIconCls': null,
         },
 
         layout: {

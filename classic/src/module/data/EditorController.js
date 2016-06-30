@@ -15,7 +15,8 @@
         mixins: [
             'mh.mixin.ModalMode',
             'mh.mixin.Localisation',
-            'mh.mixin.PublishApi'
+            'mh.mixin.PublishApi',
+            'mh.mixin.CustomConfig'
         ],
 
         /**
@@ -32,6 +33,9 @@
             this.injectLocalisationToViewModel()
             this.trackModalModeStatus();
             this.publishApi(['setRecord', 'setForm']);
+
+            //apply custom configurations
+            this.applyCustomViewConfig();
 
             //Note: the editor window is designed to adjust its size to the size of the child components (it hs its min width though). because of that (the editor window does not enforce the dimensions) there are some layout related errors that happen to popout: [E] Layout run failed; This is caused by the child components not declaring theit width explicitly but relying on the parent to enforce it. Also some layout rendering problems may happen - invalid sizing and such - that seem to be fixed once the editor window is resized - this causes layout reflow. Because of that on the very first show editor is forced to resize itself and trigger layout reflow
             this.getView().on(

@@ -64,7 +64,12 @@
             /**
              * default limit for the link records loaded for a grid
              */
-            recLimit: 100
+            recLimit: 100,
+
+            //some xtra ui customisation hooks
+            'btnAddLink|setUI': null,
+            'btnAddLink|setScale': null,
+            'btnAddLink|setIconCls': null
         },
 
         /**
@@ -84,6 +89,7 @@
                 items: [
                     {
                         xtype: 'button',
+                        reference: 'btnAddLink',
                         iconCls: 'x-fa fa-plus',
                         listeners: {
                             click: 'onBtnAddLinkClick'

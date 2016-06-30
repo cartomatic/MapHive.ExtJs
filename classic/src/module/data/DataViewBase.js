@@ -33,6 +33,7 @@
              */
             //TODO - make it instantiable via xtypes too!
             grid: '',
+
             /**
              * Grid panel icon cls
              */
@@ -93,7 +94,20 @@
             /**
              * whether or not filtering should happen on the serverside; overrides whatever may have been configured on the store
              */
-            remoteFilter: true
+            remoteFilter: true,
+
+
+            //component visual customisation
+            'btnCreate|setUI': null,
+            'btnCreate|setScale': null,
+            'btnCreate|setIconCls': null,
+            'btnEdit|setUI': null,
+            'btnEdit|setScale': null,
+            'btnEdit|setIconCls': null,
+            'btnDelete|setUI': null,
+            'btnDelete|setScale': null,
+            'btnDelete|setIconCls': null
+
         },
 
         layout: 'border',

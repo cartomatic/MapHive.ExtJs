@@ -39,6 +39,15 @@
 
         iconCls: 'x-fa fa-link',
 
+        config: {
+            'btnAdd|setUI': null,
+            'btnAdd|setScale': null,
+            'btnAdd|setIconCls': null,
+            'btnCancel|setUI': null,
+            'btnCancel|setScale': null,
+            'btnCancel|setIconCls': null
+        },
+
         dockedItems: [
             {
                 xtype: 'toolbar',

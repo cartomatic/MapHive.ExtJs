@@ -16,7 +16,8 @@
         mixins: [
             'mh.mixin.ModalMode',
             'mh.mixin.Localisation',
-            'mh.mixin.PublishApi'
+            'mh.mixin.PublishApi',
+            'mh.mixin.CustomConfig'
         ],
 
         /**
@@ -31,6 +32,9 @@
         init: function() {
             this.injectLocalisationToViewModel()
             this.trackModalModeStatus();
+
+            //apply custom configurations
+            this.applyCustomViewConfig();
 
             this.publishApi(['setDataView']);
 

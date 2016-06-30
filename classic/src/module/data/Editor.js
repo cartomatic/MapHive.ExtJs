@@ -26,7 +26,13 @@
 
             iconClsBtnSaveNew: 'x-fa fa-plus',
 
-            iconClsBtnSaveEdit: 'x-fa fa-save'
+            iconClsBtnSaveEdit: 'x-fa fa-save',
+
+            //extra customisation hooks
+            'btnSave|setUI': null,
+            'btnSave|setScale': null,
+            'btnCancel|setUI': null,
+            'btnCancel|setScale': null
         },
 
         modal: true,

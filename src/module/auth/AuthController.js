@@ -251,13 +251,6 @@
                 icon: Ext.MessageBox.ERROR
             });
 
-        },
-
-        /**
-         * Login btn click callback
-         */
-        onLoginBtnClick: function () {
-            this.doAuth();
         }
     });
 

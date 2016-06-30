@@ -17,7 +17,8 @@
     mixins: [
             'mh.mixin.Localisation',
             'mh.data.Ajax',
-            'mh.mixin.PublishApi'
+            'mh.mixin.PublishApi',
+            'mh.mixin.CustomConfig'
         ],
 
 
@@ -48,6 +49,9 @@
 
             //bring in translations to a view model - ui txt is bound via view model
             this.injectLocalisationToViewModel();
+
+            //apply custom configurations
+            this.applyCustomViewConfig();
 
             this.publishApi(['getSelection', 'getTitle', 'setSelectionModel', 'resetGrid']);
 

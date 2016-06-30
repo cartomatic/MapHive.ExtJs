@@ -16,8 +16,9 @@
         'mh.module.data.LinksPicker'
     ],
 
-    mixins: [
-            'mh.mixin.PublishApi'
+        mixins: [
+            'mh.mixin.PublishApi',
+            'mh.mixin.CustomConfig'
         ],
 
         /**
@@ -108,6 +109,8 @@
             this.dataView = vw.getDataView();
             this.recLimit = vw.getRecLimit();
 
+            //apply custom configurations
+            this.applyCustomViewConfig();
 
             this.publishApi(['setEditable','getChanges']);
 
