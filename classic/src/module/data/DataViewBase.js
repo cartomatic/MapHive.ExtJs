@@ -106,7 +106,12 @@
             'btnEdit|setIconCls': null,
             'btnDelete|setUI': null,
             'btnDelete|setScale': null,
-            'btnDelete|setIconCls': null
+            'btnDelete|setIconCls': null,
+
+            'gridHolder|setIconCls': null,
+            'gridHolder|setUI': null,
+            'formHolder|setIconCls': null,
+            'formHolder|setUI': null
 
         },
 
@@ -118,6 +123,7 @@
                 reference: 'gridHolder',
                 region: 'center',
                 layout: 'fit',
+                margin: '0 0 0 5', //t r b l
                 bind: {
                     title: '{localisation.gridTitle}'
                 },

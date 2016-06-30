@@ -11,13 +11,17 @@
         //Note: this is overridable through the web.config... see the MhApiMap key for details
         apiMap = {
 
+            //auth
             login: 'auth/letmein',
             logout: 'auth/letmeoutofhere',
+            tokenValidation: 'auth/tokenvalidation',
 
+            //apps
             applications: 'applications',
             userapps: 'applications/userapps',
 
-            tokenValidation: 'auth/tokenvalidation'
+            //users
+            users: 'users'
         },
 
         staticInstance = null;
