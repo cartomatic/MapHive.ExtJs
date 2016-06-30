@@ -11,7 +11,8 @@
         //Note: this is overridable through the web.config... see the MhApiMap key for details
         apiMap = {
 
-            login: 'auth/login',
+            login: 'auth/letmein',
+            logout: 'auth/letmeoutofhere',
 
             applications: 'applications',
             userapps: 'applications/userapps',

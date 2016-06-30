@@ -188,7 +188,7 @@
                             refreshToken: data.refreshToken
                         },
                         params: {
-                            token: data.accessToken
+                            accessToken: data.accessToken
                         },
                         autoHandleExceptions: false,
                         success: this.onAccessTokenVerifySuccess,
@@ -329,7 +329,7 @@
 
             //<debug>
             if(true){
-                this.getAuthUiInstance().showLogonViewWithAutoLogon('webgistest@emapa.pl', 'test');
+                this.getAuthUiInstance().showLogonViewWithAutoLogon('dev@maphive.net', 'test');
             }
             else {
                 //</debug>

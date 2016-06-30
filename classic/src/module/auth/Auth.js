@@ -158,7 +158,10 @@
                                     {
                                         xtype: 'button',
                                         text: 'Login',
-                                        reference: 'btnLogin'
+                                        reference: 'btnLogin',
+                                        listeners: {
+                                            click: 'onLoginBtnClick'
+                                        }
                                     }
                                 ]
                             }
