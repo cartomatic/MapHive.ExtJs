@@ -35,9 +35,10 @@
             if(!namespace){
                 namespace = Ext.getClassName(this);
             }
-            var translationKeys = mh.localisation.Localisation.getTranslationKeys(namespace),
+            var translationKeys = mh.localisation.Localisation.getTranslationKeys(namespace, true),
                 tk = 0, tklen = translationKeys.length,
                 localisation = {};
+
             for(tk; tk < tklen; tk++){
                 localisation[translationKeys[tk]] = this.getTranslation(translationKeys[tk], namespace);
             }

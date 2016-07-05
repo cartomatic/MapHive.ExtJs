@@ -11,7 +11,7 @@
         requires: [
             'mh.localisation.Localisation'
         ],
-        inheritableStatics: {
+        statics: {
             localisation: {
                 failedNew: {
                     en: 'Failed to create a record.',

@@ -6,10 +6,18 @@
     
     Ext.define('mh.localisation.LocalisationTemplate', {
     requires: [
-        'mh.localisation.Localisation',
         'mh.localisation.Localisation'
     ],
     statics: {
+
+            /**
+             * a translations class this class inherits from. basically if it does not override a property, then the lookup continues deeper to a class
+             * a translations is marked as inheriting from and so on.
+             * The standard inheritance IS NOT used because it would be impossible to recognise what properties have been inherited, what overriden etc.
+             * see mh.localisation.Localisation.getTranslation for details
+             */
+            inheritsFrom: '',
+
             localisation: {
                 /**
                  * Here go translations in a form of:

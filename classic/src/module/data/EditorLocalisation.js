@@ -8,7 +8,7 @@
         requires: [
             'mh.localisation.Localisation'
         ],
-        inheritableStatics: {
+        statics: {
             localisation: {
                 btnSaveNew: {
                     en: 'Create',

@@ -45,18 +45,24 @@
         translations: null,
 
         /**
+         * Name of a private property that keeps a namespace ref to a superclass of a translations class...
+         * @property
+         * @private
+         */
+        translationsSuperclass: '___inheritsFrom',
+
+        /**
          *
          * @param translationsClass
          */
         registerTranslations: function(translationsClass){
+
+
             //basically translations are defined as statics. problems pop out when inheriting translations.
             //therefore need to check a superclass of a translations class and if it exists and has its own translations, need to re-register them
             //for this class too
             //so first own translations are registered
-            this.registerTranslationsInternal(translationsClass.localisation, Ext.getClassName(translationsClass));
-
-            //and then the base class translations, as they should not override the parent!
-            this.registerSuperclassTranslations(translationsClass);
+            this.registerTranslationsInternal(translationsClass, Ext.getClassName(translationsClass));
         },
 
         /**
@@ -64,44 +70,48 @@
          * @param translationsClass
          * @param namespace
          */
-        registerSuperclassTranslations: function(translationsClass, namespace){
-            if(!namespace) {
-                namespace = Ext.getClassName(translationsClass);
-            }
-
-            var superClassName = Ext.getClassName(translationsClass.superclass),
-                classNameParts, cnp, cnplen,
-                root;
-
-            //if the class inherits, and not from base, then see if there are any translations to register
-            if(translationsClass.superclass && superClassName !== '' && superClassName !== 'Ext.Base'){
-                //grab a ref to a class
-                classNameParts = superClassName.split('.');
-                cnp = 0; cnplen = classNameParts.length;
-                root = window;
-
-                for(cnp; cnp < cnplen; cnp++){
-                    //Note: since class name is known by ext, it should be safe to dig in this way without risking null refs
-                    root = root[classNameParts[cnp]];
-                }
-
-                if(root.localisation){
-                    //at this stage should have a ref to a base class, so can register translations:
-                    this.registerTranslationsInternal(root.localisation, namespace);
-                }
-
-                //also continue up the inheritance chain
-                this.registerSuperclassTranslations(root, namespace);
-            }
-        },
+        // registerSuperclassTranslations: function(translationsClass, namespace){
+        //     if(!namespace) {
+        //         namespace = Ext.getClassName(translationsClass);
+        //     }
+        //
+        //     var superClassName = Ext.getClassName(translationsClass.superclass),
+        //         classNameParts, cnp, cnplen,
+        //         root;
+        //
+        //     //if the class inherits, and not from base, then see if there are any translations to register
+        //     if(translationsClass.superclass && superClassName !== '' && superClassName !== 'Ext.Base'){
+        //         //grab a ref to a class
+        //         classNameParts = superClassName.split('.');
+        //         cnp = 0; cnplen = classNameParts.length;
+        //         root = window;
+        //
+        //         for(cnp; cnp < cnplen; cnp++){
+        //             //Note: since class name is known by ext, it should be safe to dig in this way without risking null refs
+        //             root = root[classNameParts[cnp]];
+        //         }
+        //
+        //         if(root.localisation){
+        //             //at this stage should have a ref to a base class, so can register translations:
+        //             this.registerTranslationsInternal(root.localisation, namespace);
+        //         }
+        //
+        //         //also continue up the inheritance chain
+        //         this.registerSuperclassTranslations(root, namespace);
+        //     }
+        // },
 
         /**
          * Registers newTranslations for a particular namespace
-         * @param {Object} newTranslations - an object containing new translations for a namespace
+         * @param {Object} translationsClass - an instance of translations class (a constructor actually, as it is passed here just after Ext.define)
          * @param {String} namespace
          */
-        registerTranslationsInternal: function(newTranslations, namespace){
+        registerTranslationsInternal: function(translationsClass, namespace){
+
             var key = this.getTranslationNamespace(namespace),
+
+                newTranslations = translationsClass.localisation,
+
                 currentTranslations = this.translations[key],
                 translationKeys, translationKey, tk, tklen,
                 currentTranslationsForKey,
@@ -129,6 +139,8 @@
                 for(tk; tk < tklen; tk++){
                     translationKey = translationKeys[tk];
 
+                    if(translationKey === this.translationsSuperclass) continue;
+
                     currentTranslationsForKey = currentTranslations[translationKey];
                     translationsForKey = newTranslations[translationKey];
 
@@ -154,6 +166,11 @@
                     }
                 }
             }
+
+            //Finally add a translationsSuperclassProperty info to the translations dict so can do a proper translations lookup in the parent classes
+            if(translationsClass.inheritsFrom){
+                this.translations[key][this.translationsSuperclass] = translationsClass.inheritsFrom;
+            }
         },
 
         /**
@@ -170,39 +187,27 @@
                 langCode = this.langCode;
             }
 
-            namespace = this.getTranslationNamespace(namespace);
+            //first obtain the translation in the requested lang code
+            var translation = this.getTranslationInternal(translationKey, namespace, langCode);
 
-            var me = this,
-                getTranslation = function(langCode){
-                    if(me.translations[namespace] && me.translations[namespace][translationKey] && me.translations[namespace][translationKey][langCode]){
-                        return me.translations[namespace][translationKey][langCode];
-                    }
-                },
-                getWaringMsg = function(langCode){
-                    return 'No "' + langCode + '" translation key detected for "' + namespace + 'Localisation.' + translationKey + '"';
-                },
-                translation = getTranslation(langCode);
-
-            //try to use a translation for the default lang
-            if(!translation && langCode !== this.defaultLangCode) {
-                translation = getTranslation(this.defaultLangCode);
-                if(translation){
-                    //got the translation eventually, so just log to console there is a problem
-                    //<debug>
-                    console.log(this.cStdIcon('lang_missing'), this.cDbgHdr('lang'), getWaringMsg(langCode));
-                    //</debug>
-                }
+            //if no translation has been found, try the default lang code
+            if(!translation && langCode !== this.defaultLangCode){
+                translation = this.getTranslationInternal(translationKey, namespace, this.defaultLangCode);
             }
 
-            //no translation found for neither detected lang code not default lang code...
+
+            //no translation found for neither detected lang code not default lang code and also nothing found in the parent class...
             if(!translation){
                 //this should make it obvious, some translations are missing ;)
                 if(suppressWarningReturn !== true){
-                    translation = getWaringMsg(langCode);
+
+                    var warningMsg = 'No "' + langCode + '" translation key detected for "' + namespace + 'Localisation.' + translationKey + ' nor its superclasses."';
+
+                    translation = warningMsg;
 
                     //and log to console too!
                     //<debug>
-                    console.log(this.cStdIcon('lang_missing'), this.cDbgHdr('lang'), getWaringMsg(langCode));
+                    console.log(this.cStdIcon('lang_missing'), this.cDbgHdr('lang'), warningMsg);
                     //</debug>
                 }
             }
@@ -211,12 +216,70 @@
         },
 
         /**
+         * Internal translation lookup - drills down to inspect all the classes a translation namespace inherits from
+         * @param translationKey
+         * @param namespace
+         * @param langCode
+         */
+        getTranslationInternal: function(translationKey, namespace, langCode){
+
+            namespace = this.getTranslationNamespace(namespace);
+
+            var me = this,
+                getTranslation = function(langCode){
+                    if(me.translations[namespace] && me.translations[namespace][translationKey] && me.translations[namespace][translationKey][langCode]){
+                        return me.translations[namespace][translationKey][langCode];
+                    }
+                },
+
+                getTranslationSuperClass = function(){
+                    if(me.translations[namespace] && me.translations[namespace][me.translationsSuperclass]){
+                        return  me.translations[namespace][me.translationsSuperclass];
+                    }
+                },
+                translationSuperclass = getTranslationSuperClass(),
+
+                translation = getTranslation(langCode);
+
+            //if at this stage there is no translation, try to check if a translation class inherits from another translation...
+            //If so, try to explore it
+            if(!translation && translationSuperclass){
+                translation = this.getTranslationInternal(translationKey, translationSuperclass, langCode); //suppressWarningReturn when digging deeper; no point in re-logging the msg over and over again
+            }
+
+            return translation;
+        },
+
+        /**
          * Gets a list of all the translation keys registered for given namespace
          * @param namespace
+         * @param {bool} [includeInherited] whether or not the inherited keys should also be included in the output
+         * @returns {Array}
          */
-        getTranslationKeys: function(namespace){
+        getTranslationKeys: function(namespace, includeInherited){
             namespace = this.getTranslationNamespace(namespace);
-            return this.translations[namespace] ? Ext.Object.getKeys(this.translations[namespace]) : [];
+
+            var translationKeys = [],
+                currentTranslationKeys;
+
+            while(namespace){
+
+                currentTranslationKeys = this.translations[namespace] ?
+                    //need to exclude the superclassProperty! Otherwise when injecting translations to a view model the this.translationsSuperclass would be passed to be extracted
+                    Ext.Array.remove(
+                        Ext.Object.getKeys(this.translations[namespace]), this.translationsSuperclass
+                    )
+                    : [];
+
+                translationKeys = Ext.Array.merge(translationKeys, currentTranslationKeys);
+
+                if(!includeInherited || !this.translations[namespace] && this.translations[namespace].hasOwnProperty(this.translationsSuperclass))
+                    break;
+
+                namespace = this.getTranslationNamespace(this.translations[namespace][this.translationsSuperclass]);
+            }
+
+            return translationKeys;
         },
 
         /**
