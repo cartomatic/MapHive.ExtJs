@@ -123,7 +123,6 @@
                 reference: 'gridHolder',
                 region: 'center',
                 layout: 'fit',
-                margin: '0 0 0 5', //t r b l
                 bind: {
                     title: '{localisation.gridTitle}'
                 },

@@ -14,9 +14,10 @@
         xtype: 'mh-links-grid',
 
     requires: [
+        'Ext.button.Button',
+        'Ext.grid.plugin.DragDrop',
         'mh.mixin.ApiMap',
-        'mh.module.data.LinksGridController',
-        'Ext.grid.plugin.DragDrop'
+        'mh.module.data.LinksGridController'
     ],
 
     controller: 'mh-links-grid',

@@ -21,7 +21,9 @@
             userapps: 'applications/userapps',
 
             //users
-            users: 'users'
+            users: 'users',
+
+            appLocalisations: 'applocalisations'
         },
 
         staticInstance = null;
