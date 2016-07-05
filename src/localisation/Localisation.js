@@ -52,63 +52,12 @@
         translationsSuperclass: '___inheritsFrom',
 
         /**
-         *
+         * registers translations for a given class
          * @param translationsClass
          */
         registerTranslations: function(translationsClass){
 
-
-            //basically translations are defined as statics. problems pop out when inheriting translations.
-            //therefore need to check a superclass of a translations class and if it exists and has its own translations, need to re-register them
-            //for this class too
-            //so first own translations are registered
-            this.registerTranslationsInternal(translationsClass, Ext.getClassName(translationsClass));
-        },
-
-        /**
-         * registers superclass translations
-         * @param translationsClass
-         * @param namespace
-         */
-        // registerSuperclassTranslations: function(translationsClass, namespace){
-        //     if(!namespace) {
-        //         namespace = Ext.getClassName(translationsClass);
-        //     }
-        //
-        //     var superClassName = Ext.getClassName(translationsClass.superclass),
-        //         classNameParts, cnp, cnplen,
-        //         root;
-        //
-        //     //if the class inherits, and not from base, then see if there are any translations to register
-        //     if(translationsClass.superclass && superClassName !== '' && superClassName !== 'Ext.Base'){
-        //         //grab a ref to a class
-        //         classNameParts = superClassName.split('.');
-        //         cnp = 0; cnplen = classNameParts.length;
-        //         root = window;
-        //
-        //         for(cnp; cnp < cnplen; cnp++){
-        //             //Note: since class name is known by ext, it should be safe to dig in this way without risking null refs
-        //             root = root[classNameParts[cnp]];
-        //         }
-        //
-        //         if(root.localisation){
-        //             //at this stage should have a ref to a base class, so can register translations:
-        //             this.registerTranslationsInternal(root.localisation, namespace);
-        //         }
-        //
-        //         //also continue up the inheritance chain
-        //         this.registerSuperclassTranslations(root, namespace);
-        //     }
-        // },
-
-        /**
-         * Registers newTranslations for a particular namespace
-         * @param {Object} translationsClass - an instance of translations class (a constructor actually, as it is passed here just after Ext.define)
-         * @param {String} namespace
-         */
-        registerTranslationsInternal: function(translationsClass, namespace){
-
-            var key = this.getTranslationNamespace(namespace),
+            var key = this.getTranslationNamespace(Ext.getClassName(translationsClass)),
 
                 newTranslations = translationsClass.localisation,
 
