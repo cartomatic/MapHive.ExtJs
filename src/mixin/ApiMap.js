@@ -23,7 +23,8 @@
             //users
             users: 'users',
 
-            appLocalisations: 'applocalisations'
+            appLocalisations: 'applocalisations',
+            supportedLangs: 'langs/supported'
         },
 
         staticInstance = null;
