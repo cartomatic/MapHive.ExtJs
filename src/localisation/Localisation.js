@@ -49,7 +49,7 @@
          * @property
          * @private
          */
-        translationsSuperclass: '___inheritsFrom',
+        translationsSuperclass: '___extends',
 
         /**
          * registers translations for a given class
@@ -117,8 +117,8 @@
             }
 
             //Finally add a translationsSuperclassProperty info to the translations dict so can do a proper translations lookup in the parent classes
-            if(translationsClass.inheritsFrom){
-                this.translations[key][this.translationsSuperclass] = translationsClass.inheritsFrom;
+            if(translationsClass.extends){
+                this.translations[key][this.translationsSuperclass] = translationsClass.extends;
             }
         },
 
