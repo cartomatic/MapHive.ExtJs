@@ -4,8 +4,8 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.data.model.Language', {
-        extend: 'Ext.data.Model',
+    Ext.define('mh.data.model.Lang', {
+        extend: 'mh.data.model.Base',
 
     requires: [
         'mh.data.proxy.Rest',
@@ -15,11 +15,12 @@
     fields: [
             {name: 'langCode', type: 'string'},
             {name: 'name', type: 'string'},
-            {name: 'description', type: 'string'}
+            {name: 'description', type: 'string'},
+            {name: 'isDefault', type: 'boolean'}
         ],
         proxy: {
             type: 'mhrest',
-            url : mh.mixin.ApiMap.getApiEndPoint('supportedLangs')
+            url : mh.mixin.ApiMap.getApiEndPoint('langs')
         }
     });
 

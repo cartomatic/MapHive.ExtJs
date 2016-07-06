@@ -24,7 +24,7 @@
             users: 'users',
 
             appLocalisations: 'applocalisations',
-            supportedLangs: 'langs/supported'
+            langs: 'langs'
         },
 
         staticInstance = null;

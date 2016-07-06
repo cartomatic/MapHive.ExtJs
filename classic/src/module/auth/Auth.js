@@ -112,7 +112,7 @@
              * @cfg {string} [btnResetPassCancel|setIconCls]
              * see mh.mixin.CustomConfig.applyCustomViewConfig for details
              */
-            'btnResetPassCancel|setIconCls': null,
+            'btnResetPassCancel|setIconCls': null
         },
 
         layout: {
