@@ -22,16 +22,18 @@
          */
         Ext.define('mh.data.Ajax', {
 
-        requires: [
-            'mh.data.AjaxRequestCfg',
-            'mh.communication.MsgBus',
-            'mh.data.AjaxLocalisation'
-        ],
+    requires: [
+        'mh.communication.MsgBus',
+        'mh.data.AjaxLocalisation',
+        'mh.data.AjaxRequestCfg',
+        'mh.localisation.Localisation'
+    ],
 
-        mixins: [
+    mixins: [
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
-            'mh.mixin.Localisation'
+            'mh.mixin.Localisation',
+            'mh.mixin.InitialCfg'
         ],
 
         statics: {
@@ -115,8 +117,12 @@
                 'Content-Type': 'application/json; charset=utf-8',
 
                 //make sure JSON output is preferred over xml;
-                'Accept': 'application/json,text/html,application/xhtml+xml,application/xml;*/*'
+                'Accept': 'application/json,text/html,application/xhtml+xml,application/xml;*/*',
+
+                //some custom headers
+                'Source': window.location.href.split('#')[0]
             };
+            headers[this.getMhCfgProperty("langParam")] = mh.localisation.Localisation.langCode;
 
             //only add the auth header if present, skip it otherwise
             if (authorizationHeader !== null) {
