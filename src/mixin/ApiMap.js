@@ -24,7 +24,8 @@
             users: 'users',
 
             appLocalisations: 'applocalisations',
-            langs: 'langs'
+            langs: 'langs',
+            emailTemplateLocalisations: 'emailtemplatelocalisations'
         },
 
         staticInstance = null;
