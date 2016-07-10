@@ -212,6 +212,10 @@
                     msg = this.getErrTranslation('emailInUse');
                     break;
 
+                case 'unique_constraint':
+                    msg = this.getErrTranslation('uniqueConstraint');
+                    break;
+
                 default:
                     msg = this.getErrTranslation('unknownErr');
                     if(err.message && err.message != ''){

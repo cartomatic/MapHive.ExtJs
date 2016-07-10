@@ -44,6 +44,10 @@
                 emailInUse: {
                     en: 'Email in the "{field_name}" field has already been reserved.',
                     pl: 'Email w polu "{field_name}" jest już zarezerwowany.'
+                },
+                uniqueConstraint: {
+                    en: 'Value in the "{field_name}" field must be unique.',
+                    pl: 'Wartość w polu "{field_name}" musi być unikalna.'
                 }
             }
         }
