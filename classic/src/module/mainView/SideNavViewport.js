@@ -34,38 +34,39 @@
         border: false,
 
         layout: {
-            type: 'hbox',
-            align: 'stretch',
-
-            // Tell the layout to animate the x/width of the child items.
-            animate: true,
-            animatePolicy: {
-                x: true,
-                width: true
-            }
+            type: 'border'
         },
 
         items: [
             {
-                xtype: 'treelist',
-                reference: 'navTreeList',
-                ui: 'mh-sidenav',
-                margin: '0 5 0 0', //t r b l
-                width: 250,
-                expanderFirst: false,
-                expanderOnly: false,
-                listeners: {
-                    selectionchange: 'onTreeListSelectionChange'
-                },
-                bind: {
-                    store: '{treeMenu}'
-                }
+                xtype:'panel',
+                region: 'west',
+                split: true,
+                collapsible: true,
+                header: false,
+                layout: 'fit',
+                items: [
+                    {
+                        xtype: 'treelist',
+                        reference: 'navTreeList',
+                        ui: 'mh-sidenav',
+                        width: 250,
+                        expanderFirst: false,
+                        expanderOnly: false,
+                        listeners: {
+                            selectionchange: 'onTreeListSelectionChange'
+                        },
+                        bind: {
+                            store: '{treeMenu}'
+                        }
+                    }
+                ]
             },
             {
                 xtype: 'container',
                 reference: 'cardHolder',
                 layout: 'card',
-                flex: 1
+                region: 'center'
             }
         ]
     });
