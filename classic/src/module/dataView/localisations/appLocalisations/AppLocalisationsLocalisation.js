@@ -12,7 +12,7 @@
         ],
         statics: {
 
-            extends: 'mh.module.dataView.DataViewBaseLocalisation',
+            inherits: 'mh.module.dataView.DataViewBaseLocalisation',
 
             localisation:{
                 gridTitle: {

@@ -11,7 +11,7 @@
             'mh.module.dataView.localisations.langs.LangsLocalisation'
         ],
         statics: {
-            extends: 'mh.module.dataView.localisations.langs.LangsLocalisation',
+            inherits: 'mh.module.dataView.localisations.langs.LangsLocalisation',
             localisation: {}
         }
 

@@ -10,7 +10,7 @@
             'mh.module.dataView.applications.ApplicationsLocalisation'
         ],
         statics: {
-            extends: 'mh.module.dataView.applications.ApplicationsLocalisation',
+            inherits: 'mh.module.dataView.applications.ApplicationsLocalisation',
             localisation: {}
         }
 

@@ -11,7 +11,7 @@
             'mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation'
         ],
         statics: {
-            extends: 'mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation',
+            inherits: 'mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation',
             localisation: {}
         }
 

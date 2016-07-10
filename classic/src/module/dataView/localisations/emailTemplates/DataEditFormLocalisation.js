@@ -11,7 +11,7 @@
             'mh.module.dataView.localisations.emailTemplates.EmailTemplatesLocalisation'
         ],
         statics: {
-            extends: 'mh.module.dataView.localisations.emailTemplates.EmailTemplatesLocalisation',
+            inherits: 'mh.module.dataView.localisations.emailTemplates.EmailTemplatesLocalisation',
             localisation: {}
         }
 

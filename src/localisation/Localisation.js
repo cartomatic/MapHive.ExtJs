@@ -117,8 +117,8 @@
             }
 
             //Finally add a translationsSuperclassProperty info to the translations dict so can do a proper translations lookup in the parent classes
-            if(translationsClass.extends){
-                this.translations[key][this.translationsSuperclass] = translationsClass.extends;
+            if(translationsClass.inherits){
+                this.translations[key][this.translationsSuperclass] = translationsClass.inherits;
             }
         },
 

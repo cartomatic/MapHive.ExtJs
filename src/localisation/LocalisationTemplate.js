@@ -16,7 +16,7 @@
              * The standard inheritance IS NOT used because it would be impossible to recognise what properties have been inherited, what overriden etc.
              * see mh.localisation.Localisation.getTranslation for details
              */
-            extends: '',
+            inherits: '',
 
             localisation: {
                 /**
