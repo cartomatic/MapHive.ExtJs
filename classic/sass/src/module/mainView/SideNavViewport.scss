@@ -1,40 +1,65 @@
-$nav-background-color: #43464B;
+$mh-sidenav-base-color: dynamic(#43464B);
+
+$mh-sidenav-background-color: dynamic(darken($mh-sidenav-base-color, 5%));
+$mh-sidenav-toolstrip-background-color: dynamic($mh-sidenav-base-color);
+
+$mh-sidenav-tool-float-indicator-color: dynamic($panel-header-background-color);
+$mh-sidenav-tool-indicator-selected-color: dynamic($panel-header-background-color);
+$mh-sidenav-tool-selected-background-color: dynamic(mix(white,$mh-sidenav-base-color, 5%));
+
+$mh-sidenav-item-expanded-background-color: dynamic(#2c3845);
+
+$mh-sidenav-item-line-height: dynamic(64px);
+
+$mh-sidenav-row-over-background-color: dynamic(mix(white,$mh-sidenav-base-color, 5%));
+$mh-sidenav-row-selected-background-color:  dynamic(mix(white,$mh-sidenav-base-color, 5%));
+
+$mh-sidenav-item-icon-color: dynamic($mh-sidenav-item-text-color);
+
+$mh-sidenav-item-text-color: dynamic(#ADB3B8);
+
+$mh-sidenav-item-text-over-color: dynamic(mix(white, $mh-sidenav-item-text-color, 50%));
+
+$mh-sidenav-row-indicator-selected-color: dynamic($color-blue);
+$mh-sidenav-row-indicator-selected-over-color: dynamic(lighten($color-blue, 7%));
+$mh-sidenav-row-indicator-over-color: dynamic(transparent);
 
 @include treelist-ui(
-  $ui: 'mh-side-navigation',
+  $ui: 'mh-sidenav',
   $padding: 0 10px,
 
   // Black-ish background color
-  $background-color: $nav-background-color,//$panel-navigation-background-color,
-  $toolstrip-background-color: $nav-background-color,
+  $background-color: $mh-sidenav-background-color,
+  $toolstrip-background-color: $mh-sidenav-toolstrip-background-color,
 
-  $tool-float-indicator-color: $panel-header-background-color,
+  $tool-float-indicator-color: $mh-sidenav-tool-float-indicator-color,
   $tool-float-indicator-width: 5px,
 
-  $tool-indicator-selected-color: $panel-header-background-color,
+  $tool-indicator-selected-color: $mh-sidenav-tool-indicator-selected-color,
   $tool-indicator-selected-width: 5px,
-  $tool-selected-background-color: mix(white, $nav-background-color, 10%),
+  $tool-selected-background-color: $mh-sidenav-tool-selected-background-color,
   //$tool-selected-color: #fff,
   //$tool-selected-background-color: $panel-header-background-color,
 
   // Darker background for expanded subtrees
-  $item-expanded-background-color: #2c3845,
+  $item-expanded-background-color: $mh-sidenav-item-expanded-background-color,
 
   // Taller line height
-  $item-line-height : $panel-navigation-item-line-height,
+  $item-line-height : $mh-sidenav-item-line-height,
 
-  $row-over-background-color: mix(white, $nav-background-color, 5%),
-  $row-selected-background-color: mix(white, $nav-background-color, 10%),
+  $row-over-background-color: $mh-sidenav-row-over-background-color,
+  $row-selected-background-color: $mh-sidenav-row-selected-background-color,
 
   // Off-white text
-  $item-icon-color: $panel-navigation-item-text-color,
+  $item-icon-color: $mh-sidenav-item-icon-color,
   $item-expander-color: #fff,
-  $item-text-color: #ADB3B8,
+
+  $item-text-color: $mh-sidenav-item-text-color,
 
   // Brighter when hovered
   $item-icon-over-color: #fff,
   $item-expander-over-color: #fff,
-  $item-text-over-color: mix(white, $panel-navigation-item-text-color, 50%),
+  $item-text-over-color: $mh-sidenav-item-text-over-color,
   $item-text-font-size: 14px,
 
   // Various sizes for the pieces:
@@ -44,8 +69,8 @@ $nav-background-color: #43464B;
   $item-expander-width: 24px,
 
   // Style the "row indicator" (the vertical stripe on the left edge):
-  $row-indicator-width: 5px,
-  $row-indicator-selected-color:  $color-blue, //$panel-header-background-color,
-  $row-indicator-selected-over-color: lighten($color-blue, 7%),//lighten($panel-header-background-color, 7%),
-  $row-indicator-over-color: transparent
+  $row-indicator-width: 6px,
+  $row-indicator-selected-color: $mh-sidenav-row-indicator-selected-color,
+  $row-indicator-selected-over-color: $mh-sidenav-row-indicator-selected-over-color,
+  $row-indicator-over-color: $mh-sidenav-row-indicator-over-color
 );
