@@ -15,6 +15,10 @@
             extends: 'mh.module.dataView.DataViewBaseLocalisation',
 
             localisation:{
+                gridTitle: {
+                    en: 'App localisations',
+                    pl: 'Tłumaczenia aplikacji'
+                },
                 applicationName: {
                     en: 'Application',
                     pl: 'Aplikacja'

@@ -25,13 +25,11 @@
 
         controller: 'mofp-localisations',
 
-        bind: {
-            title: '{localisation.title}'
-        },
-
         iconCls: 'x-fa fa-comments',
 
         tabPosition: 'bottom',
+
+        header: false, 
 
         items: [
             {

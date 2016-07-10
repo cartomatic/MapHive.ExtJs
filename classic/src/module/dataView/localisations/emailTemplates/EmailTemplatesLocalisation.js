@@ -15,6 +15,10 @@
             extends: 'mh.module.dataView.DataViewBaseLocalisation',
 
             localisation:{
+                gridTitle: {
+                    en: 'Email templates',
+                    pl: 'Szablony emaili'
+                },
                 name: {
                     en: 'Name',
                     pl: 'Nazwa'

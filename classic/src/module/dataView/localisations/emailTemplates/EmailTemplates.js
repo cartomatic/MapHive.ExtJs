@@ -26,7 +26,7 @@
 
         margin: 0,
 
-        hideGridHeader: true,
+        gridIconCls: 'x-fa fa-envelope',
 
         grid: {
             xtype: 'grid',
@@ -84,7 +84,6 @@
                 }
             ]
         },
-        gridIconCls: 'x-fa fa-user',
         form: 'mh.module.dataView.localisations.emailTemplates.DataViewForm',
         //formWidth: 300,
         editForm: 'mh.module.dataView.localisations.emailTemplates.DataEditForm'

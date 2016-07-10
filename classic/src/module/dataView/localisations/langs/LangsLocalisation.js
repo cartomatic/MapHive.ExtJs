@@ -15,6 +15,10 @@
             extends: 'mh.module.dataView.DataViewBaseLocalisation',
 
             localisation:{
+                gridTitle: {
+                    en: 'Supported langs',
+                    pl: 'Języki'
+                },
                 langCode: {
                     en: 'Lang code',
                     pl: 'Kod'

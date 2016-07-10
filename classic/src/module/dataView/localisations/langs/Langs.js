@@ -26,7 +26,7 @@
 
         margin: 0,
 
-        hideGridHeader: true,
+        gridIconCls: 'x-fa fa-comments-o',
 
         grid: {
             xtype: 'grid',
@@ -68,7 +68,6 @@
                 }
             ]
         },
-        gridIconCls: 'x-fa fa-user',
         form: 'mh.module.dataView.localisations.langs.DataViewForm',
         //formWidth: 300,
         editForm: 'mh.module.dataView.localisations.langs.DataEditForm'

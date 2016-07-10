@@ -24,9 +24,9 @@
     
         controller: 'mofp-app-localisations',
 
-        margin: 0,
+        gridIconCls: 'x-fa fa-desktop',
 
-        hideGridHeader: true,
+        margin: 0,
 
         grid: {
             xtype: 'grid',
@@ -69,7 +69,7 @@
                 }
             ]
         },
-        gridIconCls: 'x-fa fa-user',
+
         form: 'mh.module.dataView.localisations.appLocalisations.DataViewForm',
         //formWidth: 300,
         editForm: 'mh.module.dataView.localisations.appLocalisations.DataEditForm'
