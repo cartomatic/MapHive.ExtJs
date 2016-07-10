@@ -88,6 +88,22 @@
             }
 
             apiMapConfigured = true;
+        },
+
+        /**
+         * Extends or updates the api map
+         * @param newApis
+         */
+        extendOrUpdateApiMap: function(newApis){
+            var newKeys = Ext.Object.getKeys(newApis),
+                nk = 0, nklen = newKeys.length;
+
+            for(nk; nk < nklen; nk++){
+                apiMap[newKeys[nk]] = newApis[newKeys[nk]];
+            }
+
+            //make sure to recofigure api map. after all, server supplied changes should take precedence!
+            this.configureApiMap();
         }
 
     });
