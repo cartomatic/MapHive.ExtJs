@@ -1,0 +1,51 @@
+$nav-background-color: #43464B;
+
+@include treelist-ui(
+  $ui: 'mh-side-navigation',
+  $padding: 0 10px,
+
+  // Black-ish background color
+  $background-color: $nav-background-color,//$panel-navigation-background-color,
+  $toolstrip-background-color: $nav-background-color,
+
+  $tool-float-indicator-color: $panel-header-background-color,
+  $tool-float-indicator-width: 5px,
+
+  $tool-indicator-selected-color: $panel-header-background-color,
+  $tool-indicator-selected-width: 5px,
+  $tool-selected-background-color: mix(white, $nav-background-color, 10%),
+  //$tool-selected-color: #fff,
+  //$tool-selected-background-color: $panel-header-background-color,
+
+  // Darker background for expanded subtrees
+  $item-expanded-background-color: #2c3845,
+
+  // Taller line height
+  $item-line-height : $panel-navigation-item-line-height,
+
+  $row-over-background-color: mix(white, $nav-background-color, 5%),
+  $row-selected-background-color: mix(white, $nav-background-color, 10%),
+
+  // Off-white text
+  $item-icon-color: $panel-navigation-item-text-color,
+  $item-expander-color: #fff,
+  $item-text-color: #ADB3B8,
+
+  // Brighter when hovered
+  $item-icon-over-color: #fff,
+  $item-expander-over-color: #fff,
+  $item-text-over-color: mix(white, $panel-navigation-item-text-color, 50%),
+  $item-text-font-size: 14px,
+
+  // Various sizes for the pieces:
+  $item-icon-font-size: 18px,
+  $item-icon-width: 44px,
+  $item-expander-font-size: 16px,
+  $item-expander-width: 24px,
+
+  // Style the "row indicator" (the vertical stripe on the left edge):
+  $row-indicator-width: 5px,
+  $row-indicator-selected-color:  $color-blue, //$panel-header-background-color,
+  $row-indicator-selected-over-color: lighten($color-blue, 7%),//lighten($panel-header-background-color, 7%),
+  $row-indicator-over-color: transparent
+);
