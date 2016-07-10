@@ -7,13 +7,13 @@
     /**
      * A simple 'bindable-store' grid; pretty much only to make the binding of store data to view model possible
      */
-    Ext.define('mh.module.data.BindableStoreGrid', {
+    Ext.define('mh.module.dataView.BindableStoreGrid', {
         extend: 'Ext.grid.Panel',
 
         xtype: 'mh-bindable-store-grid',
 
     requires: [
-        'mh.module.data.BindableStoreGridController'
+        'mh.module.dataView.BindableStoreGridController'
     ],
 
     controller: 'mh-bindable-store-grid',

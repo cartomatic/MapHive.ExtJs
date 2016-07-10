@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.data.BindableStoreGridController', {
+    Ext.define('mh.module.dataView.BindableStoreGridController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-bindable-store-grid',
     

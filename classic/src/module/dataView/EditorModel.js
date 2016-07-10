@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.data.EditorModel', {
+    Ext.define('mh.module.dataView.EditorModel', {
         extend: 'Ext.app.ViewModel',
         alias: 'viewmodel.mh-editor',
     

@@ -7,7 +7,7 @@
     /**
      * Base dataview view model
      */
-    Ext.define('mh.module.data.DataViewBaseModel', {
+    Ext.define('mh.module.dataView.DataViewBaseModel', {
         extend: 'Ext.app.ViewModel',
 
         alias: 'viewmodel.mh-dataview-base',

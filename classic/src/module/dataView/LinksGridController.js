@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.data.LinksGridController', {
+    Ext.define('mh.module.dataView.LinksGridController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-links-grid',
 
@@ -13,7 +13,7 @@
         'Ext.data.Store',
         'Ext.grid.column.Action',
         'mh.data.proxy.Rest',
-        'mh.module.data.LinksPicker'
+        'mh.module.dataView.LinksPicker'
     ],
 
         mixins: [
@@ -375,7 +375,7 @@
             //see if the links picker is already present and instantiate it if not
 
             if(!this.linksPicker){
-                this.linksPicker = Ext.create('mh.module.data.LinksPicker', {
+                this.linksPicker = Ext.create('mh.module.dataView.LinksPicker', {
                     animateTarget: btn
                 });
 

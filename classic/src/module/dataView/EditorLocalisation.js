@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.data.EditorLocalisation', {
+    Ext.define('mh.module.dataView.EditorLocalisation', {
         requires: [
             'mh.localisation.Localisation'
         ],

@@ -7,12 +7,12 @@
     /**
      * a modal editor that wraps up standardised edit forms and provides unified API for editing Ext.data.Model instances
      */
-    Ext.define('mh.module.data.Editor', {
+    Ext.define('mh.module.dataView.Editor', {
         extend: 'Ext.window.Window',
 
     requires: [
-        'mh.module.data.EditorController',
-        'mh.module.data.EditorModel'
+        'mh.module.dataView.EditorController',
+        'mh.module.dataView.EditorModel'
     ],
 
     viewModel: {

@@ -7,7 +7,7 @@
     /**
      * Localisation for the generic editor controller
      */
-    Ext.define('mh.module.data.GenericEditFormLocalisation', {
+    Ext.define('mh.module.dataView.GenericEditFormLocalisation', {
         requires: [
             'mh.localisation.Localisation'
         ],

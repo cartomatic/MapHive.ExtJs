@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.data.EditorController', {
+    Ext.define('mh.module.dataView.EditorController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-editor',
 
         requires: [
-            'mh.module.data.EditorLocalisation'
+            'mh.module.dataView.EditorLocalisation'
         ],
 
         mixins: [
@@ -129,7 +129,7 @@
         },
 
         /**
-         * edit form; it is expected that this form exposes API as defined in mh.module.data.GenericEditFormController
+         * edit form; it is expected that this form exposes API as defined in mh.module.dataView.GenericEditFormController
          * @private
          */
         editorForm: null,

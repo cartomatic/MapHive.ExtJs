@@ -7,7 +7,7 @@
     /**
      * Base data view localisation
      */
-    Ext.define('mh.module.data.DataViewBaseLocalisation', {
+    Ext.define('mh.module.dataView.DataViewBaseLocalisation', {
         requires: [
             'mh.localisation.Localisation'
         ],

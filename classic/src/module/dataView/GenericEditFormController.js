@@ -7,12 +7,12 @@
     /**
      * Provides some generic API that can simplify creating customised edit forms; used as a base for edit forms
      */
-    Ext.define('mh.module.data.GenericEditFormController', {
+    Ext.define('mh.module.dataView.GenericEditFormController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.editform',
 
         requires: [
-            'mh.module.data.GenericEditFormLocalisation'
+            'mh.module.dataView.GenericEditFormLocalisation'
         ],
 
         mixins: [
@@ -52,7 +52,7 @@
          *  return 'test validation msg 1'; //this will display one msg
          *  return true; //this means a form is valid as far as its controller is concerned
          *
-         * To customise the feedback msg, have a look at mh.module.data.EditorController.showValidationMsg
+         * To customise the feedback msg, have a look at mh.module.dataView.EditorController.showValidationMsg
          * @template
          * @returns {boolean}
          */
@@ -76,10 +76,10 @@
                 exceptionMsg = rec.get('uuid') ?
 
                     //try to obtain the translation from a derived class first, but make the call return null if not found instead of the standart
-                    //'translation not found msg', then look at the 'mh.module.data.GenericEditFormController' namespace that indeed provides a standard localisation
-                    this.getTranslation('failedEdit', null, true) || this.getTranslation('failedEdit', 'mh.module.data.GenericEditFormController')
+                    //'translation not found msg', then look at the 'mh.module.dataView.GenericEditFormController' namespace that indeed provides a standard localisation
+                    this.getTranslation('failedEdit', null, true) || this.getTranslation('failedEdit', 'mh.module.dataView.GenericEditFormController')
                     :
-                    this.getTranslation('failedNew', null, true) || this.getTranslation('failedNew', 'mh.module.data.GenericEditFormController'),
+                    this.getTranslation('failedNew', null, true) || this.getTranslation('failedNew', 'mh.module.dataView.GenericEditFormController'),
 
                 //save op cfg
                 cfg = {
@@ -170,7 +170,7 @@
 
         getErrTranslation: function(translationKey){
             //Note: when displaying a field name that caused error, translation is first found at the inheriting class, then over here to finally default to the field name returned by the server (so it is clear which field failed rather than seeing the default large 'translation not found for blah, blah, blah' msg
-            return this.getTranslation(translationKey, null, true) || this.getTranslation(translationKey, 'mh.module.data.GenericEditFormController')
+            return this.getTranslation(translationKey, null, true) || this.getTranslation(translationKey, 'mh.module.dataView.GenericEditFormController')
         },
 
         /**
@@ -222,7 +222,7 @@
 
             msg = msg.replace(
                 '{field_name}',
-                this.getTranslation(propertyName, null, true) || this.getTranslation(propertyName, 'mh.module.data.GenericEditFormController', true) || propertyName
+                this.getTranslation(propertyName, null, true) || this.getTranslation(propertyName, 'mh.module.dataView.GenericEditFormController', true) || propertyName
             );
 
             return msg;

@@ -7,12 +7,12 @@
     /**
      * a modal editor that wraps up standardised link picker with user defined dataviews
      */
-    Ext.define('mh.module.data.LinksPicker', {
+    Ext.define('mh.module.dataView.LinksPicker', {
         extend: 'Ext.window.Window',
 
     requires: [
-        'mh.module.data.LinksPickerController',
-        'mh.module.data.LinksPickerModel'
+        'mh.module.dataView.LinksPickerController',
+        'mh.module.dataView.LinksPickerModel'
     ],
 
     viewModel: {

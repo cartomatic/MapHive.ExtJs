@@ -7,7 +7,7 @@
     /**
      * Very similar to bindable grid, but provides some common functionality for managing object links
      */
-    Ext.define('mh.module.data.LinksGrid', {
+    Ext.define('mh.module.dataView.LinksGrid', {
 
         extend: 'Ext.grid.Panel',
 
@@ -17,7 +17,7 @@
         'Ext.button.Button',
         'Ext.grid.plugin.DragDrop',
         'mh.mixin.ApiMap',
-        'mh.module.data.LinksGridController'
+        'mh.module.dataView.LinksGridController'
     ],
 
     controller: 'mh-links-grid',
@@ -57,7 +57,7 @@
             parentIdentifierToken: mh.mixin.ApiMap.getDefaultParentIdentifier(),
 
             /**
-             * @cfg {string} dataView either xtype or class name inheriting from mh.module.data.DataViewBase;
+             * @cfg {string} dataView either xtype or class name inheriting from mh.module.dataView.DataViewBase;
              * instantiable data view object that can be used to add new data to the links grid; this can actually be any object that can be added to a view. It just has got to have some standardised APIs (see the source... ;)
              */
             dataView: null,

@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.data.LinksPickerModel', {
+    Ext.define('mh.module.dataView.LinksPickerModel', {
         extend: 'Ext.app.ViewModel',
         alias: 'viewmodel.mh-links-picker'
     });

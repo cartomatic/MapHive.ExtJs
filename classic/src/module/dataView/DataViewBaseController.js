@@ -4,13 +4,13 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.data.DataViewBaseController', {
+    Ext.define('mh.module.dataView.DataViewBaseController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-dataview-base',
 
     requires: [
-        'mh.module.data.DataViewBaseLocalisation',
-        'mh.module.data.Editor',
+        'mh.module.dataView.DataViewBaseLocalisation',
+        'mh.module.dataView.Editor',
         'Ext.menu.CheckItem'
     ],
 
@@ -30,7 +30,7 @@
         /**
          * Default editor to be used by this class
          */
-        defaultEditor: 'mh.module.data.Editor',
+        defaultEditor: 'mh.module.dataView.Editor',
 
         /**
          * whether or not the editability has been enabled during the setup
@@ -711,7 +711,7 @@
                     editForm = view.getEditForm() || view.getForm(),
                     editor = view.getEditor();
 
-                //auto default to the basic mh.module.data.Editor
+                //auto default to the basic mh.module.dataView.Editor
                 if(editor !== false && !editor){
                     editor = this.defaultEditor;
                 }

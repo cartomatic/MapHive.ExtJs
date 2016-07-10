@@ -7,15 +7,22 @@
     /**
      * simple generic data view that brings together a grid display and form record display and also provides some CRUD action hooks
      */
-    Ext.define('mh.module.data.DataViewBase', {
+    Ext.define('mh.module.dataView.DataViewBase', {
         extend: 'Ext.container.Container',
 
     requires: [
+        'Ext.button.Button',
         'Ext.form.Panel',
         'Ext.grid.Panel',
         'Ext.layout.container.Border',
-        'mh.module.data.DataViewBaseController',
-        'mh.module.data.DataViewBaseModel'
+        'Ext.layout.container.Fit',
+        'Ext.panel.Panel',
+        'Ext.toolbar.Fill',
+        'Ext.toolbar.Paging',
+        'Ext.toolbar.Separator',
+        'Ext.toolbar.Toolbar',
+        'mh.module.dataView.DataViewBaseController',
+        'mh.module.dataView.DataViewBaseModel'
     ],
 
     xtype: 'mh-dataview-base',
@@ -63,15 +70,15 @@
 
             /**
              * edit form if different than data view form which is likely to be the case in most scenarios;
-             * IMPORTANT: edit form (or data view form) in order to be usable DOES HAVE to use a view controller that inherits from mh.module.data.EditFormController
-             * or must provide the very same API otherwise. See mh.module.data.EditFormController.init for the APIs the controller publishes and the Editor relies on
+             * IMPORTANT: edit form (or data view form) in order to be usable DOES HAVE to use a view controller that inherits from mh.module.dataView.EditFormController
+             * or must provide the very same API otherwise. See mh.module.dataView.EditFormController.init for the APIs the controller publishes and the Editor relies on
              */
             //TODO - make it instantiable via xtypes too!
             editForm: '',
 
             /**
-             * Editor class fully qualified name. if not provided, defaults to the default mh.module.data.Editor
-             * editors should either extend mh.module.data.Editor or provide the api exposed by it. see the source code for details - in particular the apis
+             * Editor class fully qualified name. if not provided, defaults to the default mh.module.dataView.Editor
+             * editors should either extend mh.module.dataView.Editor or provide the api exposed by it. see the source code for details - in particular the apis
              * exposed (published to the view) by the view controller
              */
             editor: null,

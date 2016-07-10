@@ -4,13 +4,13 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.data.LinksPickerController', {
+    Ext.define('mh.module.dataView.LinksPickerController', {
 
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-links-picker',
 
         requires: [
-            'mh.module.data.LinksPickerLocalisation'
+            'mh.module.dataView.LinksPickerLocalisation'
         ],
 
         mixins: [
@@ -54,7 +54,7 @@
             }
             //<debug>
             else {
-                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the getSelection method. Unable to obtain links!!! See mh.module.data.DataViewBaseController for details');
+                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the getSelection method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
             }
             //</debug>
 
@@ -82,7 +82,7 @@
                 this.getView().setTitle(this.getTranslation('title'));
 
                 //<debug>
-                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the getTitle method. Unable to obtain links!!! See mh.module.data.DataViewBaseController for details');
+                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the getTitle method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
                 //</debug>
             }
             
@@ -92,7 +92,7 @@
             }
             //<debug>
             else {
-                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the setSelectionModel method. Unable to obtain links!!! See mh.module.data.DataViewBaseController for details');
+                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the setSelectionModel method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
             }
             //</debug>
         },
@@ -113,7 +113,7 @@
             }
             //<debug>
             else {
-                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the resetGrid method. Unable to obtain links!!! See mh.module.data.DataViewBaseController for details');
+                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the resetGrid method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
             }
             //</debug>
         }
