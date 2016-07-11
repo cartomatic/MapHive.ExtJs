@@ -123,80 +123,107 @@
         },
 
         layout: 'border',
-
         items: [
             {
-                xtype: 'panel',
-                reference: 'gridHolder',
-                region: 'center',
+                xtype: 'container',
                 layout: 'fit',
-                bind: {
-                    title: '{localisation.gridTitle}'
-                },
-                dockedItems: [
+                reference: 'westOuterHolder',
+                region: 'west',
+                width: 350,
+                hidden: true,
+                split: true,
+                items: []
+            },
+            {
+                xtype: 'container',
+                layout: 'fit',
+                reference: 'centerOuterHolder',
+                region: 'center',
+                split: true,
+                items: [
                     {
-                        dock: 'top',
-                        xtype: 'toolbar',
-                        reference: 'gridTbar',
-                        hidden: true,
-                        items: [
-                            '->',
+                        xtype: 'panel',
+                        reference: 'gridHolder',
+                        layout: 'fit',
+                        bind: {
+                            title: '{localisation.gridTitle}'
+                        },
+                        dockedItems: [
                             {
-                                xtype: 'button',
-                                reference: 'btnCreate',
-                                iconCls: 'x-fa fa-plus',
-                                bind: { text: '{localisation.btnCreate}'},
-                                listeners: {
-                                    click: 'onBtnCreateClick'
-                                }
+                                dock: 'top',
+                                xtype: 'toolbar',
+                                reference: 'gridTbar',
+                                hidden: true,
+                                items: [
+                                    '->',
+                                    {
+                                        xtype: 'button',
+                                        reference: 'btnCreate',
+                                        iconCls: 'x-fa fa-plus',
+                                        bind: { text: '{localisation.btnCreate}'},
+                                        listeners: {
+                                            click: 'onBtnCreateClick'
+                                        }
+                                    },
+                                    { xtype: 'tbseparator' },
+                                    {
+                                        xtype: 'button',
+                                        reference: 'btnEdit',
+                                        iconCls: 'x-fa fa-edit',
+                                        bind: {
+                                            text: '{localisation.btnEdit}',
+                                            disabled: '{!editable}'
+                                        },
+                                        listeners: {
+                                            click: 'onBtnEditClick'
+                                        }
+                                    },
+                                    { xtype: 'tbseparator' },
+                                    {
+                                        xtype: 'button',
+                                        reference: 'btnDelete',
+                                        iconCls: 'x-fa fa-remove',
+                                        bind: {
+                                            text: '{localisation.btnDelete}',
+                                            disabled: '{!deletable}'
+                                        },
+                                        listeners: {
+                                            click: 'onBtnDeleteClick'
+                                        }
+                                    }
+                                ]
                             },
-                            { xtype: 'tbseparator' },
                             {
-                                xtype: 'button',
-                                reference: 'btnEdit',
-                                iconCls: 'x-fa fa-edit',
+                                dock: 'bottom',
+                                xtype: 'pagingtoolbar',
                                 bind: {
-                                    text: '{localisation.btnEdit}',
-                                    disabled: '{!editable}'
-                                },
-                                listeners: {
-                                    click: 'onBtnEditClick'
-                                }
-                            },
-                            { xtype: 'tbseparator' },
-                            {
-                                xtype: 'button',
-                                reference: 'btnDelete',
-                                iconCls: 'x-fa fa-remove',
-                                bind: {
-                                    text: '{localisation.btnDelete}',
-                                    disabled: '{!deletable}'
-                                },
-                                listeners: {
-                                    click: 'onBtnDeleteClick'
+                                    store: '{gridstore}'
                                 }
                             }
                         ]
-                    },
-                    {
-                        dock: 'bottom',
-                        xtype: 'pagingtoolbar',
-                        bind: {
-                            store: '{gridstore}'
-                        }
                     }
                 ]
             },
             {
-                xtype: 'panel',
-                region: 'east',
+                xtype: 'container',
                 layout: 'fit',
-                reference: 'formHolder',
+                reference: 'eastOuterHolder',
+                region: 'east',
                 width: 350,
                 split: true,
-                bind: {
-                    title: '{localisation.formTitle}'
-                }
+                items: [
+                    {
+                        xtype: 'panel',
+                        region: 'east',
+                        layout: 'fit',
+                        reference: 'formHolder',
+                        split: true,
+                        width: 350,
+                        bind: {
+                            title: '{localisation.formTitle}'
+                        }
+                    }
+                ]
             }
         ]
     });

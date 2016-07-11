@@ -72,7 +72,9 @@
                 },
                 formOpts = {
                     reference: 'form'
-                };
+                },
+
+                toggleRegions = false;
 
             //hide the grid's header; useful when using nested
             if(hideGridHeader === true){
@@ -82,6 +84,9 @@
             //instantiate grid + data view and inject into layout
             grid = this.ensureGridDef(grid);
             if(grid){
+
+                //if a grid has defined width, then will have to swap regions
+                toggleRegions = grid.width !== undefined;
 
                 //Note: grabbing store off a view model, as grid initially will have an empty one and will bind to viewmodel's one later it seems
                 var store = this.getViewModel().get('gridstore');
@@ -97,7 +102,6 @@
                 //set remote sorting and or filtering based on the dataview cfg
                 store.setRemoteSort(view.getRemoteSort());
                 store.setRemoteFilter(view.getRemoteFilter());
-
 
                 gridHolder.add(this.createInstance(grid, gridOpts));
 
@@ -129,6 +133,23 @@
                 formHolder.hide();
             }
 
+            if(toggleRegions && grid && form){
+                var westHolder = this.lookupReference('westOuterHolder'),
+                    centerHolder = this.lookupReference('centerOuterHolder'),
+                    eastHolder = this.lookupReference('eastOuterHolder');
+
+                westHolder.show();
+                westHolder.setWidth(grid.width);
+                westHolder.add(gridHolder);
+
+                centerHolder.add(formHolder);
+
+                eastHolder.hide();
+
+                //Note: dunno why the titles get unbound??? maybe because the components are moved around and change parents??? need to reset them manually which sucks a bit
+                gridHolder.setTitle(this.getTranslation('gridTitle'));
+                formHolder.setTitle(this.getTranslation('formTitle'));
+            }
 
             //the top toolbar setup...
             this.setUpEditUi();
