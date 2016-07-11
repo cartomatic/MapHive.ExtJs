@@ -68,6 +68,10 @@
                 for(r; r < rlen; r++){
                     outRoutes[routes[r]] = 'onMatchedRoute'
                 }
+
+                if(menudata[m].children){
+                    this.prepareRoutes(menudata[m].children)
+                }
             }
             this.setRoutes(outRoutes);
         },
@@ -171,11 +175,13 @@
 
             var navList = this.lookupReference('navTreeList'),
                 treeStore = navList.getStore(),
-                me = this,
-                node = treeStore.getRoot().findChildBy(
+                root = treeStore.getRoot(),
+                node = root.findChildBy(
                     function(n){
-                        return me.checkIfRouteMatches(route, n);
-                    }
+                        return this.checkIfRouteMatches(route, n);
+                    },
+                    this,
+                    true //perform a deep search, so children are also exercised
                 ),
                 viewRef,
                 cardHolder, cardLayout, currentView, newView;
@@ -188,6 +194,9 @@
                 node.set('currentRoute', route);
 
                 //highlight an item on a list
+                if(!node.parentNode.isRoot() && node.parentNode.hasChildNodes()){
+                    node.parentNode.expand();
+                }
                 navList.setSelection(node);
 
                 //turn on the view

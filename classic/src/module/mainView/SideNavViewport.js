@@ -52,7 +52,7 @@
                         ui: 'mh-sidenav',
                         width: 250,
                         expanderFirst: false,
-                        expanderOnly: false,
+                        expanderOnly: true,
                         listeners: {
                             selectionchange: 'onTreeListSelectionChange'
                         },

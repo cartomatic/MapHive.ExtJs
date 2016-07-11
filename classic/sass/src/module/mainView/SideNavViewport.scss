@@ -7,7 +7,7 @@ $mh-sidenav-tool-float-indicator-color: dynamic($panel-header-background-color);
 $mh-sidenav-tool-indicator-selected-color: dynamic($panel-header-background-color);
 $mh-sidenav-tool-selected-background-color: dynamic(mix(white,$mh-sidenav-base-color, 5%));
 
-$mh-sidenav-item-expanded-background-color: dynamic(#2c3845);
+$mh-sidenav-item-expanded-background-color: dynamic(darken($mh-sidenav-base-color, 5%));
 
 $mh-sidenav-item-line-height: dynamic(64px);
 
