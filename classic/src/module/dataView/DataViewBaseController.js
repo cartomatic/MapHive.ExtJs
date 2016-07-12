@@ -131,6 +131,7 @@
             }
             else {
                 formHolder.hide();
+                this.lookupReference('eastOuterHolder').hide();
             }
 
             if(toggleRegions && grid && form){
