@@ -68,6 +68,10 @@
             return this.getMhCfgProperty('apiEndPoint') + apiMap[endPoint];
         },
 
+        getDefaultParentIdentifier: function(){
+            return defaultParentIdentifier;
+        },
+
         /**
          * Overrides the default API map with the configuration defined in the web.config
          */
