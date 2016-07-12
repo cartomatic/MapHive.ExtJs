@@ -22,11 +22,6 @@
         ],
 
         /**
-         * new link - if present, then currentLink is to be destroyed
-         */
-        newLink: null,
-
-        /**
          * model to configure the store with; see full description on the view object
          * @private
          */
@@ -61,7 +56,6 @@
          * @private
          */
         linksPicker: null,
-
 
         /**
          * whether or not the current link should be removed
@@ -120,8 +114,6 @@
                 return;
             }
 
-            console.warn('WTF????', rec);
-
             var view = this.getView(),
                 token = view.getParentIdentifierToken(),
                 apiUrl = view.getApiUrl().replace(token, rec.get('uuid'));
@@ -138,9 +130,11 @@
             });
         },
 
+        /**
+         * linked object load success
+         * @param response
+         */
         onLinkedObjectLoadSuccess: function(response){
-
-            console.warn('link loaded', response);
 
             this.currentLink = Ext.create(this.model, response);
 

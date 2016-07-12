@@ -55,20 +55,27 @@
             'btnRemoveLink|setIconCls': null,
         },
 
+        layout: 'hbox',
 
         items: [
             {
                 xtype: 'displayfield',
                 reference: 'displayField',
-                flex: 1
+                flex: 1,
+                border: 1,
+                style: {
+                    borderColor: '#D0D0D0',
+                    borderStyle: 'solid'
+                }
             },
             {
                 xtype: 'button',
                 reference: 'btnSetLink',
-                iconCls: 'x-fa fa-link',
+                iconCls: 'x-fa fa-edit',
                 listeners: {
                     click: 'onBtnSetLinkClick'
                 },
+                margin: '0 5 0 0', //tlbr
                 hidden: true
             },
             {
@@ -78,6 +85,7 @@
                 listeners: {
                     click: 'onBtnRemoveLinkClick'
                 },
+                margin: '0 5 0 0', //tlbr
                 hidden: true
             }
         ],
