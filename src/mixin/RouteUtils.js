@@ -5,7 +5,7 @@
     /**
      * Route utils - a set of helpers tha simplify working with the app routes
      */
-    Ext.define('mh.mixins.RouteUtils', {
+    Ext.define('mh.mixin.RouteUtils', {
     requires: [
         'Ext.app.Application',
         //FIXME - this is a private util... will need to extract some sensible stuff out of it

@@ -14,7 +14,7 @@
         mixins: [
             'mh.communication.MsgBus',
             'mh.mixin.ModalMode',
-            'mh.mixins.RouteUtils'
+            'mh.mixin.RouteUtils'
         ],
 
     requires: [

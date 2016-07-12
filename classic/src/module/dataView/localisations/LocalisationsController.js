@@ -18,7 +18,7 @@
             'mh.mixin.Localisation',
             'mh.mixin.CallMeParent',
             'mh.mixin.GridUtils',
-            'mh.mixins.RouteUtils'
+            'mh.mixin.RouteUtils'
         ],
 
         routes: {

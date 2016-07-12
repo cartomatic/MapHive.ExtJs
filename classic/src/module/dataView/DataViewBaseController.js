@@ -53,7 +53,7 @@
             //apply custom configurations
             this.applyCustomViewConfig();
 
-            this.publishApi(['getSelection', 'getTitle', 'setSelectionModel', 'resetGrid']);
+            this.publishApi(['getSelection', 'getTitle', 'setSelectionMode', 'resetGrid']);
 
             //some translations
             var refs = this.getReferences(),
@@ -182,8 +182,8 @@
          * Sets a selection model for a grid component
          * @param sModel
          */
-        setSelectionModel: function(sModel){
-            this.lookupReference('grid').getSelectionModel().setSelectionMode('MULTI');
+        setSelectionMode: function(sModel){
+            this.lookupReference('grid').getSelectionModel().setSelectionMode(sModel);
         },
 
         /**

@@ -70,8 +70,9 @@
         /**
          * sets a dataview in this component
          * @param dv
+         * @param dataViewSelectionMode
          */
-        setDataView: function(dv){
+        setDataView: function(dv, dataViewSelectionMode){
             this.dataView = this.getView().add(dv);
 
             //try to set a title...
@@ -87,12 +88,12 @@
             }
             
             //and a selection model
-            if(Ext.isFunction(this.dataView.setSelectionModel)){
-                this.dataView.setSelectionModel('MULTI');
+            if(Ext.isFunction(this.dataView.setSelectionMode)){
+                this.dataView.setSelectionMode(dataViewSelectionMode || 'MULTI');
             }
             //<debug>
             else {
-                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the setSelectionModel method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
+                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the setSelectionMode method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
             }
             //</debug>
         },
