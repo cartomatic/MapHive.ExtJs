@@ -108,9 +108,11 @@
             this.removeLink = false;
             this.currentLink = null;
 
-            //fixme - blody hell, dunno what is going on in here... I expect a rec to be null on rebind, but an object is passed instead {external=true}; so far cannot track the problem... model???
+
+            this.resetDisplay();
+
+            //fixme - blody hell, dunno what is going on in here... I expect a rec to be null on re-bind, but sometimes an object is passed instead {external=true}; so far cannot track the problem... model, viewmodel???
             if(!rec || rec.external || !rec.get('uuid')){
-                this.resetDisplay();
                 return;
             }
 

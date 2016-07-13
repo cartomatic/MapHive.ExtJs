@@ -3,7 +3,7 @@
     'use strict';
     
     /**
-     * a single link field - used to display a single link value in a form
+     * a single link field - used to display a single link value in a form; provides means for picking a new link or resetting an existing link; call setEditable in order to make the field show its buttons
      */
     Ext.define('mh.module.dataView.SingleLinkField', {
         extend: 'Ext.form.FieldContainer',
@@ -58,15 +58,11 @@
         layout: 'hbox',
 
         items: [
-            {
+           {
                 xtype: 'displayfield',
                 reference: 'displayField',
                 flex: 1,
-                border: 1,
-                style: {
-                    borderColor: '#D0D0D0',
-                    borderStyle: 'solid'
-                }
+                height: 50
             },
             {
                 xtype: 'button',
@@ -75,7 +71,7 @@
                 listeners: {
                     click: 'onBtnSetLinkClick'
                 },
-                margin: '0 5 0 0', //tlbr
+                margin: '0 0 0 5', //trbl
                 hidden: true
             },
             {
@@ -85,7 +81,7 @@
                 listeners: {
                     click: 'onBtnRemoveLinkClick'
                 },
-                margin: '0 5 0 0', //tlbr
+                margin: '0 0 0 5', //trbl
                 hidden: true
             }
         ],
