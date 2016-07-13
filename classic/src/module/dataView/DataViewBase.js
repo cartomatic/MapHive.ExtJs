@@ -52,6 +52,11 @@
             hideGridHeader: false,
 
             /**
+             * whether or not form header should be hidden. useful when using in more specific layouts
+             */
+            hideFormHeader: false,
+
+            /**
              * @cfg {string|Object} form; used to inject form definition - can be a js object literal or a class name; to suppress form creation
              * provide a boolean false value
              */

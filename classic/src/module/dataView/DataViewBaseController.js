@@ -66,6 +66,7 @@
                 formIconCls = view.getFormIconCls(),
                 formWidth = view.getFormWidth() || formHolder.getWidth(),
                 hideGridHeader = view.getHideGridHeader(),
+                hideFormHeader = view.getHideFormHeader(),
 
                 gridOpts = {
                     reference: 'grid'
@@ -79,6 +80,10 @@
             //hide the grid's header; useful when using nested
             if(hideGridHeader === true){
                 gridHolder.header = false;
+            }
+
+            if(hideFormHeader === true){
+                formHolder.header = false;
             }
 
             //instantiate grid + data view and inject into layout
