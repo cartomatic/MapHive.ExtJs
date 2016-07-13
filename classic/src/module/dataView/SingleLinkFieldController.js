@@ -118,10 +118,15 @@
 
             var view = this.getView(),
                 token = view.getParentIdentifierToken(),
-                apiUrl = view.getApiUrl().replace(token, rec.get('uuid'));
+                apiUrl = view.getApiUrl().replace(token, rec.get('uuid')),
+                loadMask = view.getUseLoadMask()
 
             //basically know what model is to be read, so need to get it from the api
-            view.mask(this.getTranslation('loadMask'));
+            if(loadMask === true){
+                //
+                this.getMaskableElement().mask(this.getTranslation('loadMask'));
+            }
+
 
             //pull link data
             this.doGet({
@@ -130,6 +135,14 @@
                 success: this.onLinkedObjectLoadSuccess,
                 failure: this.onLinkedObjectLoadFailure
             });
+        },
+
+        /**
+         * gets an element to mask when loading the data
+         * @returns {*}
+         */
+        getMaskableElement: function(){
+            return this.getView().getLayout().innerCt;
         },
 
         /**
@@ -142,7 +155,7 @@
 
             this.renderRec(this.currentLink);
 
-            this.getView().unmask();
+            this.getMaskableElement().unmask();
         },
 
         /**
@@ -299,6 +312,10 @@
          * @returns {string}
          */
         renderer: function(rec){
+
+            //see if there is a configured one...
+            if(Ext.isFunction(this.getView().getRenderer()))
+                return this.getView().getRenderer()(rec);
 
             var baseFields = Ext.Array.map(
                     Ext.create('mh.data.model.Base').getFields(),

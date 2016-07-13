@@ -47,12 +47,17 @@
              */
             renderer: null,
 
+            /**
+             * whether or not a load mask should be shown when loading the field's value
+             */
+            useLoadMask: true,
+
             'btnSetLink|setUI': null,
             'btnSetLink|setScale': null,
             'btnSetLink|setIconCls': null,
             'btnRemoveLink|setUI': null,
             'btnRemoveLink|setScale': null,
-            'btnRemoveLink|setIconCls': null,
+            'btnRemoveLink|setIconCls': null
         },
 
         layout: 'hbox',
