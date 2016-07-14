@@ -167,7 +167,7 @@
             //this will happen when there is no link - so in most cases 404; other errs should be handled by the ajax utils
             this.resetDisplay();
 
-            this.getView().unmask();
+            this.getMaskableElement().unmask()
         },
 
         /**
