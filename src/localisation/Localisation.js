@@ -222,7 +222,7 @@
 
                 translationKeys = Ext.Array.merge(translationKeys, currentTranslationKeys);
 
-                if(!includeInherited || !this.translations[namespace] && this.translations[namespace].hasOwnProperty(this.translationsSuperclass))
+                if(!includeInherited || !(this.translations[namespace] && this.translations[namespace].hasOwnProperty(this.translationsSuperclass)))
                     break;
 
                 namespace = this.getTranslationNamespace(this.translations[namespace][this.translationsSuperclass]);
