@@ -60,6 +60,13 @@
             'btnRemoveLink|setIconCls': null
         },
 
+        /**
+         * @event change
+         * @param {mh.module.dataView.SingleLinkField} this
+         * @param newV
+         * @param oldV
+         */
+
         layout: 'hbox',
 
         items: [

@@ -22,6 +22,13 @@
         ],
 
         /**
+         * @event change
+         * @param {mh.module.dataView.SingleLinkField} this; fired at the view level
+         * @param newV
+         * @param oldV
+         */
+
+        /**
          * model to configure the store with; see full description on the view object
          * @private
          */
@@ -151,11 +158,15 @@
          */
         onLinkedObjectLoadSuccess: function(response){
 
+            var oldV = this.currentLink;
+
             this.currentLink = Ext.create(this.model, response);
 
             this.renderRec(this.currentLink);
 
             this.getMaskableElement().unmask();
+
+            this.getView().fireEvent('change', this.getView(), this.currentLink, oldV);
         },
 
         /**
@@ -175,6 +186,9 @@
          */
         resetDisplay: function(){
             this.lookupReference('displayField').setValue('');
+
+            //notify change
+            this.getView().fireEvent('change', this.getView(), null, this.newLink || this.currentLink);
         },
 
 
@@ -207,9 +221,14 @@
             if(records.length != 1)
                 return;
 
+            var oldV = this.newLink;
+
             this.newLink = Ext.create(this.model, records[0].getData());
 
             this.renderRec(this.newLink);
+
+            //notify change
+            this.getView().fireEvent('change', this.getView(), this.newLink, oldV);
         },
 
         /**
