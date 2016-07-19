@@ -217,18 +217,27 @@
 
 
             //make sure there is 'real' work to be done
-            if(!rec){
+            if(!rec || rec.external){ //bloody hell what the hell is this stuff??? { external: true }
                 return;
             }
 
             if(this.gridStore){
 
-                this.gridStore.getProxy().setUrl(this.apiUrl.replace(this.parentIdentifierToken, rec.get('uuid')));
+                this.gridStore.getProxy().setUrl(this.getLinksGridApiUrl(rec));
 
                 if(this.getView().isVisible()) {
                     this.loadStore();
                 }
             }
+        },
+
+        /**
+         * gets a proper api url for the current context of the links grid
+         * @param rec
+         * @returns {void|XML|string}
+         */
+        getLinksGridApiUrl: function(rec){
+            return this.apiUrl.replace(this.parentIdentifierToken, rec.get('uuid'));l
         },
 
         /**

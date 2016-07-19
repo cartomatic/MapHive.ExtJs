@@ -123,8 +123,8 @@
 
             //basically know what model is to be read, so need to get it from the api
             if(loadMask === true){
-                //
-                this.getMaskableElement().mask(this.getTranslation('loadMask'));
+                //this.getMaskableElement().mask(this.getTranslation('loadMask'));
+                this.getMaskableElement().mask();
             }
 
 
