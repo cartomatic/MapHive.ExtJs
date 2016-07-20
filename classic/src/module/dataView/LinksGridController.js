@@ -230,7 +230,7 @@
 
 
             //make sure there is 'real' work to be done
-            if(!rec || rec.external){ //bloody hell what the hell is this stuff??? { external: true }
+            if(!rec || !Ext.isFunction(rec.get) || !rec.get('uuid')){
                 return;
             }
 
