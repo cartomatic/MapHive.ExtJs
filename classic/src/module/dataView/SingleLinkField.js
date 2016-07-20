@@ -73,8 +73,8 @@
            {
                 xtype: 'displayfield',
                 reference: 'displayField',
-                flex: 1,
-                height: 50
+                flex: 1
+                //height: 50
             },
             {
                 xtype: 'button',

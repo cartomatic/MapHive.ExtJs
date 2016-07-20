@@ -130,17 +130,30 @@
          * @param disable
          */
         setDdPluginDisabled: function(disable){
-            var me = this;
+            var me = this,
+                view = this.getView();
             //disable dragdrop plugin in standard mode
-            Ext.Array.each(this.getView().getView().getPlugins(), function(p){
+            Ext.Array.each(view.getView().getPlugins(), function(p){
                 if(Ext.getClassName(p) === 'Ext.grid.plugin.DragDrop'){
                     if(disable){
                         //p.disable(); //<- this seems to be totally ignored...
                         p.enableDrag = false;
+                        p.enableDrop = false;
                     }
                     else {
                         p.enable();
                         p.enableDrag = true;
+                        p.enableDrop = true;
+
+                        if(view.getDdGroup()){
+                            p.ddGroup = view.getDdGroup();
+                        }
+                        if(view.getDropGroup()){
+                            p.dropGroup = view.getDropGroup();
+                        }
+                        if(view.getDragGroup()){
+                            p.dragGroup = view.getDragGroup();
+                        }
                     }
                     return false;
                 }

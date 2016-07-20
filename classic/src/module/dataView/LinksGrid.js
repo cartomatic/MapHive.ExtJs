@@ -26,7 +26,8 @@
             plugins: {
                 ptype: 'gridviewdragdrop',
                 //dragText: 'Drag and drop to reorganize', //
-                disabled: true
+                disabled: true,
+                enableDrop: false
             }
         },
 
@@ -70,7 +71,12 @@
             //some xtra ui customisation hooks
             'btnAddLink|setUI': null,
             'btnAddLink|setScale': null,
-            'btnAddLink|setIconCls': null
+            'btnAddLink|setIconCls': null,
+
+            //dd cfg
+            ddGroup: null,
+            dragGroup: null,
+            dropGroup: null
         },
 
         /**
