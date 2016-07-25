@@ -302,6 +302,26 @@
             //if the app identifier is not specified as a hash param, use url with params but without the url part (aka hash)
             if(!appIdentifier) {
                 appIdentifier = decodeURIComponent(window.location.href.split('#')[0]);
+                
+                //note: need to extract the lang param off the app identifier prior to going on with the comparison.
+                //note: also params order plays an important role here... this is a future todo though
+
+                if(appIdentifier.indexOf('lng=') > -1){
+                    urlParts = appIdentifier.split('?');
+                    if(urlParts.length > 1){
+                        inParams = urlParts[1].split('&');
+                        outParams = [];
+                        Ext.Array.each(inParams, function(param){
+                            if(param.indexOf('lng=') === -1){
+                                outParams.push(param);
+                            }
+                        });
+                        appIdentifier = urlParts[0];
+                        if(outParams.length > 0){
+                            appIdentifier += urlParts[0] + '?' + outParams.join('&');
+                        }
+                    }
+                }
             }
 
             //Depending on mode - HOST / HOSTED app is recognised by url or the app id / short name
