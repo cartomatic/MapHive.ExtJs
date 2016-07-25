@@ -242,6 +242,8 @@
          */
         getTranslationNamespace: function(className){
 
+            className = this.fixClassName(className);
+
             //need to cut the Controller, Model, localisation from the end of the String.
             //Just assuming the localisation file name to class name mapping is always as follows:
             //some.Class -> some.ClassLocalisation
@@ -273,6 +275,22 @@
             this.translationsNamespaceCache[className] = namespace;
 
             return namespace;
+        },
+        
+         /**
+         * fixes the application class name. for the application object Ext.getClassName returns $application
+         * @param className
+         */
+        fixClassName: function(className){
+            var idx = className.indexOf('$'),
+                strToReplace, replacement;
+            if(idx > -1){
+                strToReplace = className.substring(className.indexOf('$'), className.indexOf('$') + 2);
+                replacement = strToReplace.replace('$', '').toUpperCase();
+
+                className = className.replace(strToReplace, replacement)
+            }
+            return className;
         }
     });
 
