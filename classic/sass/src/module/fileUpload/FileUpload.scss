@@ -1,0 +1,18 @@
+@include extjs-button-small-ui(
+  $ui: 'mh-upload-button',
+  $border-color: transparent,
+  $border-color-focus: transparent,
+  $border-color-focus-pressed: transparent,
+  $background-color: transparent,
+  $color: rgb(78, 78, 78),
+  $font-weight: bold
+);
+
+@include extjs-display-field-ui(
+  $ui: 'mh-upload-drag-desc',
+  $ui-line-height: 35px
+);
+
+.mh-upload-drag-over {
+  background-color: #b7b7b7;
+}
