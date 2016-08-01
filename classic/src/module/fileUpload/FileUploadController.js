@@ -15,7 +15,8 @@
 
         mixins: [
             'mh.mixin.CallMeParent',
-            'mh.mixin.Localisation'
+            'mh.mixin.Localisation',
+            'mh.mixin.PublishApi'
         ],
 
         files: null,
@@ -27,6 +28,8 @@
 
             //this.callMeParent('init', arguments);
             this.injectLocalisationToViewModel();
+
+            this.publishApi('setFormData');
 
             this.fileSelectId = 'fu_' + new Date().getTime();
             this.lookupReference('fileUploadHolder').setHtml(
@@ -161,6 +164,20 @@
         },
 
 
+        /**
+         * Form data that will be sent with the upload
+         * @private
+         */
+        formData: null,
+
+        /**
+         * sets form data to be uploaded with the files
+         * @param fd
+         */
+        setFormData: function(fd){
+            this.formData = fd;
+        },
+
         onBtnUploadClick: function(){
 
             if(!this.files || this.files.length === 0){
@@ -176,7 +193,7 @@
             var me = this,
                 xhr = new XMLHttpRequest(),
                 fd = new FormData(),
-                uploadId = mh.utils.Generator.getUuid();
+                me = this;
 
             xhr.open('POST', this.getView().getUploadUrl(), true); //true for async upload
 
@@ -184,6 +201,12 @@
             Ext.Array.each(this.files, function(f){
                 fd.append('files[]', f, f.name);
             });
+
+            if(this.formData){
+                Ext.Array.each(Ext.Object.getKeys(this.formData), function(key){
+                    fd.append(key, me.formData[key]);
+                });
+            }
 
             //customise the upload
             this.customiseUpload(xhr, fd);
