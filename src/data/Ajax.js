@@ -13,7 +13,16 @@
          * Value of the Authorization header to be appended in each request
          * @type {string}
          */
-        authorizationHeader = null;
+        authorizationHeader = null,
+
+            staticInstance = null,
+
+        getStaticInstance = function(){
+            if(!staticInstance){
+                staticInstance = Ext.create('mh.data.Ajax');
+            }
+            return staticInstance;
+        }
 
         /**
          * Provides some customised functionality on the top of Ext.Ajax.
@@ -46,6 +55,22 @@
             onUserAuthenticated: function(token){
                 accessToken = token
                 authorizationHeader = accessToken ? 'Bearer ' + accessToken : null;
+            },
+
+            /**
+             * sets authorization header on custom xhr object
+             * @param xhr
+             */
+            setAuthorizationHeader: function(xhr){
+                xhr.setRequestHeader('Authorization', authorizationHeader);
+            },
+
+            /**
+             * gets standard headers
+             * @returns {*}
+             */
+            getStandardHeaders: function(){
+                return getStaticInstance().getStandardHeaders();
             }
 
             //<debug>

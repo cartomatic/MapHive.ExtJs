@@ -59,7 +59,7 @@
 
             var key = this.getTranslationNamespace(Ext.getClassName(translationsClass)),
 
-                newTranslations = translationsClass.localisation,
+                newTranslations = translationsClass.localisation || {},
 
                 currentTranslations = this.translations[key],
                 translationKeys, translationKey, tk, tklen,

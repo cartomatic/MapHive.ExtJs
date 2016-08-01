@@ -11,8 +11,8 @@
         xtype: 'mh-file-upload',
 
         requires: [
-        'mh.module.fileUpload.FileUploadController'
-    ],
+            'mh.module.fileUpload.FileUploadController'
+        ],
 
     controller: 'mh-file-upload',
 
@@ -26,21 +26,18 @@
 
         bodyPadding: 5,
 
-        layout: 'anchor',
+        layout: 'fit',
 
-        defaults: {
-            anchor: '100%'
+        config: {
+            multi: true,
+            overCls: 'mh-upload-drag-over',
+            uploadUrl: null
         },
 
         items: [
             {
-                xtype: 'container',
-                reference: 'fileUploadHolder',
-                hidden: true
-            },
-            {
                 xtype: 'panel',
-                height: 80,
+                height: 120,
                 border: 'solid 1px',
 
                 reference: 'uploadInvitation',
@@ -80,6 +77,11 @@
                 items: [
                     {
                         xtype: 'container',
+                        reference: 'fileUploadHolder',
+                        hidden: true
+                    },
+                    {
+                        xtype: 'container',
                         flex: 1,
                         layout: {
                             type: 'hbox',
@@ -89,32 +91,27 @@
                         items: [
                             {
                                 xtype: 'button',
-                                bind: {
-                                    text: '{localisation.uploadBtn}'
-                                },
+                                reference: 'btnChooseFiles',
                                 ui: 'mh-upload-button',
                                 style: {
                                     textDecoration: 'underline'
                                 },
                                 listeners: {
-                                    click: 'onBtnUploadClick'
+                                    click: 'onBtnChooseFilesClick'
                                 }
                             },
                             {
                                 xtype: 'displayfield',
-                                ui: 'mh-upload-drag-desc',
-                                bind: {
-                                    value: '{localisation.uploadDragHere}'
-                                }
+                                reference: 'uploadDragHere',
+                                ui: 'mh-upload-drag-desc'
                             }
                         ]
                     },
                     {
                         xtype: 'container',
-                        bodyPadding: 5,
+                        padding: 5,
                         reference: 'selectedFiles',
-                        scrollable: 'y',
-                        height: 40
+                        scrollable: 'y'
                     }
                 ]
             }
@@ -131,6 +128,9 @@
                         iconCls: 'x-fa fa-upload',
                         bind: {
                             text: '{localisation.btnUpload}'
+                        },
+                        listeners: {
+                            click: 'onBtnUploadClick'
                         }
                     },
                     {
@@ -138,6 +138,9 @@
                         iconCls: 'x-fa fa-remove',
                         bind: {
                             text: '{localisation.btnCancel}'
+                        },
+                        listeners: {
+                            click: 'onBtnCancelClick'
                         }
                     }
                 ]

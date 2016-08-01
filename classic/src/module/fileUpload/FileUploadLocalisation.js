@@ -19,13 +19,29 @@
                     en: 'Drag files below or use a side button...',
                     pl: 'Przeciągnij i upuść pliki poniżej, lub użyj przycisku...'
                 },
-                uploadBtn: {
+                chooseFilesBtn: {
                     en: 'Choose a file',
                     pl: 'Wybierz plik'
+                },
+                chooseFilesBtnMulti: {
+                    en: 'Choose files',
+                    pl: 'Wybierz pliki'
                 },
                 uploadDragHere: {
                     en: 'or drag it here...',
                     pl: 'lub przeciągnij tutaj...'
+                },
+                uploadDragHereMulti: {
+                    en: 'or drag them here...',
+                    pl: 'lub przeciągnij je tutaj...'
+                },
+                selectedFile: {
+                    en: 'Selected file:',
+                    pl: 'Wybrany plik:'
+                },
+                selectedFiles: {
+                    en: 'Selected files:',
+                    pl: 'Wybrane pliki:'
                 },
                 btnUpload: {
                     en: 'Upload',
@@ -34,6 +50,10 @@
                 btnCancel: {
                     en: 'Cancel',
                     pl: 'Anuluj'
+                },
+                loadMask: {
+                    en: 'Uploading...',
+                    pl: 'Zapisywanie...'
                 }
             }
         }
