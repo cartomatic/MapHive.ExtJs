@@ -6,7 +6,7 @@
 
     var apiMapConfigured = false,
 
-        defaultParentIdentifier = '{parent_uuid}',
+        parentIdentifier = '{parent_uuid}',
 
         //Note: this is overridable through the web.config... see the MhApiMap key for details
         apiMap = {
@@ -43,8 +43,8 @@
                 return staticInstance.getApiEndPoint(endPoint)
             },
 
-            getDefaultParentIdentifier: function(){
-                return defaultParentIdentifier;
+            getParentIdentifier: function(){
+                return parentIdentifier;
             }
         },
 
@@ -68,8 +68,8 @@
             return this.getMhCfgProperty('apiEndPoint') + apiMap[endPoint];
         },
 
-        getDefaultParentIdentifier: function(){
-            return defaultParentIdentifier;
+        getParentIdentifier: function(){
+            return parentIdentifier;
         },
 
         /**

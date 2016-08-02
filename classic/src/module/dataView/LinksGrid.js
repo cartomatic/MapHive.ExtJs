@@ -53,9 +53,9 @@
             apiUrl: null,
 
             /**
-             * token used when customising the url for the store; defaults to mh.mixin.ApiMap.defaultParentIdentifier ({parent_uuid})
+             * token used when customising the url for the store; defaults to mh.mixin.ApiMap.parentIdentifier ({parent_uuid})
              */
-            parentIdentifierToken: mh.mixin.ApiMap.getDefaultParentIdentifier(),
+            parentIdentifierToken: mh.mixin.ApiMap.getParentIdentifier(),
 
             /**
              * @cfg {string} dataView either xtype or class name inheriting from mh.module.dataView.DataViewBase;
