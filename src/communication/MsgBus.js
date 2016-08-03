@@ -28,7 +28,28 @@
          * @param {Bool} [eOpts.suppressLocal]
          */
         fireGlobal: function(evtName, evtData, eOpts){
+            //check if the communication should be channelled or not. basically if there are registered channells, a component stops firing global events.
+            //at least at this stage
+            var channels = Ext.Object.getKeys(this.registeredChannels || {}),
+                me = this;
+            if(channels.length > 0){
+                //looks like some channels were registered for this module
+                Ext.Array.each(channels, function(channel){
+                    me.fireGlobalInternal(me.getChannelEvtName(evtName, channel), evtData, eOpts);
+                });
+            }
 
+            //always fire global
+            this.fireGlobalInternal(evtName, evtData, eOpts);
+        },
+
+        /**
+         * Internal global evt dispatcher logic
+         * @param evtName
+         * @param evtData
+         * @param eOpts
+         */
+        fireGlobalInternal: function(evtName, evtData, eOpts){
             if(logEventsToConsole){
                 //<debug>
                 console.log(this.cStdIcon('evt'), '[MSG BUS]' + this.evtHdrStyle, 'broadcasted', evtName + this.evtNameStyle, 'with the following data;', evtData, 'and opts:', eOpts);
@@ -76,7 +97,11 @@
          */
         watchGlobal: function(evtName, handler, scope, opts){
 
-            evtName = this.getTunneledEvtName(evtName, (opts || {}).tunnel);
+            evtName =
+                this.getChannelEvtName(
+                    this.getTunneledEvtName(evtName, (opts || {}).tunnel),
+                    (opts || {}).channel
+                );
 
             if(logEventsToConsole) {
                 //<debug>
@@ -94,7 +119,13 @@
          * @param {Object} handler
          * @param {Object} scope
          */
-        unwatchGlobal: function(evtName, handler, scope){
+        unwatchGlobal: function(evtName, handler, scope, opts){
+
+            evtName =
+                this.getChannelEvtName(
+                    this.getTunneledEvtName(evtName, (opts || {}).tunnel),
+                    (opts || {}).channel
+                );
 
             if(logEventsToConsole) {
                 //<debug>
@@ -167,16 +198,54 @@
                     if(key === '____untunnelled____'){
                         //looks like this was a standard evt, without a tunnel specified
                         //but the handler supports tunneling and therefore called this method
-                        me.fireGlobal(evtName, evtData);
+                        me.fireGlobalInternal(evtName, evtData);
                     }
                     else {
-                        me.fireGlobal(me.getTunneledEvtName(evtName, key), evtData);
+                        me.fireGlobalInternal(me.getTunneledEvtName(evtName, key), evtData);
                     }
                 });
             }
 
             delete this.tunnelsCache[evtName];
+        },
+
+        /**
+         * currently registered channels to fire events on
+         */
+        registeredChannels: null,
+
+        /**
+         * opens communication channel
+         * @param channelId
+         */
+        registerChannel: function(channelId){
+            if(channelId){
+                this.registeredChannels = this.registeredChannels || {};
+                this.registeredChannels[channelId] = true;
+            }
+        },
+
+        /**
+         * closes communication channel
+         * @param channelId
+         */
+        unregisterChannel: function(channelId){
+            if(channelId){
+                this.registeredChannels = this.registeredChannels || {};
+                delete this.registeredChannels[channelId];
+            }
+        },
+
+        /**
+         * Gets a channel event name
+         * @param evtName
+         * @param channel
+         * @returns {string}
+         */
+        getChannelEvtName: function(evtName, channel){
+            return channel ? evtName + '_' + channel : evtName;
         }
+
     });
 
 }());
