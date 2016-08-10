@@ -32,7 +32,7 @@
         init: function() {
             this.injectLocalisationToViewModel()
             this.trackModalModeStatus();
-            this.publishApi(['setRecord', 'setForm']);
+            this.publishApi(['setRecord', 'setForm', 'getForm']);
 
             //apply custom configurations
             this.applyCustomViewConfig();
@@ -142,6 +142,13 @@
             this.editorForm = this.getView().add(form);
         },
 
+        /**
+         * gets configured editor form
+         * @returns {null}
+         */
+        getForm: function(){
+            return this.editorForm;
+        },
 
         /**
          * checks if a hosted form is valid; this depends on the isValid method being available on the hosted form.
