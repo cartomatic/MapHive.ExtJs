@@ -13,6 +13,28 @@
         ],
         statics: {
             localisation: {
+                validationErrorServer: {
+                    en: 'Server error :: Invalid form data',
+                    pl: 'Błąd servera :: Błędne dane formularza'
+                },
+                validationErrorTitle:{
+                    en: 'Invalid form data',
+                    pl: 'Błędne dane formularza'
+                },
+                validationErrorMsgMany: {
+                    en: 'The form contains the following errors:',
+                    pl: 'Formularz zawiera następujące błędy:'
+                },
+                validationErrorMsgSingle: {
+                    en: 'The form contains the following error:',
+                    pl: 'Formularz zawiera następujący błąd:'
+                },
+                validationErrorDefault: {
+                    en: 'The form has some invalid fields. Please provide valid data before submitting the form.',
+                    pl: 'Formularz zawiera nieprawidłowe dane. Aby zapisać formularz niezbędne jest ich poprawienie.'
+                },
+
+
                 unknownErr: {
                     en: 'Unknown error triggered for a "{field_name}" field. The error message is: {err_msg}.',
                     pl: 'Nieznany wyjątek dla pola "{field_name}". Informacja o wyjąku: {err_msg}.'

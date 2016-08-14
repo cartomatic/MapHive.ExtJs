@@ -139,6 +139,77 @@
             // }
             //
             // return msg;
+        },
+
+        /**
+         * shows a validatin msg with 'local validation' title
+         * @param validationFeedback
+         * @param btn
+         */
+        showValidationMsgClientErr: function(validationFeedback, btn){
+            this.showValidationMsg(
+                validationFeedback,
+                this.getTranslation('validationErrorTitle', null, true) || this.getTranslation('validationErrorTitle', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true),
+                btn
+            );
+        },
+
+        /**
+         * shows a validatin msg with 'server validation' title
+         * @param validationFeedback
+         * @param btn
+         */
+        showValidationMsgServerErr: function(validationFeedback, btn){
+            this.showValidationMsg(
+                validationFeedback,
+                this.getTranslation('validationErrorServer', null, true) || this.getTranslation('validationErrorServer', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true),
+                btn
+            );
+        },
+
+        /**
+         * Shows validation msg
+         * @param validationFeedback
+         * @param msgTitle
+         * @param btn
+         * an ext component to animate the msg from
+         * @template
+         */
+        showValidationMsg: function(validationFeedback, msgTitle, btn){
+
+            //make sure there is work to be done!
+            if(validationFeedback === null || validationFeedback === undefined){
+                return;
+            }
+
+            var msg;
+
+            //if false, just provide a default msg
+            if(validationFeedback === false){
+                msg =
+                    this.getTranslation('validationErrorDefault', null, true) || this.getTranslation('validationErrorDefault', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true);
+            }
+            else {
+                //here we should have gotten either a single msg or an arr of msgs
+
+                //make sure the object is arr
+                if(!Ext.isArray(validationFeedback)){
+                    validationFeedback = [validationFeedback];
+                }
+                msg = (validationFeedback.length > 1 ?
+                        this.getTranslation('validationErrorMsgMany', null, true) || this.getTranslation('validationErrorMsgMany', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true) :
+                        this.getTranslation('validationErrorMsgSingle', null, true) || this.getTranslation('validationErrorMsgSingle', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true)) +
+                    '<br/><ul><li>' + validationFeedback.join('</li><li>') + '</li></ul>'
+            }
+
+            Ext.Msg.show({
+                title: msgTitle || this.getTranslation('validationErrorTitle', null, true) || this.getTranslation('validationErrorTitle', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true),
+                message: msg,
+                width: 500,
+                buttons: Ext.Msg.OK,
+                animateTarget: btn ? btn : undefined,
+                icon: Ext.MessageBox.WARNING
+            });
         }
     });
 }());

@@ -16,7 +16,8 @@
             'mh.mixin.ModalMode',
             'mh.mixin.Localisation',
             'mh.mixin.PublishApi',
-            'mh.mixin.CustomConfig'
+            'mh.mixin.CustomConfig',
+            'mh.mixin.ResponseValidationErrorReader'
         ],
 
         /**
@@ -175,7 +176,7 @@
             var valid = this.isValid();
 
             if(valid !== true){
-                this.showValidationMsg(valid, null, btn);
+                this.showValidationMsgClientErr(valid, btn);
                 return;
             }
 
@@ -190,48 +191,6 @@
             //and save...
             //btw save is delegated to the editor form, so devs can decide if they want to use a standard model save or some custom procedure
             this.editorForm.save();
-        },
-
-        /**
-         * Shows validation msg
-         * @param validationFeedback
-         * @param msgTitle
-         * @param btn
-         * an ext component to animate the msg from
-         * @template
-         */
-        showValidationMsg: function(validationFeedback, msgTitle, btn){
-
-            //make sure there is work to be done!
-            if(validationFeedback === null || validationFeedback === undefined){
-                return;
-            }
-
-            var msg;
-
-            //if false, just provide a default msg
-            if(validationFeedback === false){
-                msg = this.getTranslation('validationErrorDefault');
-            }
-            else {
-                //here we should have gotten either a single msg or an arr of msgs
-
-                //make sure the object is arr
-                if(!Ext.isArray(validationFeedback)){
-                    validationFeedback = [validationFeedback];
-                }
-                msg = (validationFeedback.length > 1 ? this.getTranslation('validationErrorMsgMany') : this.getTranslation('validationErrorMsgSingle')) +
-                    '<br/><ul><li>' + validationFeedback.join('</li><li>') + '</li></ul>'
-            }
-
-            Ext.Msg.show({
-                title: msgTitle || this.getTranslation('validationErrorTitle'),
-                message: msg,
-                width: 500,
-                buttons: Ext.Msg.OK,
-                animateTarget: btn ? btn : undefined,
-                icon: Ext.MessageBox.WARNING
-            });
         },
 
         /**
@@ -259,7 +218,7 @@
             }
             else {
                 //uhuh, looks like it's a server err...
-                this.showValidationMsg(validationFeedback, this.getTranslation('validationErrorServer'));
+                this.showValidationMsgServerErr(validationFeedback);
             }
         }
     });
