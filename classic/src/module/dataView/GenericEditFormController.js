@@ -19,7 +19,7 @@
             'mh.data.Ajax',
             'mh.mixin.PublishApi',
             'mh.mixin.Localisation',
-            'mh.mixin.ResponseErrorReader'
+            'mh.mixin.ResponseValidationErrorReader'
         ],
 
         /**

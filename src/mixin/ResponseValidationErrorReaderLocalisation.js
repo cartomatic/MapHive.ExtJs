@@ -7,7 +7,7 @@
     /**
      * Localisation for the generic editor controller
      */
-    Ext.define('mh.mixin.ResponseErrorReaderLocalisation', {
+    Ext.define('mh.mixin.ResponseValidationErrorReaderLocalisation', {
         requires: [
             'mh.localisation.Localisation'
         ],

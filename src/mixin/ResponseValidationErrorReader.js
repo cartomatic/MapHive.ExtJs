@@ -7,9 +7,9 @@
     /**
     * Set of utils to read user friendly errors off a server response; meant to be used as a mixin in classes that perform ajax requests and needs standardised error extraction functionality
     */
-    Ext.define('mh.mixin.ResponseErrorReader', {
+    Ext.define('mh.mixin.ResponseValidationErrorReader', {
         requires: [
-            'mh.mixin.ResponseErrorReaderLocalisation'
+            'mh.mixin.ResponseValidationErrorReaderLocalisation'
         ],
 
         /**
@@ -53,7 +53,7 @@
          */
         getErrTranslation: function(translationKey){
             //Note: when displaying a field name that caused error, translation is first found at the inheriting class, then over here to finally default to the field name returned by the server (so it is clear which field failed rather than seeing the default large 'translation not found for blah, blah, blah' msg
-            return this.getTranslation(translationKey, null, true) || this.getTranslation(translationKey, 'mh.mixin.ResponseErrorReaderLocalisation')
+            return this.getTranslation(translationKey, null, true) || this.getTranslation(translationKey, 'mh.mixin.ResponseValidationErrorReaderLocalisation')
         },
 
         /**
@@ -109,7 +109,7 @@
 
             msg = msg.replace(
                 '{field_name}',
-                this.getTranslation(propertyName, null, true) || this.getTranslation(propertyName, 'mh.mixin.ResponseErrorReaderLocalisation', true) || propertyName
+                this.getTranslation(propertyName, null, true) || this.getTranslation(propertyName, 'mh.mixin.ResponseValidationErrorReaderLocalisation', true) || propertyName
             );
 
             return msg;
