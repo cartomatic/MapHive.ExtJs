@@ -30,6 +30,9 @@
                 errData = Ext.JSON.decode(validationFeedback);
 
                 //this should be an arr
+                if(!Ext.isArray(errData)){
+                    errData = [errData];
+                }
                 f = 0; flen = errData.length;
 
                 for(f; f < flen; f++){
@@ -67,7 +70,10 @@
                 //make sure there is an obj with xtra err info
                 errInfo = err.info || {},
 
-                propertyName = err.propertyName[0].toLowerCase() + err.propertyName.substring(1);
+                propertyName =
+                    err.propertyName ?
+                        err.propertyName[0].toLowerCase() + err.propertyName.substring(1) :
+                        this.getErrTranslation('unknownProperty');
 
             msg = this.getCustomErrorMsg(err);
 
@@ -105,6 +111,7 @@
 
                     default:
                         msg = this.getErrTranslation('unknownErr');
+
                         if (err.message && err.message != '') {
                             msg = msg.replace('{err_msg}', err.message);
                         }
@@ -149,7 +156,7 @@
         showValidationMsgClientErr: function(validationFeedback, btn){
             this.showValidationMsg(
                 validationFeedback,
-                this.getTranslation('validationErrorTitle', null, true) || this.getTranslation('validationErrorTitle', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true),
+                this.getErrTranslation('validationErrorTitle'),
                 btn
             );
         },
@@ -162,7 +169,7 @@
         showValidationMsgServerErr: function(validationFeedback, btn){
             this.showValidationMsg(
                 validationFeedback,
-                this.getTranslation('validationErrorServer', null, true) || this.getTranslation('validationErrorServer', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true),
+                this.getErrTranslation('validationErrorServer'),
                 btn
             );
         },
@@ -187,7 +194,7 @@
             //if false, just provide a default msg
             if(validationFeedback === false){
                 msg =
-                    this.getTranslation('validationErrorDefault', null, true) || this.getTranslation('validationErrorDefault', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true);
+                    this.getErrTranslation('validationErrorDefault');
             }
             else {
                 //here we should have gotten either a single msg or an arr of msgs
@@ -197,13 +204,13 @@
                     validationFeedback = [validationFeedback];
                 }
                 msg = (validationFeedback.length > 1 ?
-                        this.getTranslation('validationErrorMsgMany', null, true) || this.getTranslation('validationErrorMsgMany', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true) :
-                        this.getTranslation('validationErrorMsgSingle', null, true) || this.getTranslation('validationErrorMsgSingle', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true)) +
+                        this.getErrTranslation('validationErrorMsgMany') :
+                        this.getErrTranslation('validationErrorMsgSingle')) +
                     '<br/><ul><li>' + validationFeedback.join('</li><li>') + '</li></ul>'
             }
 
             Ext.Msg.show({
-                title: msgTitle || this.getTranslation('validationErrorTitle', null, true) || this.getTranslation('validationErrorTitle', 'mh.mixin.ResponseValidationErrorReaderLocalisation', true),
+                title: msgTitle || this.getErrTranslation('validationErrorTitle'),
                 message: msg,
                 width: 500,
                 buttons: Ext.Msg.OK,

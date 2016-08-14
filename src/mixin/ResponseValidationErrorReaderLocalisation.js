@@ -34,9 +34,13 @@
                     pl: 'Formularz zawiera nieprawidłowe dane. Aby zapisać formularz niezbędne jest ich poprawienie.'
                 },
 
+                unknownProperty: {
+                    en: 'U N D E F I N E D',
+                    pl: 'N I E Z D E F I N I O W A N E'
+                },
 
                 unknownErr: {
-                    en: 'Unknown error triggered for a "{field_name}" field. The error message is: {err_msg}.',
+                    en: 'Unknown error triggered for "{field_name}" field.<br/>The error message is:<br/><i>{err_msg}</i>.',
                     pl: 'Nieznany wyjątek dla pola "{field_name}". Informacja o wyjąku: {err_msg}.'
                 },
                 valueTooShortErr: {

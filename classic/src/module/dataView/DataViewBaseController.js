@@ -18,7 +18,8 @@
             'mh.mixin.Localisation',
             'mh.data.Ajax',
             'mh.mixin.PublishApi',
-            'mh.mixin.CustomConfig'
+            'mh.mixin.CustomConfig',
+            'mh.mixin.ResponseValidationErrorReader'
         ],
 
 
@@ -902,7 +903,8 @@
                             success: me.onRecDeleteSuccess,
                             failure: me.onRecDeleteFailure,
                             exceptionMsg: exceptionMsg,
-                            autoIgnore404: false //this is required to show msg on 404 which will often be the case in dev mode!
+                            autoIgnore404: false, //this is required to show msg on 404 which will often be the case in dev mode!
+                            suppress400: true//so can handle 400 here
                         },
                         callback = me.generateModelRequestCallback(cfg),
 
@@ -964,11 +966,15 @@
          * @param record
          * @param operation
          */
-        onRecDeleteFailure: function(record, operation){
+        onRecDeleteFailure: function(response, operation){
             //uups, deletion failed, and user chose to not repeat the op
             //Note: potentially we could give a user another option to retry here: something like - there are still pending deletions, try again??? not that it matters as a user can always trigger the deletion again!
             this.getView().unmask();
             this.reloadGrid();
+
+            this.showValidationMsgServerErr(
+                this.getFriendlyServerValidationFeedback(response.responseText)
+            );
         },
         
         /**
