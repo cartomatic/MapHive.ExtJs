@@ -69,42 +69,47 @@
 
                 propertyName = err.propertyName[0].toLowerCase() + err.propertyName.substring(1);
 
-            switch(err.code){
+            msg = this.getCustomErrorMsg(err);
 
-                case 'required':
-                    msg = this.getErrTranslation('valueRequired');
-                    break;
+            if(!msg) {
 
-                case 'invalid_length':
+                switch (err.code) {
 
-                    if(errInfo.totalLength > errInfo.maxLength){
-                        msg = this.getErrTranslation('valueTooLongErr');
-                    }
+                    case 'required':
+                        msg = this.getErrTranslation('valueRequired');
+                        break;
 
-                    if(errInfo.totalLength < errInfo.minLength){
-                        msg = this.getErrTranslation('valueTooShortErr');
-                    }
-                    msg = msg.replace('{min_length}', errInfo.minLength).replace('{max_length}', errInfo.maxLength).replace('{total_length}', errInfo.totalLength);
-                    break;
+                    case 'invalid_length':
 
-                case 'invalid_email':
-                    msg = this.getErrTranslation('invalidEmail');
-                    break;
+                        if (errInfo.totalLength > errInfo.maxLength) {
+                            msg = this.getErrTranslation('valueTooLongErr');
+                        }
 
-                case 'email_in_use':
-                    msg = this.getErrTranslation('emailInUse');
-                    break;
+                        if (errInfo.totalLength < errInfo.minLength) {
+                            msg = this.getErrTranslation('valueTooShortErr');
+                        }
+                        msg = msg.replace('{min_length}', errInfo.minLength).replace('{max_length}', errInfo.maxLength).replace('{total_length}', errInfo.totalLength);
+                        break;
 
-                case 'unique_constraint':
-                    msg = this.getErrTranslation('uniqueConstraint');
-                    break;
+                    case 'invalid_email':
+                        msg = this.getErrTranslation('invalidEmail');
+                        break;
 
-                default:
-                    msg = this.getErrTranslation('unknownErr');
-                    if(err.message && err.message != ''){
-                        msg = msg.replace('{err_msg}', err.message);
-                    }
-                    break;
+                    case 'email_in_use':
+                        msg = this.getErrTranslation('emailInUse');
+                        break;
+
+                    case 'unique_constraint':
+                        msg = this.getErrTranslation('uniqueConstraint');
+                        break;
+
+                    default:
+                        msg = this.getErrTranslation('unknownErr');
+                        if (err.message && err.message != '') {
+                            msg = msg.replace('{err_msg}', err.message);
+                        }
+                        break;
+                }
             }
 
             msg = msg.replace(
@@ -113,6 +118,27 @@
             );
 
             return msg;
+        },
+
+        /**
+         * Gets a custom error msg; note: return null or false in order to fall back to the default error msg handler
+         * @template
+         * @param err - err as returned from the server
+         * @returns {*}
+         */
+        getCustomErrorMsg: function(err){
+            return null;
+            // var msg = null,
+            //     //make sure there is an obj with xtra err info
+            //     errInfo = err.info || {},
+            //
+            //     propertyName = err.propertyName[0].toLowerCase() + err.propertyName.substring(1);
+            //
+            // switch (err.code) {
+            //
+            // }
+            //
+            // return msg;
         }
     });
 }());
