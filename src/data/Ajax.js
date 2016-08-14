@@ -424,9 +424,8 @@
                     message: msg,
                     width: 550,
 
-                    //TODO - LANG!
                     //modify the buttons text so the
-                    buttonText: //Note: looks like specyfying alternate text for buttons actually makes them show up...
+                    buttonText: //Note: looks like specifying alternate text for buttons actually makes them show up...
                         allowRetry && retry ?
                         {
                             ok: this.getTranslation('btnTryAgain', 'mh.data.Ajax'),
