@@ -10,6 +10,22 @@
         ],
         statics: {
             localisation: {
+                titleLogin: {
+                    en: 'Login',
+                    pl: 'Logowanie'
+                },
+                titleForgotPass: {
+                    en: 'Pass reset',
+                    pl: 'Resetowanie hasła'
+                },
+                titleActivateAccount: {
+                    en: 'Activate account',
+                    pl: 'Aktywacja konta'
+                },
+                titleResetPass: {
+                    en: 'Reset pass',
+                    pl: 'Resetuj hasło'
+                },
                 btnLogin: {
                     en: 'Login',
                     pl: 'Zaloguj'
@@ -34,13 +50,29 @@
                     en: 'Password',
                     pl: 'Hasło'
                 },
-                btnResetPass: {
+                passRepeatEmptyText: {
+                    en: 'Repeat password',
+                    pl: 'Powtórz hasło'
+                },
+                verificationKeyEmptyText: {
+                    en: 'Verification key',
+                    pl: 'Klucz weryfikacyjny'
+                },
+                btnResetPassRequest: {
                     en: 'Reset pass',
                     pl: 'Resetuj hasło'
                 },
                 btnResetPassCancel: {
                     en: 'Back to login',
                     pl: 'Logowanie'
+                },
+                btnActivateAccount: {
+                    en: 'Activate account',
+                    pl: 'Aktywuj konto'
+                },
+                btnResetPass: {
+                    en: 'Reset pass',
+                    pl: 'Resetuj hasło'
                 },
                 authMask: {
                     en: 'Authenticating...',

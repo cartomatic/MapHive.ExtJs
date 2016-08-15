@@ -134,7 +134,9 @@
                     {
                         xtype: 'form',
                         header: {
-                            title: 'Login',
+                            bind: {
+                                title: '{localisation.titleLogin}'
+                            },
                             iconCls: 'x-fa fa-lock',
                             height: 35
                         },
@@ -147,7 +149,9 @@
                                 xtype: 'textfield',
                                 reference: 'txtEmail',
                                 height: 35,
-                                emptyText: 'Email',
+                                bind: {
+                                    emptyText: '{localisation.emailEmptyText}'
+                                },
                                 enableKeyEvents: true,
                                 listeners: {
                                     keydown: 'trapLoginEnter'
@@ -157,8 +161,10 @@
                                 xtype: 'textfield',
                                 reference: 'txtPass',
                                 height: 35,
-                                emptyText: 'Password',
                                 inputType: 'password',
+                                bind: {
+                                    emptyText: '{localisation.passEmptyText}'
+                                },
                                 enableKeyEvents: true,
                                 listeners: {
                                     keydown: 'trapLoginEnter'
@@ -173,7 +179,9 @@
                                     {
                                         xtype: 'button',
                                         reference: 'btnForgotPass',
-                                        text:  'Forgot pass?',
+                                        bind: {
+                                            text: '{localisation.btnForgotPass}'
+                                        },
                                         listeners: {
                                             click: 'onForgotPassBtnClick'
                                         }
@@ -181,7 +189,9 @@
                                     '->',
                                     {
                                         xtype: 'button',
-                                        text: 'Login',
+                                        bind: {
+                                            text: '{localisation.btnLogin}'
+                                        },
                                         reference: 'btnLogin',
                                         listeners: {
                                             click: 'onLoginBtnClick'
@@ -194,7 +204,9 @@
                     {
                         xtype: 'panel',
                         header: {
-                            title: 'Forgot pass?',
+                            bind: {
+                                title: '{localisation.titleForgotPass}',
+                            },
                             iconCls: 'x-fa fa-exclamation-triangle',
                             height: 35
                         },
@@ -205,7 +217,9 @@
                                 xtype: 'textfield',
                                 reference: 'txtForgotPassEmail',
                                 height: 35,
-                                emptyText: 'Email',
+                                bind: {
+                                    emptyText: '{localisation.emailEmptyText}'
+                                },
                                 enableKeyEvents: true,
                                 listeners: {
                                     keydown: 'trapLoginEnter'
@@ -219,19 +233,141 @@
                                 items: [
                                     {
                                         xtype: 'button',
-                                        reference: 'btnResetPass',
-                                        text:  'Reset pass',
+                                        reference: 'btnResetPassRequest',
+                                        bind: {
+                                            text:  '{localisation.btnResetPassRequest}'
+                                        },
                                         listeners: {
-                                            //click: 'onResetPassBtnClick'
+                                            //click: 'onResetPassRequestBtnClick'
                                         }
                                     },
                                     '->',
                                     {
                                         xtype: 'button',
-                                        text: 'Back to Login',
+                                        bind: {
+                                            text: '{localisation.btnResetPassCancel}'
+                                        },
                                         reference: 'btnResetPassCancel',
                                         listeners: {
                                             click: 'onResetPassCancelBtnClick'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'panel',
+                        header: {
+                            bind: {
+                                title: '{localisation.titleActivateAccount}',
+                            },
+                            iconCls: 'x-fa fa-key',
+                            height: 35
+                        },
+                        layout: 'form',
+                        reference: 'activateAccountView',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                reference: 'txtVerificationKey',
+                                height: 35,
+                                inputType: 'password',
+                                bind: {
+                                    emptyText: '{localisation.verificationKey}'
+                                },
+                                enableKeyEvents: true,
+                                listeners: {
+                                    keydown: 'trapLoginEnter'
+                                }
+                            },
+                            {
+                                xtype: 'textfield',
+                                reference: 'txtInitialPass',
+                                height: 35,
+                                inputType: 'password',
+                                bind: {
+                                    emptyText: '{localisation.passEmptyText}'
+                                },
+                                enableKeyEvents: true,
+                                listeners: {
+                                    keydown: 'trapLoginEnter'
+                                }
+                            }
+                        ],
+                        dockedItems: [
+                            {
+                                xtype: 'toolbar',
+                                dock: 'bottom',
+                                items: [
+                                    '->',
+                                    {
+                                        xtype: 'button',
+                                        bind: {
+                                            text: '{localisation.btnActivateAccount}'
+                                        },
+                                        reference: 'btnActivateAccount',
+                                        listeners: {
+                                            click: 'onActivateAccountBtnClick'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'panel',
+                        header: {
+                            bind: {
+                                title: '{localisation.titleResetPass}',
+                            },
+                            iconCls: 'x-fa fa-refresh',
+                            height: 35
+                        },
+                        layout: 'form',
+                        reference: 'resetPassView',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                reference: 'txtPassReset',
+                                height: 35,
+                                inputType: 'password',
+                                bind: {
+                                    emptyText: '{localisation.passwordEmptyText}'
+                                },
+                                enableKeyEvents: true,
+                                listeners: {
+                                    keydown: 'trapLoginEnter'
+                                }
+                            },
+                            {
+                                xtype: 'textfield',
+                                reference: 'txtPassResetRepeat',
+                                height: 35,
+                                inputType: 'password',
+                                bind: {
+                                    emptyText: '{localisation.passRepeatEmptyText}'
+                                },
+                                enableKeyEvents: true,
+                                listeners: {
+                                    keydown: 'trapLoginEnter'
+                                }
+                            }
+                        ],
+                        dockedItems: [
+                            {
+                                xtype: 'toolbar',
+                                dock: 'bottom',
+                                items: [
+                                    '->',
+                                    {
+                                        xtype: 'button',
+                                        bind: {
+                                            text: '{localisation.btnResetPass}'
+                                        },
+                                        reference: 'btnResetPass',
+                                        listeners: {
+                                            click: 'onActivateAccountBtnClick'
                                         }
                                     }
                                 ]

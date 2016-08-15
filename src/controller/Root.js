@@ -156,7 +156,10 @@
             refreshToken: 'rt',
             suppressAppToolbar: 'suppress-app-toolbar',
             hosted: 'hosted',
-            suppressSplash: 'suppress-splash'
+            suppressSplash: 'suppress-splash',
+            auth: 'auth',
+            initialPassword: 'ip',
+            verificationKey: 'vk'
         },
 
         /**
@@ -227,6 +230,9 @@
                 this.appHashProperties.suppressAppToolbar = appHashProperties.suppressAppToolbar || this.appHashProperties.suppressAppToolbar;
                 this.appHashProperties.hosted = appHashProperties.hosted || this.appHashProperties.hosted;
                 this.appHashProperties.suppressSplash = appHashProperties.suppressSplash || this.appHashProperties.suppressSplash;
+                this.appHashProperties.verificationKey = appHashProperties.verificationKey || this.appHashProperties.verificationKey;
+                this.appHashProperties.initialPassword = appHashProperties.initialPassword || this.appHashProperties.initialPassword;
+                this.appHashProperties.auth = appHashProperties.auth || this.appHashProperties.auth;
             }
 
             this.hashPropertyDelimiter = hashPropertyDelimiter || this.hashPropertyDelimiter;
@@ -236,6 +242,39 @@
         onLaunch: function(){
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'launched');
+            //</debug>
+
+            //need to check wht to do - basically app may require to start in the activate account mode or pass reset mode.
+            //in such case need to poke the auth module to take over from here
+            if(this.getCustomHashParam(this.appHashProperties.auth)){
+                this.authActionLaunch();
+            }
+            else {
+                this.noAuthActionLaunch();
+            }
+        },
+
+        /**
+         * auth action required app launch
+         */
+        authActionLaunch: function(){
+            //<debug>
+            console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'AUTH ACTION launcher');
+            //</debug>
+
+            this.fireGlobal('auth::authaction', {
+                action: this.getCustomHashParam(this.appHashProperties.auth),
+                ip: this.getCustomHashParam(this.appHashProperties.initialPassword),
+                vk: this.getCustomHashParam(this.appHashProperties.verificationKey)
+            });
+        },
+
+        /**
+         * performs a standard app launch, when no auth action is required
+         */
+        noAuthActionLaunch: function(){
+            //<debug>
+            console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'NO AUTH ACTION launcher');
             //</debug>
 
             //NOTE:
@@ -297,7 +336,9 @@
                 ai = 0, ailen = appIdentifiers.length,
 
                 //initially assume hosted mode, so the app should be specified in the hash
-                appIdentifier = this.getCustomHashParam(this.appHashProperties.app);
+                appIdentifier = this.getCustomHashParam(this.appHashProperties.app),
+
+                urlParts, inParams, outParams;
 
             //if the app identifier is not specified as a hash param, use url with params but without the url part (aka hash)
             if(!appIdentifier) {
@@ -347,7 +388,7 @@
                 hashParts, hp, hplen, hashPart,
                 outHashParts, outHash,
 
-                at, rt, sat, sspl, hosted;
+                at, rt, sat, sspl, hosted, auth, vk, ip;
 
             //only kick in if there was a hash part. otherwise there is no point really ;)
             if(hash){
@@ -362,6 +403,9 @@
                 sat = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressAppToolbar);
                 sspl = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.suppressSplash);
                 hosted = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.hosted);
+                auth = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.auth);
+                vk = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.verificationKey);
+                ip = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.initialPassword);
 
 
                 for(hp; hp < hplen; hp++){
@@ -369,7 +413,11 @@
                     hashPart = hashParts[hp];
 
                     //trim the params that just mess in the toolbar.
-                    if(!(Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, rt) || Ext.String.startsWith(hashPart, sat) || Ext.String.startsWith(hashPart, sspl) || Ext.String.startsWith(hashPart, hosted))){
+                    if(!(
+                        Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, rt) || Ext.String.startsWith(hashPart, sat) ||
+                        Ext.String.startsWith(hashPart, sspl) || Ext.String.startsWith(hashPart, hosted)
+                        //|| Ext.String.startsWith(hashPart, auth) || Ext.String.startsWith(hashPart, vk) || Ext.String.startsWith(hashPart, ip)
+                    )){
                         outHashParts.push(hashPart);
                     }
 
