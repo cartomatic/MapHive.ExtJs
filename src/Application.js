@@ -29,7 +29,8 @@
         //global shared controllers - they fire up automatically
         controllers: [
             'mh.controller.Root',
-            'mh.controller.Auth'
+            'mh.controller.Auth',
+            'mh.controller.Splash'
         ],
 
         //global / shared stores
@@ -80,8 +81,7 @@
         onLaunchApp: function(){
 
             //hide the splash screen; do it early, so it starts fading out as the app UI builds.
-            //perhaps should move it to onAppLaunch?
-            splash.hide();
+            this.fireGlobal('splash::hide');
 
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('app'),'onLaunchApp');

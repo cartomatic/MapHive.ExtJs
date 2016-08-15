@@ -259,7 +259,7 @@
          */
         authActionLaunch: function(){
             //<debug>
-            console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'AUTH ACTION launcher');
+            console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'AUTH ACTION launcher');
             //</debug>
 
             this.fireGlobal('auth::authaction', {
@@ -274,7 +274,7 @@
          */
         noAuthActionLaunch: function(){
             //<debug>
-            console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'NO AUTH ACTION launcher');
+            console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'NO AUTH ACTION launcher');
             //</debug>
 
             //NOTE:
@@ -294,7 +294,7 @@
             if(this.appRequiresAuth()){
 
                 //<debug>
-                console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'Auth required - passing control to the auth ctrl...');
+                console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'Auth required - passing control to the auth ctrl...');
                 //</debug>
 
                 this.watchGlobal('auth::userauthenticated', this.continueAppLaunchWhenUserAuthenticated, this, {single: true});
@@ -311,7 +311,7 @@
                 //In this scenario an app will trigger auth independently so this is safe to assume app allows anonymous access.
 
                 //<debug>
-                console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'Anonymous user allowed - launching the app...');
+                console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'Anonymous user allowed - launching the app...');
                 //</debug>
 
 

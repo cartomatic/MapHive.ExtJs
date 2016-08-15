@@ -43,7 +43,7 @@
 
             this.publishApi(['showLogonView']);
             //<debug>
-            this.publishApi(['showLogonViewWithAutoLogon']);
+            this.publishApi(['showLogonViewWithAutoLogon', 'showAccountActivationView']);
             //</debug>
 
 
@@ -251,6 +251,16 @@
                 icon: Ext.MessageBox.ERROR
             });
 
+        },
+
+        /**
+         * Shows the account authentication view
+         * @param verificationKey
+         */
+        showAccountActivationView: function(verificationKey){
+            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('activateAccountView'));
+            this.lookupReference('txtVerificationKey').setValue(verificationKey);
+            this.getView().show();
         }
     });
 

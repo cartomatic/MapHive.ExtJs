@@ -123,8 +123,9 @@
 
         items: [
             {
-                xtype: 'container',
-                width: 300,
+                xtype: 'panel',
+                border: true,
+                width: 400,
 
                 layout: 'card',
 
@@ -138,7 +139,7 @@
                                 title: '{localisation.titleLogin}'
                             },
                             iconCls: 'x-fa fa-lock',
-                            height: 35
+                            height: 45
                         },
 
                         reference: 'loginView',
@@ -208,7 +209,7 @@
                                 title: '{localisation.titleForgotPass}',
                             },
                             iconCls: 'x-fa fa-exclamation-triangle',
-                            height: 35
+                            height: 45
                         },
                         layout: 'form',
                         reference: 'forgotPassView',
@@ -263,10 +264,14 @@
                                 title: '{localisation.titleActivateAccount}',
                             },
                             iconCls: 'x-fa fa-key',
-                            height: 35
+                            height: 45
                         },
-                        layout: 'form',
                         reference: 'activateAccountView',
+                        bodyPadding: 10,
+                        layout: 'anchor',
+                        defaults: {
+                            anchor: '100%'
+                        },
                         items: [
                             {
                                 xtype: 'textfield',
@@ -274,8 +279,10 @@
                                 height: 35,
                                 inputType: 'password',
                                 bind: {
-                                    emptyText: '{localisation.verificationKey}'
+                                    emptyText: '{localisation.verificationKeyEmptyText}',
+                                    fieldLabel: '{localisation.verificationKeyEmptyText}'
                                 },
+                                labelAlign: 'top',
                                 enableKeyEvents: true,
                                 listeners: {
                                     keydown: 'trapLoginEnter'
@@ -286,8 +293,10 @@
                                 reference: 'txtInitialPass',
                                 height: 35,
                                 inputType: 'password',
+                                labelAlign: 'top',
                                 bind: {
-                                    emptyText: '{localisation.passEmptyText}'
+                                    emptyText: '{localisation.passEmptyText}',
+                                    fieldLabel: '{localisation.passEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -322,9 +331,13 @@
                                 title: '{localisation.titleResetPass}',
                             },
                             iconCls: 'x-fa fa-refresh',
-                            height: 35
+                            height: 45
                         },
-                        layout: 'form',
+                        bodyPadding: 10,
+                        layout: 'anchor',
+                        defaults: {
+                            anchor: '100%'
+                        },
                         reference: 'resetPassView',
                         items: [
                             {
@@ -332,8 +345,10 @@
                                 reference: 'txtPassReset',
                                 height: 35,
                                 inputType: 'password',
+                                labelAlign: 'top',
                                 bind: {
-                                    emptyText: '{localisation.passwordEmptyText}'
+                                    emptyText: '{localisation.passwordEmptyText}',
+                                    fieldLabel: '{localisation.passwordEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -345,8 +360,10 @@
                                 reference: 'txtPassResetRepeat',
                                 height: 35,
                                 inputType: 'password',
+                                labelAlign: 'top',
                                 bind: {
-                                    emptyText: '{localisation.passRepeatEmptyText}'
+                                    emptyText: '{localisation.passRepeatEmptyText}',
+                                    fieldLabel: '{localisation.passRepeatEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {

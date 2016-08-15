@@ -114,6 +114,8 @@
             //setup the required evt listeners
             this.watchGlobal('auth::verifyauthstate', this.onVerifyAuthState, this);
 
+            this.watchGlobal('auth::authaction', this.onAuthAction, this);
+
             this.watchGlobal('auth::xwindowauthenticateuser', this.onXWindowAuthenticateUser, this);
             this.watchGlobal('auth::gimmeauthtokens', this.onGimmeAuthTokens, this);
 
@@ -322,10 +324,7 @@
         showLogonUi: function(){
             //Note: Authentication controller requires a UI module exposing a standardised API! see mh.module.auth.Auth for details
 
-            //hide splash - this will not cause problems if a splash has already been hidden
-            if(typeof(splash) !== 'undefined' && Ext.isFunction(splash.hide)){
-                splash.hide();
-            }
+            this.hideSplash();
 
             //<debug>
             if(true){
@@ -337,6 +336,13 @@
                 //<debug>
             }
             //</debug>
+        },
+
+        /**
+         * hides the main app splash screen
+         */
+        hideSplash: function(){
+            this.fireGlobal('splash::hide');
         },
 
         /**
@@ -433,6 +439,54 @@
 
         onResetPassFailure: function(e){
             this.fireGlobal('auth::passresetfailed');
+        },
+
+        onAuthAction: function(e){
+            //<debug>
+            console.warn('auth action', e);
+            //</debug>
+
+            switch (e.action){
+                case 'activateaccount':
+                    this.activateAccountStart(e);
+                    break;
+
+                case 'resetpass':
+                    this.resetPass(e);
+                    break;
+            }
+        },
+
+        activateAccountStart: function(e){
+            this.fireGlobal('splash::hide');
+
+            //if both initial pass & verification key are present, then try to activate account straight away
+            //if not show the account activation ui
+            if(e.ip && e.vk){
+                this.activateAccount(e.vk, e.ip);
+                this.getAuthUiInstance().showAccountActivationView(e.vk);
+            }
+            else {
+                this.getAuthUiInstance().showAccountActivationView(e.vk);
+            }
+        },
+
+        /**
+         * takes care of displaying reset pass view
+         * @param e
+         */
+        resetPass: function(e){
+
+        },
+
+
+        /**
+         * activates user account
+         * @param verificationKey
+         * @param initialPass
+         */
+        activateAccount: function(verificationKey, initialPass){
+
         }
     });
 
