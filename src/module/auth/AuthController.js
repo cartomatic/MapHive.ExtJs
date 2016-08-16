@@ -327,16 +327,20 @@
          */
         onAccountActivated: function () {
             this.reset();
-            this.showLogonView();
+
+            //note: root ctrl also listens for the same event and handles setting up the logon view.
+            //therefore need to wait a sec before showing the msg!
 
             //give a feedback msg
-            Ext.Msg.show({
-                title: this.getTranslation('activateAccountConfirmationTitle'),
-                message: this.getTranslation('activateAccountConfirmationMsg'),
-                width: 350,
-                buttons: Ext.Msg.OK,
-                icon: Ext.MessageBox.INFO
-            });
+            Ext.defer(function(){
+                Ext.Msg.show({
+                    title: this.getTranslation('activateAccountConfirmationTitle'),
+                    message: this.getTranslation('activateAccountConfirmationMsg'),
+                    width: 350,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.MessageBox.INFO
+                });
+            }, 250, this);
         },
 
         /**
@@ -432,16 +436,20 @@
          */
         onPassReset: function () {
             this.reset();
-            this.showLogonView();
+
+            //note: root ctrl also listens for the same event and handles setting up the logon view.
+            //therefore need to wait a sec before showing the msg!
 
             //give a feedback msg
-            Ext.Msg.show({
-                title: this.getTranslation('passResetConfirmationTitle'),
-                message: this.getTranslation('passResetConfirmationMsg'),
-                width: 350,
-                buttons: Ext.Msg.OK,
-                icon: Ext.MessageBox.INFO
-            });
+            Ext.defer(function(){
+                Ext.Msg.show({
+                    title: this.getTranslation('passResetConfirmationTitle'),
+                    message: this.getTranslation('passResetConfirmationMsg'),
+                    width: 350,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.MessageBox.INFO
+                });
+            }, 250, this);
         },
 
         /**

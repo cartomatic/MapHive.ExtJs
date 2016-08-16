@@ -281,7 +281,8 @@
                     function(){
                         this.noAuthActionLaunch();
                     },
-                    this
+                    this,
+                    {single: true}
                 );
             }
 
