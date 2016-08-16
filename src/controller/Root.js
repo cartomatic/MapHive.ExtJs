@@ -262,8 +262,31 @@
             console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'AUTH ACTION launcher');
             //</debug>
 
+            var action = this.getCustomHashParam(this.appHashProperties.auth),
+                evt;
+            switch(action){
+                case 'activateaccount':
+                    evt = 'auth::accountactivated';
+                    break;
+
+                case 'resetpass':
+                    evt = 'auth::passreset';
+                    break;
+            }
+
+            //when auth action has been completed, continue with the standard app launch
+            if(evt){
+                this.watchGlobal(
+                    evt,
+                    function(){
+                        this.noAuthActionLaunch();
+                    },
+                    this
+                );
+            }
+
             this.fireGlobal('auth::authaction', {
-                action: this.getCustomHashParam(this.appHashProperties.auth),
+                action: action,
                 ip: this.getCustomHashParam(this.appHashProperties.initialPassword),
                 vk: this.getCustomHashParam(this.appHashProperties.verificationKey)
             });
@@ -416,7 +439,9 @@
                     if(!(
                         Ext.String.startsWith(hashPart, at) || Ext.String.startsWith(hashPart, rt) || Ext.String.startsWith(hashPart, sat) ||
                         Ext.String.startsWith(hashPart, sspl) || Ext.String.startsWith(hashPart, hosted)
-                        //|| Ext.String.startsWith(hashPart, auth) || Ext.String.startsWith(hashPart, vk) || Ext.String.startsWith(hashPart, ip)
+                        || Ext.String.startsWith(hashPart, auth) || Ext.String.startsWith(hashPart, vk) || Ext.String.startsWith(hashPart, ip)
+                        //pass reset token
+
                     )){
                         outHashParts.push(hashPart);
                     }
