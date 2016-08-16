@@ -605,7 +605,7 @@
             //TODO - will this success be needed at all
             //TODO - maybe so, because may need to say - key stale, new email sent...
             if(response.success){
-
+                this.fireGlobal('auth::accountactivated');
             }
             else {
                 this.activateAccountFailure(response);
@@ -617,7 +617,7 @@
          * @param response
          */
         activateAccountFailure: function(response){
-            this.fireGlobal('auth::accountactivationfailed');
+            this.fireGlobal('auth::accountactivationfailed', response);
         }
     });
 

@@ -278,6 +278,13 @@
         },
 
         /**
+         * Activate account btn click handler
+         */
+        onActivateAccountBtnClick: function(){
+            this.doActivation();
+        },
+
+        /**
          * Shows the account authentication view
          * @param verificationKey
          */
@@ -298,7 +305,6 @@
             this.lookupReference('txtInitialPassword').setValue(initialPassword);
             this.getView().show();
             this.doActivation();
-
         },
 
         /**
@@ -336,17 +342,28 @@
         /**
          * account activation failed callback
          */
-        onAccountActivationFailed: function () {
+        onAccountActivationFailed: function (e) {
             this.reset();
 
-            //give a feedback msg
-            Ext.Msg.show({
-                title: this.getTranslation('activateAccountFailureTitle'),
-                message: this.getTranslation('activateAccountFailureMsg'),
-                width: 350,
-                buttons: Ext.Msg.OK,
-                icon: Ext.MessageBox.ERROR
-            });
+            if(e.verificationKeyStale){
+                Ext.Msg.show({
+                    title: this.getTranslation('activateAccountVerificationKeyStaleTitle'),
+                    message: this.getTranslation('activateAccountVerificationKeyStaleMsg'),
+                    width: 350,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.MessageBox.ERROR
+                });
+            }
+            else {
+                //give a feedback msg
+                Ext.Msg.show({
+                    title: this.getTranslation('activateAccountFailureTitle'),
+                    message: this.getTranslation('activateAccountFailureMsg'),
+                    width: 350,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.MessageBox.ERROR
+                });
+            }
         },
 
         /**

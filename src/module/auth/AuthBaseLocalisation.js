@@ -65,6 +65,14 @@
                     en: 'Account activation procedure failed<br/>Please try again or contact the system administrator.',
                     pl: 'Aktywacja konta nie powiodła.<br/>Spróbuj ponownie lub skontaktuj się z administratorem systemu.'
                 },
+                activateAccountVerificationKeyStaleTitle: {
+                    en: 'Account activation failed',
+                    pl: 'Błąd aktywacji konta'
+                },
+                activateAccountVerificationKeyStaleMsg: {
+                    en: 'Account activation procedure failed due to the verification key having expired.<br/>An email with further instructions has been sent to you. Please follow the supplied instructions.',
+                    pl: 'Aktywacja konta nie powiodła ponieważ klucz weryfikacyjny wygasł.<br/>Email z dalszymi instrukcjami powinien dotrzeć niebawem.'
+                },
                 passResetMask: {
                     en: 'Resetting pass...',
                     pl: 'Resetowanie hasła...'
