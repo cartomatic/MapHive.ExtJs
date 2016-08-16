@@ -206,7 +206,7 @@
                         xtype: 'panel',
                         header: {
                             bind: {
-                                title: '{localisation.titleForgotPass}',
+                                title: '{localisation.titleForgotPass}'
                             },
                             iconCls: 'x-fa fa-exclamation-triangle',
                             height: 45
@@ -261,7 +261,7 @@
                         xtype: 'panel',
                         header: {
                             bind: {
-                                title: '{localisation.titleActivateAccount}',
+                                title: '{localisation.titleActivateAccount}'
                             },
                             iconCls: 'x-fa fa-key',
                             height: 45
@@ -290,7 +290,7 @@
                             },
                             {
                                 xtype: 'textfield',
-                                reference: 'txtInitialPass',
+                                reference: 'txtInitialPassword',
                                 height: 35,
                                 inputType: 'password',
                                 labelAlign: 'top',
@@ -328,7 +328,7 @@
                         xtype: 'panel',
                         header: {
                             bind: {
-                                title: '{localisation.titleResetPass}',
+                                title: '{localisation.titleResetPass}'
                             },
                             iconCls: 'x-fa fa-refresh',
                             height: 45

@@ -69,7 +69,7 @@
          */
 
         /**
-         * @event auth::resetpass
+         * @event auth::initpassreset
          * @param {Object} e
          * @param {string} e.email
          *
@@ -77,11 +77,11 @@
          */
 
         /**
-         * @event auth::passreset
+         * @event auth::passresetinitialised
          */
 
         /**
-         * @event auth::passresetfailed
+         * @event auth::passresetinitfailed
          */
 
         /**
@@ -105,6 +105,36 @@
          * this is actually a watched event. it should be fired by components that need to to verify if auth is ok and to trigger the authentication process otherwise
          */
 
+        /**
+         * @event auth::activateaccount
+         * @param e.verificationKey
+         * @param e.initialPassword
+         *
+         * this is actually a watched event. it should be fired by components that need to activate user account
+         */
+
+        /**
+         * @event auth::accountactivated
+         */
+
+        /**
+         * @event auth::accountactivationfailed
+         */
+
+        /**
+         * @event auth::resetpass
+         * @param e.newPass
+         *
+         * this is actually a watched event. it should be fired by components that need to activate user account
+         */
+
+        /**
+         * @event auth:: passreset
+         */
+
+        /**
+         * @event auth::passresetfailed
+         */
 
         init: function(){
             //<debug>
@@ -120,11 +150,33 @@
             this.watchGlobal('auth::gimmeauthtokens', this.onGimmeAuthTokens, this);
 
             this.watchGlobal('auth::authenticateuser', this.onAuthenticateUser, this);
+            this.watchGlobal('auth::initpassreset', this.onInitPassReset, this);
             this.watchGlobal('auth::resetpass', this.onResetPass, this);
+            this.watchGlobal('auth::activateaccount', this.onActivateAccount, this);
 
 
             this.watchGlobal('ajax::unauthorised', this.onAjaxNonAuthorised, this);
 
+        },
+
+        /**
+         * auth action required
+         * @param e
+         */
+        onAuthAction: function(e){
+            //<debug>
+            console.warn('auth action', e);
+            //</debug>
+
+            switch (e.action){
+                case 'activateaccount':
+                    this.activateAccountStart(e);
+                    break;
+
+                case 'resetpass':
+                    this.resetPassStart(e);
+                    break;
+            }
         },
 
         // onLaunch: function(){
@@ -429,42 +481,67 @@
          * @param e
          * @param e.email
          */
+        onInitPassReset: function(e){
+
+            console.warn('init pass reset', e);
+
+        },
+
+        initPassReset: function(email){
+
+        },
+
+        initPassResetSuccess: function(e){
+            this.fireGlobal('auth::passresetinitialised');
+        },
+
+        initPassResetFailure: function(e){
+            this.fireGlobal('auth::passresetinitfailed');
+        },
+
+
+        /**
+         * takes care of displaying reset pass view
+         * @param e
+         */
+        resetPassStart: function(e){
+
+        },
+
+
+        /**
+         * auth::resetpass callback
+         * @param e
+         */
         onResetPass: function(e){
-            this.fireGlobal('auth::passreset');
+
         },
 
-        onResetPassSuccess: function(e){
-            this.fireGlobal('auth::passreset');
+
+        resetPass: function(){
+
         },
 
-        onResetPassFailure: function(e){
-            this.fireGlobal('auth::passresetfailed');
+        passResetSuccess: function(){
+
         },
 
-        onAuthAction: function(e){
-            //<debug>
-            console.warn('auth action', e);
-            //</debug>
+        passResetFailure: function(){
 
-            switch (e.action){
-                case 'activateaccount':
-                    this.activateAccountStart(e);
-                    break;
-
-                case 'resetpass':
-                    this.resetPass(e);
-                    break;
-            }
         },
 
+
+        /**
+         * starts the account activation procedure; tries to automatically activate the account based on the link content
+         * @param e
+         */
         activateAccountStart: function(e){
             this.fireGlobal('splash::hide');
 
             //if both initial pass & verification key are present, then try to activate account straight away
             //if not show the account activation ui
             if(e.ip && e.vk){
-                this.activateAccount(e.vk, e.ip);
-                this.getAuthUiInstance().showAccountActivationView(e.vk);
+                this.getAuthUiInstance().autoAccountActivate(e.vk, e.ip)
             }
             else {
                 this.getAuthUiInstance().showAccountActivationView(e.vk);
@@ -472,21 +549,52 @@
         },
 
         /**
-         * takes care of displaying reset pass view
-         * @param e
+         * auth::activateaccount callback
+         * @param verificationKey
+         * @param initialPass
          */
-        resetPass: function(e){
-
+        onActivateAccount: function(e){
+            this.activateAccount(e.verificationKey, e.initialPassword);
         },
-
 
         /**
          * activates user account
          * @param verificationKey
          * @param initialPass
          */
-        activateAccount: function(verificationKey, initialPass){
+        activateAccount: function(verificationKey, initialPassword){
+            this.doGet({
+                url: this.getApiEndPoint('activateAccount'),
+                scope: this,
+                params: {
+                    verificationKey: verificationKey,
+                    initialPassword: initialPassword
+                },
+                autoHandleExceptions: false,
+                success: this.activateAccountSuccess,
+                failure: this.activateAccountFailure
+            });
+        },
 
+        /**
+         * Account activation success
+         * @param response
+         */
+        activateAccountSuccess: function(response){
+            if(response.success){
+
+            }
+            else {
+                this.activateAccountFailure(response);
+            }
+        },
+
+        /**
+         * account activation failure; shows the account activation UI again
+         * @param response
+         */
+        activateAccountFailure: function(response){
+            this.fireGlobal('auth::accountactivationfailed');
         }
     });
 

@@ -27,23 +27,28 @@
          */
 
         /**
-         * @event auth::resetpass
+         * @event auth::initpassreset
          * @param {Object} e
          * @param {string} e.email
          */
 
+        /**
+         * @event auth::activateaccount
+         * @param e.verificationKey
+         * @param e.initialPassword
+         */
 
         /**
          * Called when the view is created
          */
-        init: function() {
+        init: function () {
             this.injectLocalisationToViewModel();
 
             this.applyCustomViewConfig();
 
-            this.publishApi(['showLogonView']);
+            this.publishApi(['showLogonView', 'showAccountActivationView', 'autoAccountActivate']);
             //<debug>
-            this.publishApi(['showLogonViewWithAutoLogon', 'showAccountActivationView']);
+            this.publishApi(['showLogonViewWithAutoLogon']);
             //</debug>
 
 
@@ -52,15 +57,22 @@
             //some global evts:
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
             this.watchGlobal('auth::userauthenticationfailed', this.onUserAuthenticationFailed, this);
+            this.watchGlobal('auth::passresetinitialised', this.onPassResetInitialised, this);
+            this.watchGlobal('auth::passresetinitfailed', this.onPassResetInitFailed, this);
+
+            this.watchGlobal('auth::accountactivated', this.onAccountActivated, this);
+            this.watchGlobal('auth::accountactivationfailed', this.onAccountActivationFailed, this);
+
             this.watchGlobal('auth::passreset', this.onPassReset, this);
             this.watchGlobal('auth::passresetfailed', this.onPassResetFailed, this);
+
         },
 
         /**
          * view hide callback
          * @private
          */
-        onHide: function(){
+        onHide: function () {
             this.reset();
         },
 
@@ -68,10 +80,14 @@
          * resets the views
          * @private
          */
-        reset: function(){
+        reset: function () {
             this.lookupReference('txtEmail').setValue(null);
             this.lookupReference('txtPass').setValue(null);
             this.lookupReference('txtForgotPassEmail').setValue(null);
+            this.lookupReference('txtPassReset').setValue(null);
+            this.lookupReference('txtPassResetRepeat').setValue(null);
+            this.lookupReference('txtVerificationKey').setValue(null);
+            this.lookupReference('txtInitialPassword').setValue(null);
             this.unmask();
         },
 
@@ -79,9 +95,11 @@
          * unmasks the views
          * @private
          */
-        unmask: function(){
+        unmask: function () {
             this.lookupReference('loginView').unmask();
             this.lookupReference('forgotPassView').unmask();
+            this.lookupReference('resetPassView').unmask();
+            this.lookupReference('activateAccountView').unmask();
         },
 
         /**
@@ -90,11 +108,17 @@
          * @param e
          * @private
          */
-        trapLoginEnter: function(txtField, e){
+        trapLoginEnter: function (txtField, e) {
             if (e.getKey() === e.ENTER) {
 
-                if(txtField === this.lookupReference('txtForgotPassEmail')){
+                if (txtField === this.lookupReference('txtForgotPassEmail')) {
                     //looks like this is a pass reset
+                    this.doInitPassReset();
+                }
+                else if (txtField === this.lookupReference('txtVerificationKey') || txtField === this.lookupReference('txtInitialPassword')) {
+                    this.doActivation();
+                }
+                else if (txtField === this.lookupReference('txtPassReset') || txtField === this.lookupReference('txtPassResetRepeat')) {
                     this.doPassReset();
                 }
                 else {
@@ -107,7 +131,7 @@
          * shows a logon view
          * @param callback
          */
-        showLogonView: function(){
+        showLogonView: function () {
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
             this.getView().show();
         },
@@ -116,7 +140,7 @@
         /**
          * shows a logon view, fills in the credentials and triggers authentication; debug only, as method gets truncated in the deploy build
          */
-        showLogonViewWithAutoLogon: function(email, pass){
+        showLogonViewWithAutoLogon: function (email, pass) {
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
             this.lookupReference('txtEmail').setValue(email);
             this.lookupReference('txtPass').setValue(pass);
@@ -130,7 +154,7 @@
          * @param btn
          * @private
          */
-        onForgotPassBtnClick: function(btn){
+        onForgotPassBtnClick: function (btn) {
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('forgotPassView'));
         },
 
@@ -139,7 +163,7 @@
          * @param btn
          * @private
          */
-        onResetPassCancelBtnClick: function(btn){
+        onResetPassCancelBtnClick: function (btn) {
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
         },
 
@@ -147,7 +171,7 @@
          * reset pass btn click callback
          * @private
          */
-        onResetPassBtnClick: function(){
+        onResetPassBtnClick: function () {
             this.doPassReset();
         },
 
@@ -155,7 +179,7 @@
          * login btn click callback
          * @private
          */
-        onLoginBtnClick: function(){
+        onLoginBtnClick: function () {
             this.doAuth();
         },
 
@@ -163,7 +187,7 @@
          * Collects the auth data and passes it via evt so auth ctrl can do its work
          * @private
          */
-        doAuth: function(){
+        doAuth: function () {
             this.lookupReference('loginView').mask(this.getTranslation('authMask'));
 
             this.fireGlobal(
@@ -179,7 +203,7 @@
          * user suthenticated callback
          * @private
          */
-        onUserAuthenticated: function(){
+        onUserAuthenticated: function () {
             //not much more to do, huh?
             this.getView().hide();
         },
@@ -188,7 +212,7 @@
          * user auth failed callback
          * @private
          */
-        onUserAuthenticationFailed: function(){
+        onUserAuthenticationFailed: function () {
             this.unmask();
 
             //give a feedback msg
@@ -206,11 +230,11 @@
          * collects the pass reset data and passes it via evt so auth ctrl can do its work
          * @private
          */
-        doPassReset: function(){
-            this.lookupReference('forgotPassView').mask(this.getTranslation('authResetPass'));
+        doInitPassReset: function () {
+            this.lookupReference('forgotPassView').mask(this.getTranslation('initPassResetMask'));
 
             this.fireGlobal(
-                'auth::resetpass',
+                'auth::initpassreset',
                 {
                     email: this.lookupReference('txtForgotPassEmail').getValue()
                 }
@@ -221,14 +245,14 @@
          * pass reset success callback
          * @private
          */
-        onPassReset: function(){
+        onPassResetInitialised: function () {
             //go back to logon view
             this.onResetPassCancelBtnClick();
 
             //and give feedback msg
             Ext.Msg.show({
-                title: this.getTranslation('resetPassConfirmationTitle'),
-                message: this.getTranslation('resetPassConfirmationMsg'),
+                title: this.getTranslation('initPassResetConfirmationTitle'),
+                message: this.getTranslation('initPassResetConfirmationMsg'),
                 width: 350,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.INFO
@@ -239,13 +263,13 @@
          * pass reset failure callback
          * @private
          */
-        onPassResetFailed: function(){
+        onPassResetInitFailed: function () {
             this.unmask();
 
             //give a feedback msg
             Ext.Msg.show({
-                title: this.getTranslation('resetPassFailureTitle'),
-                message: this.getTranslation('resetPassFailureMsg'),
+                title: this.getTranslation('initPassResetFailureTitle'),
+                message: this.getTranslation('initPassResetPassFailureMsg'),
                 width: 350,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
@@ -257,10 +281,122 @@
          * Shows the account authentication view
          * @param verificationKey
          */
-        showAccountActivationView: function(verificationKey){
+        showAccountActivationView: function (verificationKey) {
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('activateAccountView'));
             this.lookupReference('txtVerificationKey').setValue(verificationKey);
             this.getView().show();
+        },
+
+        /**
+         * Shows account activation view and fires the auto activation procedure
+         * @param verificationKey
+         * @param initialPassword
+         */
+        autoAccountActivate: function (verificationKey, initialPassword) {
+            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('activateAccountView'));
+            this.lookupReference('txtVerificationKey').setValue(verificationKey);
+            this.lookupReference('txtInitialPassword').setValue(initialPassword);
+            this.getView().show();
+            this.doActivation();
+
+        },
+
+        /**
+         * maksks the account activation view and fires evt to perform account activation
+         */
+        doActivation: function () {
+            this.lookupReference('activateAccountView').mask(this.getTranslation('activateAccountMask'));
+
+            this.fireGlobal(
+                'auth::activateaccount',
+                {
+                    verificationKey: this.lookupReference('txtVerificationKey').getValue(),
+                    initialPassword: this.lookupReference('txtInitialPassword').getValue()
+                }
+            );
+        },
+
+        /**
+         * account activated callback; resets accoutn activation view and shows logon view
+         */
+        onAccountActivated: function () {
+            this.reset();
+            this.showLogonView();
+
+            //give a feedback msg
+            Ext.Msg.show({
+                title: this.getTranslation('activateAccountConfirmationTitle'),
+                message: this.getTranslation('activateAccountConfirmationMsg'),
+                width: 350,
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.INFO
+            });
+        },
+
+        /**
+         * account activation failed callback
+         */
+        onAccountActivationFailed: function () {
+            this.reset();
+
+            //give a feedback msg
+            Ext.Msg.show({
+                title: this.getTranslation('activateAccountFailureTitle'),
+                message: this.getTranslation('activateAccountFailureMsg'),
+                width: 350,
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.ERROR
+            });
+        },
+
+        /**
+         * performs pass reset
+         */
+        doPassReset: function () {
+
+            //TODO - verify if passwords are the same...
+
+            this.lookupReference('resetPassView').mask(this.getTranslation('passResetMask'));
+
+            this.fireGlobal(
+                'auth::resetpass',
+                {
+                    newPass: this.lookupReference('txtPassReset').getValue()
+                }
+            );
+        },
+
+        /**
+         * pass reset success; resets pass reset view and shows logon view
+         */
+        onPassReset: function () {
+            this.reset();
+            this.showLogonView();
+
+            //give a feedback msg
+            Ext.Msg.show({
+                title: this.getTranslation('passResetConfirmationTitle'),
+                message: this.getTranslation('passResetConfirmationMsg'),
+                width: 350,
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.INFO
+            });
+        },
+
+        /**
+         * pass reset failed callback
+         */
+        onPassResetFailed: function () {
+            this.reset();
+
+            //give a feedback msg
+            Ext.Msg.show({
+                title: this.getTranslation('resetPassFailureTitle'),
+                message: this.getTranslation('passResetFailureMsg'),
+                width: 350,
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.ERROR
+            });
         }
     });
 

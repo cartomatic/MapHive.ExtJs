@@ -6,9 +6,11 @@
 
     Ext.define('mh.module.auth.AuthLocalisation', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localisation.Localisation',
+            'mh.module.auth.AuthBaseLocalisation'
         ],
         statics: {
+            inherits: 'mh.module.auth.AuthBaseLocalisation',
             localisation: {
                 titleLogin: {
                     en: 'Login',
@@ -73,38 +75,6 @@
                 btnResetPass: {
                     en: 'Reset pass',
                     pl: 'Resetuj hasło'
-                },
-                authMask: {
-                    en: 'Authenticating...',
-                    pl: 'Autoryzacja...'
-                },
-                authResetPass: {
-                    en: 'Resetting pass...',
-                    pl: 'Resetowanie hasła...'
-                },
-                authFailureTitle: {
-                    en: 'Authentication failed',
-                    pl: 'Błąd autentykacji'
-                },
-                authFailureMsg: {
-                    en: 'Either email or password is not valid.',
-                    pl: 'Niepoprawny email lub hasło.'
-                },
-                resetPassFailureTitle: {
-                    en: 'Pass reset failed',
-                    pl: 'Błąd'
-                },
-                resetPassFailureMsg: {
-                    en: 'Pass reset procedure failed.<br/>Please try again or contact the system administrator.',
-                    pl: 'Zresetowanie hasła nie powiodło się.<br/>Spróbuj ponownie lub skontaktuj się z administratorem systemu.'
-                },
-                resetPassConfirmationTitle: {
-                    en: 'Pass reset',
-                    pl: 'Hasło zresetowane'
-                },
-                resetPassConfirmationMsg: {
-                    en: 'Your password has been reset. Please check your mailbox for further instructions.',
-                    pl: 'Twoje hasło zostało zresetowane. Email z dalszymi instrukcjami powinien dotrzeć niebawem.'
                 }
             }
         }
