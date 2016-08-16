@@ -342,13 +342,18 @@
                         items: [
                             {
                                 xtype: 'textfield',
+                                reference: 'txtPassResetVerificationKey',
+                                hidden: true
+                            },
+                            {
+                                xtype: 'textfield',
                                 reference: 'txtPassReset',
                                 height: 35,
                                 inputType: 'password',
                                 labelAlign: 'top',
                                 bind: {
-                                    emptyText: '{localisation.passwordEmptyText}',
-                                    fieldLabel: '{localisation.passwordEmptyText}'
+                                    emptyText: '{localisation.passNewEmptyText}',
+                                    fieldLabel: '{localisation.passNewEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -384,7 +389,7 @@
                                         },
                                         reference: 'btnResetPass',
                                         listeners: {
-                                            click: 'onActivateAccountBtnClick'
+                                            click: 'onResetPassBtnClick'
                                         }
                                     }
                                 ]

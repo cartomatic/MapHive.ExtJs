@@ -524,7 +524,8 @@
          * @param e
          */
         resetPassStart: function(e){
-
+            this.hideSplash();
+            this.getAuthUiInstance().showPassResetView(e.vk);
         },
 
 
@@ -533,15 +534,54 @@
          * @param e
          */
         onResetPass: function(e){
+            var valid = this.validatePassword(e.newPass);
 
+            if(valid === true){
+                this.resetPass(e.newPass, e.verificationKey);
+            }
+            else {
+                this.passResetFailure({reason:valid});
+            }
         },
 
+        /**
+         * Validates password complexity
+         * @param password
+         * @param repeat
+         */
+        validatePassword: function(password){
+
+            if(password.length < 6){
+                return 'too_short';
+            }
+
+            var hasUpperCase = /[A-Z]/.test(password);
+            var hasLowerCase = /[a-z]/.test(password);
+            var hasNumbers = /\d/.test(password);
+            var hasNonalphas = /\W/.test(password);
+
+            if(hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3){
+                return 'not_complex_enough';
+            }
+
+            return true;
+        },
 
         /**
          *
          */
-        resetPass: function(){
-
+        resetPass: function(newPass, verificationKey){
+            this.doPut({
+                url: this.getApiEndPoint('resetPass'),
+                scope: this,
+                params: {
+                    verificationKey: verificationKey,
+                    newPass: newPass
+                },
+                autoHandleExceptions: false,
+                success: this.passResetSuccess,
+                failure: this.passResetFailure
+            });
         },
 
         /**
@@ -554,8 +594,8 @@
         /**
          * pass reset failure
          */
-        passResetFailure: function(){
-            this.fireGlobal('auth::passresetfailed');
+        passResetFailure: function(response){
+            this.fireGlobal('auth::passresetfailed', response);
         },
 
         /**
@@ -563,7 +603,7 @@
          * @param e
          */
         activateAccountStart: function(e){
-            this.fireGlobal('splash::hide');
+            this.hideSplash();
 
             //if both initial pass & verification key are present, then try to activate account straight away
             //if not show the account activation ui

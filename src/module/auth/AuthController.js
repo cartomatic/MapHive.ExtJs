@@ -46,7 +46,7 @@
 
             this.applyCustomViewConfig();
 
-            this.publishApi(['showLogonView', 'showAccountActivationView', 'autoAccountActivate']);
+            this.publishApi(['showLogonView', 'showAccountActivationView', 'autoAccountActivate', 'showPassResetView']);
             //<debug>
             this.publishApi(['showLogonViewWithAutoLogon']);
             //</debug>
@@ -367,21 +367,65 @@
         },
 
         /**
+         * Shows pass reset ui
+         * @param verificationKey
+         */
+        showPassResetView: function(verificationKey){
+            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('resetPassView'));
+            this.lookupReference('txtPassResetVerificationKey').setValue(verificationKey);
+            this.getView().show();
+        },
+
+        /**
+         * reset pass btn click calback
+         */
+        onResetPassBtnClick: function(){
+            this.doPassReset();
+        },
+
+        /**
          * performs pass reset
          */
         doPassReset: function () {
 
-            //TODO - verify if passwords are the same...
+            var newPass = this.lookupReference('txtPassReset').getValue(),
+                repeatPass = this.lookupReference('txtPassResetRepeat').getValue(),
+                msg, title
+
+            //do a pass validation preflight; regex matching is done by the global Auth controller
+            if(!newPass || newPass === '' || newPass === null){
+                msg = this.getTranslation('resetPassFailureMsg_empty');
+                title = this.getTranslation('resetPassFailureTitle_empty');
+            }
+            else if(newPass !== repeatPass){
+                msg = this.getTranslation('resetPassFailureMsg_mismatch');
+                title = this.getTranslation('resetPassFailureTitle_mismatch');
+            }
+
+            if(msg){
+                Ext.Msg.show({
+                    title: title,
+                    message: msg,
+                    width: 350,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.MessageBox.ERROR
+                });
+                return;
+            }
+
 
             this.lookupReference('resetPassView').mask(this.getTranslation('passResetMask'));
 
             this.fireGlobal(
                 'auth::resetpass',
                 {
-                    newPass: this.lookupReference('txtPassReset').getValue()
+                    newPass: newPass,
+                    verificationKey: this.lookupReference('txtPassResetVerificationKey').getValue()
                 }
             );
         },
+
+
 
         /**
          * pass reset success; resets pass reset view and shows logon view
@@ -403,13 +447,28 @@
         /**
          * pass reset failed callback
          */
-        onPassResetFailed: function () {
+        onPassResetFailed: function (e) {
             this.reset();
+
+            var title, msg;
+
+            switch(e.reason){
+                case 'too_short':
+                case 'not_complex_enough':
+                    title = this.getTranslation('resetPassFailureTitle_' + e.reason);
+                    msg = this.getTranslation('passResetFailureMsg_' + e.reason);
+                    break;
+
+                default:
+                    title = this.getTranslation('resetPassFailureTitle');
+                    msg = this.getTranslation('passResetFailureMsg');
+                    break;
+            }
 
             //give a feedback msg
             Ext.Msg.show({
-                title: this.getTranslation('resetPassFailureTitle'),
-                message: this.getTranslation('passResetFailureMsg'),
+                title: title,
+                message: msg,
                 width: 350,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR

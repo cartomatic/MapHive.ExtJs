@@ -17,6 +17,7 @@
             tokenValidation: 'auth/tokenvalidation',
             accountActivation: 'auth/accountactivation',
             passResetRequest: 'auth/passresetrequest',
+            resetPass: 'auth/resetpass',
 
             //apps
             applications: 'applications',
