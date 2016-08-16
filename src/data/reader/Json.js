@@ -11,6 +11,10 @@
         extend: 'Ext.data.reader.Json',
         alias : 'reader.mhjson',
 
+        mixins: [
+            'mh.mixin.InitialCfg'
+        ],
+
         //always read from the root
         rootProperty: 'data',
 
@@ -35,7 +39,7 @@
 
                 //grab the response header and set a total property based on it;
                 //this sets a property on the actual output object though!
-                var total = response.getResponseHeader('mhapi-total');
+                var total = response.getResponseHeader(this.getMhCfgProperty('headerTotal'));
                 if(total !== undefined){
                     total = parseInt(total);
                     if(!isNaN(total)){
