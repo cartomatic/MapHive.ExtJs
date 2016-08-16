@@ -15,7 +15,7 @@
             login: 'auth/letmein',
             logout: 'auth/letmeoutofhere',
             tokenValidation: 'auth/tokenvalidation',
-            activateAccount: 'auth/activateaccount',
+            accountActivation: 'auth/accountactivation',
 
             //apps
             applications: 'applications',

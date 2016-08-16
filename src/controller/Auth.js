@@ -487,14 +487,26 @@
 
         },
 
+        /**
+         * initiates password reset procedure for given email
+         * @param email
+         */
         initPassReset: function(email){
 
         },
 
+        /**
+         * init password reset success
+         * @param e
+         */
         initPassResetSuccess: function(e){
             this.fireGlobal('auth::passresetinitialised');
         },
 
+        /**
+         * init pass reset failure
+         * @param e
+         */
         initPassResetFailure: function(e){
             this.fireGlobal('auth::passresetinitfailed');
         },
@@ -518,18 +530,26 @@
         },
 
 
+        /**
+         *
+         */
         resetPass: function(){
 
         },
 
+        /**
+         * pass reset success
+         */
         passResetSuccess: function(){
-
+            this.fireGlobal('auth::passreset');
         },
 
+        /**
+         * pass reset failure
+         */
         passResetFailure: function(){
-
+            this.fireGlobal('auth::passresetfailed');
         },
-
 
         /**
          * starts the account activation procedure; tries to automatically activate the account based on the link content
@@ -563,8 +583,8 @@
          * @param initialPass
          */
         activateAccount: function(verificationKey, initialPassword){
-            this.doGet({
-                url: this.getApiEndPoint('activateAccount'),
+            this.doPut({
+                url: this.getApiEndPoint('accountActivation'),
                 scope: this,
                 params: {
                     verificationKey: verificationKey,
@@ -581,6 +601,9 @@
          * @param response
          */
         activateAccountSuccess: function(response){
+
+            //TODO - will this success be needed at all
+            //TODO - maybe so, because may need to say - key stale, new email sent...
             if(response.success){
 
             }

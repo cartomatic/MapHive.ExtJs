@@ -142,12 +142,11 @@
                 'Content-Type': 'application/json; charset=utf-8',
 
                 //make sure JSON output is preferred over xml;
-                'Accept': 'application/json,text/html,application/xhtml+xml,application/xml;*/*',
-
-                //some custom headers
-                'Source': window.location.href.split('#')[0]
+                'Accept': 'application/json,text/html,application/xhtml+xml,application/xml;*/*'
             };
-            headers[this.getMhCfgProperty("langParam")] = mh.localisation.Localisation.langCode;
+            //some custom headers
+            headers[this.getMhCfgProperty('langParam')] = mh.localisation.Localisation.langCode;
+            headers[this.getMhCfgProperty('sourceHeader')] = window.location.href
 
             //only add the auth header if present, skip it otherwise
             if (authorizationHeader !== null) {
