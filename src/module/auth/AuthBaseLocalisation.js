@@ -29,19 +29,19 @@
                     en: 'Resetting pass...',
                     pl: 'Resetowanie hasła...'
                 },
-                initPassResetConfirmationTitle: {
+                passResetRequestConfirmationTitle: {
                     en: 'Pass reset',
                     pl: 'Hasło zresetowane'
                 },
-                initPassResetConfirmationMsg: {
+                passResetRequestConfirmationMsg: {
                     en: 'Your password has been reset. Please check your mailbox for further instructions.',
                     pl: 'Twoje hasło zostało zresetowane. Email z dalszymi instrukcjami powinien dotrzeć niebawem.'
                 },
-                initPassResetFailureTitle: {
+                passResetRequestFailureTitle: {
                     en: 'Pass reset failed',
                     pl: 'Błąd'
                 },
-                initPassResetFailureMsg: {
+                passResetRequestFailureMsg: {
                     en: 'Pass reset procedure failed.<br/>Please try again or contact the system administrator.',
                     pl: 'Zresetowanie hasła nie powiodło się.<br/>Spróbuj ponownie lub skontaktuj się z administratorem systemu.'
                 },

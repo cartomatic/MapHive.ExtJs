@@ -27,7 +27,7 @@
          */
 
         /**
-         * @event auth::initpassreset
+         * @event auth::passresetrequest
          * @param {Object} e
          * @param {string} e.email
          */
@@ -57,8 +57,8 @@
             //some global evts:
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
             this.watchGlobal('auth::userauthenticationfailed', this.onUserAuthenticationFailed, this);
-            this.watchGlobal('auth::passresetinitialised', this.onPassResetInitialised, this);
-            this.watchGlobal('auth::passresetinitfailed', this.onPassResetInitFailed, this);
+            this.watchGlobal('auth::passresetrequested', this.onPassResetRequestSuccess, this);
+            this.watchGlobal('auth::passresetrequestfailed', this.onPassResetRequestFailure, this);
 
             this.watchGlobal('auth::accountactivated', this.onAccountActivated, this);
             this.watchGlobal('auth::accountactivationfailed', this.onAccountActivationFailed, this);
@@ -171,8 +171,8 @@
          * reset pass btn click callback
          * @private
          */
-        onResetPassBtnClick: function () {
-            this.doPassReset();
+        onPassResetRequestBtnClick: function () {
+            this.doPassResetRequest();
         },
 
         /**
@@ -230,11 +230,11 @@
          * collects the pass reset data and passes it via evt so auth ctrl can do its work
          * @private
          */
-        doInitPassReset: function () {
+        doPassResetRequest: function () {
             this.lookupReference('forgotPassView').mask(this.getTranslation('initPassResetMask'));
 
             this.fireGlobal(
-                'auth::initpassreset',
+                'auth::passresetrequest',
                 {
                     email: this.lookupReference('txtForgotPassEmail').getValue()
                 }
@@ -245,14 +245,14 @@
          * pass reset success callback
          * @private
          */
-        onPassResetInitialised: function () {
+        onPassResetRequestSuccess: function () {
             //go back to logon view
             this.onResetPassCancelBtnClick();
 
             //and give feedback msg
             Ext.Msg.show({
-                title: this.getTranslation('initPassResetConfirmationTitle'),
-                message: this.getTranslation('initPassResetConfirmationMsg'),
+                title: this.getTranslation('passResetRequestConfirmationTitle'),
+                message: this.getTranslation('passResetRequestConfirmationMsg'),
                 width: 350,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.INFO
@@ -263,13 +263,13 @@
          * pass reset failure callback
          * @private
          */
-        onPassResetInitFailed: function () {
+        onPassResetRequestFailure: function () {
             this.unmask();
 
             //give a feedback msg
             Ext.Msg.show({
-                title: this.getTranslation('initPassResetFailureTitle'),
-                message: this.getTranslation('initPassResetPassFailureMsg'),
+                title: this.getTranslation('passResetRequestFailureTitle'),
+                message: this.getTranslation('passResetRequestFailureMsg'),
                 width: 350,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR

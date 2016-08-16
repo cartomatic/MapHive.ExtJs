@@ -239,7 +239,7 @@
                                             text:  '{localisation.btnResetPassRequest}'
                                         },
                                         listeners: {
-                                            //click: 'onResetPassRequestBtnClick'
+                                            click: 'onPassResetRequestBtnClick'
                                         }
                                     },
                                     '->',

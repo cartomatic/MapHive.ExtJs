@@ -69,7 +69,7 @@
          */
 
         /**
-         * @event auth::initpassreset
+         * @event auth::passresetrequest
          * @param {Object} e
          * @param {string} e.email
          *
@@ -77,11 +77,11 @@
          */
 
         /**
-         * @event auth::passresetinitialised
+         * @event auth::passresetrequested
          */
 
         /**
-         * @event auth::passresetinitfailed
+         * @event auth::passresetrequestfailed
          */
 
         /**
@@ -150,7 +150,7 @@
             this.watchGlobal('auth::gimmeauthtokens', this.onGimmeAuthTokens, this);
 
             this.watchGlobal('auth::authenticateuser', this.onAuthenticateUser, this);
-            this.watchGlobal('auth::initpassreset', this.onInitPassReset, this);
+            this.watchGlobal('auth::passresetrequest', this.onPassResetRequest, this);
             this.watchGlobal('auth::resetpass', this.onResetPass, this);
             this.watchGlobal('auth::activateaccount', this.onActivateAccount, this);
 
@@ -481,34 +481,41 @@
          * @param e
          * @param e.email
          */
-        onInitPassReset: function(e){
-
-            console.warn('init pass reset', e);
-
+        onPassResetRequest: function(e){
+            this.passResetRequest(e.email);
         },
 
         /**
          * initiates password reset procedure for given email
          * @param email
          */
-        initPassReset: function(email){
-
+        passResetRequest: function(email){
+            this.doPut({
+                url: this.getApiEndPoint('passResetRequest'),
+                scope: this,
+                params: {
+                    email: email
+                },
+                autoHandleExceptions: false,
+                success: this.passResetRequestSuccess,
+                failure: this.passResetRequestFailure
+            });
         },
 
         /**
          * init password reset success
          * @param e
          */
-        initPassResetSuccess: function(e){
-            this.fireGlobal('auth::passresetinitialised');
+        passResetRequestSuccess: function(e){
+            this.fireGlobal('auth::passresetrequested');
         },
 
         /**
          * init pass reset failure
          * @param e
          */
-        initPassResetFailure: function(e){
-            this.fireGlobal('auth::passresetinitfailed');
+        passResetRequestFailure: function(e){
+            this.fireGlobal('auth::passresetrequestfailed');
         },
 
 

@@ -16,6 +16,7 @@
             logout: 'auth/letmeoutofhere',
             tokenValidation: 'auth/tokenvalidation',
             accountActivation: 'auth/accountactivation',
+            passResetRequest: 'auth/passresetrequest',
 
             //apps
             applications: 'applications',
