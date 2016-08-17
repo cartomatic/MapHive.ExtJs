@@ -18,6 +18,7 @@
             accountActivation: 'auth/accountactivation',
             passResetRequest: 'auth/passresetrequest',
             resetPass: 'auth/resetpass',
+            changePass: 'auth/changepass',
 
             //apps
             applications: 'applications',

@@ -460,11 +460,11 @@
 
             var title, msg;
 
-            switch(e.reason){
+            switch(e.failureReason){
                 case 'too_short':
                 case 'not_complex_enough':
-                    title = this.getTranslation('resetPassFailureTitle_' + e.reason);
-                    msg = this.getTranslation('passResetFailureMsg_' + e.reason);
+                    title = this.getTranslation('resetPassFailureTitle_' + e.failureReason);
+                    msg = this.getTranslation('passResetFailureMsg_' + e.failureReason);
                     break;
 
                 default:

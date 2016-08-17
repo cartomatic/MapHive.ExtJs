@@ -136,6 +136,20 @@
          * @event auth::passresetfailed
          */
 
+        /**
+         * @event auth::changepass
+         *
+         * this is actually a watched event.
+         */
+
+        /**
+         * @event auth::passchanged
+         */
+
+        /**
+         * @event auth::passchangefailed
+         */
+
         init: function(){
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('auth ctrl'), 'initialised');
@@ -153,6 +167,8 @@
             this.watchGlobal('auth::passresetrequest', this.onPassResetRequest, this);
             this.watchGlobal('auth::resetpass', this.onResetPass, this);
             this.watchGlobal('auth::activateaccount', this.onActivateAccount, this);
+
+            this.watchGlobal('auth::changepass', this.onChangePass, this);
 
 
             this.watchGlobal('ajax::unauthorised', this.onAjaxNonAuthorised, this);
@@ -540,7 +556,7 @@
                 this.resetPass(e.newPass, e.verificationKey);
             }
             else {
-                this.passResetFailure({reason:valid});
+                this.passResetFailure({ failureReason: valid });
             }
         },
 
@@ -568,7 +584,7 @@
         },
 
         /**
-         *
+         * resets password for a supplied validation key
          */
         resetPass: function(newPass, verificationKey){
             this.doPut({
@@ -662,7 +678,60 @@
          */
         activateAccountFailure: function(response){
             this.fireGlobal('auth::accountactivationfailed', response);
-        }
+        },
+
+        /**
+         * auth::changepass handler
+         * @param e
+         */
+        onChangePass: function(e){
+            var valid = this.validatePassword(e.newPass);
+
+            if(valid === true){
+                this.changePass(e.newPass, e.oldPass);
+            }
+            else {
+                this.passChangeFailure({ failureReason: valid });
+            }
+        },
+
+        /**
+         * changes password of a currently authenticated user; requires a current pass as a security measure
+         * @param newPass
+         * @param oldPass
+         */
+        changePass: function(newPass, oldPass){
+            this.doPut({
+                url: this.getApiEndPoint('changePass'),
+                scope: this,
+                params: {
+                    oldPass: oldPass,
+                    newPass: newPass
+                },
+                autoHandleExceptions: false,
+                success: this.passChangeSuccess,
+                failure: this.passChangeFailure
+            });
+        },
+
+        /**
+         * pass reset success
+         */
+        passChangeSuccess: function(response){
+            if(!response.success){
+                this.passChangeFailure(response);
+            }
+            else {
+                this.fireGlobal('auth::passchanged');
+            }
+        },
+
+        /**
+         * pass reset failure
+         */
+        passChangeFailure: function(response){
+            this.fireGlobal('auth::passchangefailed', response);
+        },
     });
 
 }());

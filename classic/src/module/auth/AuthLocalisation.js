@@ -79,38 +79,6 @@
                 btnResetPass: {
                     en: 'Reset pass',
                     pl: 'Resetuj hasło'
-                },
-                resetPassFailureTitle_empty: {
-                    en: 'Invalid password',
-                    pl: 'Nieprawidłowe hasło'
-                },
-                resetPassFailureMsg_empty: {
-                    en: 'Password cannot be empty.',
-                    pl: 'Hasło nie może być puste'
-                },
-                resetPassFailureTitle_mismatch: {
-                    en: 'Invalid password',
-                    pl: 'Nieprawidłowe hasło'
-                },
-                resetPassFailureMsg_mismatch: {
-                    en: 'Passwords must be the same.',
-                    pl: 'Hasła muszą być jednakowe'
-                },
-                resetPassFailureTitle_too_short: {
-                    en: 'Invalid password',
-                    pl: 'Nieprawidłowe hasło'
-                },
-                passResetFailureMsg_too_short: {
-                    en: 'Password is too short. Minimum password length is 6.', //TODO - make it serverside configurable!
-                    pl: 'Hasło jest zbyt krótkie. Minimalna długość hasła to 6.'
-                },
-                resetPassFailureTitle_not_complex_enough: {
-                    en: 'Invalid password',
-                    pl: 'Nieprawidłowe hasło'
-                },
-                passResetFailureMsg_not_complex_enough: {
-                    en: 'Password is not complex enough. It must match at least 3 of the following criteria: <ul><li>contain a lower case character</li><li>contain a upper case character</li><li>contain a digit</li><li>contain a non alpha numeric character</li></ul>',
-                    pl: 'Hasło nie jest wystarczająco skomplikowane. Hasło musi spełnić co najmniej 3 z podanych wymagań: <ul><li>zawiera małą literę</li><li>zawiera wielką literę</li><li>zawiera cyfrę</li><li>zawiera znak nie alfanmeryczny</li></ul>'
                 }
             }
         }
