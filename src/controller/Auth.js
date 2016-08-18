@@ -731,7 +731,7 @@
          */
         passChangeFailure: function(response){
             this.fireGlobal('auth::passchangefailed', response);
-        },
+        }
     });
 
 }());
