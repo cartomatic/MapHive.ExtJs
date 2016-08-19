@@ -13,14 +13,11 @@
         xtype: 'mh-auth-pass-change',
 
         requires: [
-            'mh.module.auth.PassChangeController',
-            'mh.module.auth.PassChangeModel'
+            'mh.module.auth.PassChangeController'
         ],
 
         controller: 'mh-auth-pass-change',
-        viewModel: {
-            type: 'mh-auth-pass-change'
-        },
+        viewModel: true,
 
         header: {
             bind: {
