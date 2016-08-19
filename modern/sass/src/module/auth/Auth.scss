@@ -1,0 +1,13 @@
+.mh-locking-screen{
+  /*
+    Note:
+    path is relative to build/production/AppName/toolkit/resources/
+    and the css ends up in the AppName-all.css
+    */
+  background-image:url('mh/images/lock-screen-background.jpg');
+  background-size:cover;
+  background-repeat:repeat;
+}
+.mh-auth-text-border {
+  border:1px solid #efefef;
+}

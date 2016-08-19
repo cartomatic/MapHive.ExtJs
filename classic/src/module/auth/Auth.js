@@ -24,8 +24,7 @@
         'Ext.layout.container.VBox',
         'Ext.panel.Panel',
         'Ext.toolbar.Fill',
-        'mh.module.auth.AuthController',
-        'mh.module.auth.LockingScreen'
+        'mh.module.auth.AuthController'
     ],
 
     config: {

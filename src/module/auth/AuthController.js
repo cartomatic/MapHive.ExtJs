@@ -88,18 +88,48 @@
             this.lookupReference('txtPassResetRepeat').setValue(null);
             this.lookupReference('txtVerificationKey').setValue(null);
             this.lookupReference('txtInitialPassword').setValue(null);
-            this.unmask();
+            this.unmaskAll();
         },
 
         /**
          * unmasks the views
          * @private
          */
-        unmask: function () {
-            this.lookupReference('loginView').unmask();
-            this.lookupReference('forgotPassView').unmask();
-            this.lookupReference('resetPassView').unmask();
-            this.lookupReference('activateAccountView').unmask();
+        unmaskAll: function () {
+            this.unmask(this.lookupReference('loginView'));
+            this.unmask(this.lookupReference('forgotPassView'));
+            this.unmask(this.lookupReference('resetPassView'));
+            this.unmask(this.lookupReference('activateAccountView'));
+        },
+
+        /**
+         * unmasks a controller
+         * @param cmp
+         */
+        unmask: function(cmp){
+            if(Ext.toolkit === 'modern'){
+                cmp.setMasked(false);
+            }
+            else {
+                cmp.unmask();
+            }
+        },
+
+        /**
+         * masks a passed component
+         * @param cmp
+         * @param mask
+         */
+        mask: function(cmp, msg){
+            if(Ext.toolkit === 'modern'){
+                cmp.setMasked({
+                    xtype: 'loadmask',
+                    message: msg
+                });
+            }
+            else {
+                cmp.mask(msg);
+            }
         },
 
         /**
@@ -188,7 +218,7 @@
          * @private
          */
         doAuth: function () {
-            this.lookupReference('loginView').mask(this.getTranslation('authMask'));
+            this.mask(this.lookupReference('loginView'), this.getTranslation('authMask'));
 
             this.fireGlobal(
                 'auth::authenticateuser',
@@ -213,7 +243,7 @@
          * @private
          */
         onUserAuthenticationFailed: function () {
-            this.unmask();
+            this.unmaskAll();
 
             //give a feedback msg
             Ext.Msg.show({
@@ -231,7 +261,7 @@
          * @private
          */
         doPassResetRequest: function () {
-            this.lookupReference('forgotPassView').mask(this.getTranslation('initPassResetMask'));
+            this.mask(this.lookupReference('forgotPassView'), this.getTranslation('initPassResetMask'));
 
             this.fireGlobal(
                 'auth::passresetrequest',
@@ -264,7 +294,7 @@
          * @private
          */
         onPassResetRequestFailure: function () {
-            this.unmask();
+            this.unmaskAll();
 
             //give a feedback msg
             Ext.Msg.show({
@@ -311,7 +341,7 @@
          * maksks the account activation view and fires evt to perform account activation
          */
         doActivation: function () {
-            this.lookupReference('activateAccountView').mask(this.getTranslation('activateAccountMask'));
+            this.mask(this.lookupReference('activateAccountView'), this.getTranslation('activateAccountMask'));
 
             this.fireGlobal(
                 'auth::activateaccount',
@@ -418,7 +448,7 @@
             }
 
 
-            this.lookupReference('resetPassView').mask(this.getTranslation('passResetMask'));
+            this.mask(this.lookupReference('resetPassView'), this.getTranslation('passResetMask'));
 
             this.fireGlobal(
                 'auth::resetpass',
