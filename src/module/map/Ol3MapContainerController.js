@@ -54,7 +54,12 @@
             this.publishApi('registerChannel', 'unregisterChannel', 'getMap');
 
             //setup the map after the component has been laid out
-            this.getView().on('afterlayout', this.onViewAfterRender, this, {single: true});
+            if(Ext.toolkit === 'modern'){
+                this.getView().on('painted', this.onViewPainted, this, {single: true});
+            }
+            else {
+                this.getView().on('afterlayout', this.onViewAfterRender, this, {single: true});
+            }
         },
 
         /**
@@ -66,19 +71,53 @@
         },
 
         /**
+         * generates mao container id
+         * @private
+         * @returns {string}
+         */
+        generateMapContainerId: function(){
+            return 'map_' + new Date().getTime();
+        },
+
+        /**
          * container after render - here is where the map gets instantiated
          * @param view
          * @param eOpts
          */
         onViewAfterRender: function(c, eOpts){
 
-            var mapContainerId = 'map_' + new Date().getTime();
+            var mapContainerId = this.generateMapContainerId();
 
             //render map holder into container's el
             Ext.get(c.getEl().dom.id + '-innerCt').dom.innerHTML =
                 '<div id="' + mapContainerId + '" style="position:absolute; overflow: hidden; width: 100%; height: 100%;"></div>';
 
 
+            this.createMap(mapContainerId);
+
+            c.on('resize', this.onViewResize, this);
+        },
+
+        /**
+         * view painted callback
+         * @param e
+         */
+        onViewPainted: function(e){
+
+            var mapContainerId = this.generateMapContainerId();
+
+            //render map holder into container's el
+            e.dom.children[0].innerHTML =
+                '<div id="' + mapContainerId + '" style="position:absolute; overflow: hidden; width: 100%; height: 100%;"></div>';
+
+            this.createMap(mapContainerId);
+        },
+
+        /**
+         * creates a map and renders it to the specified containerId
+         * @param mapContainerId
+         */
+        createMap: function(mapContainerId){
             //projection
             var proj = this.getProj();
             if(Ext.isString(proj)){
@@ -127,8 +166,6 @@
             });
 
             this.fireGlobal('mapcontainer::mapcreated', this.map);
-
-            c.on('resize', this.onViewResize, this);
         },
 
         /**
