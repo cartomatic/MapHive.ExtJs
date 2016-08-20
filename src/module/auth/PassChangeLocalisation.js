@@ -16,7 +16,7 @@
                     en: 'Change password',
                     pl: 'Zmiana hasła'
                 },
-                currentPass: {
+                oldPass: {
                     en: 'Current pass',
                     pl: 'Obecne hasło'
                 },

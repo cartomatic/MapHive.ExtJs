@@ -70,7 +70,7 @@
                 return;
             }
 
-            this.getView().mask(this.getTranslation('changePassMask'));
+            this.mask();
 
             this.fireGlobal(
                 'auth::changepass',
@@ -80,6 +80,39 @@
                 }
             );
 
+        },
+
+        /**
+         * masks the view
+         */
+        mask: function(){
+            var vw = this.getView(),
+                msg = this.getTranslation('changePassMask');
+
+            if(Ext.toolkit === 'modern'){
+                vw.setMasked({
+                    xtype: 'loadmask',
+                    message: msg
+                });
+            }
+            else {
+                vw.mask(msg);
+            }
+        },
+
+        /**
+         * unmasks the view
+         */
+        unmask: function(){
+
+            var vw = this.getView();
+
+            if(Ext.toolkit === 'modern'){
+                vw.setMasked(false);
+            }
+            else {
+                vw.unmask();
+            }
         },
 
         /**
@@ -96,7 +129,7 @@
          */
         onPassChanged: function (response) {
             this.reset();
-            this.getView().unmask();
+            this.unmask();
             this.getView().hide();
 
 
@@ -114,7 +147,7 @@
          */
         onPassChangeFailed: function (e) {
 
-            this.getView().unmask();
+            this.unmask();
 
             var title, msg;
 
@@ -138,6 +171,7 @@
                 title: title,
                 message: msg,
                 width: 350,
+                styleHtmlContent: true,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });

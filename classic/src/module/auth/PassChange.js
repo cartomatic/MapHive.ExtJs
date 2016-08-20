@@ -48,7 +48,7 @@
             {
                 reference: 'txtOldPass',
                 bind: {
-                    fieldLabel: '{localisation.currentPass}'
+                    fieldLabel: '{localisation.oldPass}'
                 }
             },
             {
