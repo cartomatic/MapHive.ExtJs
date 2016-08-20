@@ -603,8 +603,13 @@
         /**
          * pass reset success
          */
-        passResetSuccess: function(){
-            this.fireGlobal('auth::passreset');
+        passResetSuccess: function(response){
+            if(response.success){
+                this.fireGlobal('auth::passreset');
+            }
+            else {
+                this.passResetFailure(response);
+            }
         },
 
         /**

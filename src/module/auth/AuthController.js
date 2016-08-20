@@ -194,6 +194,7 @@
          * @private
          */
         onResetPassCancelBtnClick: function (btn) {
+            this.unmaskAll();
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
         },
 
@@ -246,14 +247,13 @@
             this.unmaskAll();
 
             //give a feedback msg
-            Ext.Msg.show({
+            this.showMsg({
                 title: this.getTranslation('authFailureTitle'),
                 message: this.getTranslation('authFailureMsg'),
                 width: 350,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });
-
         },
 
         /**
@@ -280,7 +280,7 @@
             this.onResetPassCancelBtnClick();
 
             //and give feedback msg
-            Ext.Msg.show({
+            this.showMsg({
                 title: this.getTranslation('passResetRequestConfirmationTitle'),
                 message: this.getTranslation('passResetRequestConfirmationMsg'),
                 width: 350,
@@ -297,14 +297,13 @@
             this.unmaskAll();
 
             //give a feedback msg
-            Ext.Msg.show({
+            this.showMsg({
                 title: this.getTranslation('passResetRequestFailureTitle'),
                 message: this.getTranslation('passResetRequestFailureMsg'),
                 width: 350,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });
-
         },
 
         /**
@@ -363,7 +362,7 @@
 
             //give a feedback msg
             Ext.defer(function(){
-                Ext.Msg.show({
+                this.showMsg({
                     title: this.getTranslation('activateAccountConfirmationTitle'),
                     message: this.getTranslation('activateAccountConfirmationMsg'),
                     width: 350,
@@ -380,7 +379,7 @@
             this.reset();
 
             if(e.verificationKeyStale){
-                Ext.Msg.show({
+                this.showMsg({
                     title: this.getTranslation('activateAccountVerificationKeyStaleTitle'),
                     message: this.getTranslation('activateAccountVerificationKeyStaleMsg'),
                     width: 350,
@@ -390,7 +389,7 @@
             }
             else {
                 //give a feedback msg
-                Ext.Msg.show({
+                this.showMsg({
                     title: this.getTranslation('activateAccountFailureTitle'),
                     message: this.getTranslation('activateAccountFailureMsg'),
                     width: 350,
@@ -437,7 +436,7 @@
             }
 
             if(msg){
-                Ext.Msg.show({
+                this.showMsg({
                     title: title,
                     message: msg,
                     width: 350,
@@ -472,7 +471,7 @@
 
             //give a feedback msg
             Ext.defer(function(){
-                Ext.Msg.show({
+                this.showMsg({
                     title: this.getTranslation('passResetConfirmationTitle'),
                     message: this.getTranslation('passResetConfirmationMsg'),
                     width: 350,
@@ -493,25 +492,39 @@
             switch(e.failureReason){
                 case 'too_short':
                 case 'not_complex_enough':
-                    title = this.getTranslation('resetPassFailureTitle_' + e.failureReason);
+                    title = this.getTranslation('passResetFailureTitle_' + e.failureReason);
                     msg = this.getTranslation('passResetFailureMsg_' + e.failureReason);
                     break;
 
                 default:
-                    title = this.getTranslation('resetPassFailureTitle');
+                    title = this.getTranslation('passResetFailureTitle');
                     msg = this.getTranslation('passResetFailureMsg');
                     break;
             }
 
             //give a feedback msg
-            Ext.Msg.show({
+            this.showMsg({
                 title: title,
                 message: msg,
                 width: 350,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });
+        },
+
+        /**
+         * shows a msg box for both modern and classic toolkits. there are some weird errs in classic when calling Ext.Msg.show, hence this helper
+         * @param cfg
+         */
+        showMsg: function(cfg){
+            if(Ext.toolkit === 'modern'){
+                Ext.Msg.alert(cfg.title, cfg.message);
+            }
+            else {
+                Ext.Msg.show(cfg);
+            }
         }
+
     });
 
 }());

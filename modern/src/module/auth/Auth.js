@@ -8,7 +8,8 @@
         extend: 'mh.module.auth.LockingScreen',
     
         requires: [
-            'mh.module.auth.AuthController'
+            'mh.module.auth.AuthController',
+            'Ext.field.Email'
         ],
 
         xtype: 'mh.auth-screen',
@@ -45,7 +46,7 @@
                                 }
                             },
                             {
-                                xtype: 'textfield',
+                                xtype: 'emailfield',
                                 reference: 'txtEmail',
                                 clearIcon: true,
                                 bind: {
@@ -115,7 +116,7 @@
                                 }
                             },
                             {
-                                xtype: 'textfield',
+                                xtype: 'emailfield',
                                 reference: 'txtForgotPassEmail',
                                 clearIcon: true,
                                 bind: {
@@ -180,7 +181,7 @@
                                 hidden: true
                             },
                             {
-                                xtype: 'textfield',
+                                xtype: 'passwordfield',
                                 reference: 'txtPassReset',
                                 clearIcon: true,
                                 bind: {
@@ -190,7 +191,7 @@
                                 margin: '5 0 5 0' //trbl
                             },
                             {
-                                xtype: 'textfield',
+                                xtype: 'passwordfield',
                                 reference: 'txtPassResetRepeat',
                                 clearIcon: true,
                                 bind: {
