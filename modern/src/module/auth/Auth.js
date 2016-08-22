@@ -9,7 +9,8 @@
     
         requires: [
             'mh.module.auth.AuthController',
-            'Ext.field.Email'
+            'Ext.field.Email',
+            'Ext.field.Password'
         ],
 
         xtype: 'mh.auth-screen',
