@@ -111,6 +111,8 @@
                 '<div id="' + mapContainerId + '" style="position:absolute; overflow: hidden; width: 100%; height: 100%;"></div>';
 
             this.createMap(mapContainerId);
+
+            this.getView().on('resize', this.onViewResizeM, this);
         },
 
         /**
@@ -178,6 +180,17 @@
          * @param eOpts
          */
         onViewResize: function(c, w, h, oldW, oldH, eOpts){
+            if(this.map) {
+                this.map.updateSize();
+            }
+        },
+
+        /**
+         * contianer resize in modern toolkit
+         * @param el
+         * @param eOpts
+         */
+        onViewResizeM: function(el, eOpts){
             if(this.map) {
                 this.map.updateSize();
             }
