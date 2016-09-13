@@ -381,7 +381,7 @@
                 this.linksToDestroy.push(record);
             }
             else {
-                //a real link has been removed, so there are changes that require tracking
+                //a temp link has been removed, so there are changes that require tracking - for example link order
                 this.linksModified = true;
             }
 

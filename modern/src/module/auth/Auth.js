@@ -38,7 +38,7 @@
                         reference: 'loginView',
                         xtype: 'panel',
                         padding: 10,
-                        height: 200,
+                        height: 210,
                         items: [
                             {
                                 margin: '10 0 10 0', //trbl
@@ -108,7 +108,7 @@
                         reference: 'forgotPassView',
                         xtype: 'panel',
                         padding: 10,
-                        height: 150,
+                        height: 155,
                         items: [
                             {
                                 margin: '10 0 10 0', //trbl
@@ -168,7 +168,7 @@
                         reference: 'resetPassView',
                         xtype: 'panel',
                         padding: 10,
-                        height: 200,
+                        height: 210,
                         items: [
                             {
                                 margin: '10 0 10 0', //trbl
@@ -221,7 +221,7 @@
                         reference: 'activateAccountView',
                         xtype: 'panel',
                         padding: 10,
-                        height: 200,
+                        height: 210,
                         items: [
                             {
                                 margin: '10 0 10 0', //trbl
