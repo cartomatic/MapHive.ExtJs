@@ -77,7 +77,7 @@
                                         iconAlign: 'left',
                                         iconCls: 'x-fa fa-key',
                                         ui: 'action',
-                                        margin: '0 10 0 0', //trbl
+                                        margin: '0 0 0 0', //trbl
                                         listeners: {
                                             tap: 'onForgotPassBtnClick'
                                         }
@@ -137,7 +137,7 @@
                                         iconAlign: 'left',
                                         iconCls: 'x-fa fa-key',
                                         ui: 'action',
-                                        margin: '0 10 0 0', //trbl
+                                        margin: '0 0 0 0', //trbl
                                         listeners: {
                                             tap: 'onPassResetRequestBtnClick'
                                         }

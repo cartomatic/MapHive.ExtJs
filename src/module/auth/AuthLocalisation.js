@@ -69,8 +69,8 @@
                     pl: 'Resetuj hasło'
                 },
                 btnResetPassCancel: {
-                    en: 'Back to login',
-                    pl: 'Logowanie'
+                    en: 'Back',
+                    pl: 'Wstecz'
                 },
                 btnActivateAccount: {
                     en: 'Activate account',

@@ -37,7 +37,7 @@
 
         bodyPadding: 10,
 
-        height: 260,
+        height: 270,
 
         items: [
             {
