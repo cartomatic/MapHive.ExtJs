@@ -108,6 +108,10 @@
              */
             remoteFilter: true,
 
+            /**
+             * selection mode to be applied to the grid
+             */
+            selMode: 'SINGLE',
 
             //component visual customisation
             'btnCreate|setUI': null,

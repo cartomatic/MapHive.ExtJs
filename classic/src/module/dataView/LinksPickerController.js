@@ -39,6 +39,7 @@
             this.publishApi(['setDataView']);
 
             this.getView().on('show', this.onShow, this);
+            this.getView().on('hide', this.onHide, this);
         },
 
         /**
@@ -70,9 +71,8 @@
         /**
          * sets a dataview in this component
          * @param dv
-         * @param dataViewSelectionMode
          */
-        setDataView: function(dv, dataViewSelectionMode){
+        setDataView: function(dv){
             this.dataView = this.getView().add(dv);
 
             //try to set a title...
@@ -86,16 +86,18 @@
                 console.error('[LINKSPICKER] - ooops, the configured data view does not expose the getTitle method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
                 //</debug>
             }
-            
-            //and a selection model
-            if(Ext.isFunction(this.dataView.setSelectionMode)){
-                this.dataView.setSelectionMode(dataViewSelectionMode || 'MULTI');
-            }
-            //<debug>
-            else {
-                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the setSelectionMode method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
-            }
-            //</debug>
+
+            //Note: selection mode for the grid now comes from the links grid cfg - see selModel property or a direct cfg on a dataview object
+            //note: just setting selection mode to 'multi' did cause unexpected behavior - selecting did not work as expected
+            // //and a selection model
+            // if(Ext.isFunction(this.dataView.setSelectionMode)){
+            //     this.dataView.setSelectionMode(dataViewSelectionMode || 'MULTI');
+            // }
+            // //<debug>
+            // else {
+            //     console.error('[LINKSPICKER] - ooops, the configured data view does not expose the setSelectionMode method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
+            // }
+            // //</debug>
         },
 
         /**
@@ -117,6 +119,16 @@
                 console.error('[LINKSPICKER] - ooops, the configured data view does not expose the resetGrid method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
             }
             //</debug>
+        },
+
+        /**
+         * on hide logic
+         */
+        onHide: function(){
+            //unselect all on hide
+            if(Ext.isFunction(this.dataView.resetSelection)){
+                this.dataView.resetSelection();
+            }
         }
     });
 

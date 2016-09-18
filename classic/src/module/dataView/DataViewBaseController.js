@@ -54,7 +54,7 @@
             //apply custom configurations
             this.applyCustomViewConfig();
 
-            this.publishApi(['getSelection', 'getTitle', 'setSelectionMode', 'resetGrid']);
+            this.publishApi(['getSelection', 'getTitle', 'setSelectionMode', 'resetGrid', 'resetSelection']);
 
             //some translations
             var refs = this.getReferences(),
@@ -70,7 +70,12 @@
                 hideFormHeader = view.getHideFormHeader(),
 
                 gridOpts = {
-                    reference: 'grid'
+                    reference: 'grid',
+                    //set the sel model, so it is easy to just change the selection mode
+                    selModel: {
+                        selType: 'rowmodel', // rowmodel is the default selection model
+                        mode:  view.getSelMode() || 'SINGLE'
+                    }
                 },
                 formOpts = {
                     reference: 'form'
@@ -177,6 +182,8 @@
             return this.lookupReference('grid').getSelection();
         },
 
+
+
         /**
          * returns this view's title
          */
@@ -185,11 +192,11 @@
         },
 
         /**
-         * Sets a selection model for a grid component
-         * @param sModel
+         * Sets a selection model for a grid component; although it looks like going from single to multi messes the selection behavior a lot - especially unselects on click, shift, ctrl key modifiers; dunno why really. looks like extjs boogy woogy
+         * @param sMode
          */
-        setSelectionMode: function(sModel){
-            this.lookupReference('grid').getSelectionModel().setSelectionMode(sModel);
+        setSelectionMode: function(sMode){
+            this.lookupReference('grid').getSelectionModel().setSelectionMode(sMode);
         },
 
         /**
@@ -204,6 +211,13 @@
 
             //and reload the store
             store.loadPage(1);
+        },
+
+        /**
+         * resets selection in the grid
+         */
+        resetSelection: function(){
+            this.lookupReference('grid').getSelectionModel().deselectAll();
         },
 
         //--------------------------------------------------------------------------------------------------------------

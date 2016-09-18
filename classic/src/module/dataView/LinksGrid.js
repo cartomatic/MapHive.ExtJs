@@ -76,7 +76,12 @@
             //dd cfg
             ddGroup: null,
             dragGroup: null,
-            dropGroup: null
+            dropGroup: null,
+
+            /**
+             * selection mode to be set on the links picker grid
+             */
+            selMode: 'MULTI'
         },
 
         /**

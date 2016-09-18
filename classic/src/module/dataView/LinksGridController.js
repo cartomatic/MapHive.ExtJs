@@ -95,6 +95,12 @@
          */
         linksToDestroy: null,
 
+
+        /**
+         * selection mode to be applied to a links picker data view
+         */
+        selMode: null,
+
         /**
          * Called when the view is created
          */
@@ -108,6 +114,7 @@
             this.parentIdentifierToken = vw.getParentIdentifierToken();
             this.dataView = vw.getDataView();
             this.recLimit = vw.getRecLimit();
+            this.selMode = vw.getSelMode();
 
             //apply custom configurations
             this.applyCustomViewConfig();
@@ -445,13 +452,18 @@
             if(this.dataView !== null){
                 if(Ext.isString(this.dataView)){
                     //this should be a class name
-                    inst = Ext.create(this.dataView);
+                    inst = Ext.create(this.dataView, {
+                        selMode: this.selMode
+                    });
                 }
                 else {
                     //right this is an object cfg...
                     inst = this.dataView;
                     inst.xtype = this.dataView.type;
                     delete inst.type;
+                    if(!inst.selMode){
+                        inst.selMode = this.selMode;
+                    }
                 }
             }
             else {
