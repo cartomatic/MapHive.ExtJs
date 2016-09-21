@@ -22,9 +22,9 @@
 
             { name: 'uuid', type: 'string', allowNull: true, defaultValue: null, persist: false},
 
-            { name: 'createDate', type: 'date', useNull: true, dateFormat: 'C', persist: false},
+            { name: 'createDateUtc', type: 'date', useNull: true, dateFormat: 'c', persist: false},
 
-            { name: 'modifyDate', type: 'date', useNull: true, dateFormat: 'C', persist: false},
+            { name: 'modifyDateUtc', type: 'date', useNull: true, dateFormat: 'c', persist: false},
 
             //TODO - at some point add createdBy, modifiedBy and such to match the serverside
 
