@@ -344,7 +344,8 @@
                 tokens.remoteAuthRequired = false;
                 this.fireGlobal('auth::verifyauthstate', tokens);
 
-                this.fireGlobal('root::launchapp');
+                //obtain client configuration and launch when ready
+                this.getClientConfiguration();
             }
         },
 
@@ -524,12 +525,47 @@
             //when organisations are available then user is prompted to choose his scope and then the apps get pulled.
             //when apps are available it is time to start!
 
-            //TODO - orgs handling and stuff...
 
-            //for the time being just launch the app
-            this.fireGlobal('root::launchapp');
+            //obtain client configuration and launch when ready
+            this.getClientConfiguration();
         },
 
+
+        /**
+         * obtains client configuration so an application can be set up properly.
+         * on success it should fire root::launchapp via this.fireGlobal('root::launchapp');
+         * Note: if an application does not provide configuration, its root controller should overwrite this method and simply fire root::launchapp
+         */
+        getClientConfiguration: function(){
+            //this will call the app instance to handle the load mask
+            this.fireGlobal('root::getclientconfigstart');
+
+            //grab the client cfg
+            this.doGet({
+                url: this.getApiEndPoint('clientConfiguration'),
+                scope: this,
+                autoHandleExceptions: false,
+                success: this.onClientConfigurationSuccess,
+                failure: this.onClientConfigurationFailure
+            });
+        },
+
+        /**
+         * client config retrieved
+         */
+        onClientConfigurationSuccess: function(response){
+            //get rid of load mask - app will handle this
+            this.fireGlobal('root::getclientconfigend');
+            this.fireGlobal('root::launchapp', response);
+        },
+
+        /**
+         * client conig failure. Cannot go further unfortunately...
+         */
+        onClientConfigurationFailure: function(response){
+            //let the application handle the failure visually
+            this.fireGlobal('root::getclientconfigfailure');
+        },
 
         /**
          * root::loadhostedapp callback; loads an appropriate hosted app
