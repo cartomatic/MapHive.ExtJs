@@ -27,7 +27,8 @@
             //users
             users: 'users',
 
-            appLocalisations: 'applocalisations',
+            localisationClasses: 'localisationclasses',
+            translationKeys: 'translationkeys',
             langs: 'langs',
             emailTemplateLocalisations: 'emailtemplatelocalisations'
         },

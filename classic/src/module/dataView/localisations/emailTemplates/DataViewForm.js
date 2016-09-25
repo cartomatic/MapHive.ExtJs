@@ -7,7 +7,7 @@
     Ext.define('mh.module.dataView.localisations.emailTemplates.DataViewForm', {
         extend: 'Ext.container.Container',
     
-        xtype: 'mofp-email-templates-data-view-form',
+        xtype: 'mh-email-templates-data-view-form',
 
     requires: [
         'Ext.form.field.Checkbox',
@@ -75,7 +75,7 @@
                 ]
             },
             {
-                xtype: 'mofp-email-templates-translationsgrid',
+                xtype: 'mh-email-templates-translationsgrid',
                 reference: 'translations',
                 flex: 1
             }

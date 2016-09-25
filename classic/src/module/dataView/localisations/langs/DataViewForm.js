@@ -7,7 +7,7 @@
     Ext.define('mh.module.dataView.localisations.langs.DataViewForm', {
         extend: 'Ext.container.Container',
     
-        xtype: 'mofp-langs-data-view-form',
+        xtype: 'mh-langs-data-view-form',
 
     requires: [
         'Ext.form.field.Checkbox',

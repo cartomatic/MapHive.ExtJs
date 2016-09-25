@@ -4,14 +4,14 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.TranslationsGridController', {
+    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationsGridController', {
         extend: 'mh.module.dataView.BindableStoreGridController',
-        alias: 'controller.mofp-translationsgrid',
+        alias: 'controller.mh-translationsgrid',
 
         requires: [
             'Ext.data.Store',
             'mh.data.model.Translation',
-            'mh.module.dataView.localisations.appLocalisations.TranslationsGridLocalisation'
+            'mh.module.dataView.localisations.translationKeys.TranslationsGridLocalisation'
         ],
 
         mixins: [

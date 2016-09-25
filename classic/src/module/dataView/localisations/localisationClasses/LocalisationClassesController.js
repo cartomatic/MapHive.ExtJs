@@ -4,18 +4,17 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.langs.LangsController', {
+    Ext.define('mh.module.dataView.localisations.localisationClasses.LocalisationClassesController', {
         extend: 'mh.module.dataView.DataViewBaseController',
-        alias: 'controller.mh-langs',
+        alias: 'controller.mh-localisation-classes',
 
         requires: [
-            'mh.module.dataView.localisations.langs.LangsLocalisation'
+            'mh.module.dataView.localisations.localisationClasses.LocalisationClassesLocalisation'
         ],
 
         mixins: [
             'mh.mixin.Localisation',
-            'mh.mixin.CallMeParent',
-            'mh.mixin.GridUtils'
+            'mh.mixin.CallMeParent'
         ],
 
         /**
@@ -23,6 +22,7 @@
          */
         init: function() {
             this.callMeParent('init', arguments);
+            this.injectLocalisationToViewModel();
         }
     });
 

@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.AppLocalisationsController', {
-        extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-app-localisations',
+    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationKeysController', {
+        extend: 'mh.module.dataView.DataViewBaseController',
+        alias: 'controller.mh-translation-keys',
 
         requires: [
-            'mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation'
+            'mh.module.dataView.localisations.translationKeys.TranslationKeysLocalisation'
         ],
 
         mixins: [

@@ -8,13 +8,13 @@
 
         extend: 'mh.module.dataView.localisations.langs.DataViewForm',
     
-        xtype: 'mofp-app-langs-data-edit-form',
+        xtype: 'mh-app-langs-data-edit-form',
 
         viewModel: {
-            type: 'mofp-langs-data-edit-form'
+            type: 'mh-langs-data-edit-form'
         },
 
-        controller: 'mofp-langs-data-edit-form',
+        controller: 'mh-langs-data-edit-form',
 
     requires: [
         'mh.module.dataView.localisations.langs.DataEditFormController',

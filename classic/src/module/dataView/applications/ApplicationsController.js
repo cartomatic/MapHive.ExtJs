@@ -7,7 +7,7 @@
     Ext.define('mh.module.dataView.applications.ApplicationsController', {
         extend: 'mh.module.dataView.DataViewBaseController',
 
-        alias: 'controller.mofp-applications',
+        alias: 'controller.mh-applications',
 
         requires: [
             'mh.module.dataView.applications.ApplicationsLocalisation'

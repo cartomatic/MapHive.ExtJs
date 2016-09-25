@@ -4,17 +4,17 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.DataViewForm', {
+    Ext.define('mh.module.dataView.localisations.translationKeys.DataViewForm', {
         extend: 'Ext.container.Container',
     
-        xtype: 'mofp-app-localisations-data-view-form',
+        xtype: 'mh-translation-keys-data-view-form',
 
     requires: [
         'Ext.form.field.Checkbox',
         'Ext.form.field.Text',
         'Ext.layout.container.Form',
         'Ext.layout.container.VBox',
-        'mh.module.dataView.localisations.appLocalisations.TranslationsGrid'
+        'mh.module.dataView.localisations.translationKeys.TranslationsGrid'
     ],
 
     layout: {
@@ -26,37 +26,29 @@
                 layout: 'form',
                 border: false,
                 items: [
+                    //TODO - make it a combo!!!!
                     {
                         xtype: 'textfield',
-                        reference: 'applicationName',
+                        reference: 'localisationClassUuid',
                         bind: {
-                            fieldLabel: '{localisation.applicationName}',
-                            value: '{rec.applicationName}'
+                            fieldLabel: '{localisation.localisationClassUuid}',
+                            value: '{rec.localisationClassUuid}'
                         },
                         readOnly: true
                     },
                     {
                         xtype: 'textfield',
-                        reference: 'className',
+                        reference: 'key',
                         bind: {
-                            fieldLabel: '{localisation.className}',
-                            value: '{rec.className}'
-                        },
-                        readOnly: true
-                    },
-                    {
-                        xtype: 'textfield',
-                        reference: 'translationKey',
-                        bind: {
-                            fieldLabel: '{localisation.translationKey}',
-                            value: '{rec.translationKey}'
+                            fieldLabel: '{localisation.key}',
+                            value: '{rec.key}'
                         },
                         readOnly: true
                     }
                 ]
             },
             {
-                xtype: 'mofp-translationsgrid',
+                xtype: 'mh-translationsgrid',
                 reference: 'translations',
                 flex: 1
             }

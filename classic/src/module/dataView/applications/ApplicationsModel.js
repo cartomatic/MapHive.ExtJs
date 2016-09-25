@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.applications.ApplicationsModel', {
         extend: 'mh.module.dataView.DataViewBaseModel',
-        alias: 'viewmodel.mofp-applications',
+        alias: 'viewmodel.mh-applications',
 
         requires: [
             'mh.data.model.Application',

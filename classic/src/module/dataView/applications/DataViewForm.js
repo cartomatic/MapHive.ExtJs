@@ -7,7 +7,7 @@
     Ext.define('mh.module.dataView.applications.DataViewForm', {
         extend: 'Ext.container.Container',
     
-        xtype: 'mofp-applications-data-view-form',
+        xtype: 'mh-applications-data-view-form',
 
     requires: [
         'Ext.form.field.Checkbox',

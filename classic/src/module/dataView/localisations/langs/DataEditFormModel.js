@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.localisations.langs.DataEditFormModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mofp-langs-data-edit-form',
+        alias: 'viewmodel.mh-langs-data-edit-form',
     
         stores: {
         },

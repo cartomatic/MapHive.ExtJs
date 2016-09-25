@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.TranslationsGridLocalisation', {
+    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationsGridLocalisation', {
         requires: [
             'mh.localisation.Localisation'
         ],

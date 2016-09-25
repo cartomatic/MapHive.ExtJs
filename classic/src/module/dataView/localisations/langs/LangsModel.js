@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.localisations.langs.LangsModel', {
         extend: 'mh.module.dataView.DataViewBaseModel',
-        alias: 'viewmodel.mofp-langs',
+        alias: 'viewmodel.mh-langs',
 
     requires: [
         'mh.data.model.Lang'

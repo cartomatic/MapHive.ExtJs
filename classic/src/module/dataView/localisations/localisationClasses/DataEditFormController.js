@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.emailTemplates.EmailTemplatesController', {
-        extend: 'mh.module.dataView.DataViewBaseController',
-        alias: 'controller.mh-email-templates',
+    Ext.define('mh.module.dataView.localisations.localisationClasses.DataEditFormController', {
+        extend: 'mh.module.dataView.GenericEditFormController',
+        alias: 'controller.mh-localisation-classes-data-edit-form',
 
         requires: [
-            'mh.module.dataView.localisations.emailTemplates.EmailTemplatesLocalisation'
+            'mh.module.dataView.localisations.localisationClasses.DataEditFormLocalisation'
         ],
 
         mixins: [
@@ -22,6 +22,7 @@
          */
         init: function() {
             this.callMeParent('init', arguments);
+            this.injectLocalisationToViewModel();
         }
     });
 

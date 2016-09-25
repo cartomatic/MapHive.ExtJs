@@ -18,13 +18,13 @@
         'mh.module.dataView.applications.DataViewForm'
     ],
 
-    xtype: 'mofp-applications',
+    xtype: 'mh-applications',
 
         viewModel: {
-            type: 'mofp-applications'
+            type: 'mh-applications'
         },
 
-        controller: 'mofp-applications',
+        controller: 'mh-applications',
 
         //Some custom ui cfg
         'btnCreate|setUI': 'green-button',

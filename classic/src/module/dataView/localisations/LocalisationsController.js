@@ -7,7 +7,7 @@
     Ext.define('mh.module.dataView.localisations.LocalisationsController', {
         extend: 'Ext.app.ViewController',
 
-        alias: 'controller.mofp-localisations',
+        alias: 'controller.mh-localisations',
 
     requires: [
         'Ext.app.Application',

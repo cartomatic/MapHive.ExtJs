@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.localisations.emailTemplates.DataEditFormModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mofp-email-templates-data-edit-form',
+        alias: 'viewmodel.mh-email-templates-data-edit-form',
     
         stores: {
         },

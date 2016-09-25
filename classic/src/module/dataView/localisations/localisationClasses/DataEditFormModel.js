@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.DataEditFormModel', {
+    Ext.define('mh.module.dataView.localisations.localisationClasses.DataEditFormModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mofp-app-localisations-data-edit-form',
+        alias: 'viewmodel.mh-localisation-classes-data-edit-form',
     
         stores: {
         },

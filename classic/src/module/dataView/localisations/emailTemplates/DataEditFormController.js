@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.localisations.emailTemplates.DataEditFormController', {
         extend: 'mh.module.dataView.GenericEditFormController',
-        alias: 'controller.mofp-email-templates-data-edit-form',
+        alias: 'controller.mh-email-templates-data-edit-form',
 
         requires: [
             'mh.module.dataView.localisations.emailTemplates.DataEditFormLocalisation'

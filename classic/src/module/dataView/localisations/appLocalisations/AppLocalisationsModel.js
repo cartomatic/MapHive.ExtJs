@@ -6,20 +6,13 @@
 
     Ext.define('mh.module.dataView.localisations.appLocalisations.AppLocalisationsModel', {
         extend: 'mh.module.dataView.DataViewBaseModel',
-        alias: 'viewmodel.mofp-app-localisations',
+        alias: 'viewmodel.mh-app-localisations',
 
-    requires: [
-        'mh.data.model.AppLocalisation'
-    ],
+        requires: [
+        ],
 
-    stores: {
-            gridstore:{
-                model: 'mh.data.model.AppLocalisation',
-                data: []
-                //Note: autoLoad, remoteSort, remoteFilter is automatically set to true in the dataview base and override whatever may be set here
+        stores: {}
 
-            }
-        }
     });
 
 }());

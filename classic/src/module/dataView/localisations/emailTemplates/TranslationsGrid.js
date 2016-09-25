@@ -8,7 +8,7 @@
         
         extend: 'Ext.container.Container',
     
-        xtype: 'mofp-email-templates-translationsgrid',
+        xtype: 'mh-email-templates-translationsgrid',
 
     requires: [
         'Ext.button.Button',
@@ -25,10 +25,10 @@
         'mh.module.dataView.localisations.emailTemplates.TranslationsGridModel'
     ],
 
-    controller: 'mofp-email-templates-translationsgrid',
+    controller: 'mh-email-templates-translationsgrid',
 
         viewModel: {
-            type: 'mofp-email-templates-translationsgrid'
+            type: 'mh-email-templates-translationsgrid'
         },
 
 

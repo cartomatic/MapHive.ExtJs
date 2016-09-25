@@ -4,10 +4,10 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.TranslationsGrid', {
+    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationsGrid', {
         extend: 'mh.module.dataView.BindableStoreGrid',
     
-        xtype: 'mofp-translationsgrid',
+        xtype: 'mh-translationsgrid',
 
     requires: [
         'Ext.button.Button',
@@ -16,8 +16,8 @@
         'Ext.grid.column.Action',
         'Ext.grid.plugin.CellEditing',
         'Ext.toolbar.Toolbar',
-        'mh.module.dataView.localisations.appLocalisations.TranslationsGridController',
-        'mh.module.dataView.localisations.appLocalisations.TranslationsGridModel',
+        'mh.module.dataView.localisations.translationKeys.TranslationsGridController',
+        'mh.module.dataView.localisations.translationKeys.TranslationsGridModel',
         'mh.module.dataView.localisations.emailTemplates.TranslationsGridController'
     ],
 
@@ -26,10 +26,10 @@
             clicksToEdit: 2
         },
 
-        controller: 'mofp-translationsgrid',
+        controller: 'mh-translationsgrid',
 
         viewModel: {
-            type: 'mofp-translationsgrid'
+            type: 'mh-translationsgrid'
         },
 
         iconCls: 'x-fa fa-comments-o',
