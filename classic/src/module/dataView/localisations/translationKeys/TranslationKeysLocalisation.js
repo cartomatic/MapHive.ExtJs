@@ -19,7 +19,7 @@
                     en: 'Translation keys',
                     pl: 'Klucze'
                 },
-                translationKey: {
+                key: {
                     en: 'Translation key',
                     pl: 'Klucz'
                 },

@@ -25,7 +25,6 @@
             this.injectLocalisationToViewModel();
 
             //enable input fields - this view inherits from a display only view
-            this.lookupReference('localisationClassUuid').setReadOnly(false);
             this.lookupReference('key').setReadOnly(false);
 
             this.lookupReference('translations').enableEditMode();

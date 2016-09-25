@@ -36,7 +36,7 @@
                 {
                     bind: {text: '{localisation.applicationName}'},
                     dataIndex: 'applicationName',
-                    flex: 1,
+                    width: 200,
                     filter: {
                         type: 'string'
                     }

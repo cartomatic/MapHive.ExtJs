@@ -26,16 +26,6 @@
                 layout: 'form',
                 border: false,
                 items: [
-                    //TODO - make it a combo!!!!
-                    {
-                        xtype: 'textfield',
-                        reference: 'localisationClassUuid',
-                        bind: {
-                            fieldLabel: '{localisation.localisationClassUuid}',
-                            value: '{rec.localisationClassUuid}'
-                        },
-                        readOnly: true
-                    },
                     {
                         xtype: 'textfield',
                         reference: 'key',

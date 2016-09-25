@@ -204,6 +204,7 @@
                             },
                             {
                                 dock: 'bottom',
+                                reference: 'pagingToolbar',
                                 xtype: 'pagingtoolbar',
                                 bind: {
                                     store: '{gridstore}'

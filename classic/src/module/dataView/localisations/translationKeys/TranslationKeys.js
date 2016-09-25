@@ -28,6 +28,8 @@
 
         margin: 0,
 
+        autoLoad: false,
+
         grid: {
             xtype: 'grid',
             border: false,
@@ -37,7 +39,7 @@
                 {
                     bind: {text: '{localisation.key}'},
                     dataIndex: 'key',
-                    flex: 1,
+                    width: 200,
                     filter: {
                         type: 'string'
                     }

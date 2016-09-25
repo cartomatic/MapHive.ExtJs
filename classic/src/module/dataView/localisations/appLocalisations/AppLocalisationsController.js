@@ -23,6 +23,20 @@
          */
         init: function() {
             this.callMeParent('init', arguments);
+
+            //wire up some listeners on the objects, so can specify interactions between them
+            this.lookupReference('localisationClasses').lookupReference('grid').on('selectionchange', this.onLocalisationClassesSelectionChange, this);
+
+        },
+
+        /**
+         * localisation classes selection change callback
+         * @param grid
+         * @param selected
+         * @param eOpts
+         */
+        onLocalisationClassesSelectionChange: function(grid, selected, eOpts){
+            this.lookupReference('translationKeys').setContext(selected.length > 0 ? selected[0] : null);
         },
 
         /**

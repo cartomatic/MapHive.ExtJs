@@ -10,7 +10,8 @@
     requires: [
         'mh.module.dataView.localisations.appLocalisations.AppLocalisationsController',
         'mh.module.dataView.localisations.appLocalisations.AppLocalisationsModel',
-        'mh.module.dataView.localisations.localisationClasses.LocalisationClasses'
+        'mh.module.dataView.localisations.localisationClasses.LocalisationClasses',
+        'mh.module.dataView.localisations.translationKeys.TranslationKeys'
     ],
 
     xtype: 'mh-app-localisations',
@@ -22,14 +23,22 @@
         controller: 'mh-app-localisations',
 
         layout: {
-            type: 'vbox',
-            align: 'stretch'
+            type: 'border'
         },
 
         items: [
             {
                 xtype: 'mh-localisation-classes',
-                flex: 1
+                reference: 'localisationClasses',
+                region: 'west',
+                width: 700,
+                split: true
+            },
+            {
+                xtype: 'mh-translation-keys',
+                reference: 'translationKeys',
+                region: 'center',
+                split: true
             }
         ]
 
