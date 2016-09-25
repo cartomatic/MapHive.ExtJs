@@ -35,7 +35,7 @@
         iconCls: 'x-fa fa-comments-o',
         flex: 1,
         minHeight: 250,
-        minWidth: 400,
+        minWidth: 300,
         //Note: width is required here even though the min width is used, as the container window auto adjusts itself to the content. without it grid will fail to do layout after record add. min width will get overriden when nesting in a parent that controls the width itself
         width: 100,
         bind: {

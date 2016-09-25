@@ -30,7 +30,8 @@
             localisationClasses: 'localisationclasses',
             translationKeys: 'translationkeys',
             langs: 'langs',
-            emailTemplateLocalisations: 'emailtemplatelocalisations'
+            emailTemplateLocalisations: 'emailtemplatelocalisations',
+            appLocalisationsBulkSave: 'applocalisations/bulksave'
         },
 
         staticInstance = null;

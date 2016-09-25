@@ -291,6 +291,85 @@
                 className = className.replace(strToReplace, replacement)
             }
             return className;
+        },
+
+
+        /**
+         * Collects localised class names
+         */
+        getLocalisedClassNames: function(){
+            return Ext.Object.getKeys(this.translations);
+        },
+
+        /**
+         * gets app localisations in a form of a list of LocalisationClass
+         */
+        getAppLocalisations: function(){
+            var me = this,
+                localisationClasses = [];
+            Ext.Array.each(this.getLocalisedClassNames(), function(lcn){
+                //need to check if a class is actually defined in code. basically it should, but in some scenarios some localisation classes may not be defined in code as such (dev mode, mistakes...)
+                //and therefore will not have a clientside equivalent
+                var clientLocalisationClassName = lcn + 'Localisation',
+                    clientLocalisationClass = Ext.ClassManager.get(clientLocalisationClassName),
+                    localisationClass;
+
+                if(clientLocalisationClass){
+                    localisationClass = {
+                        applicationName: lcn.substring(0, lcn.indexOf('.')),
+                        className: lcn.substring(lcn.indexOf('.') + 1),
+                        inheritedClassName: clientLocalisationClass.inherits,
+                        translationKeys: []
+                    };
+
+                    Ext.Array.each(Ext.Object.getKeys(clientLocalisationClass.localisation), function(tk){
+
+                        if(tk === me.translationsSuperclass){
+                            return;
+                        }
+
+                        var translationKey = {
+                            key: tk,
+                            translations: {}
+                        };
+                        Ext.Array.each(Ext.Object.getKeys(clientLocalisationClass.localisation[tk]), function(lng){
+                            translationKey.translations[lng] = clientLocalisationClass.localisation[tk][lng];
+                        });
+
+                        localisationClass.translationKeys.push(translationKey);
+                    });
+
+                    localisationClasses.push(localisationClass);
+                }
+            });
+
+            return localisationClasses;
+        },
+
+        /**
+         * Saves app localisations
+         * @param overwrite
+         * @param langsToImport
+         */
+        saveAppLocalisations: function(overwrite, langsToImport){
+
+            //note: need to avoid recursion in mixing in classes, so just calling stuff via class instances...
+            //note: the variables are there so WebStorm's Sencha plugin does not do auto requires, that in return triggers circular ref err
+            //just collect the data and post to the server
+            var ajax = 'mh.data.Ajax',
+                apiMap = 'mh.mixin.ApiMap';
+
+            Ext.create(ajax).doPost({
+                url: Ext.create(apiMap).getApiEndPoint('appLocalisationsBulkSave'),
+                params: {
+                    overwrite: overwrite,
+                    langsToImport: langsToImport,
+                    appLocalisations: this.getAppLocalisations()
+                },
+                autoHandleExceptions: false,
+                success: Ext.emptyFn,
+                failure: Ext.emptyFn
+            });
         }
     });
 
