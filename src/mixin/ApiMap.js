@@ -6,30 +6,12 @@
 
     var apiMapConfigured = false,
 
-        parentIdentifier = '{parent_uuid}',
+
 
         //Note: this is overridable through the web.config... see the MhApiMap key for details
         apiMap = {
 
-            //auth
-            login: 'auth/letmein',
-            logout: 'auth/letmeoutofhere',
-            tokenValidation: 'auth/tokenvalidation',
-            accountActivation: 'auth/accountactivation',
-            passResetRequest: 'auth/passresetrequest',
-            resetPass: 'auth/resetpass',
-            changePass: 'auth/changepass',
 
-            //apps
-            applications: 'applications',
-            userapps: 'applications/userapps',
-
-            //users
-            users: 'users',
-
-            appLocalisations: 'applocalisations',
-            langs: 'langs',
-            emailTemplateLocalisations: 'emailtemplatelocalisations'
         },
 
         staticInstance = null;
@@ -38,6 +20,10 @@
      * Provides a centralised access point to the API endpoints
      */
     Ext.define('mh.mixin.ApiMap', {
+
+        requires: [
+            'mh.ApiMap'
+        ],
 
         statics: {
             getApiEndPoint: function(endPoint){
