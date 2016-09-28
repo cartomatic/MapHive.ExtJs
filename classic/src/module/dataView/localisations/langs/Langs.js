@@ -16,13 +16,13 @@
         'mh.module.dataView.localisations.langs.DataViewForm'
     ],
 
-    xtype: 'mofp-langs',
+    xtype: 'mh-langs',
 
         viewModel: {
-            type: 'mofp-langs'
+            type: 'mh-langs'
         },
     
-        controller: 'mofp-langs',
+        controller: 'mh-langs',
 
         margin: 0,
 

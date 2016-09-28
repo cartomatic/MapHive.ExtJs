@@ -4,17 +4,21 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.DataViewForm', {
+    Ext.define('mh.module.dataView.localisations.localisationClasses.DataEditForm', {
+
         extend: 'Ext.container.Container',
     
-        xtype: 'mofp-app-localisations-data-view-form',
+        xtype: 'mh-localisation-classes-data-edit-form',
+
+        viewModel: {
+            type: 'mh-localisation-classes-data-edit-form'
+        },
+
+        controller: 'mh-localisation-classes-data-edit-form',
 
     requires: [
-        'Ext.form.field.Checkbox',
-        'Ext.form.field.Text',
-        'Ext.layout.container.Form',
-        'Ext.layout.container.VBox',
-        'mh.module.dataView.localisations.appLocalisations.TranslationsGrid'
+        'mh.module.dataView.localisations.localisationClasses.DataEditFormController',
+        'mh.module.dataView.localisations.localisationClasses.DataEditFormModel'
     ],
 
     layout: {
@@ -32,8 +36,7 @@
                         bind: {
                             fieldLabel: '{localisation.applicationName}',
                             value: '{rec.applicationName}'
-                        },
-                        readOnly: true
+                        }
                     },
                     {
                         xtype: 'textfield',
@@ -41,26 +44,19 @@
                         bind: {
                             fieldLabel: '{localisation.className}',
                             value: '{rec.className}'
-                        },
-                        readOnly: true
+                        }
                     },
                     {
                         xtype: 'textfield',
-                        reference: 'translationKey',
+                        reference: 'inheritedClassName',
                         bind: {
-                            fieldLabel: '{localisation.translationKey}',
-                            value: '{rec.translationKey}'
-                        },
-                        readOnly: true
+                            fieldLabel: '{localisation.inheritedClassName}',
+                            value: '{rec.inheritedClassName}'
+                        }
                     }
                 ]
-            },
-            {
-                xtype: 'mofp-translationsgrid',
-                reference: 'translations',
-                flex: 1
             }
         ]
-    });
+});
 
 }());

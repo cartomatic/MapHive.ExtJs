@@ -8,13 +8,13 @@
 
         extend: 'mh.module.dataView.localisations.emailTemplates.DataViewForm',
     
-        xtype: 'mofp-email-templates-data-edit-form',
+        xtype: 'mh-email-templates-data-edit-form',
 
         viewModel: {
-            type: 'mofp-email-templates-data-edit-form'
+            type: 'mh-email-templates-data-edit-form'
         },
 
-        controller: 'mofp-email-templates-data-edit-form',
+        controller: 'mh-email-templates-data-edit-form',
 
     requires: [
         'mh.module.dataView.localisations.emailTemplates.DataEditFormController',

@@ -9,7 +9,7 @@
      */
     Ext.define('mh.module.dataView.localisations.emailTemplates.TranslationsGridModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mofp-email-templates-translationsgrid',
+        alias: 'viewmodel.mh-email-templates-translationsgrid',
 
     requires: [
         'Ext.data.ArrayStore',

@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.applications.DataEditFormController', {
         extend: 'mh.module.dataView.GenericEditFormController',
-        alias: 'controller.mofp-applications-data-edit-form',
+        alias: 'controller.mh-applications-data-edit-form',
 
         requires: [
             'mh.module.dataView.applications.DataEditFormLocalisation'

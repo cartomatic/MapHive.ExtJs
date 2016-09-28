@@ -4,10 +4,10 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.TranslationsGrid', {
+    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationsGrid', {
         extend: 'mh.module.dataView.BindableStoreGrid',
     
-        xtype: 'mofp-translationsgrid',
+        xtype: 'mh-translationsgrid',
 
     requires: [
         'Ext.button.Button',
@@ -16,8 +16,8 @@
         'Ext.grid.column.Action',
         'Ext.grid.plugin.CellEditing',
         'Ext.toolbar.Toolbar',
-        'mh.module.dataView.localisations.appLocalisations.TranslationsGridController',
-        'mh.module.dataView.localisations.appLocalisations.TranslationsGridModel',
+        'mh.module.dataView.localisations.translationKeys.TranslationsGridController',
+        'mh.module.dataView.localisations.translationKeys.TranslationsGridModel',
         'mh.module.dataView.localisations.emailTemplates.TranslationsGridController'
     ],
 
@@ -26,16 +26,16 @@
             clicksToEdit: 2
         },
 
-        controller: 'mofp-translationsgrid',
+        controller: 'mh-translationsgrid',
 
         viewModel: {
-            type: 'mofp-translationsgrid'
+            type: 'mh-translationsgrid'
         },
 
         iconCls: 'x-fa fa-comments-o',
         flex: 1,
         minHeight: 250,
-        minWidth: 400,
+        minWidth: 300,
         //Note: width is required here even though the min width is used, as the container window auto adjusts itself to the content. without it grid will fail to do layout after record add. min width will get overriden when nesting in a parent that controls the width itself
         width: 100,
         bind: {

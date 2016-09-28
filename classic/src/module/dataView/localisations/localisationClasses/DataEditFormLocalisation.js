@@ -4,14 +4,14 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.localisations.appLocalisations.DataEditFormLocalisation', {
+    Ext.define('mh.module.dataView.localisations.localisationClasses.DataEditFormLocalisation', {
 
         requires: [
             'mh.localisation.Localisation',
-            'mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation'
+            'mh.module.dataView.localisations.localisationClasses.LocalisationClassesLocalisation'
         ],
         statics: {
-            inherits: 'mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation',
+            inherits: 'mh.module.dataView.localisations.localisationClasses.LocalisationClassesLocalisation',
             localisation: {}
         }
 

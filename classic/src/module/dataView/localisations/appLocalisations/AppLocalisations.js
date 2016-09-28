@@ -5,74 +5,43 @@
     'use strict';
 
     Ext.define('mh.module.dataView.localisations.appLocalisations.AppLocalisations', {
-        extend: 'mh.module.dataView.DataViewBase',
+        extend: 'Ext.Container',
 
     requires: [
-        'Ext.grid.Panel',
-        'Ext.grid.filters.Filters',
-        'mh.module.dataView.localisations.appLocalisations.DataEditForm',
-        'mh.module.dataView.localisations.appLocalisations.DataViewForm',
         'mh.module.dataView.localisations.appLocalisations.AppLocalisationsController',
-        'mh.module.dataView.localisations.appLocalisations.AppLocalisationsModel'
+        'mh.module.dataView.localisations.appLocalisations.AppLocalisationsModel',
+        'mh.module.dataView.localisations.localisationClasses.LocalisationClasses',
+        'mh.module.dataView.localisations.translationKeys.TranslationKeys'
     ],
 
-    xtype: 'mofp-app-localisations',
+    xtype: 'mh-app-localisations',
 
         viewModel: {
-            type: 'mofp-app-localisations'
+            type: 'mh-app-localisations'
         },
     
-        controller: 'mofp-app-localisations',
+        controller: 'mh-app-localisations',
 
-        gridIconCls: 'x-fa fa-desktop',
-
-        margin: 0,
-
-        grid: {
-            xtype: 'grid',
-            border: false,
-            plugins: 'gridfilters',
-            bind: {store: '{gridstore}'},
-            columns: [
-                {
-                    bind: {text: '{localisation.applicationName}'},
-                    dataIndex: 'applicationName',
-                    flex: 1,
-                    filter: {
-                        type: 'string'
-                    }
-                },
-                {
-                    bind: {text: '{localisation.className}'},
-                    dataIndex: 'className',
-                    flex: 1,
-                    filter: {
-                        type: 'string'
-                    }
-                },
-                {
-                    bind: {text: '{localisation.translationKey}'},
-                    dataIndex: 'translationKey',
-                    flex: 1,
-                    filter: {
-                        type: 'string'
-                    }
-                },
-                {
-                    bind: {text: '{localisation.translations}'},
-                    dataIndex: 'translations',
-                    flex: 1,
-                    filter: {
-                        type: 'string'
-                    },
-                    renderer: 'translationsRenderer'
-                }
-            ]
+        layout: {
+            type: 'border'
         },
 
-        form: 'mh.module.dataView.localisations.appLocalisations.DataViewForm',
-        //formWidth: 300,
-        editForm: 'mh.module.dataView.localisations.appLocalisations.DataEditForm'
+        items: [
+            {
+                xtype: 'mh-localisation-classes',
+                reference: 'localisationClasses',
+                region: 'west',
+                width: 700,
+                split: true
+            },
+            {
+                xtype: 'mh-translation-keys',
+                reference: 'translationKeys',
+                region: 'center',
+                split: true
+            }
+        ]
+
     });
 
 }());

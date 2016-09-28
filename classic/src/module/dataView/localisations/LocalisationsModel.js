@@ -7,7 +7,7 @@
     Ext.define('mh.module.dataView.localisations.LocalisationsModel', {
         extend: 'Ext.app.ViewModel',
 
-        alias: 'viewmodel.mofp-localisations',
+        alias: 'viewmodel.mh-localisations',
 
         stores: {
         }

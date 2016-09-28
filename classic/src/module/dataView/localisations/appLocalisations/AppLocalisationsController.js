@@ -5,8 +5,8 @@
     'use strict';
 
     Ext.define('mh.module.dataView.localisations.appLocalisations.AppLocalisationsController', {
-        extend: 'mh.module.dataView.DataViewBaseController',
-        alias: 'controller.mofp-app-localisations',
+        extend: 'Ext.app.ViewController',
+        alias: 'controller.mh-app-localisations',
 
         requires: [
             'mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation'
@@ -23,6 +23,20 @@
          */
         init: function() {
             this.callMeParent('init', arguments);
+
+            //wire up some listeners on the objects, so can specify interactions between them
+            this.lookupReference('localisationClasses').lookupReference('grid').on('selectionchange', this.onLocalisationClassesSelectionChange, this);
+
+        },
+
+        /**
+         * localisation classes selection change callback
+         * @param grid
+         * @param selected
+         * @param eOpts
+         */
+        onLocalisationClassesSelectionChange: function(grid, selected, eOpts){
+            this.lookupReference('translationKeys').setContext(selected.length > 0 ? selected[0] : null);
         },
 
         /**

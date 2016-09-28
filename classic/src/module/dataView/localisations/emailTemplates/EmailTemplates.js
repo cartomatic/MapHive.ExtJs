@@ -16,13 +16,13 @@
         'mh.module.dataView.localisations.emailTemplates.EmailTemplatesModel'
     ],
 
-    xtype: 'mofp-email-templates',
+    xtype: 'mh-email-templates',
 
         viewModel: {
-            type: 'mofp-email-templates'
+            type: 'mh-email-templates'
         },
     
-        controller: 'mofp-email-templates',
+        controller: 'mh-email-templates',
 
         margin: 0,
 

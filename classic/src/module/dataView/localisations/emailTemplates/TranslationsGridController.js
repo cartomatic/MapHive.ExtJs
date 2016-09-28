@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.localisations.emailTemplates.TranslationsGridController', {
         extend: 'mh.module.dataView.BindableStoreGridController',
-        alias: 'controller.mofp-email-templates-translationsgrid',
+        alias: 'controller.mh-email-templates-translationsgrid',
 
     requires: [
         'Ext.data.Store',

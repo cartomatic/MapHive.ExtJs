@@ -8,7 +8,7 @@
     Ext.define('mh.module.dataView.localisations.Localisations', {
         extend: 'Ext.tab.Panel',
 
-        xtype: 'mofp-localisations',
+        xtype: 'mh-localisations',
 
     requires: [
         'Ext.layout.container.Fit',
@@ -20,10 +20,10 @@
     ],
 
     viewModel: {
-            type: 'mofp-localisations'
+            type: 'mh-localisations'
         },
 
-        controller: 'mofp-localisations',
+        controller: 'mh-localisations',
 
         iconCls: 'x-fa fa-comments',
 
@@ -41,7 +41,7 @@
                 layout: 'fit',
                 items: [
                     {
-                        xtype: 'mofp-langs'
+                        xtype: 'mh-langs'
                     }
                 ]
             },
@@ -54,7 +54,7 @@
                 layout: 'fit',
                 items: [
                     {
-                        xtype: 'mofp-app-localisations'
+                        xtype: 'mh-app-localisations'
                     }
                 ]
             },
@@ -67,7 +67,7 @@
                 layout: 'fit',
                 items: [
                     {
-                        xtype: 'mofp-email-templates'
+                        xtype: 'mh-email-templates'
                     }
                 ]
             }

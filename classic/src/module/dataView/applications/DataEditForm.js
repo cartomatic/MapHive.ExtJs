@@ -8,13 +8,13 @@
 
         extend: 'mh.module.dataView.applications.DataViewForm',
     
-        xtype: 'mofp-applications-data-edit-form',
+        xtype: 'mh-applications-data-edit-form',
 
         viewModel: {
-            type: 'mofp-applications-data-edit-form'
+            type: 'mh-applications-data-edit-form'
         },
 
-        controller: 'mofp-applications-data-edit-form',
+        controller: 'mh-applications-data-edit-form',
 
         requires: [
             'mh.module.dataView.applications.DataEditFormController',
