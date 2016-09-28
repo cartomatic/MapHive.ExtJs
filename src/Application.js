@@ -18,12 +18,14 @@
     requires: [
         'mh.util.console.Custom',
         'mh.communication.MsgBusXWindow',
-        'mh.dummy.AppLauncher'
+        'mh.dummy.AppLauncher',
+        'mh.ApplicationLocalisation'
     ],
 
     mixins: [
             'mh.communication.MsgBus',
-            'mh.util.console.Formatters'
+            'mh.util.console.Formatters',
+            'mh.mixin.Localisation'
         ],
 
         //global shared controllers - they fire up automatically
@@ -64,6 +66,9 @@
 
             //wire up some generic event listeners!
             this.watchGlobal('root::launchapp', this.onLaunchApp, this, {single: true});
+            this.watchGlobal('root::getclientconfigstart', this.onGetClientConfigStart, this);
+            this.watchGlobal('root::getclientconfigend', this.onGetClientConfigEnd, this);
+            this.watchGlobal('root::getclientconfigfailure', this.onGetClientConfigFailure, this);
         },
 
         //app launch not used. need to wait until root configures all the mess that is required
@@ -78,14 +83,29 @@
          * called whenever root controller finishes whatever needs to be done prior to launching the actual app
          * Launches the application launcher class
          */
-        onLaunchApp: function(){
+        onLaunchApp: function(clientConfiguration){
 
             //hide the splash screen; do it early, so it starts fading out as the app UI builds.
+            //perhaps should move it to onAppLaunch?
             this.fireGlobal('splash::hide');
 
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('app'),'onLaunchApp');
             //</debug>
+
+            //need to wave off host loadmask if any
+            this.fireGlobal('mhapp::hidehostmask', null, {host:true, suppressLocal: true});
+
+            clientConfiguration = clientConfiguration || {};
+
+            this.internalAppLaunch();
+        },
+
+        /**
+         * internal app launch; this is the actual defsult app launch for the apps that do depend on the org context
+         * at this stage the application should be properly scoped
+         */
+        internalAppLaunch: function(){
 
             //Note:
             //In the generic code cannot require modules that are toolkit specific!
@@ -93,8 +113,9 @@
             //the sencha app will not be able to either refresh or build the application.
 
             //Note:
-            //Two global controllers take over from here: Root & Auth. The main actor is the Root controller - see the code to see
+            //Two global controllers perform the initial setup: Root & Auth. The main actor is the Root controller - see the code to see
             //how it interacts with the Auth controller.
+            //when they both manage to authenticate user and obtain client config the control is passed here via root::launchapp event.
 
 
             //Note:
@@ -104,8 +125,44 @@
             //TODO - make sure the existing class exists. should be just a matter of testing the namespaces. In dev mode ExtJs will of course pull all the refs, but when built a ref in such cese may be missing. Making sure the class has been required at this stage is a good approach.
 
 
-            //fire mhapp::loaded - make sure to fire it locally but also to parent if any
-            this.fireGlobal('mhapp::loaded', null, {host:true, suppressLocal: true});
+            //finally broadcast app loaded evt both locally and to the host if any
+            //fire mhapp::loaded - make sure to fire it xwindow to parent if any
+            //this should nicely wave off the host load mask if in hosted mode
+            this.fireGlobal('mhapp::loaded', null, {host:true});
+        },
+
+        /**
+         * root::getclientconfigstart handler
+         */
+        onGetClientConfigStart: function(){
+            Ext.getBody().mask(this.getTranslation('getClientCfgLoadMask'));
+        },
+
+        /**
+         * root::getclientconfigend handler
+         */
+        onGetClientConfigEnd: function(){
+            Ext.getBody().unmask();
+        },
+
+        onGetClientConfigFailure: function(){
+            Ext.getBody().unmask();
+            this.fireGlobal('splash::hide');
+
+            //<debug>
+            console.warn(this.cStdIcon('exclamation'), this.cDbgHdr('app cfg'),'Failed to retrieve the app config. You need to either - provide the api backend with cfg endpoint or overwrite the Root.getClientConfiguration');
+            //</debug>
+
+            Ext.Msg.show({
+                title: this.getTranslation('cfgFailureTitle'),
+                message: this.getTranslation('cfgFailureMsg'),
+                width: 500,
+                buttons: Ext.Msg.OK,
+                icon: Ext.MessageBox.WARNING,
+                fn: function(){
+                    window.location.reload();
+                }
+            });
         }
     });
 }());
