@@ -12,6 +12,9 @@
 
         parentIdentifier: '{parent_uuid}',
 
+        /**
+         * default api map; this is overridable through the web.config... see the apiMap key for details
+         */
         map: {
             //auth
             login: 'auth/letmein',
@@ -32,10 +35,13 @@
             //users
             users: 'users',
 
-            appLocalisations: 'applocalisations',
+            localisationClasses: 'localisationclasses',
+            translationKeys: 'translationkeys',
             langs: 'langs',
-            emailTemplateLocalisations: 'emailtemplatelocalisations'
-        },
+            emailTemplateLocalisations: 'emailtemplatelocalisations',
+            appLocalisationsBulkSave: 'applocalisations/bulksave'
+
+        }
 
     });
 }());

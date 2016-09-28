@@ -6,14 +6,6 @@
 
     var apiMapConfigured = false,
 
-
-
-        //Note: this is overridable through the web.config... see the MhApiMap key for details
-        apiMap = {
-
-
-        },
-
         staticInstance = null;
 
     /**
@@ -34,7 +26,7 @@
             },
 
             getParentIdentifier: function(){
-                return parentIdentifier;
+                return mh.ApiMap.parentIdentifier;
             }
         },
 
@@ -60,7 +52,7 @@
                 this.configureApiMap();
             }
 
-            var ep = (apiMap[apiMapKey] || 'misconfiguredApiEndpoint::' + apiMapKey),
+            var ep = (mh.ApiMap.map[apiMapKey] || 'misconfiguredApiEndpoint::' + apiMapKey),
                 apiEndpoints = this.getMhCfgProperty('apiEndPoints') || {},
                 apiEndPoint =
                     ep.apiEndPointKey ?
@@ -108,7 +100,7 @@
                 for(k; k < klen; k++){
                     key = keys[k];
 
-                    apiMap[key] = this.prepareApiMapValue(apiMap[key], apiMapChanges[key]);
+                    mh.ApiMap.map[key] = this.prepareApiMapValue(mh.ApiMap.map[key], apiMapChanges[key]);
                 }
             }
 
@@ -124,7 +116,7 @@
                 nk = 0, nklen = newKeys.length;
 
             for(nk; nk < nklen; nk++){
-                apiMap[newKeys[nk]] = this.prepareApiMapValue(apiMap[newKeys[nk]], newApis[newKeys[nk]]);
+                mh.ApiMap.map[newKeys[nk]] = this.prepareApiMapValue(mh.ApiMap.map[newKeys[nk]], newApis[newKeys[nk]]);
             }
 
             //make sure to recofigure api map. after all, server supplied changes should take precedence!
@@ -164,7 +156,7 @@
          * @returns {string}
          */
         getApiMapParentIdentifier: function(){
-            return parentIdentifier;
+            return mh.ApiMap.parentIdentifier;
         },
 
         /**
