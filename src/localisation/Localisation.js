@@ -32,10 +32,11 @@
          */
         constructor: function(){
             //suck in server supplied translations
-            this.translations = this.getMhCfgProperty('localisation') || {};
             this.defaultLangCode = this.getMhCfgProperty('defaultLangCode') || this.defaultLangCode;
             this.langCode = this.getMhCfgProperty('langCode') || this.defaultLangCode;
 
+            //translations are injected via separate script
+            this.translations = typeof __mhlocalisaton__ !== 'undefined' ? __mhlocalisaton__ : {};
         },
 
         /**
