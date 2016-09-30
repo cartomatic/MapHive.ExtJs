@@ -66,9 +66,9 @@
 
             //wire up some generic event listeners!
             this.watchGlobal('root::launchapp', this.onLaunchApp, this, {single: true});
-            this.watchGlobal('root::getclientconfigstart', this.onGetClientConfigStart, this);
-            this.watchGlobal('root::getclientconfigend', this.onGetClientConfigEnd, this);
-            this.watchGlobal('root::getclientconfigfailure', this.onGetClientConfigFailure, this);
+            this.watchGlobal('root::getuserconfigstart', this.onGetUserConfigStart, this);
+            this.watchGlobal('root::getuserconfigend', this.onGetUserConfigEnd, this);
+            this.watchGlobal('root::getuserconfigfailure', this.onGetUserConfigFailure, this);
         },
 
         //app launch not used. need to wait until root configures all the mess that is required
@@ -132,30 +132,30 @@
         },
 
         /**
-         * root::getclientconfigstart handler
+         * root::getuserconfigstart handler
          */
-        onGetClientConfigStart: function(){
+        onGetUserConfigStart: function(){
             Ext.getBody().mask(this.getTranslation('getClientCfgLoadMask'));
         },
 
         /**
-         * root::getclientconfigend handler
+         * root::getuserconfigend handler
          */
-        onGetClientConfigEnd: function(){
+        onGetUserConfigEnd: function(){
             Ext.getBody().unmask();
         },
 
-        onGetClientConfigFailure: function(){
+        onGetUserConfigFailure: function(){
             Ext.getBody().unmask();
             this.fireGlobal('splash::hide');
 
             //<debug>
-            console.warn(this.cStdIcon('exclamation'), this.cDbgHdr('app cfg'),'Failed to retrieve the app config. You need to either - provide the api backend with cfg endpoint or overwrite the Root.getClientConfiguration');
+            console.warn(this.cStdIcon('exclamation'), this.cDbgHdr('app cfg'),'Failed to retrieve the user config. You need to either - provide the api backend with cfg endpoint or overwrite the Root.getUserConfiguration');
             //</debug>
 
             Ext.Msg.show({
-                title: this.getTranslation('cfgFailureTitle'),
-                message: this.getTranslation('cfgFailureMsg'),
+                title: this.getTranslation('userCfgFailureTitle'),
+                message: this.getTranslation('userCfgFailureMsg'),
                 width: 500,
                 buttons: Ext.Msg.OK,
                 icon: Ext.MessageBox.WARNING,

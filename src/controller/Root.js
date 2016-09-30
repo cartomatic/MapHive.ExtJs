@@ -345,7 +345,7 @@
                 this.fireGlobal('auth::verifyauthstate', tokens);
 
                 //obtain client configuration and launch when ready
-                this.getClientConfiguration();
+                this.getUserConfiguration();
             }
         },
 
@@ -527,7 +527,7 @@
 
 
             //obtain client configuration and launch when ready
-            this.getClientConfiguration();
+            this.getUserConfiguration();
         },
 
 
@@ -536,35 +536,35 @@
          * on success it should fire root::launchapp via this.fireGlobal('root::launchapp');
          * Note: if an application does not provide configuration, its root controller should overwrite this method and simply fire root::launchapp
          */
-        getClientConfiguration: function(){
+        getUserConfiguration: function(){
             //this will call the app instance to handle the load mask
-            this.fireGlobal('root::getclientconfigstart');
+            this.fireGlobal('root::getuserconfigstart');
 
             //grab the client cfg
             this.doGet({
-                url: this.getApiEndPoint('clientConfiguration'),
+                url: this.getApiEndPoint('userConfiguration'),
                 scope: this,
                 autoHandleExceptions: false,
-                success: this.onClientConfigurationSuccess,
-                failure: this.onClientConfigurationFailure
+                success: this.onGetUserConfigurationSuccess,
+                failure: this.onGetUserConfigurationFailure
             });
         },
 
         /**
          * client config retrieved
          */
-        onClientConfigurationSuccess: function(response){
+        onGetUserConfigurationSuccess: function(response){
             //get rid of load mask - app will handle this
-            this.fireGlobal('root::getclientconfigend');
+            this.fireGlobal('root::getuserconfigend');
             this.fireGlobal('root::launchapp', response);
         },
 
         /**
          * client conig failure. Cannot go further unfortunately...
          */
-        onClientConfigurationFailure: function(response){
+        onGetUserConfigurationFailure: function(response){
             //let the application handle the failure visually
-            this.fireGlobal('root::getclientconfigfailure');
+            this.fireGlobal('root::getuserconfigfailure');
         },
 
         /**

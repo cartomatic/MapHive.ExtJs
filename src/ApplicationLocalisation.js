@@ -14,11 +14,11 @@
                     en: 'Configuring...',
                     pl: 'Konfiguracja...'
                 },
-                cfgFailureTitle: {
+                userCfgFailureTitle: {
                     en: 'Configuration failed',
                     pl: 'Konfiguracja nie powiodła się'
                 },
-                cfgFailureMsg: {
+                userCfgFailureMsg: {
                     en: 'Failed to obtain configuration details. Please try again.',
                     pl: 'Konfiguracja nie powiodła się. Spróbuj ponownie.'
                 }

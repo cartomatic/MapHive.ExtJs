@@ -30,7 +30,7 @@
             userapps: 'applications/userapps',
 
 
-            clientConfiguration: 'configuration/webclient',
+            userConfiguration: 'configuration/user',
 
             //users
             users: 'users',
