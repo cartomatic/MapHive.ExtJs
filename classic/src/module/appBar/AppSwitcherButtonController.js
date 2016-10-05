@@ -208,7 +208,7 @@
             var me = this,
                 appCoreUrl, appUrl;
 
-            //if there is no current app it means the hested app has not yet been loaded, or the app runs in a standalone mode and it is necessary to work out the app
+            //if there is no current app it means the hosted app has not yet been loaded, or the app runs in a standalone mode and it is necessary to work out the app
             //based on the url
             if(this.currentApp === null){
 
@@ -230,10 +230,16 @@
 
                 appCoreUrl = fixUrl(window.location.href.split('#')[0], true); //since taken from an address bar, make sure to decode it
 
-
                 Ext.Array.each(this.apps, function(a){
-                    if(fixUrl(a.get('url').split('#')[0]) === appCoreUrl){
-                        me.currentApp = a;
+                    Ext.Array.each(a.get('urls'), function (url) {
+                        if(fixUrl(url.split('#')[0]) === appCoreUrl){
+                            me.currentApp = a;
+                            return false;
+                        }
+                    });
+
+                    //if an app has been located then skip the rest
+                    if(me.currentApp){
                         return false;
                     }
                 });

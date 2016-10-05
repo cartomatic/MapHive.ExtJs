@@ -34,9 +34,11 @@
             { name: 'description', type: 'string', useNull: true },
 
             /**
-             * The application's entry point
+             * The application's entry points. Especially during the dev, there may be more than url. in such case they will be pipe '|' separated.
+             * Also in dev mode, there will be a try to pick up the url that is in the same domain extension as the app that triggers the change; if such url cannot be found, then the first listed url
+             * will be used
              */
-            { name: 'url', type: 'string', useNull: true },
+            { name: 'urls', type: 'string', useNull: true },
 
             /**
              * Whether or not own application's splashscreen should be used, or the host should use own load mask

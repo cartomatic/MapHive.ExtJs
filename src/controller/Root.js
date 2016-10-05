@@ -640,7 +640,7 @@
                         //an app will then communicate the hash through postMsg, so it will be possible to update it url bar over here too
 
                         //grab an url without the hash part (if any)
-                        var url = appToLoad.get('url').split('#')[0],
+                        var url = this.pickAppUrl(appToLoad.get('urls')).split('#')[0],
 
                             //route hash param contains a route that should be used to load a child with proper context
                             customHash = this.decodePipedRoute(extractHashProp(this.appHashProperties.route));
@@ -730,6 +730,23 @@
         },
 
         /**
+         * picks an app url; prefers a url within the same domain if available
+         * @param inUrls
+         */
+        pickAppUrl: function(inUrls){
+            var outUrl;
+
+            //if the same domain, the prefer it over any other domains...
+            Ext.Array.each(inUrls, function(inUrl){
+                if(inUrl.indexOf(window.location.host) > -1){
+                    outUrl = inUrl;
+                    return false;
+                }
+            });
+            return outUrl || inUrls[0];
+        },
+
+        /**
          * access token retrieved, so can now continue with the app reload
          * @private
          * @param accessToken
@@ -745,7 +762,9 @@
 
             var app = this.app,
                 self = this.self,
-                inUrl = app.get('url').split('#'),
+                inUrls = app.get('urls').split('|'),
+                //tries to pick a url
+                inUrl = self.pickAppUrl(inUrls).split('#'),
                 url = inUrl[0],
                 hash = inUrl[1] ? [inUrl[1]] : [],
 
