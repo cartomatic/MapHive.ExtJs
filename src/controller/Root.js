@@ -316,15 +316,7 @@
             //The prerequisite here is to know what to do in advance. There were no service calls and such yet, so need to depend on whatever has been worked out
             //on the serverside prior to returning the app entry point - default aspx;
             if(this.appRequiresAuth()){
-
-                //<debug>
-                console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'Auth required - passing control to the auth ctrl...');
-                //</debug>
-
-                this.watchGlobal('auth::userauthenticated', this.continueAppLaunchWhenUserAuthenticated, this, {single: true});
-
-                //and when ready request the user auth!
-                this.fireGlobal('auth::verifyauthstate', tokens);
+                this.initPreLaunchAuthentication();
             }
             else {
                 //looks like we're good to go, so can trigger the app launch straight away
@@ -347,6 +339,28 @@
                 //obtain client configuration and launch when ready
                 this.getUserConfiguration();
             }
+        },
+
+        /**
+         * initiate pre-launch authentication
+         * @param tokens
+         */
+        initPreLaunchAuthentication: function(tokens){
+            if(!tokens){
+                tokens = {
+                    accessToken: this.getCustomHashParam(this.appHashProperties.accessToken),
+                    refreshToken: this.getCustomHashParam(this.appHashProperties.refreshToken)
+                };
+            }
+
+            //<debug>
+            console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'Auth required - passing control to the auth ctrl...');
+            //</debug>
+
+            this.watchGlobal('auth::userauthenticated', this.continueAppLaunchWhenUserAuthenticated, this, {single: true});
+
+            //and when ready request the user auth!
+            this.fireGlobal('auth::verifyauthstate', tokens);
         },
 
         /**
@@ -563,6 +577,14 @@
          * client conig failure. Cannot go further unfortunately...
          */
         onGetUserConfigurationFailure: function(response){
+
+            //make sure the failure was not due to false positive no-auth
+            //if this is unauthorised just go back one step an init the auth procedure!
+            if(response.status === 401){
+                this.initPreLaunchAuthentication();
+                return;
+            }
+
             //let the application handle the failure visually
             this.fireGlobal('root::getuserconfigfailure');
         },
