@@ -640,7 +640,7 @@
                         //an app will then communicate the hash through postMsg, so it will be possible to update it url bar over here too
 
                         //grab an url without the hash part (if any)
-                        var url = this.pickAppUrl(appToLoad.get('urls')).split('#')[0],
+                        var url = this.pickAppUrl(appToLoad.get('urls').split('|')).split('#')[0],
 
                             //route hash param contains a route that should be used to load a child with proper context
                             customHash = this.decodePipedRoute(extractHashProp(this.appHashProperties.route));
@@ -649,9 +649,9 @@
                         //they are encoded at the parent (HOST) level, so a host app always deals with single unmatched route!
 
 
-                        //set the url with the hash extracted from the address bar
+                        //set the urls property to a single url to an app with the hash extracted from the address bar
                         appToLoad.set(
-                            'url',
+                            'urls',
                             url + '#' + customHash
                         );
 
