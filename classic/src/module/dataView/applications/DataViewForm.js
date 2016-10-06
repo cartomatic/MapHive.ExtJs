@@ -57,11 +57,11 @@
                         readOnly: true
                     },
                     {
-                        xtype: 'textfield',
-                        reference: 'url',
+                        xtype: 'textarea',
+                        reference: 'urls',
                         bind: {
-                            fieldLabel: '{localisation.url}',
-                            value: '{rec.url}'
+                            fieldLabel: '{localisation.urls}',
+                            value: '{rec.urls}'
                         },
                         readOnly: true
                     },

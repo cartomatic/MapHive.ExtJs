@@ -28,7 +28,7 @@
             this.lookupReference('name').setReadOnly(false);
             this.lookupReference('shortName').setReadOnly(false);
             this.lookupReference('description').setReadOnly(false);
-            this.lookupReference('url').setReadOnly(false);
+            this.lookupReference('urls').setReadOnly(false);
             this.lookupReference('useSplashscreen').setReadOnly(false);
             this.lookupReference('requiresAuth').setReadOnly(false);
             this.lookupReference('isCommon').setReadOnly(false);

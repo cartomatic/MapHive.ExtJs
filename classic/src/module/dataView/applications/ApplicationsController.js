@@ -39,8 +39,19 @@
          * @param record
          */
         onAppNavigateToClick: function(view, rowIdx, colIdx, item, e, record){
-            if(record && record.get('url')){
-                window.open(record.get('url'));
+            if(record && record.get('urls')){
+                var urls = record.get('urls').split('|'),
+                    url;
+                Ext.Array.each(urls, function(u){
+                    if(u.indexOf(window.location.host) > -1){
+                        url = u;
+                        return false;
+                    }
+                });
+                url = url || urls[0];
+                if(url){
+                    window.open(url);
+                }
             }
         },
 

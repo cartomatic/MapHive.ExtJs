@@ -25,9 +25,9 @@
                     en: 'Name',
                     pl: 'Nazwa'
                 },
-                url: {
-                    en: 'Url',
-                    pl: 'Adres url'
+                urls: {
+                    en: 'Urls',
+                    pl: 'Adresy url'
                 },
                 shortName: {
                     en: 'Short name',
