@@ -1,0 +1,28 @@
+{
+    //docs title
+    "--title": "MapHive.ExtJs docs - modern",
+
+    //output folder
+    "-o": "docs/modern",
+
+    // the "-extend,-link,-type_name" warning removals are used to prevent warnings
+    // when the documentation is built without ExtJS
+    "--warnings": "-extend,-link,-type_name",
+	
+	//so the global properties will be ignored in the generated docs
+	"--ignore-global": true,
+
+    //exclude external classes;
+    //use fully qualified namespaces here such as External.Lib.Class
+    "--external": [
+        "Integer",
+        "Float"
+    ],
+
+    "--": [
+        //"src"
+        // Uncomment the following line and modify the path to match yours
+        // if you wish to build with the ExtJS doc.
+        //"../ext/src/"
+    ]
+}

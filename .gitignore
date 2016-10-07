@@ -39,3 +39,4 @@ gwt-unitCache
 
 #merge backup files
 *.orig
+docs/docs
