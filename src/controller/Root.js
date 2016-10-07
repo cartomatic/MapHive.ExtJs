@@ -94,7 +94,7 @@
          */
 
         /**
-         * root:watchexternalroutes
+         * root::watchexternalroutes
          * @param {object} cfg
          * @param {boolean} cfg.host
          * watch host window route changes; advice own changes to host
@@ -212,7 +212,7 @@
             this.watchGlobal('root::getapps', this.onGetApps, this);
 
             //if required, turns on xWindow route watch
-            this.watchGlobal('root:watchexternalroutes', this.initXWindowRouteWatch, this);
+            this.watchGlobal('root::watchexternalroutes', this.initXWindowRouteWatch, this);
         },
 
         /**
@@ -946,13 +946,13 @@
         },
 
         /**
-         * xWindow route watch configuration object as passed through the root:watchexternalroutes event
+         * xWindow route watch configuration object as passed through the root::watchexternalroutes event
          * @private
          */
         xWindowRouteWatchCfg: null,
 
         /**
-         * root:watchexternalroutes callback; starts an XFrame Route watch
+         * root::watchexternalroutes callback; starts an XFrame Route watch
          * @private
          * @param cfg {Object}
          * @param {boolean} [cfg.host]
