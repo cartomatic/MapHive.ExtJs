@@ -40,10 +40,12 @@
          */
         onAppNavigateToClick: function(view, rowIdx, colIdx, item, e, record){
             if(record && record.get('urls')){
-                var urls = record.get('urls').split('|'),
+                var hostParts = window.location.host.split('.'),
+                    domain = (hostParts.length > 2 ? hostParts.splice(hostParts.length - 2) : hostParts).join('.'),
+                    urls = record.get('urls').split('|'),
                     url;
                 Ext.Array.each(urls, function(u){
-                    if(u.indexOf(window.location.host) > -1){
+                    if(u.indexOf(domain) > -1){
                         url = u;
                         return false;
                     }

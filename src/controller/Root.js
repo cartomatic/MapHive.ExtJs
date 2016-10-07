@@ -756,11 +756,15 @@
          * @param inUrls
          */
         pickAppUrl: function(inUrls){
-            var outUrl;
+            var outUrl,
+                hostParts = window.location.host.split('.'),
+                domain = (hostParts.length > 2 ? hostParts.splice(hostParts.length - 2) : hostParts).join('.');
+
+
 
             //if the same domain, the prefer it over any other domains...
             Ext.Array.each(inUrls, function(inUrl){
-                if(inUrl.indexOf(window.location.host) > -1){
+                if(inUrl.indexOf(domain) > -1){
                     outUrl = inUrl;
                     return false;
                 }
