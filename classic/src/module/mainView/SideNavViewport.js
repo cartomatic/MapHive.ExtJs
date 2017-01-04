@@ -14,13 +14,15 @@
 
     requires: [
         'Ext.container.Container',
+        'Ext.layout.container.Border',
         'Ext.layout.container.Card',
+        'Ext.layout.container.Fit',
         'Ext.layout.container.HBox',
         'Ext.list.Tree',
         'Ext.panel.Panel',
         'Ext.plugin.Viewport',
-        'mh.module.mainView.SideNavViewportModel',
-        'mh.module.mainView.SideNavViewportController'
+        'mh.module.mainView.SideNavViewportController',
+        'mh.module.mainView.SideNavViewportModel'
     ],
 
     plugins: 'viewport',
