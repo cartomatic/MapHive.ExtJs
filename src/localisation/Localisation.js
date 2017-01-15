@@ -36,7 +36,7 @@
             this.langCode = this.getMhCfgProperty('langCode') || this.defaultLangCode;
 
             //translations are injected via separate script
-            this.translations = typeof __mhlocalisation__ !== 'undefined' ? __mhlocalisation__ : {};
+            this.translations = typeof __mhlocalisation__ !== 'undefined' ? __mhlocalisation__ || {} : {};
         },
 
         /**
