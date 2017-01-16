@@ -653,7 +653,7 @@
             if(appNameOrId){
                 for(a; a < alen; a++){
                     app = apps[a];
-                    if(app.get('shortName') === appNameOrId || app.get('id') === appNameOrId){
+                    if(app.get('shortName') === appNameOrId || app.get('uuid') === appNameOrId){
 
                         //create a clone! do not want to modify the original data!
                         appToLoad = Ext.create(Ext.getClassName(app), app.getData());

@@ -247,7 +247,7 @@
 
             //spin through the btns and mark the one for the currently active app!
             Ext.Array.each(this.appSwitcherPanel.items.items, function(btn){
-                if(me.currentApp && btn.app.get('id') === me.currentApp.get('id')){
+                if(me.currentApp && btn.app.get('uuid') === me.currentApp.get('uuid')){
                     //uhuh... got the one
                     btn.setUI(me.getView().getAppActiveBtnUi());
                 }
