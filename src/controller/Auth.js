@@ -396,7 +396,7 @@
 
             //<debug>
             if(true){
-                this.getAuthUiInstance().showLogonViewWithAutoLogon('dev@maphive.net', 'test');
+                this.getAuthUiInstance().showLogonViewWithAutoLogon('queen@maphive.net', 'test');
             }
             else {
                 //</debug>
