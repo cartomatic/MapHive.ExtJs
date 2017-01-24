@@ -26,7 +26,7 @@
 
         margin: 0,
 
-        gridIconCls: 'x-fa fa-envelope',
+        gridIconCls: 'x-i54c i54c-mail-at',
 
         grid: {
             xtype: 'grid',

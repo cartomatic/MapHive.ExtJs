@@ -194,7 +194,7 @@
                     reference: 'column_delete',
                     handler: 'onLinkDeleteClick',
                     width: 30,
-                    iconCls: 'x-fa fa-remove',
+                    iconCls: 'x-li li-cross-circle',
                     menuDisabled: true,
                     hidden: true
                 });

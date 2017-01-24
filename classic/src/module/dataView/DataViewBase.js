@@ -44,7 +44,7 @@
             /**
              * Grid panel icon cls
              */
-            gridIconCls: 'x-fa fa-table',
+            gridIconCls: 'x-i54c i54c-isert-tabel',
 
             /**
              * whether or not grid header should be shown; hiding headers is useful when using the generic dataview in pickers
@@ -66,7 +66,7 @@
             /**
              * form panel icon cls
              */
-            formIconCls: 'x-fa fa-th-list',
+            formIconCls: 'x-i54 i54-detail-view',
 
             /**
              * Width of the edit form
@@ -168,7 +168,7 @@
                                     {
                                         xtype: 'button',
                                         reference: 'btnCreate',
-                                        iconCls: 'x-fa fa-plus',
+                                        iconCls: 'x-li li-plus-circle',
                                         bind: { text: '{localisation.btnCreate}'},
                                         listeners: {
                                             click: 'onBtnCreateClick'
@@ -178,7 +178,7 @@
                                     {
                                         xtype: 'button',
                                         reference: 'btnEdit',
-                                        iconCls: 'x-fa fa-edit',
+                                        iconCls: 'x-i54 i54-edit-app',
                                         bind: {
                                             text: '{localisation.btnEdit}',
                                             disabled: '{!editable}'
@@ -191,7 +191,7 @@
                                     {
                                         xtype: 'button',
                                         reference: 'btnDelete',
-                                        iconCls: 'x-fa fa-remove',
+                                        iconCls: 'x-li li-cross-circle',
                                         bind: {
                                             text: '{localisation.btnDelete}',
                                             disabled: '{!deletable}'

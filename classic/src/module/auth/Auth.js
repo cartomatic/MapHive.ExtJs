@@ -137,7 +137,7 @@
                             bind: {
                                 title: '{localisation.titleLogin}'
                             },
-                            iconCls: 'x-fa fa-lock',
+                            iconCls: 'x-i54c i54c-lock-1',
                             height: 45
                         },
 
@@ -179,6 +179,7 @@
                                     {
                                         xtype: 'button',
                                         reference: 'btnForgotPass',
+                                        iconCls: 'x-i54 i54-profile-voltage',
                                         bind: {
                                             text: '{localisation.btnForgotPass}'
                                         },
@@ -193,6 +194,7 @@
                                             text: '{localisation.btnLogin}'
                                         },
                                         reference: 'btnLogin',
+                                        iconCls: 'x-i54c i54c-enter-1',
                                         listeners: {
                                             click: 'onLoginBtnClick'
                                         }
@@ -207,7 +209,7 @@
                             bind: {
                                 title: '{localisation.titleForgotPass}'
                             },
-                            iconCls: 'x-fa fa-exclamation-triangle',
+                            iconCls: 'x-i54c i54c-pin-code',
                             height: 45
                         },
                         layout: 'form',
@@ -239,7 +241,8 @@
                                         },
                                         listeners: {
                                             click: 'onPassResetRequestBtnClick'
-                                        }
+                                        },
+                                        iconCls: 'x-i54c i54c-pin-code'
                                     },
                                     '->',
                                     {
@@ -248,6 +251,7 @@
                                             text: '{localisation.btnResetPassCancel}'
                                         },
                                         reference: 'btnResetPassCancel',
+                                        iconCls: 'x-li li-cross-circle',
                                         listeners: {
                                             click: 'onResetPassCancelBtnClick'
                                         }
@@ -262,7 +266,7 @@
                             bind: {
                                 title: '{localisation.titleActivateAccount}'
                             },
-                            iconCls: 'x-fa fa-key',
+                            iconCls: 'x-i54c i54c-key-22',
                             height: 45
                         },
                         reference: 'activateAccountView',
@@ -311,6 +315,7 @@
                                     '->',
                                     {
                                         xtype: 'button',
+                                        iconCls: 'x-i54c i54c-key-22',
                                         bind: {
                                             text: '{localisation.btnActivateAccount}'
                                         },
@@ -329,7 +334,7 @@
                             bind: {
                                 title: '{localisation.titleResetPass}'
                             },
-                            iconCls: 'x-fa fa-refresh',
+                            iconCls: 'x-li li-refresh',
                             height: 45
                         },
                         bodyPadding: 10,
@@ -386,6 +391,7 @@
                                         bind: {
                                             text: '{localisation.btnResetPass}'
                                         },
+                                        iconCls: 'x-li li-refresh',
                                         reference: 'btnResetPass',
                                         listeners: {
                                             click: 'onResetPassBtnClick'

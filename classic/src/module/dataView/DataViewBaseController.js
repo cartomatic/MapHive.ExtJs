@@ -410,14 +410,14 @@
                         },
                         triggers: {
                             foo: {
-                                cls: 'x-fa fa-remove',
+                                cls: 'x-li li-cross-circle',
                                 handler: 'onBtnClearFiltersClick'
                             }
                         }
                     },
                     {
                         xtype: 'splitbutton',
-                        iconCls: 'x-fa  fa-filter',
+                        iconCls: 'x-i54c i54c-filter',
                         text: this.getTranslation('btnFilterOn'),
                         tooltip: this.getTranslation('btnFilterOnTooltip'),
                         menu: {

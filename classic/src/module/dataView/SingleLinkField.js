@@ -79,7 +79,7 @@
             {
                 xtype: 'button',
                 reference: 'btnSetLink',
-                iconCls: 'x-fa fa-edit',
+                iconCls: 'x-i54 i54-edit-app',
                 listeners: {
                     click: 'onBtnSetLinkClick'
                 },
@@ -89,7 +89,7 @@
             {
                 xtype: 'button',
                 reference: 'btnRemoveLink',
-                iconCls: 'x-fa fa-remove',
+                iconCls: 'x-li li-cross-circle',
                 listeners: {
                     click: 'onBtnRemoveLinkClick'
                 },

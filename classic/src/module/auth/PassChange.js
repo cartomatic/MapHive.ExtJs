@@ -23,7 +23,7 @@
             bind: {
                 title: '{localisation.title}'
             },
-            iconCls: 'x-fa fa-key',
+            iconCls: 'x-i54c i54c-key-22',
             height: 45
         },
 
@@ -71,7 +71,7 @@
                 items: [
                     '->',
                     {
-                        iconCls: 'x-fa fa-refresh',
+                        iconCls: 'x-li li-refresh',
                         bind: {
                             text: '{localisation.btnChangePass}'
                         },
@@ -80,7 +80,7 @@
                         }
                     },
                     {
-                        iconCls: 'x-fa fa-remove',
+                        iconCls: 'x-li li-cross-circle',
                         bind: {
                             text: '{localisation.btnCancel}'
                         },

@@ -85,7 +85,7 @@
                             text: '{localisation.btnChangePass}'
                         },
                         iconAlign: 'left',
-                        iconCls: 'x-fa fa-refresh',
+                        iconCls: 'x-li li-refresh',
                         ui: 'action',
                         margin: '0 10 0 0', //trbl
                         listeners: {
@@ -102,7 +102,7 @@
                             text: '{localisation.btnCancel}'
                         },
                         iconAlign: 'right',
-                        iconCls: 'x-fa fa-remove',
+                        iconCls: 'x-li li-cross-circle',
                         ui: 'confirm',
                         listeners: {
                             tap: 'onBtnCancelClick'

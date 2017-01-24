@@ -17,7 +17,7 @@
 
     controller: 'mh-file-upload',
 
-        iconCls: 'x-fa fa-upload',
+        iconCls: 'x-i54c i54c-upload',
 
         width: 400,
 
@@ -49,7 +49,7 @@
                     '->',
                     {
                         reference: 'uploadBtn',
-                        iconCls: 'x-fa fa-upload',
+                        iconCls: 'x-i54c i54c-upload',
                         bind: {
                             text: '{localisation.btnUpload}'
                         },
@@ -59,7 +59,7 @@
                     },
                     {
                         reference: 'cancelBtn',
-                        iconCls: 'x-fa fa-remove',
+                        iconCls: 'x-li li-cross-circle',
                         bind: {
                             text: '{localisation.btnCancel}'
                         },

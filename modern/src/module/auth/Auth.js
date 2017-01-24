@@ -75,7 +75,7 @@
                                             text: '{localisation.btnForgotPass}'
                                         },
                                         iconAlign: 'left',
-                                        iconCls: 'x-fa fa-key',
+                                        iconCls: 'x-i54c i54c-key-22',
                                         ui: 'action',
                                         margin: '0 0 0 0', //trbl
                                         listeners: {
@@ -92,7 +92,7 @@
                                             text: '{localisation.btnLogin}'
                                         },
                                         iconAlign: 'right',
-                                        iconCls: 'x-fa fa-angle-right',
+                                        iconCls: 'x-li li-chevron-right-circle',
                                         ui: 'confirm',
                                         listeners: {
                                             tap: 'onLoginBtnClick'
@@ -135,7 +135,7 @@
                                             text: '{localisation.btnResetPassRequest}'
                                         },
                                         iconAlign: 'left',
-                                        iconCls: 'x-fa fa-key',
+                                        iconCls: 'x-i54c i54c-key-22',
                                         ui: 'action',
                                         margin: '0 0 0 0', //trbl
                                         listeners: {
@@ -152,7 +152,7 @@
                                             text: '{localisation.btnResetPassCancel}'
                                         },
                                         iconAlign: 'right',
-                                        iconCls: 'x-fa fa-angle-right',
+                                        iconCls: 'x-li li-chevron-right-circle',
                                         ui: 'confirm',
                                         listeners: {
                                             tap: 'onResetPassCancelBtnClick'
@@ -207,7 +207,7 @@
                                     text: '{localisation.btnResetPass}'
                                 },
                                 iconAlign: 'right',
-                                iconCls: 'x-fa fa-angle-right',
+                                iconCls: 'x-li li-chevron-right-circle',
                                 ui: 'confirm',
                                 listeners: {
                                     tap: 'onResetPassBtnClick'
@@ -255,7 +255,7 @@
                                     text: '{localisation.btnActivateAccount}'
                                 },
                                 iconAlign: 'right',
-                                iconCls: 'x-fa fa-angle-right',
+                                iconCls: 'x-li li-chevron-right-circle',
                                 ui: 'confirm',
                                 listeners: {
                                     tap: 'onActivateAccountBtnClick'

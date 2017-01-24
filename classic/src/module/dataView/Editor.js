@@ -20,13 +20,13 @@
         },
 
         config: {
-            iconClsNew: 'x-fa fa-plus',
+            iconClsNew: 'x-li li-plus-circle',
 
-            iconClsEdit: 'x-fa fa-edit',
+            iconClsEdit: 'x-i54 i54-edit-app',
 
-            iconClsBtnSaveNew: 'x-fa fa-plus',
+            iconClsBtnSaveNew: 'x-li li-plus-circle',
 
-            iconClsBtnSaveEdit: 'x-fa fa-save',
+            iconClsBtnSaveEdit: 'x-li li-checkmark-circle',
 
             //extra customisation hooks
             'btnSave|setUI': null,
@@ -64,7 +64,7 @@
                     {
                         xtype: 'button',
                         reference: 'btnCancel',
-                        iconCls: 'x-fa fa-remove',
+                        iconCls: 'x-li li-cross-circle',
                         bind: {
                             text: '{localisation.btnCancel}'
                         },

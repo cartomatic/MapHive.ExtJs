@@ -37,7 +37,7 @@
         width: 600,
         height: 500,
 
-        iconCls: 'x-fa fa-link',
+        iconCls: 'x-li li-link',
 
         config: {
             'btnAdd|setUI': null,
@@ -57,7 +57,7 @@
                     {
                         xtype: 'button',
                         reference: 'btnAdd',
-                        iconCls: 'x-fa fa-plus',
+                        iconCls: 'x-li li-plus-circle',
                         bind: {
                             text: '{localisation.btnAdd}'
                         },
@@ -68,7 +68,7 @@
                     {
                         xtype: 'button',
                         reference: 'btnCancel',
-                        iconCls: 'x-fa fa-remove',
+                        iconCls: 'x-li li-cross-circle',
                         bind: {
                             text: '{localisation.btnCancel}'
                         },

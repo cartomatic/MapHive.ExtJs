@@ -56,7 +56,7 @@
         items: [
             {
                 xtype: 'grid',
-                iconCls: 'x-fa fa-comments-o',
+                iconCls: 'x-i54 i54-speach-bubbles-8',
                 bind: {
                     title: '{localisation.translations}'
                 },
@@ -99,7 +99,7 @@
                         reference: 'translationsgrid_coldelete',
                         handler: 'onTranslationDeleteClick',
                         width: 30,
-                        iconCls: 'x-fa fa-remove',
+                        iconCls: 'x-li li-cross-circle',
                         menuDisabled: true,
                         hidden: true,
                         tooltipTranslationKey: 'translationDeleteTooltip' //see the controller for the tip handler setup!
@@ -114,7 +114,7 @@
                         items: [
                             {
                                 xtype: 'button',
-                                iconCls: 'x-fa fa-plus',
+                                iconCls: 'x-li li-plus-circle',
                                 listeners: {
                                     click: 'onBtnAddTranslationClick'
                                 }

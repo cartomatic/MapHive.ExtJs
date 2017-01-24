@@ -102,7 +102,7 @@
                     {
                         xtype: 'button',
                         reference: 'btnAddLink',
-                        iconCls: 'x-fa fa-plus',
+                        iconCls: 'x-li li-plus-circle',
                         listeners: {
                             click: 'onBtnAddLinkClick'
                         }

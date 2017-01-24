@@ -24,7 +24,7 @@
     
         controller: 'mh-translation-keys',
 
-        gridIconCls: 'x-fa fa-comments-o',
+        gridIconCls: 'x-i54 i54-speach-bubbles-8',
 
         margin: 0,
 

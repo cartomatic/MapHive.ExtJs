@@ -23,7 +23,7 @@
     
         controller: 'mh-localisation-classes',
 
-        gridIconCls: 'x-fa fa-desktop',
+        gridIconCls: 'x-i54c i54c-computer-network2',
 
         margin: 0,
 

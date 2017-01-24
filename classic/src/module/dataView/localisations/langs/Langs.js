@@ -26,7 +26,7 @@
 
         margin: 0,
 
-        gridIconCls: 'x-fa fa-comments-o',
+        gridIconCls: 'x-i54 i54-speach-bubbles-8',
 
         grid: {
             xtype: 'grid',

@@ -89,7 +89,7 @@
                     xtype: 'actioncolumn',
                     handler: 'onAppNavigateToClick',
                     width: 30,
-                    iconCls: 'x-fa fa-link',
+                    iconCls: 'x-li li-link',
                     menuDisabled: true,
                     
                     //Note: tips for active columns are a bit tricky, as they require a function here. Therefore in order to ensure view instance encapsulation, customisation is done in the controller; there are two ways of customising a tooltip - via a translation key - this will always apply the same tip to each row, or via specifying a function name, that if present on a controller, will be used as a customised getTip fn; for more details see mh.mixin.GridUtils.activateActiveColsTooltips
@@ -103,7 +103,7 @@
                 }
             ]
         },
-        gridIconCls: 'x-fa fa-desktop',
+        gridIconCls: 'x-i54c i54c-computer-network2',
         form: 'mh.module.dataView.applications.DataViewForm',
         //formWidth: 350,
         editForm: 'mh.module.dataView.applications.DataEditForm'

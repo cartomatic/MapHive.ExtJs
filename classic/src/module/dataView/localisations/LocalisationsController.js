@@ -76,7 +76,7 @@
                 //no subview defined. this will display whatever is configured initially
                 //just make sure to apply proper title
                 this.getView().setTitle(this.getTranslation('title'));
-                this.getView().setIconCls('x-fa fa-comments');
+                this.getView().setIconCls('x-i54 i54-speach-bubbles-1');
             }
         }
     });

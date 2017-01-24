@@ -35,7 +35,7 @@
         ui: 'default',
 
         scale: 'medium',
-        iconCls: 'x-fa fa-th-large',
+        iconCls: 'x-i54 i54-multy-task-2',
 
         listeners: {
             click: 'onAppSwitcherBtnClick'

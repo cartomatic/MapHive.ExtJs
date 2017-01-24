@@ -25,7 +25,7 @@
 
         controller: 'mh-localisations',
 
-        iconCls: 'x-fa fa-comments',
+        iconCls: 'x-i54 i54-speach-bubbles-1',
 
         tabPosition: 'bottom',
 
@@ -37,7 +37,7 @@
                 bind: {
                     title: '{localisation.langs}'
                 },
-                iconCls: 'x-fa fa-comments-o',
+                iconCls: 'x-i54 i54-speach-bubbles-8',
                 layout: 'fit',
                 items: [
                     {
@@ -50,7 +50,7 @@
                 bind: {
                     title: '{localisation.appLocalisations}'
                 },
-                iconCls: 'x-fa fa-desktop',
+                iconCls: 'x-i54c i54c-computer-network2',
                 layout: 'fit',
                 items: [
                     {
@@ -63,7 +63,7 @@
                 bind: {
                     title: '{localisation.emailTemplates}'
                 },
-                iconCls: 'x-fa fa-envelope',
+                iconCls: 'x-i54c i54c-mail-at',
                 layout: 'fit',
                 items: [
                     {
