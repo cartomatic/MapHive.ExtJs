@@ -150,8 +150,10 @@
          * suppress splash
          */
         appHashProperties: {
-            app: 'a',
-            route: 'r',
+            //not used anymore - ap is now in the url as !appNameOrUuid and the route does not have a prefix anymore
+            //app: 'a',
+            //route: 'r',
+
             accessToken: 'at',
             refreshToken: 'rt',
             suppressAppToolbar: 'suppress-app-toolbar',
@@ -160,6 +162,14 @@
             auth: 'auth',
             initialPassword: 'ip',
             verificationKey: 'vk'
+        },
+
+        /**
+         * tokens use to delimit app and org
+         */
+        appUrlTokenDelimiters: {
+            app: '!',
+            org: '@'
         },
 
         /**
@@ -224,7 +234,10 @@
                 hashPropertyValueDelimiter = this.getMhCfgProperty('hashPropertyValueDelimiter');
 
             if(appHashProperties){
-                this.appHashProperties.route = appHashProperties.route || this.appHashProperties.route;
+                //Not used anymore - app ends up in the url as !appNameOrUuid and the actual route does not have the prefix anymore
+                // this.appHashProperties.app = appHashProperties.app || this.appHashProperties.app;
+                // this.appHashProperties.route = appHashProperties.route || this.appHashProperties.route;
+
                 this.appHashProperties.accessToken = appHashProperties.accessToken || this.appHashProperties.accessToken;
                 this.appHashProperties.refreshToken = appHashProperties.refreshToken || this.appHashProperties.refreshToken;
                 this.appHashProperties.suppressAppToolbar = appHashProperties.suppressAppToolbar || this.appHashProperties.suppressAppToolbar;
@@ -364,7 +377,7 @@
         },
 
         /**
-         * Checks if an app requires auth; It tries to identify the app through the hash params or the url the app loads with; the app is then tested against some data
+         * Checks if an app requires auth; It tries to identify the app through the hash params, url parts or the url the app loads with; the app is then tested against some data
          * collected and returned by the server upon app load (injected into the initial config).
          * If app is recognised incorrectly as not requiring auth, a very call to a secured backend should trigger the authentication procedure anyway
          */
@@ -374,8 +387,10 @@
                 appIdentifiers = this.getMhCfgProperty('authRequiredAppIdentifiers') || [],
                 ai = 0, ailen = appIdentifiers.length,
 
-                //initially assume hosted mode, so the app should be specified in the hash
-                appIdentifier = this.getCustomHashParam(this.appHashProperties.app),
+                //initially assume HOST mode, so the app should be specified in the url
+                //note app is not in the hash anymore, but in the url now
+                //appIdentifier = this.getCustomHashParam(this.appHashProperties.app),
+                appIdentifier = this.getAppIdentifier(),
 
                 urlParts, inParams, outParams;
 
@@ -471,7 +486,9 @@
                 if(hash && hash !== outHash){
 
                     //Note: if there was a #, it must remain, otherwise a browser will trigger a reload, not a simple hash change!
-                    window.location.href = url + '#' + outHash;
+                    //window.location.href = url + '#' + outHash;
+                    //note: using history state instead, so history is cleaner
+                    history.replaceState(null, window.name, '#' + outHash);
 
                     //<debug>
                     console.log(this.cStdIcon('info'), this.cDbgHdr('root ctrl'), 'extracted custom hash params:', this.customHashParams);
@@ -515,6 +532,91 @@
                 ret = this.customHashParams[pName];
             }
             return ret;
+        },
+
+        /**
+         * extracts an org identifier (name or uuid) off the url
+         */
+        getAppIdentifier: function(){
+            return this.getUrlToken(this.appUrlTokenDelimiters.app);
+        },
+
+        /**
+         * extracts an app identifier (name or uuid) off the url
+         */
+        getOrgIdentifier: function(){
+            return this.getUrlToken(this.appUrlTokenDelimiters.org);
+        },
+
+        /**
+         * gets a url part that starts with a specified token
+         * @param delimiter
+         */
+        getUrlToken: function(delimiter){
+            var urlParts = window.location.href.split('#')[0].split('/'),
+                tokenValue;
+
+            Ext.Array.each(urlParts, function(p){
+                if(p.indexOf(delimiter) === 0){
+                    tokenValue = p.replace(delimiter,'');
+                    return false;
+                }
+            });
+
+            return tokenValue;
+        },
+
+        /**
+         * updates app token in the url and returns the updated url; does not update the url in the url bar
+         * @param app
+         * @returns {*}
+         */
+        updateAppUrlToken: function(url, app){
+            return this.updateUrlToken(url, this.appUrlTokenDelimiters.app, app);
+        },
+
+        /**
+         * updates org token in the url and returns the updated url; does not update the url in the url bar
+         * @param org
+         * @returns {*}
+         */
+        updateOrgUrlToken: function(url, org){
+            return this.updateUrlToken(url, this.appUrlTokenDelimiters.org, org);
+        },
+
+        /**
+         * updates a url token and returns an updated url; does not update the url in the url bar
+         * @param delimiter
+         * @param tokenValue
+         * @returns {string}
+         */
+        updateUrlToken: function(url, delimiter, tokenValue){
+            var inUrl = (url || window.location.href).split('#')[0],
+                hash = (url || window.location.href).split('#')[1],
+                params = inUrl.split('?')[1],
+                urlParts = inUrl.split('?')[0].split('/'),
+                tokenUpdated = false;
+
+            Ext.Array.each(urlParts, function(p, idx){
+                if(p.indexOf(delimiter) === 0){
+                    urlParts[idx] = delimiter + tokenValue;
+                    tokenUpdated = true;
+                    return false;
+                }
+            });
+
+            if(tokenValue && !tokenUpdated){
+                if(!urlParts[urlParts.length - 1]){
+                    urlParts[urlParts.length - 1] = delimiter + tokenValue;
+                }
+                else {
+                    urlParts.push(delimiter + tokenValue);
+                }
+            }
+
+            return urlParts.join('/') +
+                (params ? '?' + params : '') +
+                (hash ? '#' + hash : '');
         },
 
         /**
@@ -611,43 +713,42 @@
         loadHostedApp: function(apps){
 
             //the thing here is to load an appropriate application:
-            //* app can be specified by a shortname or id in the hash - this.appHashProperties.app this.hashPropertyValueDelimiter (shortname || uuid);
-            //  the default value of the appHashPropertyName is 'a', and hashPropertyValueDelimiter ':' therefore an example of url hash app specifier is a:app_name_or_id;
-            //  in this case it is necessary to look the app up
+            //* app can be specified by a shortname or id in the url - !appName
             //* if an app is not specified via hash one of the apps may have a 'isDefault' flag - in such need to pick the first one
             //* if there are no apps with the default flag, then need to pick the first one
 
             var me = this,
 
                 rawHash = window.location.hash.substring(1),
-                hashparts = rawHash.split(this.hashPropertyDelimiter),
-                h = 0, hlen = hashparts.length,
-                hash,
+                //hashparts = rawHash.split(this.hashPropertyDelimiter),
+                //h = 0, hlen = hashparts.length,
+                //hash,
 
 
                 app, a = 0, alen = apps.length,
                 appToLoad,
 
-                //extracts a hash property value off the hash
-                extractHashProp = function(pName){
-                    h = 0;
+                // //extracts a hash property value off the hash
+                // extractHashProp = function(pName){
+                //     h = 0;
+                //
+                //     var ret = null,
+                //         pWithDelimiter = me.getHashPropertyNameWithValueDelimiter(pName);
+                //
+                //     //extract the app identifier off the hash
+                //     for(h; h < hlen; h++){
+                //         hash = hashparts[h];
+                //         if(hash.indexOf(pWithDelimiter) === 0){
+                //             ret = hash.replace(pWithDelimiter, '');
+                //             break;
+                //         }
+                //     }
+                //     return ret;
+                // },
+                //
+                // appNameOrId = extractHashProp(this.appHashProperties.app);
 
-                    var ret = null,
-                        pWithDelimiter = me.getHashPropertyNameWithValueDelimiter(pName);
-
-                    //extract the app identifier off the hash
-                    for(h; h < hlen; h++){
-                        hash = hashparts[h];
-                        if(hash.indexOf(pWithDelimiter) === 0){
-                            ret = hash.replace(pWithDelimiter, '');
-                            break;
-                        }
-                    }
-                    return ret;
-                },
-
-                appNameOrId = extractHashProp(this.appHashProperties.app);
-
+                appNameOrId = this.getAppIdentifier();
 
             //search for app by its shortname or uuid
             if(appNameOrId){
@@ -665,7 +766,10 @@
                         var url = this.pickAppUrl(appToLoad.get('urls').split('|')).split('#')[0],
 
                             //route hash param contains a route that should be used to load a child with proper context
-                            customHash = this.decodePipedRoute(extractHashProp(this.appHashProperties.route));
+                            //customHash = this.decodePipedRoute(extractHashProp(this.appHashProperties.route));
+
+                            //Note: app name is now placed in the url and therefore the hash should be exactly the same as the hash of the nested app; if there are other hashparts, then they will usually get removed during the startup
+                            customHash =  this.decodePipedRoute(rawHash);
 
                         //in a case multiple routes are supported - make them pipes, so the ExtJs router can recognised them
                         //they are encoded at the parent (HOST) level, so a host app always deals with single unmatched route!
@@ -683,16 +787,22 @@
             }
 
             //get a default app
+            //TODO - if no app is present, but there is an organisation token, then need to load org dashboard and otherwise it should be the 'main' maphive app
             if(!appToLoad){
                 a = 0;
                 for(a; a < alen; a++){
                     app = apps[a];
                     if(app.get('isDefault') === true){
+
+                        //todo - default non-org and default org app
+
                         appToLoad = app;
                         break;
                     }
                 }
             }
+
+            //todo - maybe here should actually do the test above, so we still have a chance to fallback for just a default app...
 
             //if failed to find the app to load, just pick the first one
             if(!appToLoad){
@@ -717,7 +827,7 @@
         },
 
         /**
-         * Encodes a piepd (multi) route, so a HOST app can always work with a single route
+         * Encodes a piped (multi) route, so a HOST app can always work with a single route
          * @param route
          */
         encodePipedRoute: function(route){
@@ -760,8 +870,6 @@
                 hostParts = window.location.host.split('.'),
                 domain = (hostParts.length > 2 ? hostParts.splice(hostParts.length - 2) : hostParts).join('.');
 
-
-
             //if the same domain, the prefer it over any other domains...
             Ext.Array.each(inUrls, function(inUrl){
                 if(inUrl.indexOf(domain) > -1){
@@ -792,12 +900,21 @@
                 //tries to pick a url
                 inUrl = self.pickAppUrl(inUrls).split('#'),
                 url = inUrl[0],
+
+                //collection of hash parts.
                 hash = inUrl[1] ? [inUrl[1]] : [],
 
                 //app hash is used by a host app only
-                appHash =
-                    self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.app) + (app.get('shortName') || app.get('uuid')) +
-                    (hash.length > 0 ? self.hashPropertyDelimiter + self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.route) + inUrl[1] : ''),
+                //note: using history replaceState now, so need a full app url with the appropriate hash
+                // appHash =
+                //     self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.app) + (app.get('shortName') || app.get('uuid')) +
+                //     (hash.length > 0 ? self.hashPropertyDelimiter + self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.route) + inUrl[1] : ''),
+
+                //work out the url the HOST should be updated to - add app name or id (by now it must be known)
+                updatedHostUrl = self.updateAppUrlToken(
+                    window.location.href.split('#')[0] + (hash.length > 0 ? '#' + inUrl[1] : ''), //hash as defined for the app reloading url
+                    app.get('shortName') || app.get('uuid')
+                ),
 
                 urlParts = url.split('?'),
                 baseUrl = urlParts[0],
@@ -808,6 +925,7 @@
                 useSplashscreen = app.get('useSplashscreen'),
 
                 destinationUrl;
+
 
             //Note:
             //in order to keep the url sensible (not so important when working in a frame of course),
@@ -835,7 +953,16 @@
 
             destinationUrl = baseUrl + (params.length > 0 ? '?' + params.join('&') : '') + (hash.length > 0 ? '#' + hash.join(self.hashPropertyDelimiter) : '') ;
 
+            //get org!!!! -> add it to the hosted app url!!!
+            destinationUrl = self.updateOrgUrlToken(destinationUrl, self.getOrgIdentifier());
+
+            //<debug>
+            console.warn('updatedHostURL!', updatedHostUrl);
+            console.warn('destinationUrl', destinationUrl);
+            //</debug>
+
             if(iframe){
+                //we're in HOST mode here
 
                 //app reload is about to start, so fire a app reload evt
                 self.fireGlobal('root::appreloadstart', app);
@@ -852,13 +979,16 @@
                         iframe.src = destinationUrl;
 
                         //update hash - this should set just an app hash at the host level
-                        self.redirectTo(appHash);
+                        //self.redirectTo(appHash);
+                        //note: no more hash redirect, history object instead
+                        history.replaceState(null, window.name, updatedHostUrl);
                     },
                     1
                 );
 
             }
             else {
+                //just redirecting to a new url, as this is a standalone mode
                 window.location.href = destinationUrl;
             }
         },
@@ -889,7 +1019,7 @@
             }
 
             //expect many potential subsequent requests
-            //IMOPRTANT - cache the event by the output event name!!!!
+            //IMPORTANT - cache the event by the output event name!!!!
             this.bufferCurrentTunnel('root::appsretrieved', tunnel);
 
             if(this.duringAppsRetrieval){
@@ -1034,23 +1164,29 @@
             //and since I am passing to hosted i am a host
             if(this.xWindowRouteWatchCfg.hosted){
 
-                var hashParams = window.location.hash.substring(1).split(this.hashPropertyDelimiter),
-                    hp = 0, hplen = hashParams.length,
-                    pName, hashRouteUpdated;
+                //Note: assuming the route is exactly as in hosted app. app name, org name are now stored in the url parts, not in hash; therefore routes are passed 1:1
+                // var hashParams = window.location.hash.substring(1).split(this.hashPropertyDelimiter),
+                //     hp = 0, hplen = hashParams.length,
+                //     pName, hashRouteUpdated;
+                //
+                // for(hp; hp < hplen; hp++){
+                //     pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
+                //     if(hashParams[hp].indexOf(pName) === 0){
+                //         //need to encode the incoming route, so the router at the host level does not kick in multiple times. it must handle the route once only there!
+                //         hashParams[hp] = pName + this.encodePipedRoute(route);
+                //         hashRouteUpdated = true;
+                //         break;
+                //     }
+                // }
+                //
+                // if(!hashRouteUpdated){
+                //     hashParams.push(this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route) + this.encodePipedRoute(route));
+                // }
+                //
+                // route = hashParams.join(this.hashPropertyDelimiter);
 
-                for(hp; hp < hplen; hp++){
-                    pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
-                    if(hashParams[hp].indexOf(pName) === 0){
-                        //need to encode the incoming route, so the router at the host level does not kick in multiple times. it must handle the route once only there!
-                        hashParams[hp] = pName + this.encodePipedRoute(route);
-                        hashRouteUpdated = true;
-                        break;
-                    }
-                }
-                if(!hashRouteUpdated){
-                    hashParams.push(this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route) + this.encodePipedRoute(route));
-                }
-                route = hashParams.join(this.hashPropertyDelimiter);
+
+                route = this.encodePipedRoute(route);
             }
 
             return route;
@@ -1067,23 +1203,28 @@
             //Note: testing for hosted property because hosted means pass xwindow msg to hosted window - this is exactly as in mh.communication.MsgBusEvtOpts
             //and since I am passing to hosted i am a host
             if(this.xWindowRouteWatchCfg.hosted){
-                var hashParams = route.split(this.hashPropertyDelimiter),
-                    hashParam,
-                    hp = 0, hplen = hashParams.length,
-                    pName, routeExtracted;
-                for(hp; hp < hplen; hp++){
-                    hashParam = hashParams[hp];
-                    pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
-                    if(hashParam.indexOf(pName) === 0){
-                        //this is a parent sending a route to a child. so if a multi route - decode it, so router at child level recognises separate routes
-                        route = this.decodePipedRoute(hashParam.replace(pName, ''));
-                        routeExtracted = true;
-                        break;
-                    }
-                }
-                if(!routeExtracted){
-                    route = '';
-                }
+
+                //Note: hash now is exactly as understood by an application. so it needs to be passed 1:1 between host and hosted
+
+                // var hashParams = route.split(this.hashPropertyDelimiter),
+                //     hashParam,
+                //     hp = 0, hplen = hashParams.length,
+                //     pName, routeExtracted;
+                // for(hp; hp < hplen; hp++){
+                //     hashParam = hashParams[hp];
+                //     pName = this.getHashPropertyNameWithValueDelimiter(this.appHashProperties.route);
+                //     if(hashParam.indexOf(pName) === 0){
+                //         //this is a parent sending a route to a child. so if a multi route - decode it, so router at child level recognises separate routes
+                //         route = this.decodePipedRoute(hashParam.replace(pName, ''));
+                //         routeExtracted = true;
+                //         break;
+                //     }
+                // }
+                // if(!routeExtracted){
+                //     route = '';
+                // }
+
+                route = this.decodePipedRoute(route);
             }
             return route;
         },
