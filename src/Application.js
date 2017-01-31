@@ -56,7 +56,13 @@
          * fired whenever the configured AppLauncher has been Ext.create'd
          */
 
+        initialHash: null,
+
         init: function(){
+
+            //save initial hash, so can re-fire hash change if it is modified in the meantime.
+            //this is needed so the router kicks in as expected
+            this.initialHash = window.location.hash;
 
             mh.util.console.Custom.setAppName(this.getName());
 
@@ -123,6 +129,10 @@
             //in this case though, the GUI creation is delegated to toolkit specific code, not directly created here
             Ext.create(this.appLauncher);
             //TODO - make sure the existing class exists. should be just a matter of testing the namespaces. In dev mode ExtJs will of course pull all the refs, but when built a ref in such cese may be missing. Making sure the class has been required at this stage is a good approach.
+
+            if(this.initialHash !== window.location.hash){
+                this.redirectTo(window.location.hash.replace('#', ''), true);
+            }
 
 
             //finally broadcast app loaded evt both locally and to the host if any
