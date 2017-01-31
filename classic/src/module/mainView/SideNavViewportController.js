@@ -168,6 +168,17 @@
          */
         onMatchedRoute: function(){
 
+            //properly handle EDIT MODE!
+            if (this.getModalModeActive()) {
+
+                //<debug>
+                console.warn('[ROUTER@Main]', 'prevented route adjustment - edit mode active!');
+                //</debug>
+
+                window.location.hash = this.getModalModeRouteSnapshot();
+                return;
+            }
+
             //since got here, the route should basically be recognised and there should be a view for it
 
             //Note: this app only handles single routes (no piped ones)

@@ -29,6 +29,9 @@
                 //In a case route has been changed but not fixed because of some reason this will fix things
                 //WARNING - this may be potentially problematic when working with piped routes. They'd have to be applied prior to entering modal mode 'officially'
 
+                console.warn(window.location.href);
+                console.warn(modalModeRouteSnapshot);
+
                 window.location.hash = modalModeRouteSnapshot;
                 modalModeRouteSnapshot = null;
             }
@@ -90,7 +93,7 @@
             //</debug>
 
             //only fire once for xwindow. no point in tracking floating window count in parent
-            if(modalModeActive === 1){
+            if(modalModeLvl === 1){
                 //fire xWindow, so can have a 'shared' modal mode; firing only to host, pretty much because if a host is in modal mode
                 //it is likely to handle own modal mode anyway!
                 this.fireGlobal('modalmode::start', null, {suppressLocal: true, host: true});
