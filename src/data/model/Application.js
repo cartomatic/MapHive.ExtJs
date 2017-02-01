@@ -61,7 +61,14 @@
             /**
              * Whether or not an app is default; when flagged as default, the app will be automatically loaded if there were no other means of enforcing the current app.
              */
-            { name: 'isDefault', type: 'boolean'}
+            { name: 'isDefault', type: 'boolean'},
+
+            /**
+             * whether or not this is a home app
+             */
+            { name: 'isHome', type: 'boolean'},
+
+            { name: 'isHive', type: 'boolean'}
 
             //more to come!
         ],

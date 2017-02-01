@@ -728,6 +728,9 @@
                 app, a = 0, alen = apps.length,
                 appToLoad,
 
+                //get org identifier. it may a false positive, but if so it will be validated by a hosted app on load
+                org = this.getOrgIdentifier(),
+
                 // //extracts a hash property value off the hash
                 // extractHashProp = function(pName){
                 //     h = 0;
@@ -786,24 +789,26 @@
                 }
             }
 
+            //isDefault - default application, when there is application context. something like an org dashboard app
+            //isHome - home application - the one to start with when there is no organisation context
+
+
+
             //get a default app
-            //TODO - if no app is present, but there is an organisation token, then need to load org dashboard and otherwise it should be the 'main' maphive app
+            //if no app is present, but there is an organisation token, then need to load org dashboard - org && isDefault
+            //otherwise load the 'main' maphive app - !org && isHome
             if(!appToLoad){
                 a = 0;
                 for(a; a < alen; a++){
                     app = apps[a];
-                    if(app.get('isDefault') === true){
-
-                        //todo - default non-org and default org app
-
+                    if((!org && app.get('isHome')) || (org && app.get('isDefault'))){
                         appToLoad = app;
                         break;
                     }
                 }
             }
 
-            //todo - maybe here should actually do the test above, so we still have a chance to fallback for just a default app...
-
+            //last chance to pick an app...
             //if failed to find the app to load, just pick the first one
             if(!appToLoad){
                 appToLoad = apps[0];
@@ -811,7 +816,6 @@
 
             this.fireGlobal('root::reloadapp', appToLoad);
         },
-
 
         decodePipedRouteRegex: /___/g,
 
