@@ -18,7 +18,8 @@
             'mh.data.Ajax',
             'mh.mixin.ModalMode',
             'mh.mixin.InitialCfg',
-            'mh.mixin.ApiMap'
+            'mh.mixin.ApiMap',
+            'mh.mixin.UrlUtils'
         ],
 
         requires: [
@@ -162,14 +163,6 @@
             auth: 'auth',
             initialPassword: 'ip',
             verificationKey: 'vk'
-        },
-
-        /**
-         * tokens use to delimit app and org
-         */
-        appUrlTokenDelimiters: {
-            app: '!',
-            org: '@'
         },
 
         /**
@@ -390,7 +383,7 @@
                 //initially assume HOST mode, so the app should be specified in the url
                 //note app is not in the hash anymore, but in the url now
                 //appIdentifier = this.getCustomHashParam(this.appHashProperties.app),
-                appIdentifier = this.getAppIdentifier(),
+                appIdentifier = this.getUrlAppIdentifier(),
 
                 urlParts, inUrl, outUrl, inParams, outParams;
 
@@ -407,11 +400,11 @@
                 inParams = urlParts[1];
 
                 //remove org identifier from the url!
-                if(outUrl.indexOf(this.appUrlTokenDelimiters.org) >= 0){
+                if(outUrl.indexOf(this.getUrlAppTokenDelimiter()) >= 0){
                     inUrl = outUrl.split('/');
                     outUrl = [];
                     Ext.Array.each(inUrl, function(u){
-                        if(u.indexOf(this.appUrlTokenDelimiters.org) === -1){
+                        if(u.indexOf(this.getUrlAppTokenDelimiter()) === -1){
                             outUrl.push(u);
                         }
                     });
@@ -552,90 +545,7 @@
             return ret;
         },
 
-        /**
-         * extracts an org identifier (name or uuid) off the url
-         */
-        getAppIdentifier: function(){
-            return this.getUrlToken(this.appUrlTokenDelimiters.app);
-        },
 
-        /**
-         * extracts an app identifier (name or uuid) off the url
-         */
-        getOrgIdentifier: function(){
-            return this.getUrlToken(this.appUrlTokenDelimiters.org);
-        },
-
-        /**
-         * gets a url part that starts with a specified token
-         * @param delimiter
-         */
-        getUrlToken: function(delimiter){
-            var urlParts = window.location.href.split('#')[0].split('/'),
-                tokenValue;
-
-            Ext.Array.each(urlParts, function(p){
-                if(p.indexOf(delimiter) === 0){
-                    tokenValue = p.replace(delimiter,'');
-                    return false;
-                }
-            });
-
-            return tokenValue;
-        },
-
-        /**
-         * updates app token in the url and returns the updated url; does not update the url in the url bar
-         * @param app
-         * @returns {*}
-         */
-        updateAppUrlToken: function(url, app){
-            return this.updateUrlToken(url, this.appUrlTokenDelimiters.app, app);
-        },
-
-        /**
-         * updates org token in the url and returns the updated url; does not update the url in the url bar
-         * @param org
-         * @returns {*}
-         */
-        updateOrgUrlToken: function(url, org){
-            return this.updateUrlToken(url, this.appUrlTokenDelimiters.org, org);
-        },
-
-        /**
-         * updates a url token and returns an updated url; does not update the url in the url bar
-         * @param delimiter
-         * @param tokenValue
-         * @returns {string}
-         */
-        updateUrlToken: function(url, delimiter, tokenValue){
-            var inUrl = (url || window.location.href).split('#')[0],
-                hash = (url || window.location.href).split('#')[1],
-                params = inUrl.split('?')[1],
-                urlParts = inUrl.split('?')[0].split('/'),
-                tokenUpdated = false;
-
-            Ext.Array.each(urlParts, function(p, idx){
-                if(p.indexOf(delimiter) === 0){
-                    urlParts[idx] = delimiter + tokenValue;
-                    tokenUpdated = true;
-                    return false;
-                }
-            });
-
-            if(tokenValue && !tokenUpdated){
-                if(!urlParts[urlParts.length - 1]){
-                    urlParts[urlParts.length - 1] = delimiter + tokenValue;
-                }
-                else {
-                    urlParts.push(delimiter + tokenValue);
-                }
-            }
-
-            return urlParts.join('/') +
-                (params ? '?' + params : '') +
-                (hash ? '#' + hash : '');
-        },
 
         /**
          * auth::userauthenticated evt listener
@@ -747,7 +657,7 @@
                 appToLoad,
 
                 //get org identifier. it may a false positive, but if so it will be validated by a hosted app on load
-                org = this.getOrgIdentifier(),
+                org = this.getUrlOrgIdentifier(),
 
                 // //extracts a hash property value off the hash
                 // extractHashProp = function(pName){
@@ -769,7 +679,7 @@
                 //
                 // appNameOrId = extractHashProp(this.appHashProperties.app);
 
-                appNameOrId = this.getAppIdentifier();
+                appNameOrId = this.getUrlAppIdentifier();
 
             //search for app by its shortname or uuid
             if(appNameOrId){
@@ -933,7 +843,7 @@
                 //     (hash.length > 0 ? self.hashPropertyDelimiter + self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.route) + inUrl[1] : ''),
 
                 //work out the url the HOST should be updated to - add app name or id (by now it must be known)
-                updatedHostUrl = self.updateAppUrlToken(
+                updatedHostUrl = self.updateUrlAppToken(
                     window.location.href.split('#')[0] + (hash.length > 0 ? '#' + inUrl[1] : ''), //hash as defined for the app reloading url
                     app.get('shortName') || app.get('uuid')
                 ),
@@ -976,7 +886,7 @@
             destinationUrl = baseUrl + (params.length > 0 ? '?' + params.join('&') : '') + (hash.length > 0 ? '#' + hash.join(self.hashPropertyDelimiter) : '') ;
 
             //get org!!!! -> add it to the hosted app url!!!
-            destinationUrl = self.updateOrgUrlToken(destinationUrl, self.getOrgIdentifier());
+            destinationUrl = self.updateUrlOrgToken(destinationUrl, self.getUrlOrgIdentifier());
 
             //<debug>
             console.warn('updatedHostURL!', updatedHostUrl);
