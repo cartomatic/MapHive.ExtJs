@@ -88,8 +88,9 @@
          * root::launchapp callback;
          * called whenever root controller finishes whatever needs to be done prior to launching the actual app
          * Launches the application launcher class
+         * @param userConfiguration
          */
-        onLaunchApp: function(clientConfiguration){
+        onLaunchApp: function(userConfiguration){
 
             //hide the splash screen; do it early, so it starts fading out as the app UI builds.
             //perhaps should move it to onAppLaunch?
@@ -102,16 +103,17 @@
             //need to wave off host loadmask if any
             this.fireGlobal('mhapp::hidehostmask', null, {host:true, suppressLocal: true});
 
-            clientConfiguration = clientConfiguration || {};
+            userConfiguration = userConfiguration || {};
 
-            this.internalAppLaunch();
+            this.internalAppLaunch(userConfiguration);
         },
 
         /**
-         * internal app launch; this is the actual defsult app launch for the apps that do depend on the org context
+         * internal app launch; this is the actual default app launch for the apps that do depend on the org context
          * at this stage the application should be properly scoped
+         * @param userConfiguration
          */
-        internalAppLaunch: function(){
+        internalAppLaunch: function(userConfiguration){
 
             //Note:
             //In the generic code cannot require modules that are toolkit specific!

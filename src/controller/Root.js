@@ -599,7 +599,7 @@
          */
         onGetUserConfigurationSuccess: function(response){
             //get rid of load mask - app will handle this
-            this.fireGlobal('root::getuserconfigend');
+            this.fireGlobal('root::getuserconfigend', response);
             this.fireGlobal('root::launchapp', response);
         },
 
