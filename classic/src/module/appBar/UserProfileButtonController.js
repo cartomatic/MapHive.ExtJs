@@ -115,6 +115,8 @@
 
             userInfo.setIconCls(userMenuIcon);
             userInfo.setText(userName);
+
+            this.customiseMenu();
         },
 
         /**
@@ -122,7 +124,6 @@
          * @param btn
          */
         onUserProfileBtnClick: function(btn){
-            this.customiseMenu();
             btn.showMenu();
         },
 

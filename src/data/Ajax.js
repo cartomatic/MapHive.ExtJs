@@ -57,6 +57,11 @@
                 authorizationHeader = accessToken ? 'Bearer ' + accessToken : null;
             },
 
+            onUserLoggedOff: function(){
+                accessToken = null;
+                authorizationHeader = null;
+            },
+
             /**
              * sets authorization header on custom xhr object
              * @param xhr
@@ -544,7 +549,9 @@
         //we're not instance based here, so the access to the mixed in MsgBus is not possible. but wiring up events to statics is...
         //because of that, need to instantiate the MsgBus - even though MsgBus is meant to be used as a mixin it is save to do so
         //since communication is mixed into this class, it should be available here
-        Ext.create('mh.communication.MsgBus').watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
+        var msgBus = Ext.create('mh.communication.MsgBus');
+        msgBus.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
+        msgBus.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
 
         //TODO - some other listeners too, as the events become callable - session expire mainly, so can wipe out the access token! Also token refresh, as the session will be extended by utilising a refresh token.
 
