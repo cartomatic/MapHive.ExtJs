@@ -21,28 +21,70 @@
 
         xtype: 'mh-app-bar',
 
-        controller: 'mh-app-bar',
-
     requires: [
         'mh.module.appBar.AppBarController',
-        'mh.module.appBar.AppSwitcherButton'
+        'mh.module.appBar.AppSwitcherButton',
+        'mh.module.appBar.UserProfileButton'
     ],
 
-    dock: 'top',
+
+    controller: 'mh-app-bar',
+
+        cls: 'mh-app-bar-shadow',
+
+
+        dock: 'top',
 
         items: [
             {
                 xtype: 'mh-app-switcher-button'
             },
-            '->',
             {
-                xtype: 'button',
-                text: 'some other btn'
+                xtype: 'container',
+                flex: 1,
+                layout: {
+                    type: 'hbox',
+                    align: 'stretch'
+                },
+                items: [
+                    {
+                        xtype: 'container',
+                        flex: 1
+                    },
+                    {
+                        xtype: 'container',
+                        html: 'TODO - App name...'
+                    }
+                ]
+            },
+            {
+                xtype: 'image',
+                glyph: '\ecbe@icon54com',
+                width: 30,
+                height: 30,
+                margin: '0 10 0 10'
+            },
+            {
+                xtype: 'container',
+                flex: 1,
+                layout: {
+                    type: 'hbox',
+                    align: 'stretch'
+                },
+                items: [
+                    {
+                        xtype: 'container',
+                        html: 'TODO - Org context switcher'
+                    },
+                    {
+                        xtype: 'container',
+                        flex: 1
+                    }
+                ]
+            },
+            {
+                xtype: 'mh-user-profile-button'
             }
-            //spacer
-            //userinfo
-            //spacer
-            //cfg btn
         ],
 
         hidden: true

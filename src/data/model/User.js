@@ -19,7 +19,17 @@
             { name: 'email', type: 'string', useNull: true },
 
             { name: 'isAccountClosed', type: 'boolean', useNull: true },
-            { name: 'isAccountVerified', type: 'boolean', useNull: true }
+            { name: 'isAccountVerified', type: 'boolean', useNull: true },
+
+            { name: 'forename', type: 'string' },
+            { name: 'surname', type: 'string' },
+
+            {
+                name: 'username', type: 'string',
+                calculate: function(data){
+                    return data.forename && data.surname ? data.forename + ' ' + data.surname : data.surname || data.forename || data.email;
+                }
+            }
 
         ],
         proxy: {

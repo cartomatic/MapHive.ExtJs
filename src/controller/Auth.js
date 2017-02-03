@@ -20,10 +20,12 @@
         ],
 
     requires: [
+        'mh.data.model.Application',
+        'mh.data.model.User',
         'mh.module.auth.Auth'
     ],
 
-        config: {
+    config: {
             /**
              * @cfg {string} [authUi='mh.module.auth.Auth']
              * Auth UI to be used by the Auth controller. Required to expose some standardised API.
@@ -150,6 +152,22 @@
          * @event auth::passchangefailed
          */
 
+        /**
+         * @event auth::getuserprofile
+         * watched event
+         */
+
+        /**
+         * @event auth::userprofileretrieved
+         * @param {mh.data.model.User}
+         */
+
+        /**
+         * @event auth::requestuserauth
+         * triggers logon procedure
+         * watched event
+         */
+
         init: function(){
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('auth ctrl'), 'initialised');
@@ -170,6 +188,9 @@
 
             this.watchGlobal('auth::changepass', this.onChangePass, this);
 
+            this.watchGlobal('auth::getuserprofile', this.onGetUserProfile, this);
+
+            this.watchGlobal('auth::requestuserauth', this.onRequestUserAuth, this);
 
             this.watchGlobal('ajax::unauthorised', this.onAjaxNonAuthorised, this);
 
@@ -207,6 +228,15 @@
          * Ajax non-authorised callback; provided all the ajax requests are routed via ajax utils, this should intercept 401 and in return display auth window
          */
         onAjaxNonAuthorised: function(){
+            //just show the logon screen
+            //depending on the scenario - host / vs hosted handle the auth properly!
+            this.initiateUserAuthProcedure();
+        },
+
+        /**
+         * auth::requestuserauth callback; initiates logon procedure
+         */
+        onRequestUserAuth: function(){
             //just show the logon screen
             //depending on the scenario - host / vs hosted handle the auth properly!
             this.initiateUserAuthProcedure();
@@ -489,7 +519,73 @@
          * @param response
          */
         authenticateUserFailure: function(response){
+            this.currentUser = null;
             this.fireGlobal('auth::userauthenticationfailed');
+        },
+
+        /**
+         * @private {mh.data.model.User}
+         */
+        currentUser: null,
+
+        /**
+         * whether or not user profile retrieval is in progress.
+         */
+        duringUserProfileRetrieval: false,
+
+        /**
+         * auth::getuserprofile callback
+         * @param e
+         * @param tunnel
+         *
+         * initiates a procedure of user profile retrieval; replies with auth::userprofileretrieved when ready
+         */
+        onGetUserProfile: function(e, tunnel){
+
+            //profile known OR user is anonymous
+            if(this.currentUser || !(authTokens && authTokens.accessToken)){
+                this.fireGlobal(this.getTunneledEvtName('auth::userprofileretrieved', tunnel), this.currentUser || null);
+                return;
+            }
+
+            //expect many potential subsequent requests
+            //IMPORTANT - cache the event by the OUTPUT event name!!!!
+            this.bufferCurrentTunnel('auth::userprofileretrieved', tunnel);
+
+            if(this.duringUserProfileRetrieval){
+                return;
+            }
+
+            this.duringUserProfileRetrieval = true;
+
+            this.doGet({
+                url: this.getApiEndPoint('userprofile'),
+                scope: this,
+                success: this.onGetUserProfileSuccess,
+                failure: this.onGetUserProfileFailure
+            });
+
+        },
+
+        /**
+         * User profile data load was ok.
+         * @param response
+         */
+        onGetUserProfileSuccess: function(response){
+
+            this.currentUser = Ext.create('mh.data.model.User', response);
+
+            //waive off user retrieval in progress flag
+            this.duringUserProfileRetrieval = false;
+
+            this.fireForBufferedTunnels('auth::userprofileretrieved', this.currentUser);
+        },
+
+        /**
+         * User profile load failed. make sure to fail silently
+         */
+        onGetUserProfileFailure: function(){
+            throw 'OOOPS, it was not possible to pull user profile. will have to handle this scenario at some point!'
         },
 
         /**
