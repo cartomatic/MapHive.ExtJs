@@ -79,6 +79,11 @@
         },
 
         /**
+         * apps
+         */
+        apps: null,
+
+        /**
          * Callback defined in mh.mixin.UserAppsUtils; if not present the mixin will not call it
          * @param {mh.data.model.Application[]} apps
          */
@@ -90,8 +95,6 @@
 
             //also re-create the app switcher panel - this is because after auth -> getapps, its content, order, etc. may have changed
             this.createAppSwitcherPanel();
-
-            this.getAppsInProgress = false;
 
             //apps made here. make sure though to show the apps switcher only if the get apps was triggerred through a btn click!
             if(this.showAppsPanelRequested){
@@ -288,7 +291,7 @@
         },
 
         /**
-         * Whether or not the show apps panel (and potnetially also pull apps) was requested via btn
+         * Whether or not the show apps panel (and potentially also pull apps) was requested via btn
          * if so, the apps switcher will be shown whenever the apps become available. Otherwise the apps switcher menu will not appear.
          */
         showAppsPanelRequested: false,
@@ -317,6 +320,7 @@
          */
         onAppBtnClick: function(btn, e, eOpts){
             this.hideAppsPanel();
+            this.showAppsPanelRequested = false;
 
             var currentApp = this.getCurrentApp();
 

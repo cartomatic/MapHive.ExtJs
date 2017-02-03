@@ -55,7 +55,8 @@
                     },
                     listeners: {
                         click: 'onBtnLogOffClick'
-                    }
+                    },
+                    hidden: true
                 }
             ]
         },

@@ -132,7 +132,6 @@
 
             //note: also params order plays an important role here... this is a future todo though
 
-
             //remove org and app identifiers from the url!
             Ext.Array.each(baseUrl.split('/'), function(u){
                 if(u.indexOf(appToken) > -1 || u.indexOf(orgToken) > -1){
@@ -142,10 +141,6 @@
             }, this);
 
             outUrl = urlParts.join('/');
-
-            if(Ext.String.endsWith(outUrl, '/')){
-                outUrl = outUrl.substring(0, outUrl.length - 1);
-            }
 
             //take care of params if any
             if(baseParams.length > 1){
@@ -161,7 +156,23 @@
                 }
             }
             return outUrl;
-        }
+        },
+
+        /**
+         * standardises app identifier url by removing the last / and ? if there is no content that follows it
+         * this is so it's easier to compare identifying urls
+         * @param url
+         */
+        standardiseAppIdentifyingUrl: function(url){
+            //make sure the last ? and / are removed
+            if(Ext.String.endsWith(url, '?')){
+                url = url.substring(0, url.length - 1);
+            }
+            if(Ext.String.endsWith(url, '/')){
+                url = url.substring(0, url.length - 1);
+            }
+            return url;
+        },
 
     });
     

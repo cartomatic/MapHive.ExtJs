@@ -89,40 +89,24 @@
 
             //looks like no current app is present so either an app has not yet been loaded or this is hosted mode, and need to check the app by url
 
-            var fixUrl = function(url, decode){
-                if(decode)
-                {
-                    url = decodeURIComponent(url);
-                }
-
-                //make sure the last ? and / are removed
-                if(Ext.String.endsWith(url, '?')){
-                    url = url.substring(0, url.length - 1);
-                }
-                if(Ext.String.endsWith(url, '/')){
-                    url = url.substring(0, url.length - 1);
-                }
-                return url;
-            },
-
-            currentUrl = fixUrl(this.getAppIdentifyingUrl()),
+            var currentUrl = this.standardiseAppIdentifyingUrl(this.getAppIdentifyingUrl()),
             app;
 
             //search for the appropriate app
             Ext.Array.each(this.apps, function(a){
                 Ext.Array.each(a.get('urls').split('|'), function (url) {
 
-                    if(fixUrl(url.split('#')[0]) === currentUrl){
+                    if(this.standardiseAppIdentifyingUrl(url.split('#')[0]) === currentUrl){
                         app = a;
                         return false;
                     }
-                });
+                }, this);
 
                 //if an app has been located then skip the rest
                 if(app){
                     return false;
                 }
-            });
+            }, this);
 
             if(app){
                 currentApp = app;

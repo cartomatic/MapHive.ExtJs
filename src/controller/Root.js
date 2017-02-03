@@ -383,12 +383,16 @@
                 //initially assume HOST mode, so the app should be specified in the url
                 //note app is not in the hash anymore, but in the url now
                 //appIdentifier = this.getCustomHashParam(this.appHashProperties.app),
-                appIdentifier = this.getUrlAppIdentifier() || this.getAppIdentifyingUrl();
+                appIdentifier = this.getUrlAppIdentifier() || this.standardiseAppIdentifyingUrl(this.getAppIdentifyingUrl());
 
 
             //Depending on mode - HOST / HOSTED app is recognised by url or the app id / short name
             for(ai; ai < ailen; ai++){
-                if(appIdentifiers[ai] === appIdentifier){
+                var localIdentifier = appIdentifiers[ai];
+                if(Ext.String.startsWith(localIdentifier, 'http')){
+                    localIdentifier = this.standardiseAppIdentifyingUrl(localIdentifier);
+                }
+                if(localIdentifier === appIdentifier){
                     requiresAuth = true;
                     break;
                 }
