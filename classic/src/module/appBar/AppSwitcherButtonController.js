@@ -12,28 +12,17 @@
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-app-switcher-button',
 
-        mixins: [
-            'mh.util.console.Formatters',
-            'mh.data.Ajax'
+        requires: [
+            'Ext.button.Button',
+            'Ext.layout.container.Column',
+            'Ext.panel.Panel'
         ],
 
-    requires: [
-        'Ext.button.Button',
-        'Ext.layout.container.Column',
-        'Ext.panel.Panel'
-    ],
-
-        /**
-         * @property {Array}
-         * Configured applications
-         * @private
-         */
-        apps: null,
-
-        /**
-         * the hosted application that is currently loaded.
-         */
-        currentApp: null,
+        mixins: [
+            'mh.util.console.Formatters',
+            'mh.data.Ajax',
+            'mh.mixin.UserAppsUtils'
+        ],
 
         /**
          * @property {Ext.panel.Panel}
@@ -55,12 +44,12 @@
                 'root::customhashparam',
                 function(value){
                     if(value !== 'true'){
-                        this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar', {tunnel: tunnel});
+
+                        //this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar', {tunnel: tunnel});
 
                         //wire up some evt listeners
                         this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
-
-                        this.watchGlobal('root::appreloadstart', this.onAppReloadStart, this);
+                        this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
 
                         //need to poke the root to get some apps
                         this.getApps();
@@ -72,49 +61,25 @@
                     tunnel: tunnel
                 }
             );
-            this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar', {tunnel: tunnel})
-        },
-
-        /**
-         * root::appreloadstart callback. whenever Root ctrl decides to reload the app it informs about it.
-         */
-        onAppReloadStart: function(app){
-            this.currentApp = app;
+            this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar', {tunnel: tunnel});
         },
 
         /**
          * user authenticated - refresh the apps
          */
         onUserAuthenticated: function(){
-            this.apps = null;
             this.getApps();
         },
 
         /**
-         * whether or not the get Apps is currently in progress
+         * user logged off callback
          */
-        getAppsInProgress: false,
-
-        /**
-         * Pokes Root Controller to get the apps data!
-         */
-        getApps: function(){
-
-            if(this.getAppsInProgress){
-                return;
-            }
-
-            this.getAppsInProgress = true;
-
-            //wire up the root::appsretrieved listener - whenever new apps become available it will be necessary to update the app picker!
-            var tunnel = this.getTunnelId();
-            this.watchGlobal('root::appsretrieved', this.onAppsRetrieved, this, {single: true, tunnel: tunnel});
-            this.fireGlobal('root::getapps', null, {tunnel: tunnel});
+        onUserLoggedOff: function(){
+            this.getApps();
         },
 
-
         /**
-         *
+         * Callback defined in mh.mixin.UserAppsUtils; if not present the mixin will not call it
          * @param {mh.data.model.Application[]} apps
          */
         onAppsRetrieved: function(apps){
@@ -206,48 +171,11 @@
         onBeforeAppSwitcherShow: function(){
 
             var me = this,
-                appCoreUrl, appUrl;
-
-            //if there is no current app it means the hosted app has not yet been loaded, or the app runs in a standalone mode and it is necessary to work out the app
-            //based on the url
-            if(this.currentApp === null){
-
-                var fixUrl = function(url, decode){
-                    if(decode)
-                    {
-                        url = decodeURIComponent(url);
-                    }
-
-                    //make sure the last ? and / are removed
-                    if(Ext.String.endsWith(url, '?')){
-                        url = url.substring(0, url.length - 1);
-                    }
-                    if(Ext.String.endsWith(url, '/')){
-                        url = url.substring(0, url.length - 1);
-                    }
-                    return url;
-                }
-
-                appCoreUrl = fixUrl(window.location.href.split('#')[0], true); //since taken from an address bar, make sure to decode it
-
-                Ext.Array.each(this.apps, function(a){
-                    Ext.Array.each(a.get('urls'), function (url) {
-                        if(fixUrl(url.split('#')[0]) === appCoreUrl){
-                            me.currentApp = a;
-                            return false;
-                        }
-                    });
-
-                    //if an app has been located then skip the rest
-                    if(me.currentApp){
-                        return false;
-                    }
-                });
-            }
+                currentApp = this.getCurrentApp();
 
             //spin through the btns and mark the one for the currently active app!
             Ext.Array.each(this.appSwitcherPanel.items.items, function(btn){
-                if(me.currentApp && btn.app.get('uuid') === me.currentApp.get('uuid')){
+                if(currentApp && btn.app.get('uuid') === currentApp.get('uuid')){
                     //uhuh... got the one
                     btn.setUI(me.getView().getAppActiveBtnUi());
                 }
@@ -390,7 +318,9 @@
         onAppBtnClick: function(btn, e, eOpts){
             this.hideAppsPanel();
 
-            if(!this.currentApp || btn.app.get('uuid') !== this.currentApp.get('uuid')){
+            var currentApp = this.getCurrentApp();
+
+            if(!currentApp || btn.app.get('uuid') !== currentApp.get('uuid')){
                 //load the new url
                 this.fireGlobal('root::reloadapp', btn.app);
             }

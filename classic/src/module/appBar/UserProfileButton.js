@@ -52,6 +52,9 @@
                     iconCls: 'x-i54c i54c-exit-2',
                     bind: {
                         text: '{localisation.btnLogOff}'
+                    },
+                    listeners: {
+                        click: 'onBtnLogOffClick'
                     }
                 }
             ]

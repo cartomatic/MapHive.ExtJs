@@ -383,52 +383,8 @@
                 //initially assume HOST mode, so the app should be specified in the url
                 //note app is not in the hash anymore, but in the url now
                 //appIdentifier = this.getCustomHashParam(this.appHashProperties.app),
-                appIdentifier = this.getUrlAppIdentifier(),
+                appIdentifier = this.getUrlAppIdentifier() || this.getAppIdentifyingUrl();
 
-                urlParts, inUrl, outUrl, inParams, outParams;
-
-            //if the app identifier is not specified as a url part, use url with params but without the url part (aka hash)
-            if(!appIdentifier) {
-                appIdentifier = decodeURIComponent(window.location.href.split('#')[0]);
-                
-                //note: need to extract the lang param off the app identifier prior to going on with the comparison.
-
-                //note: also params order plays an important role here... this is a future todo though
-
-                urlParts = appIdentifier.split('?');
-                outUrl = urlParts[0];
-                inParams = urlParts[1];
-
-                //remove org identifier from the url!
-                if(outUrl.indexOf(this.getUrlAppTokenDelimiter()) >= 0){
-                    inUrl = outUrl.split('/');
-                    outUrl = [];
-                    Ext.Array.each(inUrl, function(u){
-                        if(u.indexOf(this.getUrlAppTokenDelimiter()) === -1){
-                            outUrl.push(u);
-                        }
-                    });
-                    outUrl = outUrl.join('/');
-                }
-
-                //take care of params if any
-                if(urlParts.length > 1){
-                    //extract org!
-                    inParams = urlParts[1].split('&');
-                    outParams = [];
-                    Ext.Array.each(inParams, function(param){
-                        if(param.indexOf('lng=') === -1){
-                            outParams.push(param);
-                        }
-                    });
-
-                    appIdentifier = urlParts[0];
-
-                    if(outParams.length > 0){
-                        appIdentifier += outUrl + '?' + outParams.join('&');
-                    }
-                }
-            }
 
             //Depending on mode - HOST / HOSTED app is recognised by url or the app id / short name
             for(ai; ai < ailen; ai++){

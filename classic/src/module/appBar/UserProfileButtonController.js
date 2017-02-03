@@ -9,14 +9,15 @@
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-user-profile-button',
 
-    requires: [
-        'mh.data.model.User',
-        'mh.module.appBar.UserProfileButtonLocalisation'
-    ],
+        requires: [
+            'mh.data.model.User',
+            'mh.module.appBar.UserProfileButtonLocalisation'
+        ],
 
-    mixins: [
+        mixins: [
             'mh.mixin.Localisation',
-            'mh.communication.MsgBus'
+            'mh.communication.MsgBus',
+            'mh.mixin.UserAppsUtils'
         ],
 
         /**
@@ -25,10 +26,29 @@
         init: function() {
             this.injectLocalisationToViewModel();
 
-            this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
+            //check if the tbar is visible, or it should be suppressed
+            //if toolbar should be hidden, there is no point in triggering the full setup here, as the toolbar is not there anyway!
+            var tunnel = this.getTunnelId();
 
-            //try to obtain user profile
-            this.getUserProfile();
+            this.watchGlobal(
+                'root::customhashparam',
+                function(value){
+                    if(value !== 'true'){
+
+                        this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
+                        this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
+
+                        //try to obtain user profile
+                        this.getUserProfile();
+                    }
+                },
+                this,
+                {
+                    single: true,
+                    tunnel: tunnel
+                }
+            );
+            this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar', {tunnel: tunnel});
         },
 
         /**
@@ -43,6 +63,14 @@
             //obtain user info!
             this.userProfile = null;
             this.getUserProfile();
+        },
+
+        /**
+         * user logged off callback
+         */
+        onUserLoggedOff: function(){
+            this.userProfile = null;
+            this.updateState();
         },
 
         /**
@@ -81,7 +109,7 @@
                 //TODO - when user profile has user icon, or gravatar, try set it instead!
                 userName = this.userProfile ?
                     this.userProfile.get('username') :
-                    this.getTranslation('tooltipAnonymous');
+                    this.getTranslation('anonymous');
 
             btn.setIconCls(btnIcon);
 
@@ -140,18 +168,51 @@
         },
 
         /**
-         *
+         * btn log on click handler - triggers log on window show
          * @param btn
          */
         onBtnLogOnClick: function(btn){
             //just let the global Auth controller know user wants to authenticate
             this.fireGlobal('auth::requestuserauth');
+        },
+
+        /**
+         * btn log off click handler
+         */
+        onBtnLogOffClick: function(btn){
+            var currentApp = this.getCurrentApp(),
+                msg = currentApp.get('requiresAuth') ?
+                    this.getTranslation('logOffWithReload') :
+                    this.getTranslation('logOffNoReload');
+
+            var me = this;
+            Ext.Msg.show({
+                animateTarget: btn,
+                title: this.getTranslation('logOffTitle'),
+                message: msg,
+                width: 350,
+                buttons: Ext.Msg.YESNO,
+                icon: Ext.MessageBox.QUESTION,
+                iconCls: 'x-i54c i54c-exit-2',
+                fn: function(btn){
+                    if(btn === 'yes'){
+                        Ext.getBody().mask(me.getTranslation('logOffMask'));
+                        //let the auth controller do the work for us
+                        me.fireGlobal('auth::requestuserlogoff');
+
+                        //wait a bit and finalise
+                        Ext.defer(function(){
+                            Ext.getBody().unmask();
+                            if(currentApp.get('requiresAuth')){
+                                //need to reload to home as the current app requires auth!
+                                me.fireGlobal('root::reloadapp', me.getHomeApp());
+                            }
+                        }, 1000);
+                    }
+                }
+            });
+
         }
-
-
-        //logoff - prompt user if really so, and if an app does not require auth then do nothing,
-        //otherwise let user know this app requires auth and user will be redirected to maphive home!
-
     });
     
 }());

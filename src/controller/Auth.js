@@ -168,6 +168,17 @@
          * watched event
          */
 
+        /**
+         * @event auth::requestuserlogoff
+         * triggers logoff procedure
+         * watched event
+         */
+
+        /**
+         * @event auth::userloggedoff
+         * fired when user loggs off
+         */
+
         init: function(){
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('auth ctrl'), 'initialised');
@@ -191,6 +202,8 @@
             this.watchGlobal('auth::getuserprofile', this.onGetUserProfile, this);
 
             this.watchGlobal('auth::requestuserauth', this.onRequestUserAuth, this);
+            this.watchGlobal('auth::xwindowuserloggedoff', this.onXWindowUserLoggedOff, this);
+            this.watchGlobal('auth::requestuserlogoff', this.onRequestUserLogOff, this);
 
             this.watchGlobal('ajax::unauthorised', this.onAjaxNonAuthorised, this);
 
@@ -240,6 +253,35 @@
             //just show the logon screen
             //depending on the scenario - host / vs hosted handle the auth properly!
             this.initiateUserAuthProcedure();
+        },
+
+        /**
+         * initiates log off procedure
+         */
+        onRequestUserLogOff: function(){
+            //send and forget
+            this.doGet({
+                url: this.getApiEndPoint('logout'),
+                autoHandleExceptions: false,
+                success: Ext.emptyFn,
+                failure: Ext.emptyFn
+            });
+
+            //clean up the auth stuff!
+            authTokens = null;
+            this.fireGlobal('auth::authtokens', this.getTokens());
+
+
+            this.fireGlobal('auth::userloggedoff');
+            this.fireGlobal('auth::xwindowuserloggedoff', null, {suppressLocal: true, hosted: true});
+        },
+
+        /**
+         * received an evt from parent, so need to advise logged off state.
+         * some apps may have a 'mixed' auth requirement. they may customise some stuff for users while in general being also operational in anonymous mode
+         */
+        onXWindowUserLoggedOff: function(){
+            this.fireGlobal('auth::userloggedoff');
         },
 
         /**

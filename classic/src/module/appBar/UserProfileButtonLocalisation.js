@@ -18,9 +18,25 @@
                     en: 'Log off',
                     pl: 'Wyloguj'
                 },
-                tooltipAnonymous: {
+                anonymous: {
                     en: 'Anonymous user',
                     pl: 'Uzytkownik anonimowy'
+                },
+                logOffNoReload: {
+                    en: 'Are you sure you want to log off?',
+                    pl: 'Czy na pewno chcesz się wylogować?'
+                },
+                logOffWithReload: {
+                    en: 'Active application requires auth. Logging off will load the default application instead.<br/>Are you sure you want to log off?',
+                    pl: 'Aktywna aplikacja wymaga zalogowania. Wylogowanie spowoduje zmianę aplikacji, na aplikację domyślną.<br/>Czy na pewno chcesz się wylogować?'
+                },
+                logOffTitle: {
+                    en: 'Log off',
+                    pl: 'Wylogowanie'
+                },
+                logOffMask: {
+                    en: 'Logging off...',
+                    pl: 'Wylogowuję...'
                 }
             }
         }

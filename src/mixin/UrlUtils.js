@@ -27,7 +27,7 @@
          * gets org url token delimiter
          */
         getUrlOrgTokenDelimiter: function(){
-            urlTokenDelimiters.org;
+            return urlTokenDelimiters.org;
         },
 
         /**
@@ -113,6 +113,54 @@
             return urlParts.join('/') +
                 (params ? '?' + params : '') +
                 (hash ? '#' + hash : '');
+        },
+
+
+        /**
+         * gets a url that should uniquely identify an app - removes all the parts of the url that can be dynamically added during the standard maphive app (re)loading
+         */
+        getAppIdentifyingUrl: function(){
+            var outUrl,
+                url = decodeURIComponent(window.location.href.split('#')[0]).split('?'),
+                baseUrl = url[0], urlParts = [],
+                baseParams = (url[1] || '').split('&'),
+                outParams,
+                appToken = this.getUrlAppTokenDelimiter(),
+                orgToken = this.getUrlOrgTokenDelimiter();
+
+            //note: need to extract the lang param off the app identifier prior to going on with the comparison.
+
+            //note: also params order plays an important role here... this is a future todo though
+
+
+            //remove org and app identifiers from the url!
+            Ext.Array.each(baseUrl.split('/'), function(u){
+                if(u.indexOf(appToken) > -1 || u.indexOf(orgToken) > -1){
+                    return;
+                }
+                urlParts.push(u);
+            }, this);
+
+            outUrl = urlParts.join('/');
+
+            if(Ext.String.endsWith(outUrl, '/')){
+                outUrl = outUrl.substring(0, outUrl.length - 1);
+            }
+
+            //take care of params if any
+            if(baseParams.length > 1){
+                outParams = [];
+                Ext.Array.each(baseParams, function(param){
+                    if(param.indexOf('lng=') === -1){
+                        outParams.push(param);
+                    }
+                });
+
+                if(outParams.length > 0){
+                    outUrl += '?' + outParams.join('&');
+                }
+            }
+            return outUrl;
         }
 
     });
