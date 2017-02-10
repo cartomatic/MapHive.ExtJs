@@ -1,0 +1,16 @@
+.mh-auth-separator-bar-line {
+  border-top: 1px solid darkgray;
+}
+.mh-auth-separator-bar-text {
+  color: darkgray;
+}
+
+@include extjs-button-small-ui(
+  $ui: 'mh-auth-forgot-pass-button',
+  $border-color: transparent,
+  $border-color-focus: transparent,
+  $border-color-focus-pressed: transparent,
+  $background-color: transparent,
+  $color: rgb(78, 78, 78),
+  $font-weight: bold
+);

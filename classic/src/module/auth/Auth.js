@@ -29,6 +29,10 @@
 
     config: {
 
+
+            //some configurable styles
+            //----------------------------
+
             /**
              * @cfg {string} [loginView|setUI]
              * see mh.mixin.CustomConfig.applyCustomViewConfig for details
@@ -132,7 +136,7 @@
 
                 items: [
                     {
-                        xtype: 'form',
+                        xtype: 'panel',
                         header: {
                             bind: {
                                 title: '{localisation.titleLogin}'
@@ -142,7 +146,12 @@
                         },
 
                         reference: 'loginView',
-                        layout: 'form',
+
+                        bodyPadding: '10 10 0 10',
+                        layout: 'anchor',
+                        defaults: {
+                            anchor: '100%'
+                        },
 
                         items: [
                             {
@@ -174,20 +183,35 @@
                         dockedItems: [
                             {
                                 xtype: 'toolbar',
+                                reference: 'createAccountBar',
                                 dock: 'bottom',
                                 items: [
                                     {
                                         xtype: 'button',
-                                        reference: 'btnForgotPass',
-                                        iconCls: 'x-i54 i54-profile-voltage',
                                         bind: {
-                                            text: '{localisation.btnForgotPass}'
+                                            text: '{localisation.createAccount}'
                                         },
-                                        listeners: {
-                                            click: 'onForgotPassBtnClick'
-                                        }
-                                    },
-                                    '->',
+                                        iconCls: 'x-li li-user-plus',
+                                        flex: 1
+                                    }
+                                ]
+                            },
+                            //separator bar
+                            {
+                                xtype: 'toolbar',
+                                reference: 'createAccountSeparatorBar',
+                                dock: 'bottom',
+                                padding: '0 0 0 10',
+                                items: [
+                                    { xtype: 'container', flex: 1, cls: 'mh-auth-separator-bar-line'},
+                                    { xtype: 'tbtext', bind: {text: '{localisation.or}'}, cls: 'mh-auth-separator-bar-text'},
+                                    { xtype: 'container', flex: 1, cls: 'mh-auth-separator-bar-line'}
+                                ]
+                            },
+                            {
+                                xtype: 'toolbar',
+                                dock: 'bottom',
+                                items: [
                                     {
                                         xtype: 'button',
                                         bind: {
@@ -197,7 +221,27 @@
                                         iconCls: 'x-i54c i54c-enter-1',
                                         listeners: {
                                             click: 'onLoginBtnClick'
-                                        }
+                                        },
+                                        flex: 1
+                                    }
+                                ]
+                            },
+                            {
+                                xtype: 'toolbar',
+                                dock: 'bottom',
+                                items: [
+                                    '->',
+                                    {
+                                        xtype: 'button',
+                                        reference: 'btnForgotPass',
+                                        iconCls: 'x-i54 i54-profile-voltage',
+                                        bind: {
+                                            text: '{localisation.btnForgotPass}'
+                                        },
+                                        listeners: {
+                                            click: 'onForgotPassBtnClick'
+                                        },
+                                        ui: 'mh-auth-forgot-pass-button'
                                     }
                                 ]
                             }
@@ -212,7 +256,11 @@
                             iconCls: 'x-i54c i54c-pin-code',
                             height: 45
                         },
-                        layout: 'form',
+                        bodyPadding: '10 10 0 10',
+                        layout: 'anchor',
+                        defaults: {
+                            anchor: '100%'
+                        },
                         reference: 'forgotPassView',
                         items: [
                             {
@@ -251,7 +299,7 @@
                                             text: '{localisation.btnResetPassCancel}'
                                         },
                                         reference: 'btnResetPassCancel',
-                                        iconCls: 'x-li li-cross-circle',
+                                        iconCls: 'x-li li-chevron-left-circle',
                                         listeners: {
                                             click: 'onResetPassCancelBtnClick'
                                         }

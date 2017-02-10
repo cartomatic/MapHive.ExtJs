@@ -79,6 +79,14 @@
                 btnResetPass: {
                     en: 'Reset pass',
                     pl: 'Resetuj hasło'
+                },
+                or: {
+                    en: 'OR',
+                    pl: 'LUB'
+                },
+                createAccount: {
+                    en: 'Create account',
+                    pl: 'Załóż konto'
                 }
             }
         }
