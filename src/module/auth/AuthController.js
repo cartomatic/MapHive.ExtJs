@@ -40,6 +40,11 @@
          */
 
         /**
+         * @event auth::userauthcancel
+         * fired when user auth window is dismissed
+         */
+
+        /**
          * Called when the view is created
          */
         init: function () {
@@ -593,13 +598,16 @@
                         if(btn === 'yes'){
                             me.reset();
                             me.getView().hide();
+                            me.fireEvent('auth::userauthcancel');
                             me.fireGlobal('root::reloadapp', me.getHomeApp());
                         }
                     }
                 });
             }
             else {
+                this.reset();
                 this.getView().hide();
+                this.fireEvent('auth::userauthcancel');
             }
         }
 

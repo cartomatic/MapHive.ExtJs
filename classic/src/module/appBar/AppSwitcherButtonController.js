@@ -64,10 +64,17 @@
             this.fireGlobal('root::getcustomhashparam', 'suppress-app-toolbar', {tunnel: tunnel});
         },
 
+
+        /**
+         * whether or not user is authenticated
+         */
+        userAuthenticated: false,
+
         /**
          * user authenticated - refresh the apps
          */
         onUserAuthenticated: function(){
+            this.userAuthenticated = true;
             this.getApps();
         },
 
@@ -75,6 +82,7 @@
          * user logged off callback
          */
         onUserLoggedOff: function(){
+            this.userAuthenticated = false;
             this.getApps();
         },
 
@@ -313,6 +321,12 @@
          */
 
         /**
+         * @private {mh.data.model.Application}
+         * app to be switched to after async logon is finalised
+         */
+        appToBeSwitchedTo: null,
+
+        /**
          * App btn click callback - initiates app change procedure by firing the root::reloadapp that should be handled by mh.controller.AppLoader
          * @param btn
          * @param e
@@ -325,9 +339,39 @@
             var currentApp = this.getCurrentApp();
 
             if(!currentApp || btn.app.get('uuid') !== currentApp.get('uuid')){
-                //load the new url
-                this.fireGlobal('root::reloadapp', btn.app);
+                if(btn.app.get('requiresAuth') && !this.userAuthenticated){
+                    this.watchGlobal('auth::userauthenticated', this.onContinueAppSwitchAfterLogonCompleted, this);
+                    this.watchGlobal('auth::userauthcancel', this.onCancelAppSwitchAfterLogonCancelation, this);
+                    this.appToBeSwitchedTo = btn.app;
+
+                    this.fireGlobal('auth::requestuserauth');
+                }
+                else {
+                    //load the new url
+                    this.fireGlobal('root::reloadapp', btn.app);
+                }
             }
+        },
+
+        /**
+         * continues app switch after user logon
+         */
+        onContinueAppSwitchAfterLogonCompleted: function(){
+            this.unwatchGlobal('auth::userauthcancel', this.onCancelAppSwitchAfterLogonCancelation, this);
+            this.unwatchGlobal('auth::userauthenticated', this.onContinueAppSwitchAfterLogonCompleted, this);
+
+            this.fireGlobal('root::reloadapp', this.appToBeSwitchedTo);
+            this.appToBeSwitchedTo = null;
+        },
+
+        /**
+         * cancels app switch after user logon
+         */
+        onCancelAppSwitchAfterLogonCancelation: function(){
+            this.unwatchGlobal('auth::userauthcancel', this.onCancelAppSwitchAfterLogonCancelation, this);
+            this.unwatchGlobal('auth::userauthenticated', this.onContinueAppSwitchAfterLogonCompleted, this);
+
+            this.appToBeSwitchedTo = null;
         }
 
     });
