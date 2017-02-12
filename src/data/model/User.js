@@ -23,13 +23,23 @@
 
             { name: 'forename', type: 'string' },
             { name: 'surname', type: 'string' },
-
             {
                 name: 'username', type: 'string',
                 calculate: function(data){
                     return data.forename && data.surname ? data.forename + ' ' + data.surname : data.surname || data.forename || data.email;
                 }
-            }
+            },
+
+            { name: 'slug', type: 'string', useNull: true, defaultValue: null },
+            { name: 'bio', type: 'string' },
+            { name: 'company', type: 'string' },
+            { name: 'department', type: 'string' },
+            { name: 'location', type: 'string' },
+            { name: 'gravatarEmail', type: 'string' },
+
+            { name: 'profilePicture', type: 'string' },
+
+            { name: 'isOrgUser', type: 'boolean', defaultValue: false }
 
         ],
         proxy: {

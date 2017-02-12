@@ -84,7 +84,7 @@
                     en: 'OR',
                     pl: 'LUB'
                 },
-                createAccount: {
+                createAccountBtn: {
                     en: 'Create account',
                     pl: 'Załóż konto'
                 }

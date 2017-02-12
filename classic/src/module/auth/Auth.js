@@ -19,16 +19,28 @@
         'Ext.container.Container',
         'Ext.form.Panel',
         'Ext.form.field.Text',
+        'Ext.layout.container.Anchor',
         'Ext.layout.container.Card',
         'Ext.layout.container.Form',
         'Ext.layout.container.VBox',
         'Ext.panel.Panel',
         'Ext.toolbar.Fill',
-        'mh.module.auth.AuthController'
+        'Ext.toolbar.TextItem',
+        'mh.module.auth.AuthController',
+        'mh.module.auth.AccountCreator'
     ],
 
     config: {
 
+            /**
+             * @cfg AccountCreator UI; should be required if redefined
+             */
+            accountCreatorUi: 'mh.module.auth.AccountCreator',
+
+            /**
+             * if true, the account creation entry point will be hidden
+             */
+            disableAccountCreation: false,
 
             //some configurable styles
             //----------------------------
@@ -189,10 +201,14 @@
                                     {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.createAccount}'
+                                            text: '{localisation.createAccountBtn}'
                                         },
-                                        iconCls: 'x-li li-user-plus',
-                                        flex: 1
+                                        iconCls: 'x-li li-user-plus mh-auth-icon-right',
+                                        ui: 'mh-auth-gray-btn',
+                                        flex: 1,
+                                        listeners: {
+                                            click: 'onBtnCreateAccountClick'
+                                        }
                                     }
                                 ]
                             },
@@ -218,29 +234,33 @@
                                             text: '{localisation.btnLogin}'
                                         },
                                         reference: 'btnLogin',
-                                        iconCls: 'x-i54c i54c-enter-1',
+                                        //iconCls: 'x-i54c i54c-enter-1 mh-auth-icon-right',
+                                        iconCls: 'x-li li-chevron-right-circle  mh-auth-icon-right',
                                         listeners: {
                                             click: 'onLoginBtnClick'
                                         },
-                                        flex: 1
+                                        flex: 1,
+                                        iconAlign: 'right',
+                                        ui: 'mh-auth-green-btn',
                                     }
                                 ]
                             },
                             {
                                 xtype: 'toolbar',
                                 dock: 'bottom',
+                                padding: '0 0 0 10',
                                 items: [
                                     '->',
                                     {
                                         xtype: 'button',
                                         reference: 'btnForgotPass',
-                                        iconCls: 'x-i54 i54-profile-voltage',
                                         bind: {
                                             text: '{localisation.btnForgotPass}'
                                         },
                                         listeners: {
                                             click: 'onForgotPassBtnClick'
                                         },
+                                        padding: '0 0 0 0',
                                         ui: 'mh-auth-forgot-pass-button'
                                     }
                                 ]

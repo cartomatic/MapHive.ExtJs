@@ -66,6 +66,23 @@
             this.watchGlobal('auth::passreset', this.onPassReset, this);
             this.watchGlobal('auth::passresetfailed', this.onPassResetFailed, this);
 
+            //hide account create if said so
+            if(this.getView().getDisableAccountCreation()){
+                this.lookupReference('createAccountSeparatorBar').hide();
+                this.lookupReference('createAccountBar').hide();
+            }
+            else {
+                //inject ui
+                var accountCreator = this.lookupReference('cardLayout').add(
+                    Ext.create(this.getView().getAccountCreatorUi(), {
+                        reference: 'accountCreatorUi'
+                    })
+                );
+
+                //and wire up some evts
+                accountCreator.on('accountcreatefinished', this.onAccountCreateFinished, this);
+            }
+
         },
 
         /**
@@ -523,6 +540,27 @@
             else {
                 Ext.Msg.show(cfg);
             }
+        },
+
+        /**
+         * Ext.window.Window
+         * Account creator ui
+         */
+        accountCreator: null,
+
+        /**
+         * btm create account click handler; initiates account creation procedure
+         * @param btn
+         */
+        onBtnCreateAccountClick: function(){
+            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('accountCreatorUi'));
+        },
+
+        /**
+         * account creator finished evt handler. brings back the logon ui
+         */
+        onAccountCreateFinished: function(){
+            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
         }
 
     });

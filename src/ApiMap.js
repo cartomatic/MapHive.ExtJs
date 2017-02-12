@@ -35,6 +35,7 @@
             //users
             users: 'users',
             userprofile: 'users/owndetails',
+            accountCreate: 'users/account',
 
             localisationClasses: 'localisationclasses',
             translationKeys: 'translationkeys',

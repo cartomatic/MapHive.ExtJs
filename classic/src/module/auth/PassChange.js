@@ -12,11 +12,14 @@
     
         xtype: 'mh-auth-pass-change',
 
-        requires: [
-            'mh.module.auth.PassChangeController'
-        ],
+    requires: [
+        'Ext.form.field.Text',
+        'Ext.layout.container.Anchor',
+        'Ext.toolbar.Fill',
+        'mh.module.auth.PassChangeController'
+    ],
 
-        controller: 'mh-auth-pass-change',
+    controller: 'mh-auth-pass-change',
         viewModel: true,
 
         header: {

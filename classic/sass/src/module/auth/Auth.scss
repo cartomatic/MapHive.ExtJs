@@ -12,5 +12,18 @@
   $border-color-focus-pressed: transparent,
   $background-color: transparent,
   $color: rgb(78, 78, 78),
-  $font-weight: bold
+  $font-weight: normal,
+  $font-weight-over: bold
+);
+
+@include extjs-button-small-ui(
+  $ui: 'mh-auth-green-btn',
+  $border-color: $color-soft-green,
+  $background-color: $color-soft-green
+);
+
+@include extjs-button-small-ui(
+  $ui: 'mh-auth-gray-btn',
+  $border-color: $color-gray,
+  $background-color: $color-gray
 );
