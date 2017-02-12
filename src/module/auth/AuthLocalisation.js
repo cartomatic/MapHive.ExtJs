@@ -87,6 +87,18 @@
                 createAccountBtn: {
                     en: 'Create account',
                     pl: 'Załóż konto'
+                },
+                btnCancelAuth: {
+                    en: 'Cancel',
+                    pl: 'Anuluj'
+                },
+                cancelAuthWithReloadTitle: {
+                    en: 'Cancel auth',
+                    pl: 'Rezygnacja z logowania'
+                },
+                cancelAuthWithReloadMsg: {
+                    en: 'Active application requires auth. Dismissing authentication prompt will load the default application instead.<br/>Are you sure you want to proceed?',
+                    pl: 'Aktywna aplikacja wymaga zalogowania. Rezygnacja z logowania spowoduje zmianę aplikacji, na aplikację domyślną.<br/>Czy na pewno chcesz kontynuować?'
                 }
             }
         }

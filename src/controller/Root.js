@@ -322,6 +322,7 @@
             //The prerequisite here is to know what to do in advance. There were no service calls and such yet, so need to depend on whatever has been worked out
             //on the serverside prior to returning the app entry point - default aspx;
             if(this.appRequiresAuth()){
+                //and continue with the auth checkups
                 this.initPreLaunchAuthentication();
             }
             else {
@@ -383,18 +384,25 @@
                 //initially assume HOST mode, so the app should be specified in the url
                 //note app is not in the hash anymore, but in the url now
                 //appIdentifier = this.getCustomHashParam(this.appHashProperties.app),
-                appIdentifier = this.getUrlAppIdentifier() || this.standardiseAppIdentifyingUrl(this.getAppIdentifyingUrl());
+                appIdentifier = this.getUrlAppIdentifier();
 
+            //if an app identifier has been found in the URL this app is a host app
+            //a hosted app should really return 404 when app identifier is present in the url.
+            //this will allow the host app to start while a hosted app should trigger an auth upon its own launch.
+            //when in 'standalone' mode it should seamlessly work too
+            if(!appIdentifier){
+                appIdentifier = this.standardiseAppIdentifyingUrl(this.getAppIdentifyingUrl());
 
-            //Depending on mode - HOST / HOSTED app is recognised by url or the app id / short name
-            for(ai; ai < ailen; ai++){
-                var localIdentifier = appIdentifiers[ai];
-                if(Ext.String.startsWith(localIdentifier, 'http')){
-                    localIdentifier = this.standardiseAppIdentifyingUrl(localIdentifier);
-                }
-                if(localIdentifier === appIdentifier){
-                    requiresAuth = true;
-                    break;
+                //Depending on mode - HOST / HOSTED app is recognised by url or the app id / short name
+                for(ai; ai < ailen; ai++){
+                    var localIdentifier = appIdentifiers[ai];
+                    if(Ext.String.startsWith(localIdentifier, 'http')){
+                        localIdentifier = this.standardiseAppIdentifyingUrl(localIdentifier);
+                    }
+                    if(localIdentifier === appIdentifier){
+                        requiresAuth = true;
+                        break;
+                    }
                 }
             }
 
@@ -817,7 +825,6 @@
                 useSplashscreen = app.get('useSplashscreen'),
 
                 destinationUrl;
-
 
             //Note:
             //in order to keep the url sensible (not so important when working in a frame of course),

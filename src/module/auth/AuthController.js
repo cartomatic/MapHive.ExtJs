@@ -16,7 +16,8 @@
             'mh.communication.MsgBus',
             'mh.mixin.CustomConfig',
             'mh.mixin.Localisation',
-            'mh.mixin.PublishApi'
+            'mh.mixin.PublishApi',
+            'mh.mixin.UserAppsUtils'
         ],
 
         /**
@@ -83,7 +84,12 @@
                 accountCreator.on('accountcreatefinished', this.onAccountCreateFinished, this);
             }
 
+            //in order to maitain app stability apps info is required, so when user decides to cancel the auth he is redirected to the home app.
+            //executing get apps evt callback should do the trick
+            this.getApps();
         },
+
+        onAppsRetrieved: Ext.empyFn,
 
         /**
          * view hide callback
@@ -561,6 +567,40 @@
          */
         onAccountCreateFinished: function(){
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('loginView'));
+        },
+
+        /**
+         * ath cancel callback
+         */
+        onBtnCancelAuthClick: function(btn){
+            var currentApp = this.getCurrentApp();
+
+            //when it is detected an app requires auth the app start is put on hold and resumed when user is authenticated.
+            //therefore there may be scenarios when there is no app yet as apps have not been pulled.
+            //in such case assume an app requires auth and on cancel redirect to home.
+
+            if(!currentApp || currentApp.get('requiresAuth')){
+                var me = this;
+                Ext.Msg.show({
+                    animateTarget: btn,
+                    title: this.getTranslation('cancelAuthWithReloadTitle'),
+                    message: this.getTranslation('cancelAuthWithReloadMsg'),
+                    width: 350,
+                    buttons: Ext.Msg.YESNO,
+                    icon: Ext.MessageBox.QUESTION,
+                    iconCls: 'x-i54c i54c-exit-2',
+                    fn: function(btn){
+                        if(btn === 'yes'){
+                            me.reset();
+                            me.getView().hide();
+                            me.fireGlobal('root::reloadapp', me.getHomeApp());
+                        }
+                    }
+                });
+            }
+            else {
+                this.getView().hide();
+            }
         }
 
     });

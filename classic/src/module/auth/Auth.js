@@ -241,7 +241,7 @@
                                         },
                                         flex: 1,
                                         iconAlign: 'right',
-                                        ui: 'mh-auth-green-btn',
+                                        ui: 'mh-auth-green-btn'
                                     }
                                 ]
                             },
@@ -250,6 +250,18 @@
                                 dock: 'bottom',
                                 padding: '0 0 0 10',
                                 items: [
+                                    {
+                                        xtype: 'button',
+                                        reference: 'btnCancelAuth',
+                                        bind: {
+                                            text: '{localisation.btnCancelAuth}'
+                                        },
+                                        listeners: {
+                                            click: 'onBtnCancelAuthClick'
+                                        },
+                                        padding: '0 0 0 0',
+                                        ui: 'mh-auth-cancel-button'
+                                    },
                                     '->',
                                     {
                                         xtype: 'button',
