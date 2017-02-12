@@ -32,7 +32,21 @@
         menu: {
             items: [
                 {
-                    reference: 'userInfo'
+                    reference: 'userInfo',
+                    listeners: {
+                        click: 'onBtnUserInfoClick'
+                    }
+                },
+                {
+                    reference: 'btnChangePass',
+                    iconCls: 'x-i54c i54c-key-22',
+                    bind: {
+                        text: '{localisation.btnChangePass}'
+                    },
+                    hidden: true,
+                    listeners: {
+                        click: 'onBtnChangePassClick'
+                    }
                 },
                 {
                     xtype: 'menuseparator'

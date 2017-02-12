@@ -37,6 +37,10 @@
                 logOffMask: {
                     en: 'Logging off...',
                     pl: 'Wylogowuję...'
+                },
+                btnChangePass: {
+                    en: 'Change pass',
+                    pl: 'Zmień hasło'
                 }
             }
         }

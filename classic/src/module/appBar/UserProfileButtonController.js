@@ -11,7 +11,8 @@
 
         requires: [
             'mh.data.model.User',
-            'mh.module.appBar.UserProfileButtonLocalisation'
+            'mh.module.appBar.UserProfileButtonLocalisation',
+            'mh.module.auth.PassChange'
         ],
 
         mixins: [
@@ -135,6 +136,7 @@
 
             //authenticated user
             this.findMenuItem('btnLogOff').setVisible(authenticated);
+            this.findMenuItem('btnChangePass').setVisible(authenticated);
 
             //anonymous user
             this.findMenuItem('btnLogOn').setVisible(!authenticated);
@@ -213,6 +215,44 @@
                 }
             });
 
+        },
+
+        /**
+         * @private {mh.module.auth.PassChange}
+         */
+        passChangeDialog: null,
+
+        /**
+         * btn change pass click callback
+         * @param btn
+         */
+        onBtnChangePassClick: function(btn){
+            if(!this.passChangeDialog){
+                this.passChangeDialog = Ext.create('mh.module.auth.PassChange', {
+                    animateTarget: btn
+                });
+            }
+            this.passChangeDialog.show();
+        },
+
+        /**
+         * btn user info click
+         * @param btn
+         */
+        onBtnUserInfoClick: function(btn){
+
+            //nothing to do really...
+            if(!this.userProfile){
+                return;
+            }
+
+            Ext.Msg.show({
+                title: 'User profile',
+                message: 'This is gonna be a user profile editor',
+                animateTarget: btn,
+                icon: Ext.MessageBox.INFO,
+                buttons: Ext.MessageBox.OK
+            });
         }
     });
     
