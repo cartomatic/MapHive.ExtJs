@@ -464,18 +464,20 @@
 
             this.hideSplash();
 
-            this.getAuthUiInstance().showLogonView();
+            //<debug>
+            //this.getAuthUiInstance().showLogonView();
+            //</debug>
 
-            // //<debug>
-            // if(true){
-            //     this.getAuthUiInstance().showLogonViewWithAutoLogon('queen@maphive.net', 'test');
-            // }
-            // else {
-            //     //</debug>
-            //     this.getAuthUiInstance().showLogonView();
-            //     //<debug>
-            // }
-            // //</debug>
+            //<debug>
+            if(true){
+                this.getAuthUiInstance().showLogonViewWithAutoLogon('queen@maphive.net', 'test');
+            }
+            else {
+                //</debug>
+                this.getAuthUiInstance().showLogonView();
+                //<debug>
+            }
+            //</debug>
         },
 
         /**

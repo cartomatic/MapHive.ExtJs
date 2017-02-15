@@ -29,13 +29,22 @@
         menuAlign: 'tr-br?',
         arrowVisible: false,
 
+        bind: {
+            iconCls: '{mainBtnIconCls}'
+        },
+
         menu: {
             items: [
                 {
                     reference: 'userInfo',
                     listeners: {
                         click: 'onBtnUserInfoClick'
-                    }
+                    },
+                    bind: {
+                        text: '{profileName}',
+                        iconCls: '{menuUserIconCls}'
+                    },
+                    iconCls: ' ' //Note: this is silly, but without specifying cls here, binding seem to not work...
                 },
                 {
                     reference: 'btnChangePass',

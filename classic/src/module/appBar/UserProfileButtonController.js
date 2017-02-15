@@ -12,7 +12,8 @@
         requires: [
             'mh.data.model.User',
             'mh.module.appBar.UserProfileButtonLocalisation',
-            'mh.module.auth.PassChange'
+            'mh.module.auth.PassChange',
+            'mh.module.auth.AccountEditor'
         ],
 
         mixins: [
@@ -62,7 +63,7 @@
          */
         onUserAuthenticated: function(){
             //obtain user info!
-            this.userProfile = null;
+            this.getViewModel().set('userProfile', null);
             this.getUserProfile();
         },
 
@@ -70,7 +71,7 @@
          * user logged off callback
          */
         onUserLoggedOff: function(){
-            this.userProfile = null;
+            this.getViewModel().set('userProfile', null);
             this.updateState();
         },
 
@@ -94,7 +95,7 @@
          * @param userProfile
          */
         onUserProfileRetrieved: function(userProfile){
-            this.userProfile = userProfile;
+            this.getViewModel().set('userProfile', userProfile);
             this.updateState();
         },
 
@@ -102,21 +103,6 @@
          * updates the state based on the current user - anonymous vs authenticated
          */
         updateState: function(){
-
-            var btn = this.getView(),
-                userInfo = this.findMenuItem('userInfo'),
-                btnIcon = this.userProfile ? 'x-i54 i54-male-circle-1 i54-2x' : 'x-i54c i54c-anonymous-2 i54c-2x',
-                userMenuIcon = this.userProfile ? 'x-i54 i54-male-circle-1' : 'x-i54c i54c-anonymous-2',
-                //TODO - when user profile has user icon, or gravatar, try set it instead!
-                userName = this.userProfile ?
-                    this.userProfile.get('username') :
-                    this.getTranslation('anonymous');
-
-            btn.setIconCls(btnIcon);
-
-            userInfo.setIconCls(userMenuIcon);
-            userInfo.setText(userName);
-
             this.customiseMenu();
         },
 
@@ -132,7 +118,7 @@
          * customises menu so it adjusts its state to match the current context
          */
         customiseMenu: function(){
-            var authenticated = !!this.userProfile;
+            var authenticated = !!this.getViewModel().get('userProfile');
 
             //authenticated user
             this.findMenuItem('btnLogOff').setVisible(authenticated);
@@ -236,23 +222,47 @@
         },
 
         /**
+         * @private {Ext.window.Window}
+         * instance of mh.module.auth.AccountEditor wrapped into a window
+         */
+        userAccountEditor: null,
+
+        /**
+         * gets an instance of mh.module.auth.AccountEditor wrapped into a window
+         * @param btn
+         */
+        getUserAccountEditor: function(btn){
+            if(!this.userAccountEditor){
+                this.userAccountEditor = Ext.create('Ext.window.Window', {
+                    title: this.getTranslation('accountEditor'),
+                    iconCls: 'x-i54c i54c-master-yoda',
+                    animateTarget: btn,
+                    width: 450,
+                    layout: 'fit',
+                    items: [
+                        {
+                            xtype: 'mh-auth-account-editor'
+                        }
+                    ],
+                    modal: true,
+                    closeAction: 'hide'
+                });
+            }
+            return this.userAccountEditor;
+        },
+
+        /**
          * btn user info click
          * @param btn
          */
         onBtnUserInfoClick: function(btn){
 
             //nothing to do really...
-            if(!this.userProfile){
+            if(!this.getViewModel().get('userProfile')){
                 return;
             }
 
-            Ext.Msg.show({
-                title: 'User profile',
-                message: 'This is gonna be a user profile editor',
-                animateTarget: btn,
-                icon: Ext.MessageBox.INFO,
-                buttons: Ext.MessageBox.OK
-            });
+            this.getUserAccountEditor(btn).show();
         }
     });
     

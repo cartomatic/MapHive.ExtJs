@@ -41,6 +41,10 @@
                 btnChangePass: {
                     en: 'Change pass',
                     pl: 'Zmień hasło'
+                },
+                accountEditor: {
+                    en: 'Profile details',
+                    pl: 'Twoje konto'
                 }
             }
         }
