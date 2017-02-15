@@ -32,7 +32,10 @@
         config: {
             multi: true,
             overCls: 'mh-upload-drag-over',
-            uploadUrl: null
+            uploadUrl: null,
+            //file upload callbacks
+            fileUploadSuccess: null,
+            fileUploadFailure: null
         },
 
         items: [

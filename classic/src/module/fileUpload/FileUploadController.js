@@ -9,11 +9,12 @@
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-file-upload',
 
-        requires: [
-            'mh.module.fileUpload.FileUploadLocalisation'
-        ],
+    requires: [
+        'mh.data.Ajax',
+        'mh.module.fileUpload.FileUploadLocalisation'
+    ],
 
-        mixins: [
+    mixins: [
             'mh.mixin.CallMeParent',
             'mh.mixin.Localisation',
             'mh.mixin.PublishApi'
@@ -222,6 +223,7 @@
                 else if (xhr.readyState == 4) {
                     me.getView().unmask();
                     me.onUploadFailure(
+                        xhr.status,
                         Ext.JSON.decode(xhr.responseText, true) //true foe safe
                     );
                 }
@@ -253,7 +255,16 @@
          * @param fd
          */
         customiseUpload: function(xhr, fd){
+            var stdHdrs = mh.data.Ajax.getStandardHeaders(),
+                hdrs = Ext.Object.getKeys(stdHdrs);
 
+            //set all the currently 'active' Ajax headers on the xhr object
+            //make sure though to ignore the Content-Type header as xhr will set it up for the file upload (multipart)
+            Ext.Array.each(hdrs, function(hdr){
+                if(hdr !== 'Content-Type'){
+                    xhr.setRequestHeader(hdr, stdHdrs[hdr]);
+                }
+            });
         },
 
         /**
@@ -266,6 +277,10 @@
             //debug
             console.warn('UPLOAD SUCCESS', response);
             //</debug>
+            var callback = this.getView().getFileUploadSuccess();
+            if(Ext.isFunction(callback)){
+                callback(response);
+            }
         },
 
         /**
@@ -274,10 +289,14 @@
          *
          * @param response
          */
-        onUploadFailure: function(response){
+        onUploadFailure: function(statusCode, response){
             //debug
             console.warn('UPLOAD FAILED', response);
             //</debug>
+            var callback = this.getView().getFileUploadFailure();
+            if(Ext.isFunction(callback)){
+                callback(statusCode, response);
+            }
         }
     });
 }());
