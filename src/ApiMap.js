@@ -28,6 +28,7 @@
             //apps
             applications: 'applications',
             userapps: 'applications/userapps',
+            userOrgs: 'users/userorgs',
 
 
             userConfiguration: 'configuration/user',

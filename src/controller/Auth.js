@@ -269,6 +269,7 @@
 
             //clean up the auth stuff!
             authTokens = null;
+            this.currentUser = null;
 
             this.fireGlobal('auth::userloggedoff');
             this.fireGlobal('auth::xwindowuserloggedoff', null, {suppressLocal: true, hosted: true});

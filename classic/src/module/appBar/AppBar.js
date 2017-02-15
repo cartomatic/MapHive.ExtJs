@@ -24,6 +24,7 @@
     requires: [
         'mh.module.appBar.AppBarController',
         'mh.module.appBar.AppSwitcherButton',
+        'mh.module.appBar.OrgSwitcherButton',
         'mh.module.appBar.UserProfileButton'
     ],
 
@@ -73,8 +74,7 @@
                 },
                 items: [
                     {
-                        xtype: 'container',
-                        html: 'TODO - Org context switcher'
+                        xtype: 'mh-org-switcher-button'
                     },
                     {
                         xtype: 'container',
