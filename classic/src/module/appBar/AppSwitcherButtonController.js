@@ -4,6 +4,8 @@
     //Make sure strict mode is on
     'use strict';
 
+    var userAuthenticated = false;
+
     /**
      * App switcher btn controller - responsible for providing the functionality to switch between the applications.
      * its controller pulls the required settings automatically by contacting the configure endpoint
@@ -12,13 +14,14 @@
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-app-switcher-button',
 
-        requires: [
-            'Ext.button.Button',
-            'Ext.layout.container.Column',
-            'Ext.panel.Panel'
-        ],
+    requires: [
+        'Ext.button.Button',
+        'Ext.layout.container.Column',
+        'Ext.panel.Panel',
+        'mh.mixin.UserAppsUtils'
+    ],
 
-        mixins: [
+    mixins: [
             'mh.util.console.Formatters',
             'mh.data.Ajax',
             'mh.mixin.UserAppsUtils'
@@ -74,7 +77,6 @@
          * user authenticated - refresh the apps
          */
         onUserAuthenticated: function(){
-            this.userAuthenticated = true;
             this.getApps();
         },
 
@@ -82,7 +84,7 @@
          * user logged off callback
          */
         onUserLoggedOff: function(){
-            this.userAuthenticated = false;
+            userAuthenticated = false;
             this.getApps();
         },
 
@@ -339,7 +341,9 @@
             var currentApp = this.getCurrentApp();
 
             if(!currentApp || btn.app.get('uuid') !== currentApp.get('uuid')){
-                if(btn.app.get('requiresAuth') && !this.userAuthenticated){
+
+                if(btn.app.get('requiresAuth') && !userAuthenticated){
+
                     this.watchGlobal('auth::userauthenticated', this.onContinueAppSwitchAfterLogonCompleted, this);
                     this.watchGlobal('auth::userauthcancel', this.onCancelAppSwitchAfterLogonCancelation, this);
                     this.appToBeSwitchedTo = btn.app;
@@ -361,6 +365,7 @@
             this.unwatchGlobal('auth::userauthenticated', this.onContinueAppSwitchAfterLogonCompleted, this);
 
             this.fireGlobal('root::reloadapp', this.appToBeSwitchedTo);
+
             this.appToBeSwitchedTo = null;
         },
 
@@ -373,6 +378,16 @@
 
             this.appToBeSwitchedTo = null;
         }
+
+    }, function(){
+
+        //silly as it may seem, but need msg bus mixed in and need to avoid auto requires via sencha plugin
+        var msgBus = 'mh.communication.MsgBus';
+        msgBus = Ext.create(msgBus);
+
+        msgBus.watchGlobal('auth::userauthenticated', function(at){
+            userAuthenticated = at !== null;
+        }, this);
 
     });
 
