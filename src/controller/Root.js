@@ -211,6 +211,7 @@
             //whenever user is authenticated or auth changes, do some house keeping works
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticatedResetAppsCache, this);
 
+
             //triggers app retrieval
             this.watchGlobal('root::getapps', this.onGetApps, this);
 
@@ -245,6 +246,9 @@
             this.hashPropertyValueDelimiter = hashPropertyValueDelimiter || this.hashPropertyValueDelimiter;
         },
 
+        /**
+         * Controller kick in here
+         */
         onLaunch: function(){
             //<debug>
             console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'launched');
@@ -513,8 +517,6 @@
             return ret;
         },
 
-
-
         /**
          * auth::userauthenticated evt listener
          * resets the internal applications cache
@@ -532,14 +534,8 @@
         continueAppLaunchWhenUserAuthenticated: function(accessToken){
             //Auth controller is responsible for handling the authentication. Whenever auth is happy to go, it fires the auth::userauthenticated event.
 
-            //when authenticated, will need to pull organisations first
-            //Note: so far it seems that obtaining a list of orgs in the Root is sensible. Auth should only handle auth related stuff
-            //when organisations are available then user is prompted to choose his scope and then the apps get pulled.
-            //when apps are available it is time to start!
-
-
             //obtain client configuration and launch when ready
-            this.getUserConfiguration();
+            this.getUserConfiguration(accessToken);
         },
 
 
@@ -548,7 +544,15 @@
          * on success it should fire root::launchapp via this.fireGlobal('root::launchapp');
          * Note: if an application does not provide configuration, its root controller should overwrite this method and simply fire root::launchapp
          */
-        getUserConfiguration: function(){
+        getUserConfiguration: function(accessToken){
+
+            //for the apps that did not trigger the auth procedure auth token is null;
+            //just let them fire up straight away
+            if(!accessToken){
+                this.fireGlobal('root::launchapp');
+                return;
+            }
+
             //this will call the app instance to handle the load mask
             this.fireGlobal('root::getuserconfigstart');
 
@@ -563,12 +567,26 @@
         },
 
         /**
-         * client config retrieved
+         * client config retrieved, so now there is time to obtain user organisation ctx
          */
         onGetUserConfigurationSuccess: function(response){
-            //get rid of load mask - app will handle this
-            this.fireGlobal('root::getuserconfigend', response);
-            this.fireGlobal('root::launchapp', response);
+            //since we got here, user orgs context also needs to be ensured.
+            //root controller does not need orgs as such, but poking the orgs controller early enough just make the overall app launch flow a bit more concise
+            this.watchGlobal(
+                'org::context',
+                function(orgCtx){
+                    //at this stage we're ready to go!
+
+                    //get rid of load mask - app will handle this
+                    this.fireGlobal('root::getuserconfigend', response);
+
+                    //proceed with tha app launch
+                    this.fireGlobal('root::launchapp', response, orgCtx);
+                },
+                this,
+                { single: true }
+            );
+            this.fireGlobal('org::getcontext');
         },
 
         /**
@@ -586,6 +604,7 @@
             //let the application handle the failure visually
             this.fireGlobal('root::getuserconfigfailure');
         },
+
 
         /**
          * root::loadhostedapp callback; loads an appropriate hosted app

@@ -32,6 +32,7 @@
         controllers: [
             'mh.controller.Root',
             'mh.controller.Auth',
+            'mh.controller.Organisation',
             'mh.controller.Splash'
         ],
 
@@ -89,8 +90,9 @@
          * called whenever root controller finishes whatever needs to be done prior to launching the actual app
          * Launches the application launcher class
          * @param userConfiguration
+         * @param orgCtx - user's orgs context
          */
-        onLaunchApp: function(userConfiguration){
+        onLaunchApp: function(userConfiguration, orgCtx){
 
             //hide the splash screen; do it early, so it starts fading out as the app UI builds.
             //perhaps should move it to onAppLaunch?
@@ -105,7 +107,7 @@
 
             userConfiguration = userConfiguration || {};
 
-            this.internalAppLaunch(userConfiguration);
+            this.internalAppLaunch(userConfiguration, orgCtx);
         },
 
         /**
@@ -113,7 +115,7 @@
          * at this stage the application should be properly scoped
          * @param userConfiguration
          */
-        internalAppLaunch: function(userConfiguration){
+        internalAppLaunch: function(userConfiguration, orgCtx){
 
             //Note:
             //In the generic code cannot require modules that are toolkit specific!
