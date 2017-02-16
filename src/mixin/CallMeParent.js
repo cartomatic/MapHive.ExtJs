@@ -17,13 +17,15 @@
         callMeParent: function(method, args) {
 
             //Note:
-            //Improvement ported from MapHive. as usually ;)
             //setting a calledParent flag on an instance results in it being set already for further calls which is not good
             //as it indicates a parent call has been made already and leads to unexpected behavior - parent is not called.
             //therefore need to use a temp object that maps the calls per method, and then wipes them out for further calls
             if(this !== this.superclass){
 
-                if(!this.calledMapCache || !this.calledMapCache[method]){
+                //Note: when calling from an app instance level it is not the same as the app declaring class because of some reason
+                //need to handle this appropriately by digging one level deeper
+                var appInstance = Ext.getClassName(this).indexOf('$') > -1;
+                if(!appInstance && (!this.calledMapCache || !this.calledMapCache[method])){
                     this.calledMapCache = this.calledMapCache || {};
                     this.calledMapCache[method] = true;
                     this.resetCalledMapCache(method);
@@ -42,7 +44,7 @@
             //}
             else {
                 //hmmm, looks like this is the case, the superclas[method] apply keeps on spinning over itself
-                //not entirely sure why, but it looks like it's caused by the way object inheritacne works in ExtJs
+                //not entirely sure why, but it looks like it's caused by the way object inheritance works in ExtJs
                 //so need to check if can call deeper
                 if(this.superclass && this.superclass.superclass){
                     this.superclass.superclass[method].apply(this.superclass, arguments);
