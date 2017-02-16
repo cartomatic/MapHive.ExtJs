@@ -12,21 +12,37 @@
          * Configured applications
          * @private
          */
-        apps = null;
+        apps = null,
+
+        staticInstance = null,
+
+        getStaticInstance = function(){
+            if(!staticInstance){
+                staticInstance = Ext.create('mh.mixin.UserAppsUtils');
+            }
+            return staticInstance;
+        };
 
     /**
-     * User apps related functionality; intended to be used as a mixin
+     * User apps related functionality; intended to be used as a mixin; simplifies obtaining the information on user apps
      * Created by domin on 03.02.2017.
      */
     Ext.define('mh.mixin.UserAppsUtils', {
 
         requires: [
-            'mh.communication.MsgBus'
         ],
 
         mixins: [
-            'mh.mixin.UrlUtils'
+            'mh.mixin.UrlUtils',
+            'mh.communication.MsgBus'
         ],
+
+        statics: {
+            //triggers get apps procedure
+            getApps: function(){
+                getStaticInstance().getApps();
+            }
+        },
 
         /**
          * whether or not the get Apps is currently in progress
@@ -74,7 +90,11 @@
          * @param {mh.data.model.Application[]} apps
          */
         onAppsRetrieved: function(apps){
-            console.warn('UUUUPS, you have not overwritten the mh.mixin.UserAppsUtils.onAppsRetrieved function in ' + Ext.getClassName(this));
+            //<debug>
+            if(Ext.getClassName(this) !== 'mh.mixin.UserAppsUtils'){
+                console.warn('UUUUPS, you have not overwritten the mh.mixin.UserAppsUtils.onAppsRetrieved function in ' + Ext.getClassName(this));
+            }
+            //</debug>
         },
 
         /**
@@ -131,7 +151,9 @@
 
     }, function(){
 
-        var msgBus = Ext.create('mh.communication.MsgBus');
+        //silly as it may seem, but need msg bus mixed in and need to avoid auto requires via sencha plugin
+        var msgBus = 'mh.communication.MsgBus';
+        msgBus = Ext.create(msgBus);
 
         msgBus.watchGlobal('root::appreloadstart', function(app){
             currentApp = app;
@@ -139,6 +161,21 @@
 
         msgBus.watchGlobal('auth::userauthenticated', function(){
             apps = null;
+            //init automated apps retrieval on auth state change
+            //when in hosted mode - ignore. parent will usually handle such stuff on its own and no need to repeat when hosted
+            var tunnel = msgBus.getTunnelId();
+            msgBus.watchGlobal(
+                'root::customhashparam',
+                function(hosted){
+                    if(hosted !== 'true'){
+                        mh.mixin.UserAppsUtils.getApps();
+                    }
+                },
+                this,
+                {single: true, tunnel: tunnel}
+            );
+            //custom param receive callback properly set up so just fire evt to get the data back
+            msgBus.fireGlobal('root::getcustomhashparam', 'hosted', {tunnel: tunnel});
         }, this);
 
     });

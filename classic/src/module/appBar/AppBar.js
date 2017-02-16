@@ -24,6 +24,7 @@
     requires: [
         'mh.module.appBar.AppBarController',
         'mh.module.appBar.AppSwitcherButton',
+        'mh.module.appBar.CurrentAppDisplay',
         'mh.module.appBar.OrgSwitcherButton',
         'mh.module.appBar.UserProfileButton'
     ],
@@ -53,8 +54,7 @@
                         flex: 1
                     },
                     {
-                        xtype: 'container',
-                        html: 'TODO - App name...'
+                        xtype: 'mh-current-app-display'
                     }
                 ]
             },
