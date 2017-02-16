@@ -17,8 +17,7 @@
     requires: [
         'Ext.button.Button',
         'Ext.layout.container.Column',
-        'Ext.panel.Panel',
-        'mh.mixin.UserAppsUtils'
+        'Ext.panel.Panel'
     ],
 
     mixins: [

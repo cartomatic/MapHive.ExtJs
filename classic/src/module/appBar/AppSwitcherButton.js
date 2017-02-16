@@ -23,10 +23,10 @@
             appBtnUi: 'default',
 
             /**
-             * @cfg {string} [appActiveBtnUi='red-button']
+             * @cfg {string} [appActiveBtnUi='mh-app-switcher-active-app-button']
              * The default MapHive app switcher active app btn - use whatever ui your theme provides
              */
-            appActiveBtnUi: 'default'
+            appActiveBtnUi: 'mh-app-switcher-active-app-button'
         },
 
         /**

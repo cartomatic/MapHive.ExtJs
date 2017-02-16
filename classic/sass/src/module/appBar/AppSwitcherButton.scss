@@ -1,0 +1,5 @@
+@include extjs-button-small-ui(
+    $ui: 'mh-app-switcher-active-app-button',
+    $border-color: $color-soft-green,
+    $background-color: $color-soft-green
+);
