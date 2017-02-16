@@ -39,6 +39,12 @@
          */
 
         /**
+         * @event org::changed
+         * fires whenever and org changes
+         * @param org
+         */
+
+        /**
          * Called when the view is created
          */
         init: function() {
@@ -51,7 +57,7 @@
 
             this.watchGlobal('org::xwindowgetcontext', this.onXWindowGetOrgCtx, this);
 
-            this.watchGlobal('org::xwindowchange', this.onXWindowOrgChange, this);
+            this.watchGlobal('org::xwindowchanged', this.onXWindowOrgChanged, this);
         },
 
         /**
@@ -91,6 +97,11 @@
         onUserLoggedOff: function(){
             this.userAuthenticated = false;
             this.userOrgs = null;
+
+            //also, since logged off, remove the org token from url, as it does not make sense anymore.
+            //Note: not so sure about it though...
+            var updatedUrl = this.removeUrlOrgToken(window.location.href);
+            history.pushState(null, window.name, updatedUrl);
         },
 
 
@@ -194,7 +205,7 @@
             this.currentOrg = Ext.create('mh.data.model.Organisation', orgCtx.currentOrg);
 
             this.userOrgs = [];
-            Ext.Array.each(orgCtx, function(org){
+            Ext.Array.each(orgCtx.userOrgs, function(org){
                 this.userOrgs.push(Ext.create('mh.data.model.Organisation', org));
             }, this);
 
@@ -287,15 +298,17 @@
             var updatedUrl = this.updateUrlOrgToken(window.location.href, org.get('slug'));
             history.pushState(null, window.name, updatedUrl);
 
-            //pass down to children
-            this.fireGlobal('org::xwindowchange', org.get('slug'), {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
+            this.fireGlobal('org::changed', org);
+
+            //also pass down to children
+            this.fireGlobal('org::xwindowchanged', org.get('slug'), {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
         },
 
         /**
-         * got org change evt from parent. need to adjust self
+         * got org changed evt from parent. need to adjust self
          * @param slug
          */
-        onXWindowOrgChange: function(slug){
+        onXWindowOrgChanged: function(slug){
             //basically parent and child orgs should be intact at all times. because of that simply find the org in userOrgs by slug
             var newOrg;
             Ext.Array.each(this.userOrgs, function(o){

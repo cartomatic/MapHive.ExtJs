@@ -63,6 +63,24 @@
         },
 
         /**
+         * removes the app token from the url
+         * @param url
+         * @returns {*}
+         */
+        removeUrlAppToken: function(url){
+            return this.updateUrlAppToken(url, null);
+        },
+
+        /**
+         * removed the org token from the url
+         * @param url
+         * @returns {*}
+         */
+        removeUrlOrgToken: function(url){
+            return this.updateUrlOrgToken(url, null);
+        },
+
+        /**
          * updates app token in the url and returns the updated url; does not update the url in the url bar
          * @param app
          * @returns {*}
@@ -91,11 +109,12 @@
                 hash = (url || window.location.href).split('#')[1],
                 params = inUrl.split('?')[1],
                 urlParts = inUrl.split('?')[0].split('/'),
-                tokenUpdated = false;
+                tokenUpdated = false,
+                cleanedUpUrlParts = [];
 
             Ext.Array.each(urlParts, function(p, idx){
                 if(p.indexOf(delimiter) === 0){
-                    urlParts[idx] = delimiter + tokenValue;
+                    urlParts[idx] = tokenValue ? delimiter + tokenValue : null;
                     tokenUpdated = true;
                     return false;
                 }
@@ -110,7 +129,14 @@
                 }
             }
 
-            return urlParts.join('/') +
+            //remove the potentially empty url parts
+            Ext.Array.each(urlParts, function(up){
+                if(up !== null){
+                    cleanedUpUrlParts.push(up);
+                }
+            });
+
+            return cleanedUpUrlParts.join('/') +
                 (params ? '?' + params : '') +
                 (hash ? '#' + hash : '');
         },

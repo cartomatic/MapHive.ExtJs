@@ -25,8 +25,6 @@
          */
         init: function() {
 
-            return;
-
             //check if the tbar is visible, or it should be suppressed
             //if toolbar should be hidden, there is no point in triggering the full setup here, as the toolbar is not there anyway!
             var tunnel = this.getTunnelId();
@@ -39,6 +37,8 @@
                         //basically whenever user authenticates it is possible to obtain some info on the orgs user has
                         this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
                         this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
+
+                        this.watchGlobal('org::changed', this.onOrgChanged, this);
 
                         //there is a chance this starts after a user has been authenticated, so need to poke for user orgs anyway
                         this.getUserOrgs();
@@ -58,7 +58,7 @@
          */
         onUserOrgsBtnClick: function(btn){
             //only show menu if user has access to some more orgs...
-            if(btn.getMenu().items.items.length > 1){
+            if(btn.getMenu().items.items.length > 0){
                 btn.showMenu();
             }
         },
@@ -88,56 +88,59 @@
             this.fireGlobal('org::getcontext', null, {tunnel: tunnel});
         },
 
-
         /**
          * org ctx retrieved
          * @param orgCtx
+         * @param orgCtx.userOrgs
+         * @param orgCtx.currentOrg
          */
         orgCtxRetrieved: function(orgCtx){
             //here should have the current user org to put into the btn, and a list of orgs to put into the menu
+
+            var vm = this.getViewModel();
+
+            vm.set('currentOrg', orgCtx.currentOrg);
+            vm.set('userOrgs', orgCtx.userOrgs);
+
+            this.updateOrgMenu();
+
+            if(orgCtx.currentOrg){
+                this.getView().show();
+            }
         },
 
-
         /**
-         * looks like got some user orgs
+         * recreates the orgs btn menu
          */
-        onGetUserOrgsSuccess: function(orgs){
+        updateOrgMenu: function(){
+
             var btn = this.getView(),
                 menu = btn.getMenu(),
-                urlOrgSlug = this.getUrlOrgIdentifier(),
-                currentOrg = null,
-                vm = this.getViewModel();
+                vm = this.getViewModel(),
+                currentOrg = vm.get('currentOrg'),
+                userOrgs = vm.get('userOrgs');
 
-            this.currentOrgs = [];
 
             //cleanup the menu
             menu.removeAll();
 
-            Ext.Array.each(orgs, function(org){
-                var o = Ext.create('mh.data.model.Organisation', org);
-                this.currentOrgs.push(o);
+            //recreate the menu
+            Ext.Array.each(userOrgs, function(org) {
+
+                //skip the current org - it gets displayed in the button
+                if(org === currentOrg){
+                    return;
+                }
+
                 menu.add({
                     //maybe some icon for an org...
-                    text: o.get('displayName') || o.get('slug'),
+                    text: org.get('displayName') || org.get('slug'),
                     listeners: {
                         click: 'onBtnOrgChangeClick'
                     },
-                    org: o
+                    org: org
                 });
-
-                if(urlOrgSlug === o.get('slug')){
-                    currentOrg = o;
-                }
-            }, this);
-
-            //basically if there is an org defined in the url, the btn should display that org, and otherwise, it should just scope to the first one
-            if(!currentOrg){
-                currentOrg = this.currentOrgs[0];
-            }
-
-            this.changeOrg(currentOrg);
-
-            btn.show();
+            });
         },
 
         /**
@@ -159,23 +162,23 @@
                 return;
             }
 
+            this.getView().disable();
+
+            //fire up an evt so the global orgs controller takes care of the rest!
+            this.fireGlobal('org::change', org);
+        },
+
+        /**
+         * org changed reported from global orgs ctrl
+         * @param org
+         */
+        onOrgChanged: function(org){
             this.getViewModel().set('currentOrg', org);
+            this.updateOrgMenu();
 
-            //fire it up at the root level???
-            //maybe so...
-            //maybe root should also listen for xwindow org changes and rebroadcast them...
-            //so apps can adjust if needed....
-
-            //own url
-            //and parent / child url - it depends on where the evt initiates from
-            //todo - fire root::changeorg
-
+            this.getView().enable();
         }
 
-        //TODO - listen to root::orgchanged????
-
-        //TODO - communicate org change down the stack
-        //TODO - listen org changes from the depths of the stack
     });
     
 }());
