@@ -431,7 +431,7 @@
             //soooo.... need to fire a xWindow event. right...
 
             //btw: since we're communicating x window, likely, there is no point in tunneling the communication ;)
-            //This would be a bit complex if there was a reason to tunnel it; not impossible though, but would require a proxy than can sunnel / untunnel the evt ;)
+            //This would be a bit complex if there was a reason to tunnel it; not impossible though, but would require a proxy than can tunnel / untunnel the evt ;)
 
             this.watchGlobal('auth::xwindowuserauthenticated', this.onXWindowUserAuthenticated, this);
             this.fireGlobal('auth::xwindowauthenticateuser', null, {suppressLocal: true, host: true});

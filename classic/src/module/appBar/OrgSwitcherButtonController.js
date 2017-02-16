@@ -17,13 +17,15 @@
         ],
 
         requires: [
-        'mh.data.model.Organisation'
-    ],
+            'mh.data.model.Organisation'
+        ],
 
         /**
          * Called when the view is created
          */
         init: function() {
+
+            return;
 
             //check if the tbar is visible, or it should be suppressed
             //if toolbar should be hidden, there is no point in triggering the full setup here, as the toolbar is not there anyway!
@@ -39,7 +41,7 @@
                         this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
 
                         //there is a chance this starts after a user has been authenticated, so need to poke for user orgs anyway
-                        this.getUserOrgsWithUserCheckup();
+                        this.getUserOrgs();
                     }
                 },
                 this,
@@ -78,57 +80,23 @@
         },
 
         /**
-         * retrieves user orgs
-         * @param doUserProfileCheckup when true, this triggers a user profile checkup; useful when it is not known whether a user has authenticated or not
-         */
-        getUserOrgsWithUserCheckup: function(doUserProfileCheckup){
-            //testing for user profile presence is a way to know if a user has authenticated; this is pretty much instantenous - just uses global msg bus to poke the main auth controller
-
-            //wire up the auth::userprofileretrieved listener - whenever user profile becomes available it will be returned!
-            var tunnel = this.getTunnelId();
-            this.watchGlobal(
-                'auth::userprofileretrieved',
-                function(userProfile){
-                    if(userProfile){
-                        this.getUserOrgs();
-                    }
-                },
-                this,
-                {
-                    single: true,
-                    tunnel: tunnel
-                }
-            );
-            this.fireGlobal('auth::getuserprofile', null, {tunnel: tunnel});
-        },
-
-        /**
          * gets user orgs information
          */
         getUserOrgs: function(){
-            this.doGet({
-                url: this.getApiEndPoint('userOrgs'),
-                scope: this,
-                success: this.onGetUserOrgsSuccess,
-                failure: this.onGetUserOrgsFailure
-            });
+            var tunnel = this.getTunnelId();
+            this.watchGlobal('org::context', this.orgCtxRetrieved, this, {single: true, tunnel: tunnel});
+            this.fireGlobal('org::getcontext', null, {tunnel: tunnel});
         },
 
 
         /**
-         * @private
+         * org ctx retrieved
+         * @param orgCtx
          */
-        currentOrgs: null,
-
-        currentOrg: null,
-
-        /**
-         * user orgs failed
-         */
-        onGetUserOrgsFailure: function(){
-            //whatever has been the reason for failure, just hide itself
-            this.getView().hide();
+        orgCtxRetrieved: function(orgCtx){
+            //here should have the current user org to put into the btn, and a list of orgs to put into the menu
         },
+
 
         /**
          * looks like got some user orgs

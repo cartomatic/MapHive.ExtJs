@@ -581,7 +581,10 @@
                     this.fireGlobal('root::getuserconfigend', response);
 
                     //proceed with tha app launch
-                    this.fireGlobal('root::launchapp', response, orgCtx);
+                    this.fireGlobal('root::launchapp', {
+                        userConfig: response,
+                        orgCtx: orgCtx
+                    });
                 },
                 this,
                 { single: true }

@@ -7,16 +7,17 @@
      */
     Ext.define('mh.controller.Organisation', {
         extend: 'Ext.app.Controller',
-    
-        requires: [
 
-        ],
+    requires: [
+        'mh.data.model.Organisation'
+    ],
 
-        mixins: [
+    mixins: [
             'mh.communication.MsgBus',
             'mh.data.Ajax',
             'mh.mixin.ApiMap',
-            'mh.data.model.Organisation'
+            'mh.data.model.Organisation',
+            'mh.mixin.UrlUtils'
         ],
 
         /**
@@ -46,6 +47,9 @@
 
             this.watchGlobal('org::change', this.changeOrg, this);
             this.watchGlobal('org::getcontext', this.getOrgContext, this);
+
+
+            this.watchGlobal('org::xwindowgetcontext', this.onXWindowGetOrgCtx, this);
         },
 
         /**
@@ -85,6 +89,23 @@
 
 
         /**
+         * child asked to get org ctx
+         */
+        onXWindowGetOrgCtx: function(){
+            //TODO
+
+            alert('WHOOAAAAA - got child asking for org ctx xwindow!!!');
+
+            //just set up a local listener - so can perform the org ctx retrieval locally
+
+            //and subscribe to local evt
+
+
+            //and down to children
+            //this.fireGlobal('auth::xwindowuserauthenticated', tokens, {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
+        },
+
+        /**
          * gets the current org context
          */
         getOrgContext: function(e, tunnel){
@@ -94,7 +115,6 @@
             //but also, and that is more important, work out the org scope only once - user could have provided and address with an org he has no access to, so if a host
             //decides to reset the org to the user's org, so should the child app.
 
-
             //if ctx is known OR user is anonymous, return straight away
             if(this.userOrgs || !this.userAuthenticated){
                 this.fireGlobal(this.getTunneledEvtName('org::context', tunnel), {
@@ -103,7 +123,6 @@
                 });
                 return;
             }
-
 
             //expect many potential subsequent requests
             //IMPORTANT - cache the event by the output event name!!!!
@@ -115,9 +134,64 @@
 
             this.duringOrgsCtxRetrieval = true;
 
+            //got here, so reset the ctx data!
+            this.userOrgs = null;
+            this.currentOrg = null;
 
-            //????
-            //this.fireGlobal('root::getorgcontext');
+            //get the hosted info and trigger the appropriate action
+            this.watchGlobal(
+                'root::customhashparam',
+                function(hosted){
+                    if(hosted === 'true'){
+                        //this means need delegate the authentication to the parent
+                        this.handleGetOrgCtxXWindow();
+                    }
+                    else {
+                        //can authenticate locally
+                        this.handleGetOrgCtxLocally();
+                    }
+                },
+                this,
+                {single: true, tunnel: tunnel}
+            );
+
+            //custom param receive callback properly set up so just fire evt to get the data back
+            this.fireGlobal('root::getcustomhashparam', 'hosted', {tunnel: tunnel});
+        },
+
+        /**
+         * pokes host app for org ctx change
+         */
+        handleGetOrgCtxXWindow: function(){
+            this.watchGlobal('org::xwindowcontext', this.onXWindowOrgCtxRetrieved, this);
+            this.fireGlobal('org::xwindowgetcontext', null, {suppressLocal: true, host: true});
+        },
+
+        /**
+         * xwindow org ctx retrieved
+         * @param orgCtx
+         */
+        onXWindowOrgCtxRetrieved: function(orgCtx){
+            console.warn('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', orgCtx);
+            alert('WGOAAAAAAa, got xwindow org ctx! hell yeah');
+
+            //since this is coming xwindow, it's not model instances, but raw data. need to create models
+            //TODO
+
+            //and when all is ready broadcast the data locally!
+            //TODO
+        },
+
+        /**
+         * retrieves user org context information locally
+         */
+        handleGetOrgCtxLocally: function(){
+            this.doGet({
+                url: this.getApiEndPoint('userOrgs'),
+                scope: this,
+                success: this.onGetOrgsContextSuccess,
+                failure: this.onGetOrgsContextFailure
+            });
         },
 
         /**
@@ -125,17 +199,56 @@
          */
         duringOrgsCtxRetrieval: false,
 
-        //on org context
 
+        /**
+         * org context success
+         * @param response
+         */
         onGetOrgsContextSuccess: function(response){
 
-
-
-
             //waive off app retrieval in progress flag
-            this.duringAppsRetrieval = false;
+            this.duringOrgsCtxRetrieval = false;
 
-            this.fireForBufferedTunnels('org::context', this.apps);
+            //get the org slug off the url!
+            var urlOrgSlug = this.getUrlOrgIdentifier();
+
+            //response should be an arr of organisations
+            //so make the instances off the incoming data
+            this.userOrgs = [];
+            this.currentOrg = null;
+            Ext.Array.each(response, function(org){
+                var o = Ext.create('mh.data.model.Organisation', org);
+                this.userOrgs.push(o);
+                if(urlOrgSlug === o.get('slug')){
+                    this.currentOrg = o;
+                }
+            }, this);
+
+            if(!this.currentOrg){
+                this.currentOrg = this.userOrgs[0];
+            }
+
+            //set the current org!
+            this.changeOrg(this.currentOrg);
+
+            this.fireForBufferedTunnels('org::context', {
+                userOrgs: this.userOrgs,
+                currentOrg: this.currentOrg
+            });
+        },
+
+
+        /**
+         * get org ctx failure...
+         */
+        onGetOrgsContextFailure: function(){
+            //since failed to get org ctx there must be some problems with that...
+            //just return empty ctx and let the app handle it locally. they may decide to poke the ctrl again, work without org ctx
+            //or make some noise
+            this.fireForBufferedTunnels('org::context', {
+                userOrgs: this.userOrgs,
+                currentOrg: this.currentOrg
+            });
         },
 
         /**
@@ -144,6 +257,10 @@
          */
         changeOrg: function(org){
 
+            //todo - if org is about to be changed, make sure to adjust own url, and fire down to children if required!
+            //so the local orgs ctrl can do pretty much the same!
+
+            //if host then xwindow!!!
         }
     });
     
