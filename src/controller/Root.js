@@ -835,8 +835,12 @@
                 //work out the url the HOST should be updated to - add app name or id (by now it must be known)
                 updatedHostUrl = self.updateUrlAppToken(
                     window.location.href.split('#')[0] + (hash.length > 0 ? '#' + inUrl[1] : ''), //hash as defined for the app reloading url
-                    app.get('shortName') || app.get('uuid')
+                    app.get('shortName') || app.get('uuid') //btw. uuid should not be too common really!
                 ),
+
+                //app is being changed when the url app token is defined and different than the incoming app; otherwise it is just the first app pushed to the url and iframe
+                urlAppToken = self.getUrlAppIdentifier(),
+                changingApp = urlAppToken && urlAppToken !== (app.get('shortName') || app.get('uuid')),
 
                 urlParts = url.split('?'),
                 baseUrl = urlParts[0],
@@ -902,7 +906,14 @@
                         //update hash - this should set just an app hash at the host level
                         //self.redirectTo(appHash);
                         //note: no more hash redirect, history object instead
-                        history.replaceState(null, window.name, updatedHostUrl);
+
+                        //if the app is being changed, then push state, otherwise update it, so history is ok
+                        if(changingApp) {
+                            history.pushState(null, window.name, updatedHostUrl);
+                        }
+                        else {
+                            history.replaceState(null, window.name, updatedHostUrl);
+                        }
                     },
                     1
                 );

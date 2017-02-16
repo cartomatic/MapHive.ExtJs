@@ -50,6 +50,8 @@
 
 
             this.watchGlobal('org::xwindowgetcontext', this.onXWindowGetOrgCtx, this);
+
+            this.watchGlobal('org::xwindowchange', this.onXWindowOrgChange, this);
         },
 
         /**
@@ -76,6 +78,10 @@
         onUserAuthenticated: function(at){
             this.userAuthenticated = at !== null;
             this.userOrgs = null;
+
+            if(this.userAuthenticated){
+                this.getOrgContext();
+            }
         },
 
         /**
@@ -92,17 +98,28 @@
          * child asked to get org ctx
          */
         onXWindowGetOrgCtx: function(){
-            //TODO
-
-            alert('WHOOAAAAA - got child asking for org ctx xwindow!!!');
-
             //just set up a local listener - so can perform the org ctx retrieval locally
+            //and subscribe to own evt
+            var tunnel = this.getTunnelId();
+            this.watchGlobal(
+                'org::context',
+                function(orgCtx){
 
-            //and subscribe to local evt
+                    //Note: data is recs and this is instance based and will not make it through the xwindow. need to pass data only!
+                    var userOrgs = [],
+                        currentOrg = this.currentOrg.getData();
 
+                    Ext.Array.each(this.userOrgs, function(org){
+                        userOrgs.push(org.getData());
+                    });
 
-            //and down to children
-            //this.fireGlobal('auth::xwindowuserauthenticated', tokens, {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
+                    //pass down to children
+                    this.fireGlobal('org::xwindowcontext', {userOrgs: userOrgs, currentOrg: currentOrg}, {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
+                },
+                this,
+                {single: true, tunnel: tunnel}
+            );
+            this.fireGlobal('org::getcontext', null, {tunnel: tunnel});
         },
 
         /**
@@ -172,14 +189,20 @@
          * @param orgCtx
          */
         onXWindowOrgCtxRetrieved: function(orgCtx){
-            console.warn('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', orgCtx);
-            alert('WGOAAAAAAa, got xwindow org ctx! hell yeah');
 
             //since this is coming xwindow, it's not model instances, but raw data. need to create models
-            //TODO
+            this.currentOrg = Ext.create('mh.data.model.Organisation', orgCtx.currentOrg);
+
+            this.userOrgs = [];
+            Ext.Array.each(orgCtx, function(org){
+                this.userOrgs.push(Ext.create('mh.data.model.Organisation', org));
+            }, this);
 
             //and when all is ready broadcast the data locally!
-            //TODO
+            this.fireForBufferedTunnels('org::context', {
+                userOrgs: this.userOrgs,
+                currentOrg: this.currentOrg
+            });
         },
 
         /**
@@ -199,7 +222,6 @@
          */
         duringOrgsCtxRetrieval: false,
 
-
         /**
          * org context success
          * @param response
@@ -210,7 +232,8 @@
             this.duringOrgsCtxRetrieval = false;
 
             //get the org slug off the url!
-            var urlOrgSlug = this.getUrlOrgIdentifier();
+            var urlOrgSlug = this.getUrlOrgIdentifier(),
+                currentOrg;
 
             //response should be an arr of organisations
             //so make the instances off the incoming data
@@ -220,23 +243,22 @@
                 var o = Ext.create('mh.data.model.Organisation', org);
                 this.userOrgs.push(o);
                 if(urlOrgSlug === o.get('slug')){
-                    this.currentOrg = o;
+                    currentOrg = o;
                 }
             }, this);
 
-            if(!this.currentOrg){
-                this.currentOrg = this.userOrgs[0];
+            if(!currentOrg){
+                currentOrg = this.userOrgs[0];
             }
 
             //set the current org!
-            this.changeOrg(this.currentOrg);
+            this.changeOrg(currentOrg);
 
             this.fireForBufferedTunnels('org::context', {
                 userOrgs: this.userOrgs,
-                currentOrg: this.currentOrg
+                currentOrg: currentOrg
             });
         },
-
 
         /**
          * get org ctx failure...
@@ -256,11 +278,33 @@
          * @param org
          */
         changeOrg: function(org){
+            if(!org || this.currentOrg === org){
+                return;
+            }
+            this.currentOrg = org;
 
-            //todo - if org is about to be changed, make sure to adjust own url, and fire down to children if required!
-            //so the local orgs ctrl can do pretty much the same!
+            //note - org ALWAYS has a unique slug
+            var updatedUrl = this.updateUrlOrgToken(window.location.href, org.get('slug'));
+            history.pushState(null, window.name, updatedUrl);
 
-            //if host then xwindow!!!
+            //pass down to children
+            this.fireGlobal('org::xwindowchange', org.get('slug'), {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
+        },
+
+        /**
+         * got org change evt from parent. need to adjust self
+         * @param slug
+         */
+        onXWindowOrgChange: function(slug){
+            //basically parent and child orgs should be intact at all times. because of that simply find the org in userOrgs by slug
+            var newOrg;
+            Ext.Array.each(this.userOrgs, function(o){
+                if(o.get('slug') === slug){
+                    newOrg = o;
+                    return false;
+                }
+            });
+            this.changeOrg(newOrg);
         }
     });
     
