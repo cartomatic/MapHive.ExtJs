@@ -88,23 +88,6 @@
                 //and wire up some evts
                 accountCreator.on('accountcreatefinished', this.onAccountCreateFinished, this);
             }
-
-            //in order to maitain app stability apps info is required, so when user decides to cancel the auth he is redirected to the home app.
-            //executing get apps evt callback should do the trick
-            //this is needed only in standalone mode, so can skip when hosted
-            var tunnel = this.getTunnelId();
-            this.watchGlobal(
-                'root::customhashparam',
-                function(hosted){
-                    if(hosted !== 'true'){
-                        this.getApps();
-                    }
-                },
-                this,
-                {single: true, tunnel: tunnel}
-            );
-            //custom param receive callback properly set up so just fire evt to get the data back
-            this.fireGlobal('root::getcustomhashparam', 'hosted', {tunnel: tunnel});
         },
 
         onAppsRetrieved: Ext.empyFn,
