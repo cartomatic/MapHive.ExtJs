@@ -171,10 +171,30 @@
 
             Ext.getBody().mask(this.getTranslation('orgSwitchLoadMask'));
 
+            var currentApp = this.getCurrentApp(),
+                me = this;
+            if(!currentApp){
+                //uhuh, no apps data yet, need to get some. this should seldom be the case though
+                this.getApps(function(apps){
+                    currentApp = me.getCurrentApp();
+                    me.changeOrgInternal(org, currentApp);
+                });
+            }
+            else {
+                this.changeOrgInternal(org, currentApp);
+            }
+        },
+
+        /**
+         * internal or change
+         * @param org
+         * @param app
+         */
+        changeOrgInternal: function(org, app){
             this.doGet({
                 url: this.getApiEndPoint('orgHasAppAccess')
                     .replace('orgId', org.get('uuid'))
-                    .replace('appId', this.getCurrentApp().get('uuid')),
+                    .replace('appId', app.get('uuid')),
                 success: this.onCheckIfOrgCanAccessAppSuccess,
                 failure: this.onCheckIfOrgCanAccessAppFailure,
                 scope: {
@@ -182,7 +202,6 @@
                     org: org
                 }
             });
-
         },
 
         /**

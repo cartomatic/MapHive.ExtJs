@@ -47,13 +47,19 @@
         /**
          * Pokes Root Controller to get the apps data! replies via evt callback!
          */
-        getApps: function(){
+        getApps: function(callback){
             var tunnel = this.getTunnelId();
             this.watchGlobal(
                 'root::appsretrieved',
                 function(inapps){
                     apps = inapps;
-                    this.onAppsRetrieved(apps);
+                    if(Ext.isFunction(callback)){
+                        callback(apps);
+                    }
+                    else {
+                        //use default callback
+                        this.onAppsRetrieved(apps);
+                    }
                 }, this, {single: true, tunnel: tunnel});
 
             this.fireGlobal('root::getapps', null, {tunnel: tunnel});
@@ -87,9 +93,8 @@
             app;
 
             //search for the appropriate app
-            Ext.Array.each(this.apps, function(a){
+            Ext.Array.each(apps, function(a){
                 Ext.Array.each(a.get('urls').split('|'), function (url) {
-
                     if(this.standardiseAppIdentifyingUrl(url.split('#')[0]) === currentUrl){
                         app = a;
                         return false;
