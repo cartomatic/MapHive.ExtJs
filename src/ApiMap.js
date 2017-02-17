@@ -27,7 +27,7 @@
 
             //apps
             applications: 'applications',
-            userapps: 'applications/userapps',
+            userApps: 'users/userapps',
             userOrgs: 'users/userorgs',
 
 

@@ -961,7 +961,7 @@
             this.duringAppsRetrieval = true;
 
             this.doGet({
-                url: this.getApiEndPoint('userapps'),
+                url: this.getApiEndPoint('userApps'),
                 scope: this,
                 success: this.onGetAppsSuccess,
                 failure: this.onGetAppsFailure
