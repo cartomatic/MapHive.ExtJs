@@ -18,7 +18,7 @@
 
         mixins: [
             'mh.mixin.PublishApi',
-            'mh.mixin.CustomConfig'
+            'mh.mixin.CustomComponentConfig'
         ],
 
         /**

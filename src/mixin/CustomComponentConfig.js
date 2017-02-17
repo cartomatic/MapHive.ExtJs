@@ -7,7 +7,7 @@
     /**
      * Meant to be used as a mixin; provides a hook to apply some customisations to an object by configuring it properly.
      */
-    Ext.define('mh.mixin.CustomConfig', {
+    Ext.define('mh.mixin.CustomComponentConfig', {
 
         /**
          * Applies custom View configuration provides as

@@ -18,7 +18,7 @@
             'mh.mixin.Localisation',
             'mh.data.Ajax',
             'mh.mixin.PublishApi',
-            'mh.mixin.CustomConfig',
+            'mh.mixin.CustomComponentConfig',
             'mh.mixin.ResponseValidationErrorReader'
         ],
 

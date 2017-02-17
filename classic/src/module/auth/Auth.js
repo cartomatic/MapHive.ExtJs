@@ -47,85 +47,85 @@
 
             /**
              * @cfg {string} [loginView|setUI]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'loginView|setUI': null,
 
             /**
              * @cfg {string} [btnForgotPass|setUI]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnForgotPass|setUI': null,
 
             /**
              * @cfg {string} [btnForgotPass|setScale]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnForgotPass|setScale': null,
 
             /**
              * @cfg {string} [btnForgotPass|setIconCls]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnForgotPass|setIconCls': null,
 
             /**
              * @cfg {string} [btnLogin|setUI]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnLogin|setUI': null,
 
             /**
              * @cfg {string} [btnLogin|setScale]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnLogin|setScale': null,
 
             /**
              * @cfg {string} [btnLogin|setIconCls]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnLogin|setIconCls': null,
 
             /**
              * @cfg {string} [forgotPassView|setUI]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'forgotPassView|setUI': null,
 
             /**
              * @cfg {string} [btnResetPass|setUI]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnResetPass|setUI': null,
 
             /**
              * @cfg {string} [btnResetPass|setScale]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnResetPass|setScale': null,
 
             /**
              * @cfg {string} [btnResetPass|setIconCls]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnResetPass|setIconCls': null,
 
             /**
              * @cfg {string} [btnResetPassCancel|setUI]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnResetPassCancel|setUI': null,
 
             /**
              * @cfg {string} [btnResetPassCancel|setScale]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnResetPassCancel|setScale': null,
 
             /**
              * @cfg {string} [btnResetPassCancel|setIconCls]
-             * see mh.mixin.CustomConfig.applyCustomViewConfig for details
+             * see mh.mixin.CustomComponentConfig.applyCustomViewConfig for details
              */
             'btnResetPassCancel|setIconCls': null
         },

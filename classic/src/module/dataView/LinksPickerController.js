@@ -17,7 +17,7 @@
             'mh.mixin.ModalMode',
             'mh.mixin.Localisation',
             'mh.mixin.PublishApi',
-            'mh.mixin.CustomConfig'
+            'mh.mixin.CustomComponentConfig'
         ],
 
         /**
