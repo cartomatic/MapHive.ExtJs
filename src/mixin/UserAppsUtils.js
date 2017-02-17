@@ -45,44 +45,18 @@
         },
 
         /**
-         * whether or not the get Apps is currently in progress
-         */
-        getAppsInProgress: false,
-
-        /**
          * Pokes Root Controller to get the apps data! replies via evt callback!
          */
         getApps: function(){
-
-            if(apps){
-                this.onAppsRetrieved(apps);
-            }
-
-            if(this.getAppsInProgress){
-                return;
-            }
-
-            this.getAppsInProgress = true;
-
-            //wire up the root::appsretrieved listener - whenever new apps become available it will be necessary to update the app picker!
             var tunnel = this.getTunnelId();
             this.watchGlobal(
                 'root::appsretrieved',
                 function(inapps){
-                    this.getAppsInProgress = false;
                     apps = inapps;
                     this.onAppsRetrieved(apps);
                 }, this, {single: true, tunnel: tunnel});
 
             this.fireGlobal('root::getapps', null, {tunnel: tunnel});
-        },
-
-        /**
-         * reloads the apps info
-         */
-        reloadApps: function(){
-            apps = null;
-            this.getApps();
         },
 
         /**
@@ -158,6 +132,12 @@
         msgBus.watchGlobal('root::appreloadstart', function(app){
             currentApp = app;
         }, this);
+
+
+        msgBus.watchGlobal('auth::userloggedoff', function(){
+            apps = null;
+        }, this);
+
 
         msgBus.watchGlobal('auth::userauthenticated', function(){
             apps = null;

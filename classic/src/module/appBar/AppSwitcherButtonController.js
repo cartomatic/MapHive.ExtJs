@@ -88,22 +88,16 @@
         },
 
         /**
-         * apps
-         */
-        apps: null,
-
-        /**
          * Callback defined in mh.mixin.UserAppsUtils; if not present the mixin will not call it
          * @param {mh.data.model.Application[]} apps
          */
         onAppsRetrieved: function(apps){
 
             //success, so this should be an array of appDTO objects
-            this.apps = apps;
-            this.getView().setVisible((this.apps && this.apps.length > 0));
+            this.getView().setVisible((apps && apps.length > 0));
 
             //also re-create the app switcher panel - this is because after auth -> getapps, its content, order, etc. may have changed
-            this.createAppSwitcherPanel();
+            this.createAppSwitcherPanel(apps);
 
             //apps made here. make sure though to show the apps switcher only if the get apps was triggerred through a btn click!
             if(this.showAppsPanelRequested){
@@ -115,20 +109,20 @@
         /**
          * (re)creates the app switcher panel
          */
-        createAppSwitcherPanel: function(){
+        createAppSwitcherPanel: function(apps){
             if(this.appSwitcherPanel){
                 this.appSwitcherPanel.destroy();
             }
 
             var btns = [],
-                a = 0, alen = this.apps.length;
+                a = 0, alen = apps.length;
 
             //prepare the app switching btns
             for(a; a < alen; a++){
                 btns.push({
                     xtype: 'button',
-                    text: this.apps[a].get('name'),
-                    tooltip: this.apps[a].get('description') || undefined,
+                    text: apps[a].get('name'),
+                    tooltip: apps[a].get('description') || undefined,
                     height: 64,
                     width: 64,
                     columnWidth: 0.33,
@@ -137,7 +131,7 @@
                         click: Ext.bind(this.onAppBtnClick, this)
                     },
                     ui: this.getView().getAppBtnUi(),
-                    app: this.apps[a]
+                    app: apps[a]
                 });
             }
 
@@ -219,10 +213,13 @@
         showAppsPanel: function(){
 
             //need the apps to work with!
-            if(!this.apps){
+            if(!this.appSwitcherPanel.items.items.length > 0){
                 this.getApps();
                 return;
             }
+
+            //panel is being shown, so waive off the flag use for async panel show!
+            this.showAppsPanelRequested = false;
 
             var p = this.appSwitcherPanel,
 
