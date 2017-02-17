@@ -211,6 +211,7 @@
             //whenever user is authenticated or auth changes, do some house keeping works
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticatedResetAppsCache, this);
             this.watchGlobal('auth::userloggedoff', this.onUserAuthenticatedResetAppsCache, this);
+            this.watchGlobal('org::changed', this.onUserAuthenticatedResetAppsCache, this);
 
 
             //triggers app retrieval

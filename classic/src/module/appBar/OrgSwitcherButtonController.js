@@ -13,11 +13,14 @@
             'mh.communication.MsgBus',
             'mh.data.Ajax',
             'mh.mixin.ApiMap',
-            'mh.mixin.UrlUtils'
+            'mh.mixin.UrlUtils',
+            'mh.mixin.UserAppsUtils',
+            'mh.mixin.Localisation'
         ],
 
         requires: [
-            'mh.data.model.Organisation'
+            'mh.data.model.Organisation',
+            'mh.module.appBar.OrgSwitcherButtonLocalisation'
         ],
 
         /**
@@ -164,8 +167,73 @@
 
             this.getView().disable();
 
-            //fire up an evt so the global orgs controller takes care of the rest!
-            this.fireGlobal('org::change', org);
+            //should check if the new org that the context is being switched to has an access to this app!
+
+            Ext.getBody().mask(this.getTranslation('orgSwitchLoadMask'));
+
+            this.doGet({
+                url: this.getApiEndPoint('orgHasAppAccess')
+                    .replace('orgId', org.get('uuid'))
+                    .replace('appId', this.getCurrentApp().get('uuid')),
+                success: this.onCheckIfOrgCanAccessAppSuccess,
+                failure: this.onCheckIfOrgCanAccessAppFailure,
+                scope: {
+                    self: this,
+                    org: org
+                }
+            });
+
+        },
+
+        /**
+         * org app access checkup succeeded
+         */
+        onCheckIfOrgCanAccessAppSuccess: function(canAccess){
+            Ext.getBody().unmask();
+            if(canAccess){
+                //fire up an evt so the global orgs controller takes care of the rest!
+                this.self.fireGlobal('org::change', this.org);
+            }
+            else {
+                //use the common failure...
+                this.self.orgSwitchWithAppReloadPrompt(this.org);
+            }
+        },
+
+
+        /**
+         * org app access checkup failed
+         */
+        onCheckIfOrgCanAccessAppFailure: function(){
+            Ext.getBody().unmask();
+            this.self.orgSwitchWithAppReloadPrompt(this.org);
+        },
+
+        /**
+         * prompts user if one wants to continue with org change even though it means app reload
+         * @param org
+         */
+        orgSwitchWithAppReloadPrompt: function(org){
+            //give failure msg and ask if user wants to redirect to a home app on org change!
+            //if ok, need to fire 2 events - org change and then app change!
+            var me = this;
+            Ext.Msg.show({
+                title: this.getTranslation('orgHasNoAppAccessTitle'),
+                message: this.getTranslation('orgHasNoAppAccessMsg'),
+                width: 350,
+                buttons: Ext.Msg.YESNO,
+                icon: Ext.MessageBox.QUESTION,
+                fn: function(btn){
+                    if(btn === 'yes'){
+                        me.fireGlobal('org::change', org);
+                        me.fireGlobal('root::reloadapp', me.getHomeApp());
+                    }
+                    else {
+                        //nothing changed, so just enable the btn
+                        me.getView().enable();
+                    }
+                }
+            });
         },
 
         /**

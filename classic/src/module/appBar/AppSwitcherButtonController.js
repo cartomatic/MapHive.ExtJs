@@ -52,6 +52,7 @@
                         //wire up some evt listeners
                         this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
                         this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
+                        this.watchGlobal('org::changed', this.onOrgChanged, this);
 
                         //need to poke the root to get some apps
                         this.getApps();
@@ -84,6 +85,13 @@
          */
         onUserLoggedOff: function(){
             userAuthenticated = false;
+            this.getApps();
+        },
+
+        /**
+         * org changed callback
+         */
+        onOrgChanged: function(){
             this.getApps();
         },
 
