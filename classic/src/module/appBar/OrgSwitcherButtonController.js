@@ -211,7 +211,9 @@
             Ext.getBody().unmask();
             if(canAccess){
                 //fire up an evt so the global orgs controller takes care of the rest!
-                this.self.fireGlobal('org::change', this.org);
+                this.self.fireGlobal('org::change', {
+                    org: this.org
+                });
             }
             else {
                 //use the common failure...
@@ -244,7 +246,7 @@
                 icon: Ext.MessageBox.QUESTION,
                 fn: function(btn){
                     if(btn === 'yes'){
-                        me.fireGlobal('org::change', org);
+                        me.fireGlobal('org::change', {org: org});
                         me.fireGlobal('root::reloadapp', me.getHomeApp());
                     }
                     else {

@@ -64,6 +64,9 @@
                 setTimeout(
                     function(){
                         Ext.GlobalEvents.fireEvent(evtName, evtData, eOpts.tunnel);
+                        //Note: tunnel is passed to an evt listener, so some listeners can act in 'tunneled' mode.
+                        //Since listeners implement custom logic, there is no need to pass an extra eOpts object, as all the customising params
+                        //may be passed in the evtData object
                     },
                     1
                 );

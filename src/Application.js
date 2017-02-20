@@ -25,7 +25,8 @@
     mixins: [
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
-            'mh.mixin.Localisation'
+            'mh.mixin.Localisation',
+            'mh.mixin.UrlUtils'
         ],
 
         //global shared controllers - they fire up automatically
@@ -108,7 +109,74 @@
 
             cfg = cfg || {};
 
-            this.internalAppLaunch(cfg);
+
+            this.preLaunchCheckup(cfg);
+        },
+
+
+        /**
+         * This is a standard, generic checkup that determines if an org has access to an app and if a user can use an app; This process is the same for all the
+         * applications that require authentication
+         * Organisation owners/admins determine to which apps the access is granted; this is done via roles / teams
+         *
+         * verifies if a scoped organisation has an access to the application; if not checks if another user org has an access to the application and if so
+         * re-scopes the org silently;
+         * for the common/public apps org->app context checkup is irrelevant, but it is important for non common/public apps
+         *
+         * If a user does not have an org that can access the application, or he is not granted an access to an app, a msg is given and a user is redirected to the home or default app (depending on the auth status)
+         * An exemption is the dashboard app - every authenticated user can access it even though it requires authentication
+         *
+         * If it is possible to find an org-app match for a user, the execution is passed further to the internal app launch.
+         * this is then up to an application to check its own user related stuff.
+         * Note: Basically, in most cases, apps will use their own user endpoint configs that merge the default mh cfg with whatever app needs
+         * @param cfg
+         * @param cfg.orgCtx
+         * @param cfg.userConfig
+         * @param cfg.userConfig.user
+         * @param cfg.userConfig.app
+         * @param cfg.userConfig.allowedOrgs
+         */
+        preLaunchCheckup: function(cfg){
+
+            //cfg.allowedOrgs should contain a key for the currently scoped org (its slug is the key actually);
+            //if the object does not contain such key, then need to re-scope org to the first key found
+            //if there are no keys, then well, there are no org context for which user can use this application
+
+            var orgToken = this.getUrlOrgIdentifier(),
+                alternateOrg,
+                allowedOrgs = cfg.userConfig.allowedOrgs,
+                canStart = allowedOrgs[orgToken];
+
+            if(!canStart){
+                //hmm, looks like the initially scoped org does not have the access to this app.
+                //grab the first other org that has
+                alternateOrg = Ext.Object.getKeys(allowedOrgs)[0];
+                canStart = !!alternateOrg;
+            }
+
+            if(canStart){
+                //if an org should be re-scoped do so
+                if(alternateOrg){
+                    this.fireGlobal('org::changeslug', {
+                        org: alternateOrg,
+                        replaceState: true //this will update history state instead of pushing a new entry!
+                    });
+                }
+
+                //because potentially there was an org change evt, queue the next step, so it nicely fits in when the evts completed.
+                Ext.defer(
+                    function(){
+                        this.internalAppLaunch(cfg);
+                    },
+                    1, this
+                );
+            }
+            else {
+                //looks like user does not have any org contexts valid for this app...
+                //give msg and redirect to dashboard
+
+            }
+
         },
 
         /**

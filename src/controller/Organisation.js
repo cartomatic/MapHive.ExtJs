@@ -52,6 +52,7 @@
             this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
 
             this.watchGlobal('org::change', this.changeOrg, this);
+            this.watchGlobal('org::changeslug', this.changeOrgBySlug, this);
             this.watchGlobal('org::getcontext', this.getOrgContext, this);
 
 
@@ -263,7 +264,9 @@
             }
 
             //set the current org!
-            this.changeOrg(currentOrg);
+            this.changeOrg({
+                org: currentOrg
+            });
 
             this.fireForBufferedTunnels('org::context', {
                 userOrgs: this.userOrgs,
@@ -285,23 +288,63 @@
         },
 
         /**
-         * changes organisation
-         * @param org
+         * gets an org by slug
+         * @param slug
          */
-        changeOrg: function(org){
+        getOrgBySlug: function(slug){
+            var org;
+            Ext.Array.each(this.userOrgs, function(o){
+                if(o.get('slug') === slug){
+                    org = o;
+                    return false;
+                }
+            });
+            return org;
+        },
+
+        /**
+         * changes or by slug;
+         * @param slug
+         */
+        changeOrgBySlug: function(eData){
+            this.changeOrg({
+                org: this.getOrgBySlug(eData.slug),
+                replaceState: eData.replaceState
+            });
+        },
+
+        /**
+         * changes organisation
+         * @param eData
+         * @param eData.org
+         * @param eData.skipXWindowReBroadcast - when receiving org change request xwindow, there is no point in rebroadcasting it back really; this skips the xwindow evt 'back propagation'
+         * @param eData.replaceState - whether or not to prefer history replaceState instead of pushing
+         */
+        changeOrg: function(eData){
+            var org = eData.org,
+                updatedUrl;
+
             if(!org || this.currentOrg === org){
                 return;
             }
             this.currentOrg = org;
 
             //note - org ALWAYS has a unique slug
-            var updatedUrl = this.updateUrlOrgToken(window.location.href, org.get('slug'));
-            history.pushState(null, window.name, updatedUrl);
+            updatedUrl = this.updateUrlOrgToken(window.location.href, org.get('slug'));
+            if(eData.replaceState === true){
+                history.replaceState(null, window.name, updatedUrl);
+            }
+            else {
+                history.pushState(null, window.name, updatedUrl);
+            }
 
             this.fireGlobal('org::changed', org);
 
             //also pass down to children
-            this.fireGlobal('org::xwindowchanged', org.get('slug'), {suppressLocal: true, hosted: true}); //passing back to a child, so hosted direction only!
+            if(eData.skipXWindowReBroadcast === true){
+                this.fireGlobal('org::xwindowchanged', org.get('slug'), {suppressLocal: true, hosted: true, host: true});
+                //evt is pass in both directions (host / hosted) as do not know really where nor by whom it has been initiated.
+            }
         },
 
         /**
@@ -310,14 +353,10 @@
          */
         onXWindowOrgChanged: function(slug){
             //basically parent and child orgs should be intact at all times. because of that simply find the org in userOrgs by slug
-            var newOrg;
-            Ext.Array.each(this.userOrgs, function(o){
-                if(o.get('slug') === slug){
-                    newOrg = o;
-                    return false;
-                }
+            this.changeOrg({
+                org: this.getOrgBySlug(slug),
+                skipXWindowReBroadcast: true
             });
-            this.changeOrg(newOrg);
         }
     });
     
