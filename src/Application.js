@@ -26,7 +26,8 @@
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
             'mh.mixin.Localisation',
-            'mh.mixin.UrlUtils'
+            'mh.mixin.UrlUtils',
+            'mh.mixin.UserAppsUtils'
         ],
 
         //global shared controllers - they fire up automatically
@@ -107,9 +108,6 @@
             //need to wave off host loadmask if any
             this.fireGlobal('mhapp::hidehostmask', null, {host:true, suppressLocal: true});
 
-            cfg = cfg || {};
-
-
             this.preLaunchCheckup(cfg);
         },
 
@@ -129,7 +127,7 @@
          * If it is possible to find an org-app match for a user, the execution is passed further to the internal app launch.
          * this is then up to an application to check its own user related stuff.
          * Note: Basically, in most cases, apps will use their own user endpoint configs that merge the default mh cfg with whatever app needs
-         * @param cfg
+         * @param [cfg]
          * @param cfg.orgCtx
          * @param cfg.userConfig
          * @param cfg.userConfig.user
@@ -138,14 +136,24 @@
          */
         preLaunchCheckup: function(cfg){
 
+            //Note: cfg is by default pulled for a user. apps that do not require auth do not do so.
+            //it is the root that checks app auth requirements on init and decides how to handle it
+            if(!cfg){
+                this.internalAppLaunch();
+                return;
+            }
+
+
             //cfg.allowedOrgs should contain a key for the currently scoped org (its slug is the key actually);
             //if the object does not contain such key, then need to re-scope org to the first key found
             //if there are no keys, then well, there are no org context for which user can use this application
 
+
             var orgToken = this.getUrlOrgIdentifier(),
                 alternateOrg,
                 allowedOrgs = cfg.userConfig.allowedOrgs,
-                canStart = allowedOrgs[orgToken];
+                canStart = !!allowedOrgs[orgToken],
+                me = this;
 
             if(!canStart){
                 //hmm, looks like the initially scoped org does not have the access to this app.
@@ -154,11 +162,12 @@
                 canStart = !!alternateOrg;
             }
 
+
             if(canStart){
                 //if an org should be re-scoped do so
                 if(alternateOrg){
                     this.fireGlobal('org::changeslug', {
-                        org: alternateOrg,
+                        slug: alternateOrg,
                         replaceState: true //this will update history state instead of pushing a new entry!
                     });
                 }
@@ -174,7 +183,17 @@
             else {
                 //looks like user does not have any org contexts valid for this app...
                 //give msg and redirect to dashboard
-
+                Ext.Msg.show({
+                    title: this.getTranslation('noAppAccessForUserTitle'),
+                    message: this.getTranslation('noAppAccessForUserMsg'),
+                    width: 500,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.MessageBox.WARNING,
+                    fn: function(){
+                        //TODO - perhaps xwindow too??? for scenarios, where user retrieved an appset and it has changed in the meantime???
+                        me.fireGlobal('root::reloadapp', me.getDashboardApp());
+                    }
+                });
             }
 
         },
@@ -182,7 +201,7 @@
         /**
          * internal app launch; this is the actual default app launch for the apps that do depend on the org context
          * at this stage the application should be properly scoped
-         * @param cfg
+         * @param [cfg]
          * @param cfg.userConfig
          * @param cfg.orgCtx
          */

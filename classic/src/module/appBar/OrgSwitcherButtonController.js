@@ -247,7 +247,7 @@
                 fn: function(btn){
                     if(btn === 'yes'){
                         me.fireGlobal('org::change', {org: org});
-                        me.fireGlobal('root::reloadapp', me.getHomeApp());
+                        me.fireGlobal('root::reloadapp', me.getDashboardApp());
                     }
                     else {
                         //nothing changed, so just enable the btn

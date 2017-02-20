@@ -118,9 +118,25 @@
          * gets a isHome app
          */
         getHomeApp: function(){
+            return this.getAppByModelProp('isHome', true);
+        },
+
+        /**
+         * gets dashboard app
+         */
+        getDashboardApp: function(){
+            return this.getAppByModelProp('isDefault', true);
+        },
+
+        /**
+         * gets an app by model field value
+         * @param prop
+         * @returns {*}
+         */
+        getAppByModelProp: function(prop, value){
             var app;
             Ext.Array.each(apps, function(a){
-                if(a.get('isHome')){
+                if(a.get(prop) === value){
                     app = a;
                     return false;
                 }

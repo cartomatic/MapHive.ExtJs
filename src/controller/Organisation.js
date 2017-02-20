@@ -341,20 +341,31 @@
             this.fireGlobal('org::changed', org);
 
             //also pass down to children
-            if(eData.skipXWindowReBroadcast === true){
-                this.fireGlobal('org::xwindowchanged', org.get('slug'), {suppressLocal: true, hosted: true, host: true});
-                //evt is pass in both directions (host / hosted) as do not know really where nor by whom it has been initiated.
+            if(eData.skipXWindowReBroadcast !== true){
+                this.fireGlobal('org::xwindowchanged',
+                    {
+                        slug: org.get('slug'),
+                        replaceState: eData.replaceState
+                    },
+                    {
+                        suppressLocal: true,
+                        //evt is passed in both directions (host / hosted) as do not know really where nor by whom it has been initiated.
+                        //xwindow org changed evts will not bounce back anyway, this will not cause an evt pingbacks flood
+                        hosted: true, host: true
+                    }
+                );
             }
         },
 
         /**
          * got org changed evt from parent. need to adjust self
-         * @param slug
+         * @param eData
+         * @param eData.slug
          */
-        onXWindowOrgChanged: function(slug){
-            //basically parent and child orgs should be intact at all times. because of that simply find the org in userOrgs by slug
+        onXWindowOrgChanged: function(eData){
             this.changeOrg({
-                org: this.getOrgBySlug(slug),
+                org: this.getOrgBySlug(eData.slug),
+                replaceState: eData.eData,
                 skipXWindowReBroadcast: true
             });
         }
