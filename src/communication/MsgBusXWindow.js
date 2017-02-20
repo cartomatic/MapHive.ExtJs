@@ -21,7 +21,8 @@
                 //^((\*|[\w\d]+(-[\w\d]+)*)\.)*(example|test)(\.com)$
 
                 //regex needs to be dynamic, so needs to be presented as an escaped string
-                var regexBase = '^(http|https)://((\\*|[\\w\\d]+(-[\\w\\d]+)*)\\.)*{DOMAINS}((/|\\?).*)?$',
+                //var regexBase = '^(http|https)://((\\*|[\\w\\d]+(-[\\w\\d]+)*)\\.)*{DOMAINS}((/|\\?).*)?$', //this one allows any number of subdomains
+                var regexBase = '^(http|https)://{DOMAINS}((/|\\?).*)?$',
                     domains = allowedOrigins.join('|'); //the hardcoded part would look like this: (example|test)(\\.com)
 
                 //in this case, domains are provided with the extensions, so there is no cross join form them
@@ -103,6 +104,12 @@
 
             this.doHandshakeHello();
         },
+
+        //<debug>
+        isOriginAllowed: function(origin){
+            return isOriginAllowed(origin);
+        },
+        //</debug>
 
         /**
          * Wires up post msg listener
