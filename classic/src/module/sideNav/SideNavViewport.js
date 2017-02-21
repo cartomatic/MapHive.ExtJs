@@ -49,6 +49,7 @@
         items: [
             {
                 xtype:'panel',
+                reference: 'sidePanel',
                 region: 'west',
                 split: true,
                 collapsible: true,
