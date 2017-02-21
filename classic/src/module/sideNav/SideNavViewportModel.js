@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.mainView.SideNavViewportModel', {
+    Ext.define('mh.module.sideNav.SideNavModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-mainview-sidenav-viewport',
+        alias: 'viewmodel.mh-sidenav',
 
     requires: [
         'Ext.data.TreeStore',

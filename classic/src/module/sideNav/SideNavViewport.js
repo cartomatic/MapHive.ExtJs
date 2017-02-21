@@ -7,10 +7,10 @@
     /**
      * An administrative app viewport template; actually this template just provides a side menu and a way of switching between the cards based on the routes.
      */
-    Ext.define('mh.module.mainView.SideNavViewport', {
+    Ext.define('mh.module.sideNav.SideNav', {
         extend: 'Ext.panel.Panel',
 
-        xtype: 'mh-mainview-sidenav-viewport',
+        xtype: 'mh-sidenav',
 
     requires: [
         'Ext.container.Container',
@@ -18,19 +18,26 @@
         'Ext.layout.container.Card',
         'Ext.layout.container.Fit',
         'Ext.layout.container.HBox',
+        'Ext.layout.container.VBox',
         'Ext.list.Tree',
         'Ext.panel.Panel',
-        'Ext.plugin.Viewport',
-        'mh.module.mainView.SideNavViewportController',
-        'mh.module.mainView.SideNavViewportModel'
+        'mh.module.sideNav.SideNavController',
+        'mh.module.sideNav.SideNavModel'
     ],
 
-    plugins: 'viewport',
 
-        controller: 'mh-mainview-sidenav-viewport',
+    controller: 'mh-sidenav',
 
         viewModel: {
-            type: 'mh-mainview-sidenav-viewport'
+            type: 'mh-sidenav'
+        },
+
+        config: {
+            /**
+             * @cfg {Boolean} [useRouter=true]
+             * whether or not routes should be expressed in the url part; this also turns on listening for route changes
+             */
+            useRouter: true
         },
 
         border: false,
@@ -46,12 +53,16 @@
                 split: true,
                 collapsible: true,
                 header: false,
-                layout: 'fit',
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch'
+                },
                 items: [
                     {
                         xtype: 'treelist',
                         reference: 'navTreeList',
                         ui: 'mh-sidenav',
+                        flex: 1,
                         width: 250,
                         expanderFirst: false,
                         expanderOnly: true,

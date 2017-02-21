@@ -7,9 +7,9 @@
     /**
      * This is a simplistic example of a hosted app CLASSIC view. it simply sets up some
      */
-    Ext.define('mh.module.mainView.SideNavViewportController', {
+    Ext.define('mh.module.sideNav.SideNavController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-mainview-sidenav-viewport',
+        alias: 'controller.mh-sidenav',
 
         mixins: [
             'mh.communication.MsgBus',
@@ -28,29 +28,42 @@
 
         //Note: routes are set up automatically on init, depending on the context
 
+        /**
+         * whether or not routes should be expressed in the url part; this also turns on listening for route changes
+         */
+        useRouter: true,
 
         /**
          * Called when the view is created
          */
         init: function () {
 
+            this.useRouter = this.getView().getUseRouter();
+
             //grab the menu data first and
             var menudata = this.prepareMenuData();
-
-            this.prepareRoutes(menudata);
 
             this.loadMenu(menudata);
 
             //it is required to init the History object prior to using it
-            Ext.util.History.init();
+            if(this.useRouter){
 
-            this.listen({
-                controller: {
-                    '#': {
-                        unmatchedroute: this.onUnmatchedRoute
+                this.prepareRoutes(menudata);
+
+                Ext.util.History.init();
+
+                this.listen({
+                    controller: {
+                        '#': {
+                            unmatchedroute: this.onUnmatchedRoute
+                        }
                     }
-                }
-            });
+                });
+            }
+            else {
+                //if router is not used this will provide a hook for selecting a default node
+                this.selectDefaultNode();
+            }
         },
 
         /**
@@ -122,7 +135,7 @@
         onUnmatchedRoute: function (route) {
 
             //properly handle EDIT MODE!
-            if (this.getModalModeActive()) {
+            if (this.useRouter && this.getModalModeActive()) {
 
                 //<debug>
                 console.warn('[ROUTER@Main]', 'prevented route adjustment - edit mode active!');
@@ -138,7 +151,7 @@
         routesCheckupCache: null,
 
         /**
-         * checks if a current rpute matches routes configured for a menu node
+         * checks if a current route matches routes configured for a menu node
          * @param {string} route
          * @param {mh.model.NavigationTree} n
          * @returns {boolean}
@@ -169,7 +182,7 @@
         onMatchedRoute: function(){
 
             //properly handle EDIT MODE!
-            if (this.getModalModeActive()) {
+            if (this.useRouter && this.getModalModeActive()) {
 
                 //<debug>
                 console.warn('[ROUTER@Main]', 'prevented route adjustment - edit mode active!');
@@ -193,54 +206,66 @@
                     },
                     this,
                     true //perform a deep search, so children are also exercised
-                ),
-                viewRef,
-                cardHolder, cardLayout, currentView, newView;
+                );
 
             //if a node has been found it means there is a matching menu item and a view for a route
             if(node){
-
-                viewRef = node.get('viewReference');
-
-                node.set('currentRoute', route);
-
-                //highlight an item on a list
-                if(!node.parentNode.isRoot() && node.parentNode.hasChildNodes()){
-                    node.parentNode.expand();
-                }
-                navList.setSelection(node);
-
-                //turn on the view
-                cardHolder = this.lookupReference('cardHolder');
-                cardLayout = cardHolder.getLayout();
-                currentView = cardLayout.getActiveItem();
-                newView = this.lookupReference(viewRef);
-
-                //if the new view has not yet been created, do create it!
-                if(!newView){
-
-                    if(node.get('view')){
-                        newView = Ext.create(node.get('view'), {
-                            reference: viewRef
-                        });
-                    }
-                    else {
-                        newView = Ext.create('Ext.panel.Panel', {
-                            title: route,
-                            html: '<span style ="color:red;">No view defined for <span style="font-weight: bold;">' + route + '</span></span> yet!'
-                        });
-                    }
-
-                    cardHolder.add(newView);
-                }
-
-                if(currentView && newView !== currentView){
-                    cardLayout.setActiveItem(newView);
-                }
+                this.switchCard(node);
             }
             else {
                 //Note: this could pretty much happen during the dev. in production this should never be the case ;)
                 throw new Error('BOOOOM.... View ref for "' + route + '" route has not been found...');
+            }
+        },
+
+
+        /**
+         * switches view for a specified node
+         * @param node
+         */
+        switchCard: function(node, route){
+
+            var navList = this.lookupReference('navTreeList'),
+                viewRef = node.get('viewReference'),
+                cardHolder = this.lookupReference('cardHolder'),
+                cardLayout = cardHolder.getLayout(),
+                currentView = cardLayout.getActiveItem(),
+                newView = this.lookupReference(viewRef);
+
+            if(this.useRouter && route){
+                node.set('currentRoute', route);
+            }
+
+            //highlight an item on a list
+            //this is because the change may come from a route change, not via UI click
+            if(!node.parentNode.isRoot() && node.parentNode.hasChildNodes()){
+                node.parentNode.expand();
+            }
+            navList.setSelection(node);
+
+
+            //turn on the view
+
+            //if the new view has not yet been created, do create it!
+            if(!newView){
+
+                if(node.get('view')){
+                    newView = Ext.create(node.get('view'), {
+                        reference: viewRef
+                    });
+                }
+                else {
+                    newView = Ext.create('Ext.panel.Panel', {
+                        title: route,
+                        html: '<span style ="color:red;">No view defined for <span style="font-weight: bold;">' + route + '</span></span> yet!'
+                    });
+                }
+
+                cardHolder.add(newView);
+            }
+
+            if(currentView && newView !== currentView){
+                cardLayout.setActiveItem(newView);
             }
         },
 
@@ -251,7 +276,28 @@
          * @param eOpts
          */
         onTreeListSelectionChange: function(treelist, selected, eOpts){
-            this.redirectTo(selected.get('currentRoute') || selected.get('routes')[0], false); //do not force hash update if the same
+            if(this.useRouter){
+                this.redirectTo(selected.get('currentRoute') || selected.get('routes')[0], false); //do not force hash update if the same
+            }
+            else {
+                this.switchCard(selected);
+            }
+        },
+
+        /**
+         * selects a default node
+         */
+        selectDefaultNode: function(){
+            var root = this.getViewModel().get('treeMenu').getRoot(),
+                node = root.firstChild;
+
+            if(node){
+                Ext.defer(function(){
+                    //this defer seems to ensure the node actually gets selected
+                    this.switchCard(node);
+                    this.lookupReference('navTreeList').setSelection(node);
+                }, 10, this);
+            }
         }
     });
 
