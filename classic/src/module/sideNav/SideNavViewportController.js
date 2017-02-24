@@ -210,7 +210,9 @@
 
             //if a node has been found it means there is a matching menu item and a view for a route
             if(node){
-                this.switchCard(node);
+                //repeating route does a few things:
+                //enables restoring deeper routes and also makes it possible to restore a nested view that has been displayed before
+                this.switchCard(node, this.getCurrentRoute());
             }
             else {
                 //Note: this could pretty much happen during the dev. in production this should never be the case ;)
@@ -218,6 +220,13 @@
             }
         },
 
+        /**
+         * returns a current route
+         * @returns {string}
+         */
+        getCurrentRoute: function(){
+            return window.location.hash.substring(1);
+        },
 
         /**
          * switches view for a specified node
