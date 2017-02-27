@@ -4,13 +4,17 @@
     //Make sure strict mode is on
     'use strict';
 
+    var parentIdentifier = '{parent_uuid}';
+
     /**
     * Created by info_000 on 28-Sep-16.
     */
     Ext.define('mh.ApiMap', {
         singleton: true,
 
-        parentIdentifier: '{parent_uuid}',
+        getParentIdentifier: function(){
+            return parentIdentifier;
+        },
 
         /**
          * default api map; this is overridable through the web.config... see the apiMap key for details
@@ -33,10 +37,12 @@
             organisations: 'organisations',
             orgHasAppAccess: 'organisations/{orgId}/allowsapplication/{appId}',
 
+
             userConfiguration: 'configuration/user',
 
             //users
             users: 'users',
+            organisationUsers: 'organisations/' + parentIdentifier + '/users',
             userprofile: 'users/owndetails',
             accountCreate: 'users/account',
 

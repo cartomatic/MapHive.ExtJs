@@ -12,6 +12,7 @@
 
     requires: [
         'Ext.button.Button',
+        'Ext.container.Container',
         'Ext.form.Panel',
         'Ext.grid.Panel',
         'Ext.layout.container.Border',

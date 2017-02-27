@@ -9,9 +9,18 @@
         alias: 'controller.mh-dataview-base',
 
     requires: [
+        'Ext.button.Split',
+        'Ext.data.Store',
+        'Ext.form.Panel',
+        'Ext.form.field.Display',
+        'Ext.form.field.Number',
+        'Ext.form.field.Text',
+        'Ext.grid.Panel',
+        'Ext.layout.container.Form',
+        'Ext.menu.CheckItem',
+        'Ext.menu.Menu',
         'mh.module.dataView.DataViewBaseLocalisation',
-        'mh.module.dataView.Editor',
-        'Ext.menu.CheckItem'
+        'mh.module.dataView.Editor'
     ],
 
     mixins: [

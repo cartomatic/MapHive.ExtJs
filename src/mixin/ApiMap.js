@@ -156,7 +156,7 @@
          * @returns {string}
          */
         getApiMapParentIdentifier: function(){
-            return mh.ApiMap.parentIdentifier;
+            return mh.ApiMap.getParentIdentifier();
         },
 
         /**
