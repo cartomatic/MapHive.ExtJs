@@ -76,16 +76,7 @@
             this.dataView = this.getView().add(dv);
 
             //try to set a title...
-            if(Ext.isFunction(this.dataView.getTitle) && this.dataView.getTitle()){
-                this.getView().setTitle(this.getTranslation('title') + this.getTranslation('titleSeparator') + this.dataView.getTitle());
-            }
-            else {
-                this.getView().setTitle(this.getTranslation('title'));
-
-                //<debug>
-                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the getTitle method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
-                //</debug>
-            }
+            this.setTitle();
 
             //Note: selection mode for the grid now comes from the links grid cfg - see selModel property or a direct cfg on a dataview object
             //note: just setting selection mode to 'multi' did cause unexpected behavior - selecting did not work as expected
@@ -99,6 +90,23 @@
             // }
             // //</debug>
         },
+
+        /**
+         * sets the window title
+         */
+        setTitle: function(){
+            if(Ext.isFunction(this.dataView.getTitle) && this.dataView.getTitle()){
+                this.getView().setTitle(this.getTranslation('title') + this.getTranslation('titleSeparator') + this.dataView.getTitle());
+            }
+            else {
+                this.getView().setTitle(this.getTranslation('title'));
+
+                //<debug>
+                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the getTitle method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
+                //</debug>
+            }
+        },
+
 
         /**
          * cancel btn callback

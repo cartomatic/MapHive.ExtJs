@@ -21,6 +21,7 @@
             { name: 'isAccountClosed', type: 'boolean', useNull: true },
             { name: 'isAccountVerified', type: 'boolean', useNull: true },
 
+
             { name: 'forename', type: 'string' },
             { name: 'surname', type: 'string' },
             {
