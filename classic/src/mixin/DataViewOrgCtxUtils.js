@@ -59,9 +59,19 @@
          * @param callback
          * @returns {*}
          */
-        getCurrentOrgId: function(callback){
+        getCurrentOrgId: function(){
             if(this.currentOrg){
-                return this.currentOrg.get('uuid')
+                return this.currentOrg.get('uuid');
+            }
+        },
+
+        /**
+         * gets the name of the current org if any
+         * @returns {*}
+         */
+        getCurrentOrgNameOrSlug: function(){
+            if(this.currentOrg){
+                return this.currentOrg.get('displayName') || this.currentOrg.get('slug');
             }
         },
 
