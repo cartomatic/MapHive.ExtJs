@@ -105,7 +105,7 @@
                         reference: 'isOrgUser',
                         bind: {
                             fieldLabel: '{localisation.isOrgUser}',
-                            value: 'rec.isOrgUser'
+                            value: '{rec.isOrgUser}'
                         },
                         readOnly: true
                     },
@@ -114,7 +114,7 @@
                         reference: 'visibleInCatalogue',
                         bind: {
                             fieldLabel: '{localisation.visibleInCatalogue}',
-                            value: 'rec.visibleInCatalogue'
+                            value: '{rec.visibleInCatalogue}'
                         },
                         readOnly: true
                     },
