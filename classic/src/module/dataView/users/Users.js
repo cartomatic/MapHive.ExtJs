@@ -11,6 +11,7 @@
             'Ext.grid.Panel',
             'Ext.grid.filters.Filters',
             'mh.module.dataView.users.UsersDataViewForm',
+            'mh.module.dataView.users.UsersDataEditForm',
             'mh.module.dataView.users.UsersController',
             'mh.module.dataView.users.UsersModel'
         ],
@@ -61,7 +62,7 @@
         gridIconCls: 'x-li li-users2',
         form: 'mh.module.dataView.users.UsersDataViewForm',
         //formWidth: 300,
-        editForm: false
+        editForm: 'mh.module.dataView.users.UsersDataEditForm'
     });
 
 }());

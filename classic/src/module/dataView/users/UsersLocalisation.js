@@ -29,21 +29,45 @@
                     en: 'Email',
                     pl: 'Email'
                 },
+                slug: {
+                    en: 'Profile identifier (slug)',
+                    pl: 'Identyfikator profilu (slug)'
+                },
+                gravatarEmail: {
+                    en: 'Gravatar',
+                    pl: 'Gravatar'
+                },
                 bio: {
                     en: 'Bio',
                     pl: 'Bio'
                 },
-                btnAddUser: {
-                    en: 'Add user',
-                    pl: 'Dodaj użytkownika'
+                company: {
+                    en: 'Company',
+                    pl: 'Firma'
                 },
-                btnAddNewOrgUser: {
-                    en: 'Add new user',
-                    pl: 'Dodaj nowego użytkownika'
+                department: {
+                    en: 'Department',
+                    pl: 'Dział'
                 },
-                btnAddUserFromCatalogue: {
-                    en: 'Search for user',
-                    pl: 'Wyszukaj użytkownika'
+                location: {
+                    en: 'Location',
+                    pl: 'Lokalizacja'
+                },
+                isOrgUser: {
+                    en: 'Org user',
+                    pl: 'Uzytkownik organizacji'
+                },
+                visibleInCatalogue: {
+                    en: 'Searchable in catalogue',
+                    pl: 'Wyszukiwalny w katalogu'
+                },
+                isAccountClosed: {
+                    en: 'Account closed',
+                    pl: 'Konto zamknięte'
+                },
+                isAccountVerified: {
+                    en: 'Account verified',
+                    pl: 'Konto zweryfikowane'
                 }
             }
         }

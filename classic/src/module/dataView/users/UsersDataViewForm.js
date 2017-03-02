@@ -7,7 +7,7 @@
     Ext.define('mh.module.dataView.users.UsersDataViewForm', {
         extend: 'Ext.container.Container',
     
-        xtype: 'users-data-view-form',
+        xtype: 'mh-users-data-view-form',
 
     requires: [
         'Ext.form.field.Checkbox',
@@ -39,6 +39,24 @@
                     },
                     {
                         xtype: 'textfield',
+                        reference: 'slug',
+                        bind: {
+                            fieldLabel: '{localisation.slug}',
+                            value: '{rec.slug}'
+                        },
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'textfield',
+                        reference: 'gravatarEmail',
+                        bind: {
+                            fieldLabel: '{localisation.gravatarEmail}',
+                            value: '{rec.gravatarEmail}'
+                        },
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'textfield',
                         reference: 'forename',
                         bind: {
                             fieldLabel: '{localisation.forename}',
@@ -61,6 +79,60 @@
                         bind: {
                             fieldLabel: '{localisation.bio}',
                             value: '{rec.bio}'
+                        },
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'textfield',
+                        reference: 'company',
+                        bind: {
+                            fieldLabel: '{localisation.company}',
+                            value: '{rec.company}'
+                        },
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'textfield',
+                        reference: 'department',
+                        bind: {
+                            fieldLabel: '{localisation.department}',
+                            value: '{rec.department}'
+                        },
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'checkbox',
+                        reference: 'isOrgUser',
+                        bind: {
+                            fieldLabel: '{localisation.isOrgUser}',
+                            value: 'rec.isOrgUser'
+                        },
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'checkbox',
+                        reference: 'visibleInCatalogue',
+                        bind: {
+                            fieldLabel: '{localisation.visibleInCatalogue}',
+                            value: 'rec.visibleInCatalogue'
+                        },
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'checkbox',
+                        reference: 'isAccountClosed',
+                        bind: {
+                            fieldLabel: '{localisation.isAccountClosed}',
+                            value: '{rec.isAccountClosed}'
+                        },
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'checkbox',
+                        reference: 'isAccountVerified',
+                        bind: {
+                            fieldLabel: '{localisation.isAccountVerified}',
+                            value: '{rec.isAccountVerified}'
                         },
                         readOnly: true
                     }

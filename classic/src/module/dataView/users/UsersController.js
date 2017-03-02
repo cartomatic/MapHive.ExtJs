@@ -22,6 +22,19 @@
          */
         init: function() {
             this.callMeParent('init', arguments);
+
+            this.lookupReference('grid').on('selectionchange', this.onGridSelectionChanged, this);
+        },
+
+        /**
+         * customises the dataview behavior on grid selection change; hides some fields to make more sensible presentation
+         * @param grid
+         * @param selected
+         * @param eOpts
+         */
+        onGridSelectionChanged: function(grid, selected, eOpts){
+            var visibleInCatalogue = this.lookupReference('visibleInCatalogue');
+            visibleInCatalogue.setVisible(selected && selected.length === 1 && selected[0].get('visibleInCatalogue'));
         }
 
     });
