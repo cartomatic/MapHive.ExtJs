@@ -16,14 +16,7 @@
 
         controller: 'mh-userscatalogue',
 
-        iconCls: 'x-li li-users',
-
-        config: {
-            /**
-             * whether or not org users should be filtered out
-             */
-            filterOutOrgUsers: true
-        }
+        iconCls: 'x-li li-users'
     });
     
 }());

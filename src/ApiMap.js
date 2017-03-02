@@ -32,11 +32,10 @@
             //apps
             applications: 'applications',
             userApps: 'users/userapps',
-            userOrgs: 'users/userorgs',
 
+            userOrgs: 'users/userorgs',
             organisations: 'organisations',
             orgHasAppAccess: 'organisations/{orgId}/allowsapplication/{appId}',
-
 
             userConfiguration: 'configuration/user',
 

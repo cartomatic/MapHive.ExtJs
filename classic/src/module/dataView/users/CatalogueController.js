@@ -11,6 +11,7 @@
 
     requires: [
         'mh.module.dataView.users.CatalogueLocalisation',
+        'mh.module.dataView.users.CatalogueUsersModel',
         'mh.module.dataView.users.Users'
     ],
 
@@ -29,11 +30,11 @@
                 hideGridHeader: true,
                 hideFormHeader: true,
                 form: false,
-                autoLoad: false //false, as links picker loads content automatically on each show!
+                autoLoad: false, //false, as links picker loads content automatically on each show!
+                viewModel: {
+                    type: 'mh-catalogueusers'
+                }
             });
-
-            //adjust the store filtering as declared...
-
 
             //set own view
             this.setDataView(usersView);

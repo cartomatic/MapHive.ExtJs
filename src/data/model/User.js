@@ -40,7 +40,8 @@
 
             { name: 'profilePicture', type: 'string' },
 
-            { name: 'isOrgUser', type: 'boolean', defaultValue: false }
+            { name: 'isOrgUser', type: 'boolean', defaultValue: false },
+            { name: 'visibleInCatalogue', type: 'boolean', defaultValue: false }
 
         ],
         proxy: {
