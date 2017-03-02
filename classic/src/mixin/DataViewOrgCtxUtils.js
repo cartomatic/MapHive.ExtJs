@@ -55,11 +55,28 @@
         },
 
         /**
+         * gets a current org's identifier
+         * @param callback
+         * @returns {*}
+         */
+        getCurrentOrgId: function(callback){
+            if(this.currentOrg){
+                return this.currentOrg.get('uuid')
+            }
+        },
+
+        /**
+         * currently scoped org
+         */
+        currentOrg: null,
+
+        /**
          * org changed callback
          * @param org
          */
         onOrgChanged: function(org){
-            this.reloadStoreOnOrgCtxChange(org);
+            this.currentOrg = org;
+            this.reloadStoreOnOrgCtxChange();
         },
 
         /**
@@ -67,7 +84,8 @@
          * @param orgCtx
          */
         orgCtxRetrieved: function(orgCtx){
-            this.reloadStoreOnOrgCtxChange(orgCtx.currentOrg);
+            this.currentOrg = orgCtx.currentOrg;
+            this.reloadStoreOnOrgCtxChange();
         },
 
         /**
@@ -77,15 +95,14 @@
 
         /**
          * reloads the store for given org on org ctx change or view show. when org ctx has not changed or the view seems to be hidden reload is ignored
-         * @param org
          */
-        reloadStoreOnOrgCtxChange: function(org){
+        reloadStoreOnOrgCtxChange: function(){
 
             if(!this.visible){
                 return;
             }
 
-            var newUrl = this.getApiEndPoint('organisationUsers').replace(this.getApiMapParentIdentifier(), org.get('uuid'));
+            var newUrl = this.getApiEndPoint('organisationUsers').replace(this.getApiMapParentIdentifier(), this.getCurrentOrgId());
             if(newUrl != this.lastDataUrl){
                 this.lastDataUrl = newUrl;
 

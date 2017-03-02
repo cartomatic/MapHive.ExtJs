@@ -42,6 +42,7 @@
             //users
             users: 'users',
             organisationUsers: 'organisations/' + parentIdentifier + '/users',
+            organisationUsersLink: 'organisations/' + parentIdentifier + '/users/link',
             userprofile: 'users/owndetails',
             accountCreate: 'users/account',
 
