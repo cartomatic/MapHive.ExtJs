@@ -58,6 +58,21 @@
             hideFormHeader: false,
 
             /**
+             * whether or not create btn should be visible
+             */
+            preventCreate: false,
+
+            /**
+             * whether or not edit btn should be visible
+             */
+            preventEdit: false,
+
+            /**
+             * whether or not delete btn should be visible
+             */
+            preventDelete: false,
+
+            /**
              * @cfg {string|Object} form; used to inject form definition - can be a js object literal or a class name; to suppress form creation
              * provide a boolean false value
              */
@@ -175,7 +190,7 @@
                                             click: 'onBtnCreateClick'
                                         }
                                     },
-                                    { xtype: 'tbseparator' },
+                                    { xtype: 'tbseparator', reference: 'btnCreateSeparator' },
                                     {
                                         xtype: 'button',
                                         reference: 'btnEdit',
@@ -188,7 +203,7 @@
                                             click: 'onBtnEditClick'
                                         }
                                     },
-                                    { xtype: 'tbseparator' },
+                                    { xtype: 'tbseparator', reference: 'btnEditSeparator' },
                                     {
                                         xtype: 'button',
                                         reference: 'btnDelete',

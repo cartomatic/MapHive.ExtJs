@@ -292,9 +292,13 @@
          * Sets up the edit ui - takes care of the edit btns visibility
          */
         setUpEditUi: function(){
-            var preventEdit = this.getView().getEditForm() === false,
+            var vw = this.getView(),
+                preventEdit = vw.getEditForm() === false,
                 items, i = 0, len,
-                startHiding = false;
+                startHiding = false,
+                preventCreate = vw.getPreventCreate(),
+                preventEdit = vw.getPreventEdit(),
+                preventDelete = vw.getPreventDelete();
 
             if(preventEdit){
 
@@ -312,8 +316,20 @@
                 }
             }
 
+            if(preventCreate){
+                this.lookupReference('btnCreate').hide();
+                this.lookupReference('btnCreateSeparator').hide();
+            }
+            if(preventEdit){
+                this.lookupReference('btnEdit').hide();
+                this.lookupReference('btnEditSeparator').hide();
+            }
+            if(preventDelete){
+                this.lookupReference('btnDelete').hide();
+            }
+
             //set internal state
-            this.editabilityEnabled = !preventEdit;
+            this.editabilityEnabled = !preventEdit && !(preventCreate && preventEdit && preventDelete);
         },
 
         /**
