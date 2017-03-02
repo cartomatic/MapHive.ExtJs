@@ -33,7 +33,7 @@
         init: function() {
             this.injectLocalisationToViewModel()
             this.trackModalModeStatus();
-            this.publishApi(['setRecord', 'setForm', 'getForm']);
+            this.publishApi(['setRecord', 'getRecord', 'setForm', 'getForm']);
 
             //apply custom configurations
             this.applyCustomViewConfig();
@@ -107,6 +107,14 @@
             }
 
             this.bindRecord(rec);
+        },
+
+        /**
+         * a getter for the bound record
+         * @returns {*}
+         */
+        getRecord: function(){
+            return this.getViewModel().get('rec');
         },
 
         /**
