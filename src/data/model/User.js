@@ -41,6 +41,7 @@
             { name: 'profilePicture', type: 'string' },
 
             { name: 'isOrgUser', type: 'boolean', defaultValue: false },
+        { name: 'parentOrganisationId', type: 'string', defaultValue: null},
             { name: 'visibleInCatalogue', type: 'boolean', defaultValue: false }
 
         ],

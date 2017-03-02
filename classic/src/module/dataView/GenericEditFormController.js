@@ -32,7 +32,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.publishApi(['setRecord', 'isValid', 'save']);
+            this.publishApi(['setRecord', 'isValid', 'save', 'setCustomUrl']);
         },
 
         /**
@@ -41,6 +41,21 @@
          */
         setRecord: function(rec){
             this.getViewModel().set('rec', rec);
+        },
+
+        /**
+         * @private
+         * customised url to be used when saving
+         */
+        customUrl: null,
+
+        /**
+         * setter for the customised editor url; by default models use whatever url is defined on their proxies.
+         * This enables customising urls but only for the needed save operation (either create or update)
+         * @param url
+         */
+        setCustomUrl: function(url){
+            this.customUrl = url;
         },
 
         /**
@@ -72,7 +87,9 @@
             //Note: basically it is assumed the view binds to the record via view model, so all the view changes are expressed at the record level straight away; customised binding (stuff like arrays to grids, custom json data, etc.) can also be done transparently as required; therefore the default functionality is to grab a record and perform a save on it.
 
 
-            var rec = this.getViewModel().get('rec'),
+            var me = this,
+
+                rec = this.getViewModel().get('rec'),
 
                 exceptionMsg = rec.get('uuid') ?
 
@@ -96,9 +113,14 @@
                 callback = this.generateModelRequestCallback(cfg),
 
                 op = function() {
-                    rec.save({
+                    var saveCfg = {
                         callback: callback
-                    });
+                    };
+                    //customise save url for the proxy!
+                    if(me.customUrl){
+                        saveCfg.url = me.customUrl;
+                    }
+                    rec.save(saveCfg);
                 };
 
                 //retry fn
