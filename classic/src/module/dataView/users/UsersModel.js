@@ -9,6 +9,7 @@
         alias: 'viewmodel.mh-users',
 
     requires: [
+        'mh.data.dictionaries.OrganisationRoles',
         'mh.data.model.User',
         'mh.data.proxy.Rest',
         'mh.mixin.ApiMap'
@@ -25,7 +26,8 @@
                         property: 'isAccountClosed', direction: 'ASC'
                     }
                 ]
-            }
+            },
+            orgRoles: mh.data.dictionaries.OrganisationRoles.getOrgRolesStore()
         }
     });
 

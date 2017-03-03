@@ -135,6 +135,22 @@
                             value: '{rec.isAccountVerified}'
                         },
                         readOnly: true
+                    },
+                    {
+                        xtype: 'combo',
+                        reference: 'organisationRole',
+                        bind: {
+                            fieldLabel: '{localisation.orgRole}',
+                            value: '{rec.organisationRole}',
+                            store: '{orgRoles}'
+                        },
+                        valueField: 'id',
+                        displayField: 'name',
+                        editable: false,
+                        triggerAction: 'all',
+                        queryMode: 'local',
+                        readOnly: true,
+                        hidden: true
                     }
                 ]
             }

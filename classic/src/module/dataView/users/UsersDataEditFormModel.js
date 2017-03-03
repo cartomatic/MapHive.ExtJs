@@ -7,8 +7,13 @@
     Ext.define('mh.module.dataView.users.UsersDataEditFormModel', {
         extend: 'Ext.app.ViewModel',
         alias: 'viewmodel.mh-users-data-edit-form',
-    
-        stores: {
+
+    requires: [
+        'mh.data.dictionaries.OrganisationRoles'
+    ],
+
+    stores: {
+            orgRoles: mh.data.dictionaries.OrganisationRoles.getOrgRolesStore()
         },
     
         data: {

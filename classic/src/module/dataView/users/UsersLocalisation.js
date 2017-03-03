@@ -68,6 +68,10 @@
                 isAccountVerified: {
                     en: 'Account verified',
                     pl: 'Konto zweryfikowane'
+                },
+                orgRole: {
+                    en: 'Role',
+                    pl: 'Rola'
                 }
             }
         }

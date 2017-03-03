@@ -29,35 +29,37 @@
             border: false,
             plugins: 'gridfilters',
             bind: {store: '{gridstore}'},
-            columns: [
-                {
-                    bind: {text: '{localisation.email}'},
-                    dataIndex: 'email',
-                    flex: 1,
-                    filter: {
-                        // required configs
-                        type: 'string'
+            columns: {
+                items: [
+                    {
+                        bind: {text: '{localisation.email}'},
+                        dataIndex: 'email',
+                        flex: 1,
+                        filter: {
+                            // required configs
+                            type: 'string'
+                        }
+                    },
+                    {
+                        bind: {text: '{localisation.forename}'},
+                        dataIndex: 'forename',
+                        flex: 1,
+                        filter: {
+                            // required configs
+                            type: 'string'
+                        }
+                    },
+                    {
+                        bind: {text: '{localisation.surname}'},
+                        dataIndex: 'forename',
+                        flex: 1,
+                        filter: {
+                            // required configs
+                            type: 'string'
+                        }
                     }
-                },
-                {
-                    bind: {text: '{localisation.forename}'},
-                    dataIndex: 'forename',
-                    flex: 1,
-                    filter: {
-                        // required configs
-                        type: 'string'
-                    }
-                },
-                {
-                    bind: {text: '{localisation.surname}'},
-                    dataIndex: 'forename',
-                    flex: 1,
-                    filter: {
-                        // required configs
-                        type: 'string'
-                    }
-                }
-            ]
+                ]
+            }
         },
         gridIconCls: 'x-li li-users2',
         form: 'mh.module.dataView.users.UsersDataViewForm',
