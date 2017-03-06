@@ -29,15 +29,17 @@
             resetPass: 'auth/resetpass',
             changePass: 'auth/changepass',
 
+            //cfg
+            userConfiguration: 'configuration/user',
+
             //apps
             applications: 'applications',
             userApps: 'users/userapps',
 
+            //orgs
             userOrgs: 'users/userorgs',
             organisations: 'organisations',
             orgHasAppAccess: 'organisations/{orgId}/allowsapplication/{appId}',
-
-            userConfiguration: 'configuration/user',
 
             //users
             users: 'users',
@@ -46,6 +48,10 @@
             userprofile: 'users/owndetails',
             accountCreate: 'users/account',
 
+            //teams
+            organisationTeams: 'organisations/' + parentIdentifier + '/teams',
+
+            //locale
             localisationClasses: 'localisationclasses',
             translationKeys: 'translationkeys',
             langs: 'langs',

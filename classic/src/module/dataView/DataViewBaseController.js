@@ -929,34 +929,7 @@
             var loadMaskMsg = recs.length > 1 ? this.getTranslation('deleteLoadmaskMany')
                     : this.getTranslation('deleteLoadmaskSingle'),
 
-                exceptionMsg = this.getTranslation('deleteFailureMsg'),
-
-                r = 0, rlen = recs.length,
-
-                me = this,
-
-                //prepares a wrapper for the deletion op
-                prepareDeletionOp = function(rec){
-                    var cfg = {
-                            scope: me,
-                            success: me.onRecDeleteSuccess,
-                            failure: me.onRecDeleteFailure,
-                            exceptionMsg: exceptionMsg,
-                            autoIgnore404: false, //this is required to show msg on 404 which will often be the case in dev mode!
-                            suppress400: true//so can handle 400 here
-                        },
-                        callback = me.generateModelRequestCallback(cfg),
-
-                        op = function(){
-                            rec.erase({
-                                callback: callback
-                            });
-                        };
-
-                    cfg.retry = op;
-
-                    return op;
-                };
+                r = 0, rlen = recs.length;
 
             //make sure there is work to be done
             if(rlen === 0){
@@ -969,10 +942,39 @@
             //soo.... now need to queue the records to be deleted and keep on deleting until the queue is empty.
             this.recsToBeDeleted = [];
             for(r; r < rlen; r++){
-                this.recsToBeDeleted.push(prepareDeletionOp(recs[r]));
+                this.recsToBeDeleted.push(this.prepareDeletionOp(recs[r]));
             }
 
             this.deleteNextRecord();
+        },
+
+        /**
+         * prepares a wrapper for the deletion op
+         * @param rec
+         * @returns {op}
+         */
+        prepareDeletionOp: function(rec){
+
+            var me = this,
+                cfg = {
+                    scope: me,
+                    success: me.onRecDeleteSuccess,
+                    failure: me.onRecDeleteFailure,
+                    exceptionMsg: this.getTranslation('deleteFailureMsg'),
+                    autoIgnore404: false, //this is required to show msg on 404 which will often be the case in dev mode!
+                    suppress400: true//so can handle 400 here
+                },
+                callback = me.generateModelRequestCallback(cfg),
+
+                op = function(){
+                    rec.erase({
+                        callback: callback
+                    });
+                };
+
+            cfg.retry = op;
+
+            return op;
         },
 
         /**
