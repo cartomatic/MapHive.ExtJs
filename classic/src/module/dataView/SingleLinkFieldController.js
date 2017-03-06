@@ -290,21 +290,21 @@
 
             if(this.newLink && !this.currentLink || this.newLink && this.currentLink && this.newLink.get('uuid') !== this.currentLink.get('uuid')){
                 diff = diff || {};
-                diff.upsert = [this.createRelationshipItem(this.newLink)];
+                diff.upsert = [this.createLink(this.newLink)];
             }
 
             return diff;
         },
 
         /**
-         * Creates a relationShipItem object
+         * Creates a link object
          * @param r
          * @param order
          */
-        createRelationshipItem: function(r, order){
+        createLink: function(r, order){
             //basically the only thing needed at this stage is the linked object type and linked object uuid.
             //if order is provided, then order should also be set on the object, so it is possible to maintain the sorting order of linked objects
-            //the outgoing model should be Emapa.WebGIS.Server.Core.Data.RelationshipItem
+            //the outgoing model should be MapHive.Server.Core.DataModel.Link
             var ri = {
                 childTypeUuid: r.get('typeUuid'),
                 childUuid: r.get('uuid')

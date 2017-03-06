@@ -35,7 +35,7 @@
         height: 100,
         width: 100,
 
-        minWidth: 300,
+        minWidth: 350,
         minHeight: 300,
 
         config: {
@@ -53,9 +53,14 @@
             apiUrl: null,
 
             /**
-             * token used when customising the url for the store; defaults to mh.mixin.ApiMap.parentIdentifier ({parent_uuid})
+             * token used to inject parent uuid when customising the url for the store; defaults to mh.mixin.ApiMap.parentIdentifier ({parent_uuid})
              */
             parentIdentifierToken: mh.mixin.ApiMap.getParentIdentifier(),
+
+            /**
+             * token used to inject org uuid when customising url for the store; defaults to mh.mixin.ApiMap.orgIdentifier ({org_uuid})
+             */
+            orgIdentifierToken: mh.mixin.ApiMap.getOrgIdentifier(),
 
             /**
              * @cfg {string} dataView either xtype or class name inheriting from mh.module.dataView.DataViewBase;
@@ -81,7 +86,15 @@
             /**
              * selection mode to be set on the links picker grid
              */
-            selMode: 'MULTI'
+            selMode: 'MULTI',
+
+            /**
+             * @cfg {Boolean|Number}
+             * whether or not links picker refresh should be deferred. On some occassions a view that is used for picking up links may do some own setup
+             * that takes some time. this is a customisation point to let the links picker wait as long as required
+             * when true, defers by 1ms, when number defers by the specified number
+             */
+            deferLinksPickerRefresh: false
         },
 
         /**

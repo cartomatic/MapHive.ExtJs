@@ -120,7 +120,19 @@
          */
         onShow: function(){
             if(Ext.isFunction(this.dataView.resetGrid)){
-                this.dataView.resetGrid();
+                var defer = this.getView().getDeferLinksPickerRefresh();
+                if(defer){
+                    Ext.defer(
+                        function(){
+                            this.dataView.resetGrid();
+                        },
+                        defer === true ? 1 : defer,
+                        this
+                    )
+                }
+                else {
+                    this.dataView.resetGrid();
+                }
             }
             //<debug>
             else {

@@ -46,6 +46,11 @@
         parentIdentifierToken: null,
 
         /**
+         * token used when replacing the org identifier
+         */
+        orgIdentifierToken: null,
+
+        /**
          * data view to be used for picking up linked objects; see full description on the view object
          * @private
          */
@@ -95,11 +100,15 @@
          */
         linksToDestroy: null,
 
-
         /**
          * selection mode to be applied to a links picker data view
          */
         selMode: null,
+
+        /**
+         * currently set org; when not null its uuid is injected into url in place of orgIdentifierToken
+         */
+        currentOrg: null,
 
         /**
          * Called when the view is created
@@ -112,6 +121,7 @@
             this.model = vw.getModel();
             this.apiUrl = vw.getApiUrl() || '';
             this.parentIdentifierToken = vw.getParentIdentifierToken();
+            this.orgIdentifierToken = vw.getOrgIdentifierToken();
             this.dataView = vw.getDataView();
             this.recLimit = vw.getRecLimit();
             this.selMode = vw.getSelMode();
@@ -119,7 +129,7 @@
             //apply custom configurations
             this.applyCustomViewConfig();
 
-            this.publishApi(['setEditable','getChanges']);
+            this.publishApi(['setEditable','getChanges', 'setOrgContext']);
 
             this.createAndSetStore();
 
@@ -130,6 +140,15 @@
 
             //by default disable grid's dd
             this.setDdPluginDisabled(true);
+        },
+
+
+        /**
+         * sets org so its identifier can be used for url customisation
+         * @param orgUuid
+         */
+        setOrgContext: function(org){
+            this.currentOrg = org;
         },
 
         /**
@@ -257,7 +276,11 @@
          * @returns {void|XML|string}
          */
         getLinksGridApiUrl: function(rec){
-            return this.apiUrl.replace(this.parentIdentifierToken, rec.get('uuid'));l
+            var url = this.apiUrl.replace(this.parentIdentifierToken, rec.get('uuid'));
+            if(this.currentOrg){
+                url = url.replace(this.orgIdentifierToken, this.currentOrg.get('uuid'));
+            }
+            return url;
         },
 
         /**
@@ -301,7 +324,7 @@
         },
 
         /**
-         * Gets the current changes in a form of a diff. Returns an object that contains the valid RelationshipItem collections
+         * Gets the current changes in a form of a diff. Returns an object that contains the valid createLink collections
          */
         getChanges: function(){
             var diff = null,
@@ -318,7 +341,7 @@
                 upsert = [];
 
                 for (u; u < ulen; u++){
-                    upsert.push(this.createRelationshipItem(upserts[u], u));
+                    upsert.push(this.createLink(upserts[u], u));
                 }
 
                 destroy = [];
@@ -348,14 +371,14 @@
         },
 
         /**
-         * Creates a relationShipItem object
+         * Creates a link object
          * @param r
          * @param order
          */
-        createRelationshipItem: function(r, order){
+        createLink: function(r, order){
             //basically the only thing needed at this stage is the linked object type and linked object uuid.
             //if order is provided, then order should also be set on the object, so it is possible to maintain the sorting order of linked objects
-            //the outgoing model should be Emapa.WebGIS.Server.Core.Data.RelationshipItem
+            //the outgoing model should be MapHive.Server.Core.DataModel.Link
             var ri = {
                 childTypeUuid: r.get('typeUuid'),
                 childUuid: r.get('uuid')
@@ -404,7 +427,8 @@
 
             if(!this.linksPicker){
                 this.linksPicker = Ext.create('mh.module.dataView.LinksPicker', {
-                    animateTarget: btn
+                    animateTarget: btn,
+                    deferLinksPickerRefresh: this.getView().getDeferLinksPickerRefresh()
                 });
 
                 this.linksPicker.setDataView(this.instantiateDataView());

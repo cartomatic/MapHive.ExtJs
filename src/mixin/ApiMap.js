@@ -26,7 +26,11 @@
             },
 
             getParentIdentifier: function(){
-                return mh.ApiMap.parentIdentifier;
+                return mh.ApiMap.getParentIdentifier();
+            },
+
+            getOrgIdentifier: function(){
+                return mh.ApiMap.getOrgIdentifier();
             }
         },
 
@@ -166,6 +170,14 @@
          */
         getParentIdentifier: function(){
             return this.getApiMapParentIdentifier();
+        },
+
+        /**
+         * gets an org identifier
+         * @returns {*}
+         */
+        getApiMapOrgIdentifier: function(){
+            return mh.ApiMap.getOrgIdentifier();
         }
 
     });

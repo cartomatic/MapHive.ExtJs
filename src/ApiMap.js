@@ -4,7 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    var parentIdentifier = '{parent_uuid}';
+    var parentIdentifier = '{parent_uuid}',
+        orgIdentifier = '{org_uuid}';
+
 
     /**
     * Created by info_000 on 28-Sep-16.
@@ -14,6 +16,10 @@
 
         getParentIdentifier: function(){
             return parentIdentifier;
+        },
+
+        getOrgIdentifier: function(){
+            return orgIdentifier;
         },
 
         /**
@@ -43,13 +49,15 @@
 
             //users
             users: 'users',
-            organisationUsers: 'organisations/' + parentIdentifier + '/users',
-            organisationUsersLink: 'organisations/' + parentIdentifier + '/users/link',
+            organisationUsers: 'organisations/' + orgIdentifier + '/users',
+            organisationUsersLink: 'organisations/' + orgIdentifier + '/users/link',
             userprofile: 'users/owndetails',
             accountCreate: 'users/account',
 
             //teams
-            organisationTeams: 'organisations/' + parentIdentifier + '/teams',
+            organisationTeams: 'organisations/' + orgIdentifier + '/teams',
+            teamUsers: 'organisations/' + orgIdentifier + '/teams/' + parentIdentifier + '/users',
+            teamApps: 'organisations/' + orgIdentifier + '/teams/' + parentIdentifier + '/applications',
 
             //locale
             localisationClasses: 'localisationclasses',
