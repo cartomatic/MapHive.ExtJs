@@ -37,7 +37,13 @@
             /**
              * A links diff that should be applied to the object
              */
-            { name: 'links', type: 'auto', useNull: true}
+            { name: 'links', type: 'auto', useNull: true},
+
+            /**
+             * a link data specific to this object when linked to a parent; this data is dynamic and does depend on the linking context (parent pretty much)
+             * it is a dbl associative arr in a form of dict<string, dict<string, object>>
+             */
+            { name: 'linkData', type: 'auto', useNull: true}
         ]
     });
 
