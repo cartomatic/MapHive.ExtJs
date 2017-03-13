@@ -193,8 +193,8 @@
         changeOrgInternal: function(org, app){
             this.doGet({
                 url: this.getApiEndPoint('orgHasAppAccess')
-                    .replace('orgId', org.get('uuid'))
-                    .replace('appId', app.get('uuid')),
+                    .replace(this.getApiMapOrgIdentifier(), org.get('uuid'))
+                    .replace('{appId}', app.get('uuid')),
                 success: this.onCheckIfOrgCanAccessAppSuccess,
                 failure: this.onCheckIfOrgCanAccessAppFailure,
                 scope: {

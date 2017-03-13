@@ -45,7 +45,8 @@
             //orgs
             userOrgs: 'users/userorgs',
             organisations: 'organisations',
-            orgHasAppAccess: 'organisations/{orgId}/allowsapplication/{appId}',
+            orgHasAppAccess: 'organisations/' + orgIdentifier + '/allowsapplication/{appId}',
+            organisationLinkableApps: 'organisations/' + orgIdentifier + '/applications/linkable',
 
             //users
             users: 'users',
