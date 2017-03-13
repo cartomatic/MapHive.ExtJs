@@ -129,7 +129,7 @@
             //apply custom configurations
             this.applyCustomViewConfig();
 
-            this.publishApi(['setEditable','getChanges', 'setOrgContext']);
+            this.publishApi(['setEditable','getChanges', 'setOrgContext', 'getLinkedObjects']);
 
             this.createAndSetStore();
 
@@ -324,14 +324,23 @@
         },
 
         /**
-         * Gets the current changes in a form of a diff. Returns an object that contains the valid createLink collections
+         * returns a set of objects currently present in the links grid
          */
-        getChanges: function(){
+        getLinkedObjects: function(){
+            return this.gridStore.getRange();
+        },
+
+        /**
+         * Gets the current changes in a form of a diff. Returns an object that contains the valid createLink collections
+         * @param force - this allows reading links without having to modify them first
+         * @returns {*}
+         */
+        getChanges: function(force){
             var diff = null,
                 upserts, u, ulen,
                 store, upsert, destroy, d, dlen;
 
-            if(this.linksModified){
+            if(this.linksModified || force){
 
                 //looks like there should be a diff. need to collect the records that are about to be upserted and also the deletes
                 store = this.gridStore;
