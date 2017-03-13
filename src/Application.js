@@ -117,8 +117,8 @@
          * applications that require authentication
          * Organisation owners/admins determine to which apps the access is granted; this is done via roles / teams
          *
-         * verifies if a scoped organisation has an access to the application; if not checks if another user org has an access to the application and if so
-         * re-scopes the org silently;
+         * verifies if a scoped organisation has an access to the application and also if a user has been granted an access to this app; if not checks if another user org has an access
+         * to the application and if so re-scopes the org silently;
          * for the common/public apps org->app context checkup is irrelevant, but it is important for non common/public apps
          *
          * If a user does not have an org that can access the application, or he is not granted an access to an app, a msg is given and a user is redirected to the home or default app (depending on the auth status)
@@ -126,7 +126,12 @@
          *
          * If it is possible to find an org-app match for a user, the execution is passed further to the internal app launch.
          * this is then up to an application to check its own user related stuff.
+         *
          * Note: Basically, in most cases, apps will use their own user endpoint configs that merge the default mh cfg with whatever app needs
+         *
+         * Note: if an application does not follow the standard MapHive startup rules with the org<->user<->team relations, simply override this method and make it call this.internalAppLaunch(cfg) instead;
+         *
+         *
          * @param [cfg]
          * @param cfg.orgCtx
          * @param cfg.userConfig
@@ -152,16 +157,23 @@
             var orgToken = this.getUrlOrgIdentifier(),
                 alternateOrg,
                 allowedOrgs = cfg.userConfig.allowedOrgs,
-                canStart = !!allowedOrgs[orgToken],
+                orgCanUseApp = function(org){
+                    return !!org && (org.isAppAdmin || org.canUseApp);
+                },
+                canStart = orgCanUseApp(allowedOrgs[orgToken]),
                 me = this;
 
             if(!canStart){
                 //hmm, looks like the initially scoped org does not have the access to this app.
-                //grab the first other org that has
-                alternateOrg = Ext.Object.getKeys(allowedOrgs)[0];
-                canStart = !!alternateOrg;
+                //grab the first other org where a user can use this application
+                Ext.Array.each(Ext.Object.getKeys(allowedOrgs), function(org){
+                    canStart = orgCanUseApp(allowedOrgs[org]);
+                    if(canStart){
+                        alternateOrg = org;
+                        return false;
+                    }
+                });
             }
-
 
             if(canStart){
                 //if an org should be re-scoped do so
@@ -195,7 +207,6 @@
                     }
                 });
             }
-
         },
 
         /**
