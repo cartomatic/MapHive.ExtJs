@@ -19,7 +19,7 @@
 
     requires: [
         'Ext.app.Application',
-        'Ext.app.route.Route',
+        'Ext.route.Route',
         'Ext.data.TreeStore',
         'Ext.panel.Panel',
         'Ext.util.History',

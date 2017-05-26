@@ -9,14 +9,15 @@
     requires: [
         'Ext.app.Application',
         //FIXME - this is a private util... will need to extract some sensible stuff out of it
-        'Ext.app.route.Route'
+        //'Ext.app.route.Route' //gone in 6.5
+        'Ext.route.Route'
     ],
 
         /**
          * Prepares an arr of Ext.app.route.Route so can easily test if a route matches pattern
          *
          * @param {string[]} routes
-         * @returns {Ext.app.route.Route[]}
+         * @returns {Ext.route.Route[]}
          */
         prepareRouteValidators: function(routes){
             var outRoutes = [],
@@ -24,7 +25,8 @@
 
             for(r; r < rlen; r++){
                 outRoutes.push(
-                    Ext.create('Ext.app.route.Route', {
+                    //Ext.create('Ext.app.route.Route', { //gone in 6.5
+                    Ext.create('Ext.route.Route', {
                         url: routes[r]
                     })
                 );
