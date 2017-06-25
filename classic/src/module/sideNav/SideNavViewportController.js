@@ -48,7 +48,9 @@
             //it is required to init the History object prior to using it
             if(this.useRouter){
 
-                this.prepareRoutes(menudata);
+                this.setRoutes(
+                    this.prepareRoutes(menudata)
+                );
 
                 Ext.util.History.init();
 
@@ -70,10 +72,11 @@
          * Extracts routes off the menu data and registers them with the controller;
          * @param menudata
          */
-        prepareRoutes: function(menudata){
+        prepareRoutes: function(menudata, outRoutes){
             var m = 0, mlen = menudata.length,
-                routes,r, rlen,
-                outRoutes = {};
+                routes,r, rlen;
+
+            outRoutes = outRoutes || {};
 
             for (m; m < mlen; m++){
                 routes = menudata[m].routes;
@@ -83,10 +86,11 @@
                 }
 
                 if(menudata[m].children){
-                    this.prepareRoutes(menudata[m].children)
+                    this.prepareRoutes(menudata[m].children, outRoutes);
                 }
             }
-            this.setRoutes(outRoutes);
+
+            return outRoutes;
         },
 
         /**

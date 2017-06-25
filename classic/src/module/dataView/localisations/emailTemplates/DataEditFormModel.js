@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.localisations.emailTemplates.DataEditFormModel', {
-        extend: 'Ext.app.ViewModel',
+        extend: 'mh.module.dataView.GenericEditFormModel',
         alias: 'viewmodel.mh-email-templates-data-edit-form',
     
         stores: {

@@ -293,14 +293,14 @@
          */
         setUpEditUi: function(){
             var vw = this.getView(),
-                preventEdit = vw.getEditForm() === false,
+                preventEdits = vw.getEditForm() === false,
                 items, i = 0, len,
                 startHiding = false,
                 preventCreate = vw.getPreventCreate(),
                 preventEdit = vw.getPreventEdit(),
                 preventDelete = vw.getPreventDelete();
 
-            if(preventEdit){
+            if(preventEdits){
 
                 items = this.lookupReference('gridTbar').items.items;
                 len = items.length;

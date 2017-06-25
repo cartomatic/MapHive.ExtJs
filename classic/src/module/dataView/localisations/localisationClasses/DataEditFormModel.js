@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.localisations.localisationClasses.DataEditFormModel', {
-        extend: 'Ext.app.ViewModel',
+        extend: 'mh.module.dataView.GenericEditFormModel',
         alias: 'viewmodel.mh-localisation-classes-data-edit-form',
     
         stores: {
