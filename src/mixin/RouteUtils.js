@@ -9,8 +9,8 @@
     requires: [
         'Ext.app.Application',
         //FIXME - this is a private util... will need to extract some sensible stuff out of it
-        //'Ext.app.route.Route' //gone in 6.5
-        'Ext.route.Route'
+        'Ext.app.route.Route' //gone in 6.5
+        //'Ext.route.Route'
     ],
 
         /**
@@ -25,8 +25,8 @@
 
             for(r; r < rlen; r++){
                 outRoutes.push(
-                    //Ext.create('Ext.app.route.Route', { //gone in 6.5
-                    Ext.create('Ext.route.Route', {
+                    Ext.create('Ext.app.route.Route', { //gone in 6.5
+                    //Ext.create('Ext.route.Route', {
                         url: routes[r]
                     })
                 );

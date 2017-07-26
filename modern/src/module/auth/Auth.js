@@ -19,6 +19,19 @@
 
         viewModel: true,
 
+        config: {
+
+            /**
+             * @cfg AccountCreator UI; should be required if redefined
+             */
+            accountCreatorUi: null, //'mh.module.auth.AccountCreator',
+
+            /**
+             * if true, the account creation entry point will be hidden
+             */
+            disableAccountCreation: true
+        },
+
         layout: {
             type: 'vbox',
             align: 'center',

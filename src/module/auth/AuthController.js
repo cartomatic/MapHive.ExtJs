@@ -74,8 +74,11 @@
 
             //hide account create if said so
             if(this.getView().getDisableAccountCreation()){
-                this.lookupReference('createAccountSeparatorBar').hide();
-                this.lookupReference('createAccountBar').hide();
+                //for the time being make sure the controls exist - mobile not in sync with classic
+                if(this.lookupReference('createAccountSeparatorBar')) {
+                    this.lookupReference('createAccountSeparatorBar').hide();
+                    this.lookupReference('createAccountBar').hide();
+                }
             }
             else {
                 //inject ui

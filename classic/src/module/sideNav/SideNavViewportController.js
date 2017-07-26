@@ -19,7 +19,6 @@
 
     requires: [
         'Ext.app.Application',
-        'Ext.route.Route',
         'Ext.data.TreeStore',
         'Ext.panel.Panel',
         'Ext.util.History',
