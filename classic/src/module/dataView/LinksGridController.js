@@ -411,12 +411,12 @@
         },
 
         /**
-         * gets link data for a specified record
+         * gets link data for a specified record; by default just returns the content of 'linkData' field
          * @param r
          * @template
          */
         getLinkData: function(r){
-            return null;
+            return r.get('linkData') || null;
         },
 
         /**
