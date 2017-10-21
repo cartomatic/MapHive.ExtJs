@@ -347,7 +347,7 @@
 
             for(f; f < flen; f++){
                 if(!Ext.Array.contains(baseFields, recFields[f].name)){
-                    outObj.push('<b>' + recFields[f].name + '</b>: ' + rec.get((recFields[f].name) || '').toString());
+                    outObj.push('<b>' + recFields[f].name + '</b>: ' + (rec.get(recFields[f].name) || '').toString());
                 }
             }
 
