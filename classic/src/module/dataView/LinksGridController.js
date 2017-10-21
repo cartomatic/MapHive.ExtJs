@@ -397,14 +397,16 @@
             //if order is provided, then order should also be set on the object, so it is possible to maintain the sorting order of linked objects
             //the outgoing model should be MapHive.Server.Core.DataModel.Link
             var ri = {
-                childTypeUuid: r.get('typeUuid'),
-                childUuid: r.get('uuid'),
-                linkData: this.getLinkData(r)
-            };
+                    childTypeUuid: r.get('typeUuid'),
+                    childUuid: r.get('uuid')
+                },
+                linkData = this.getLinkData(r);
             if(order !== undefined){
                 ri.sortOrder = order;
             }
-
+            if(linkData){
+                ri.linkData = linkData;
+            }
             return ri;
         },
 
