@@ -133,6 +133,8 @@
 
             this.createAndSetStore();
 
+            this.addCustomColumns();
+
             this.addDeleteColumn();
 
             //hook up some events, so data reloading works like expected
@@ -202,6 +204,12 @@
             });
             this.getView().setStore(this.gridStore);
         },
+
+        /**
+         * an extension point for adding some default links picker columns. called just before addDeleteColumn
+         * @template
+         */
+        addCustomColumns: Ext.emptyFn,
 
         /**
          * Adds a delete column to the view
@@ -390,13 +398,23 @@
             //the outgoing model should be MapHive.Server.Core.DataModel.Link
             var ri = {
                 childTypeUuid: r.get('typeUuid'),
-                childUuid: r.get('uuid')
+                childUuid: r.get('uuid'),
+                linkData: this.getLinkData(r)
             };
             if(order !== undefined){
                 ri.sortOrder = order;
             }
 
             return ri;
+        },
+
+        /**
+         * gets link data for a specified record
+         * @param r
+         * @template
+         */
+        getLinkData: function(r){
+            return null;
         },
 
         /**
