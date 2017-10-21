@@ -129,6 +129,11 @@
              */
             selMode: 'SINGLE',
 
+            /**
+             * whether or not the grid panel should be collapsible or not
+             */
+            collapsible: false,
+
             //component visual customisation
             'btnCreate|setUI': null,
             'btnCreate|setScale': null,
@@ -150,29 +155,31 @@
         layout: 'border',
         items: [
             {
-                xtype: 'container',
+                xtype: 'panel',
                 layout: 'fit',
-                reference: 'westOuterHolder',
+                reference: 'westFormHolder',
                 region: 'west',
                 width: 350,
                 hidden: true,
                 split: true,
+                collapsible: true,
                 items: []
             },
             {
-                xtype: 'container',
+                xtype: 'panel',
                 layout: 'fit',
                 reference: 'centerOuterHolder',
                 region: 'center',
                 split: true,
+                bind: {
+                    title: '{localisation.gridTitle}'
+                },
                 items: [
                     {
                         xtype: 'panel',
+                        preventHeader: true,
                         reference: 'gridHolder',
                         layout: 'fit',
-                        bind: {
-                            title: '{localisation.gridTitle}'
-                        },
                         dockedItems: [
                             {
                                 dock: 'top',
@@ -231,24 +238,27 @@
                 ]
             },
             {
-                xtype: 'container',
+                xtype: 'panel',
+                bind: {
+                    title: '{localisation.formTitle}'
+                },
                 layout: 'fit',
-                reference: 'eastOuterHolder',
+                reference: 'eastFormHolder',
                 region: 'east',
                 width: 350,
                 split: true,
+                collapsible: true,
                 items: [
-                    {
-                        xtype: 'panel',
-                        region: 'east',
-                        layout: 'fit',
-                        reference: 'formHolder',
-                        split: true,
-                        width: 350,
-                        bind: {
-                            title: '{localisation.formTitle}'
-                        }
-                    }
+                    // {
+                    //     xtype: 'panel',
+                    //     region: 'east',
+                    //     layout: 'fit',
+                    //     reference: 'formHolder',
+                    //     width: 350,
+                    //     bind: {
+                    //         title: '{localisation.formTitle}'
+                    //     }
+                    // }
                 ]
             }
         ]

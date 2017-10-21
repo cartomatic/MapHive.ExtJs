@@ -68,13 +68,15 @@
             //some translations
             var refs = this.getReferences(),
                 view = this.getView(),
+                centerHolder = this.lookupReference('centerOuterHolder'),
                 gridHolder = this.lookupReference('gridHolder'),
-                formHolder = this.lookupReference('formHolder'),
+                eastFormHolder = this.lookupReference('eastFormHolder'),
+                westFormHolder = this.lookupReference('westFormHolder'),
                 grid = view.getGrid(),
                 gridIconCls = view.getGridIconCls(),
                 form = view.getForm(),
                 formIconCls = view.getFormIconCls(),
-                formWidth = view.getFormWidth() || formHolder.getWidth(),
+                formWidth = view.getFormWidth() || eastFormHolder.getWidth(),
                 hideGridHeader = view.getHideGridHeader(),
                 hideFormHeader = view.getHideFormHeader(),
 
@@ -92,21 +94,35 @@
 
                 toggleRegions = false;
 
-            //hide the grid's header; useful when using nested
-            if(hideGridHeader === true){
-                gridHolder.header = false;
-            }
-
-            if(hideFormHeader === true){
-                formHolder.header = false;
-            }
-
-            //instantiate grid + data view and inject into layout
+            //instantiate grid + data view
             grid = this.ensureGridDef(grid);
-            if(grid){
 
-                //if a grid has defined width, then will have to swap regions
-                toggleRegions = grid.width !== undefined;
+            //if a grid has defined width, then will have to swap regions
+            toggleRegions = grid && grid.width !== undefined;
+
+            //see if have to hide headers
+            if(!toggleRegions){
+                //hide the grid's header; useful when using nested
+                if(hideGridHeader === true){
+                    centerHolder.header = false;
+                }
+
+                if(hideFormHeader === true){
+                    eastFormHolder.header = false;
+                }
+            }
+            else {
+                //hide the grid's header; useful when using nested
+                if(hideGridHeader === true){
+                    westFormHolder.header = false;
+                }
+
+                if(hideFormHeader === true){
+                    centerHolder.header = false;
+                }
+            }
+
+            if(grid){
 
                 //Note: grabbing store off a view model, as grid initially will have an empty one and will bind to viewmodel's one later it seems
                 var store = this.getViewModel().get('gridstore');
@@ -126,7 +142,7 @@
                 gridHolder.add(this.createInstance(grid, gridOpts));
 
                 if(gridIconCls){
-                    gridHolder.setIconCls(gridIconCls);
+                    centerHolder.setIconCls(gridIconCls);
                 }
 
                 //wire up some grid store evt listeners. This is needed so the error handling can be passed to generic grid utils
@@ -135,41 +151,38 @@
                 store.on('load', this.onGridStoreLoad, this);
             }
             else {
-                gridHolder.hide();
+                centerHolder.hide();
             }
 
             //now goes the form
             form = this.ensureFormDef(form);
             if(form){
-                formHolder.add(this.createInstance(form, formOpts));
+                eastFormHolder.add(this.createInstance(form, formOpts));
 
                 if(formIconCls) {
-                    formHolder.setIconCls(formIconCls)
+                    eastFormHolder.setIconCls(formIconCls)
                 }
 
-                formHolder.setWidth(formWidth)
+                eastFormHolder.setWidth(formWidth)
             }
             else {
-                formHolder.hide();
-                this.lookupReference('eastOuterHolder').hide();
+                eastFormHolder.hide();
+                //this.lookupReference('eastFormHolder').hide();
             }
 
             if(toggleRegions && grid && form){
-                var westHolder = this.lookupReference('westOuterHolder'),
-                    centerHolder = this.lookupReference('centerOuterHolder'),
-                    eastHolder = this.lookupReference('eastOuterHolder');
 
-                westHolder.show();
-                westHolder.setWidth(grid.width);
-                westHolder.add(gridHolder);
+                westFormHolder.show();
+                westFormHolder.setWidth(grid.width);
+                westFormHolder.add(gridHolder);
 
-                centerHolder.add(formHolder);
+                centerHolder.add(eastFormHolder.items.items);
 
-                eastHolder.hide();
+                eastFormHolder.hide();
 
                 //Note: dunno why the titles get unbound??? maybe because the components are moved around and change parents??? need to reset them manually which sucks a bit
-                gridHolder.setTitle(this.getTranslation('gridTitle'));
-                formHolder.setTitle(this.getTranslation('formTitle'));
+                westFormHolder.setTitle(this.getTranslation('gridTitle'));
+                centerHolder.setTitle(this.getTranslation('formTitle'));
             }
 
             //the top toolbar setup...
