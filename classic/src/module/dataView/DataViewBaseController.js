@@ -71,6 +71,7 @@
                 centerHolder = this.lookupReference('centerOuterHolder'),
                 gridHolder = this.lookupReference('gridHolder'),
                 eastFormHolder = this.lookupReference('eastFormHolder'),
+                formInnerHolder = this.lookupReference('formInnerHolder'),
                 westFormHolder = this.lookupReference('westFormHolder'),
                 grid = view.getGrid(),
                 gridIconCls = view.getGridIconCls(),
@@ -157,7 +158,7 @@
             //now goes the form
             form = this.ensureFormDef(form);
             if(form){
-                eastFormHolder.add(this.createInstance(form, formOpts));
+                formInnerHolder.add(this.createInstance(form, formOpts));
 
                 if(formIconCls) {
                     eastFormHolder.setIconCls(formIconCls)
@@ -176,7 +177,7 @@
                 westFormHolder.setWidth(grid.width);
                 westFormHolder.add(gridHolder);
 
-                centerHolder.add(eastFormHolder.items.items);
+                centerHolder.add(formInnerHolder);
 
                 eastFormHolder.hide();
 

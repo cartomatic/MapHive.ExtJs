@@ -249,16 +249,12 @@
                 split: true,
                 collapsible: true,
                 items: [
-                    // {
-                    //     xtype: 'panel',
-                    //     region: 'east',
-                    //     layout: 'fit',
-                    //     reference: 'formHolder',
-                    //     width: 350,
-                    //     bind: {
-                    //         title: '{localisation.formTitle}'
-                    //     }
-                    // }
+                    //need this inner wrapper so view model does not get disconnected when removing nested items.
+                    {
+                        xtype: 'container',
+                        layout: 'fit',
+                        reference: 'formInnerHolder',
+                    }
                 ]
             }
         ]

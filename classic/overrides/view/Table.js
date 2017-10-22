@@ -54,7 +54,7 @@
                     //</orig>
                     var r = store.getAt(Math.min(focusPosition.rowIdx, store.getCount() - 1));
                     if(r){
-                        focusPosition.setRow(rec);
+                        focusPosition.setRow(r);
                     }
                 }
             }
