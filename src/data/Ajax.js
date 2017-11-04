@@ -151,7 +151,7 @@
             };
             //some custom headers
             headers[this.getMhCfgProperty('headerLang')] = mh.localisation.Localisation.langCode;
-            headers[this.getMhCfgProperty('headerSource')] = window.location.href
+            headers[this.getMhCfgProperty('headerSource')] = window.location.href;
 
             //only add the auth header if present, skip it otherwise
             if (authorizationHeader !== null) {
@@ -177,7 +177,8 @@
                 headers: Ext.merge(this.getStandardHeaders(), cfg.headers),
                 params: Ext.isObject(cfg.params) ? (cfg.method === 'GET' ? Ext.Object.toQueryString(cfg.params) : Ext.JSON.encode(cfg.params)) : null,
                 callback: Ext.bind(this._requestCallback, {self: this, cfg: cfg}),
-                disableCaching: cfg.disableCaching
+                disableCaching: cfg.disableCaching,
+                timeout: cfg.timeout
             });
         },
 
