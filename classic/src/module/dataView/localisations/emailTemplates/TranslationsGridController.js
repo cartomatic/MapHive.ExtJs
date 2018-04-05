@@ -96,7 +96,11 @@
             this.lookupReference('htmleditor').setReadOnly(false);
 
             //watch the grid store for changes
-            this.gridStore.on('datachanged', this.onDataChanged, this); //rec add, remove
+            //looks like in 6.5.3 datachanged evt listener will go nuts without a buffer
+            //this.gridStore.on('datachanged', this.onDataChanged, this, {buffer: 250}); //rec add, remove
+            // this.gridStore.on('add', this.onDataChanged, this);
+            // this.gridStore.on('remove', this.onDataChanged, this);
+            this.gridStore.on('refresh', this.onDataChanged, this);
             this.gridStore.on('update', this.onDataChanged, this); //rec edit
         },
 

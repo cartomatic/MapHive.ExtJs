@@ -64,7 +64,7 @@
                                 reference: 'txtEmail',
                                 clearIcon: true,
                                 bind: {
-                                    placeHolder: '{localisation.emailEmptyText}'
+                                    placeholder: '{localisation.emailEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 0 0' //trbl
@@ -74,7 +74,7 @@
                                 reference: 'txtPass',
                                 clearIcon: true,
                                 bind: {
-                                    placeHolder: '{localisation.passEmptyText}'
+                                    placeholder: '{localisation.passEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -199,7 +199,7 @@
                                 reference: 'txtPassReset',
                                 clearIcon: true,
                                 bind: {
-                                    placeHolder: '{localisation.passNewEmptyText}'
+                                    placeholder: '{localisation.passNewEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -209,7 +209,7 @@
                                 reference: 'txtPassResetRepeat',
                                 clearIcon: true,
                                 bind: {
-                                    placeHolder: '{localisation.passRepeatEmptyText}'
+                                    placeholder: '{localisation.passRepeatEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -247,7 +247,7 @@
                                 reference: 'txtVerificationKey',
                                 clearIcon: true,
                                 bind: {
-                                    placeHolder: '{localisation.verificationKeyEmptyText}'
+                                    placeholder: '{localisation.verificationKeyEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -257,7 +257,7 @@
                                 reference: 'txtInitialPassword',
                                 clearIcon: true,
                                 bind: {
-                                    placeHolder: '{localisation.passEmptyText}'
+                                    placeholder: '{localisation.passEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
