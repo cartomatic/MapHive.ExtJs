@@ -133,6 +133,8 @@
 
             this.createAndSetStore();
 
+            this.addCustomColumns();
+
             this.addDeleteColumn();
 
             //hook up some events, so data reloading works like expected
@@ -204,6 +206,12 @@
         },
 
         /**
+         * an extension point for adding some default links picker columns. called just before addDeleteColumn
+         * @template
+         */
+        addCustomColumns: Ext.emptyFn,
+
+        /**
          * Adds a delete column to the view
          */
         addDeleteColumn: function(){
@@ -234,7 +242,11 @@
             this.setDdPluginDisabled(false);
 
             //start monitoring grid change events
-            this.gridStore.on('datachanged', this.onStoreDataChanged, this);
+            //looks like in 6.5.3 datachanged evt listener will go nuts without a buffer
+            //this.gridStore.on('datachanged', this.onStoreDataChanged, this, {buffer: 250});
+            // this.gridStore.on('add', this.onStoreDataChanged, this);
+            // this.gridStore.on('remove', this.onStoreDataChanged, this);
+            this.gridStore.on('refresh', this.onStoreDataChanged, this);
             this.getView().on('drop',this.onStoreDataChanged, this);
         },
 
@@ -389,14 +401,26 @@
             //if order is provided, then order should also be set on the object, so it is possible to maintain the sorting order of linked objects
             //the outgoing model should be MapHive.Server.Core.DataModel.Link
             var ri = {
-                childTypeUuid: r.get('typeUuid'),
-                childUuid: r.get('uuid')
-            };
+                    childTypeUuid: r.get('typeUuid'),
+                    childUuid: r.get('uuid')
+                },
+                linkData = this.getLinkData(r);
             if(order !== undefined){
                 ri.sortOrder = order;
             }
-
+            if(linkData){
+                ri.linkData = linkData;
+            }
             return ri;
+        },
+
+        /**
+         * gets link data for a specified record; by default just returns the content of 'linkData' field
+         * @param r
+         * @template
+         */
+        getLinkData: function(r){
+            return r.get('linkData') || null;
         },
 
         /**

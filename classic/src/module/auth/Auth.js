@@ -228,7 +228,7 @@
                                 xtype: 'toolbar',
                                 dock: 'bottom',
                                 items: [
-                                    {
+                                        {
                                         xtype: 'button',
                                         bind: {
                                             text: '{localisation.btnLogin}'

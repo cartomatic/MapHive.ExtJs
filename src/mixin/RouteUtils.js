@@ -1,7 +1,10 @@
 (function(){
     //Make sure strict mode is on
     'use strict';
-    
+
+    var gt65 = Ext.getVersion().major >= 6 && Ext.getVersion().minor >= 5,
+        routeClass = gt65 ? 'Ext.route.Route' : 'Ext.app.route.Route'; //gone in 6.5
+
     /**
      * Route utils - a set of helpers tha simplify working with the app routes
      */
@@ -9,15 +12,14 @@
     requires: [
         'Ext.app.Application',
         //FIXME - this is a private util... will need to extract some sensible stuff out of it
-        //'Ext.app.route.Route' //gone in 6.5
-        'Ext.route.Route'
+        routeClass
     ],
 
         /**
          * Prepares an arr of Ext.app.route.Route so can easily test if a route matches pattern
          *
          * @param {string[]} routes
-         * @returns {Ext.route.Route[]}
+         * @returns {Ext.route.Route[] | Ext.app.route.Route[]}
          */
         prepareRouteValidators: function(routes){
             var outRoutes = [],
@@ -26,7 +28,8 @@
             for(r; r < rlen; r++){
                 outRoutes.push(
                     //Ext.create('Ext.app.route.Route', { //gone in 6.5
-                    Ext.create('Ext.route.Route', {
+                    //Ext.create('Ext.route.Route', {
+                    Ext.create(routeClass, {
                         url: routes[r]
                     })
                 );

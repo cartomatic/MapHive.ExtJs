@@ -107,7 +107,8 @@
             var mapContainerId = this.generateMapContainerId();
 
             //render map holder into container's el
-            e.dom.children[0].innerHTML =
+            //e.el.dom starts with extjs 6.5
+            (e.dom || e.el.dom).children[0].innerHTML =
                 '<div id="' + mapContainerId + '" style="position:absolute; overflow: hidden; width: 100%; height: 100%;"></div>';
 
             this.createMap(mapContainerId);

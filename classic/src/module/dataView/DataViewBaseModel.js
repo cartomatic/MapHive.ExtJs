@@ -24,7 +24,9 @@
             //https://www.sencha.com/forum/showthread.php?305387
             localisation: null,
 
-            rec: null
+            rec: null,
+
+            grid: null
         },
 
         stores: {

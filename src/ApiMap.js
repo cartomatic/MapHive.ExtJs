@@ -31,9 +31,11 @@
             logout: 'auth/letmeoutofhere',
             tokenValidation: 'auth/tokenvalidation',
             accountActivation: 'auth/accountactivation',
+            resendActivation: 'auth/resendactivation/{userId}',
             passResetRequest: 'auth/passresetrequest',
             resetPass: 'auth/resetpass',
             changePass: 'auth/changepass',
+            forceResetPass: 'auth/forceresetpass',
 
             //cfg
             userConfiguration: 'configuration/user',

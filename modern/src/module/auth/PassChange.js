@@ -51,7 +51,7 @@
                 reference: 'txtOldPass',
                 clearIcon: true,
                 bind: {
-                    placeHolder: '{localisation.oldPass}'
+                    placeholder: '{localisation.oldPass}'
                 },
                 cls: 'mh-auth-text-border',
                 margin: '5 0 0 0' //trbl
@@ -61,7 +61,7 @@
                 reference: 'txtNewPass',
                 clearIcon: true,
                 bind: {
-                    placeHolder: '{localisation.newPass}'
+                    placeholder: '{localisation.newPass}'
                 },
                 cls: 'mh-auth-text-border',
                 margin: '5 0 0 0' //trbl
@@ -71,7 +71,7 @@
                 reference: 'txtRepeatPass',
                 clearIcon: true,
                 bind: {
-                    placeHolder: '{localisation.repeatPass}'
+                    placeholder: '{localisation.repeatPass}'
                 },
                 cls: 'mh-auth-text-border',
                 margin: '5 0 10 0' //trbl

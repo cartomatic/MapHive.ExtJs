@@ -138,6 +138,9 @@
             var sf = this.lookupReference('selectedFiles');
             sf.setHtml('');
             sf.setHeight(0);
+            if(this.fileUploadEl){
+                this.fileUploadEl.value=''; //this is needed, so it is possible to pick the same files again and trigger a 'change' event from the upload element
+            }
             this.files = null;
         },
 
