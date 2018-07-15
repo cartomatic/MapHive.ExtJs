@@ -49,7 +49,7 @@
         },
 
         /**
-         * gets a user role within an organisation
+         * gets a user role within an organization
          * @param callback
          */
         getUserOrgRole: function(callback){

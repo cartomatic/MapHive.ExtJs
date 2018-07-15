@@ -19,7 +19,7 @@
         ],
 
         requires: [
-            'mh.data.model.Organisation',
+            'mh.data.model.Organization',
             'mh.module.appBar.OrgSwitcherButtonLocalisation'
         ],
 
@@ -157,7 +157,7 @@
         },
 
         /**
-         * changes organisation
+         * changes organization
          * @param org
          */
         changeOrg: function(org){

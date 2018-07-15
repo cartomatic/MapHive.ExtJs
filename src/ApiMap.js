@@ -48,21 +48,21 @@
 
                 //orgs
                 userOrgs: 'users/userorgs',
-                organisations: 'organisations',
-                orgHasAppAccess: 'organisations/' + orgIdentifier + '/allowsapplication/{appId}',
-                organisationLinkableApps: 'organisations/' + orgIdentifier + '/applications/linkable',
+                organizations: 'organizations',
+                orgHasAppAccess: 'organizations/' + orgIdentifier + '/allowsapplication/{appId}',
+                organizationLinkableApps: 'organizations/' + orgIdentifier + '/applications/linkable',
 
                 //users
                 users: 'users',
-                organisationUsers: 'organisations/' + orgIdentifier + '/users',
-                organisationUsersLink: 'organisations/' + orgIdentifier + '/users/link',
+                organizationUsers: 'organizations/' + orgIdentifier + '/users',
+                organizationUsersLink: 'organizations/' + orgIdentifier + '/users/link',
                 userprofile: 'users/owndetails',
                 accountCreate: 'users/account',
 
                 //teams
-                organisationTeams: 'organisations/' + orgIdentifier + '/teams',
-                teamUsers: 'organisations/' + orgIdentifier + '/teams/' + parentIdentifier + '/users',
-                teamApps: 'organisations/' + orgIdentifier + '/teams/' + parentIdentifier + '/applications',
+                organizationTeams: 'organizations/' + orgIdentifier + '/teams',
+                teamUsers: 'organizations/' + orgIdentifier + '/teams/' + parentIdentifier + '/users',
+                teamApps: 'organizations/' + orgIdentifier + '/teams/' + parentIdentifier + '/applications',
 
                 //locale
                 localisationClasses: 'localisationclasses',

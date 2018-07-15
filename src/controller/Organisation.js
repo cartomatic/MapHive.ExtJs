@@ -5,18 +5,18 @@
     /**
      * Created by domin on 16.02.2017.
      */
-    Ext.define('mh.controller.Organisation', {
+    Ext.define('mh.controller.Organization', {
         extend: 'Ext.app.Controller',
 
     requires: [
-        'mh.data.model.Organisation'
+        'mh.data.model.Organization'
     ],
 
     mixins: [
             'mh.communication.MsgBus',
             'mh.data.Ajax',
             'mh.mixin.ApiMap',
-            'mh.data.model.Organisation',
+            'mh.data.model.Organization',
             'mh.mixin.UrlUtils'
         ],
 
@@ -68,12 +68,12 @@
         userAuthenticated: false,
 
         /**
-         * user's organisations
+         * user's organizations
          */
         userOrgs: null,
 
         /**
-         * current organisation
+         * current organization
          */
         currentOrg: null,
 
@@ -203,11 +203,11 @@
         onXWindowOrgCtxRetrieved: function(orgCtx){
 
             //since this is coming xwindow, it's not model instances, but raw data. need to create models
-            this.currentOrg = Ext.create('mh.data.model.Organisation', orgCtx.currentOrg);
+            this.currentOrg = Ext.create('mh.data.model.Organization', orgCtx.currentOrg);
 
             this.userOrgs = [];
             Ext.Array.each(orgCtx.userOrgs, function(org){
-                this.userOrgs.push(Ext.create('mh.data.model.Organisation', org));
+                this.userOrgs.push(Ext.create('mh.data.model.Organization', org));
             }, this);
 
             //and when all is ready broadcast the data locally!
@@ -247,12 +247,12 @@
             var urlOrgSlug = this.getUrlOrgIdentifier(),
                 currentOrg;
 
-            //response should be an arr of organisations
+            //response should be an arr of organizations
             //so make the instances off the incoming data
             this.userOrgs = [];
             this.currentOrg = null;
             Ext.Array.each(response, function(org){
-                var o = Ext.create('mh.data.model.Organisation', org);
+                var o = Ext.create('mh.data.model.Organization', org);
                 this.userOrgs.push(o);
                 if(urlOrgSlug === o.get('slug')){
                     currentOrg = o;
@@ -314,7 +314,7 @@
         },
 
         /**
-         * changes organisation
+         * changes organization
          * @param eData
          * @param eData.org
          * @param eData.skipXWindowReBroadcast - when receiving org change request xwindow, there is no point in rebroadcasting it back really; this skips the xwindow evt 'back propagation'

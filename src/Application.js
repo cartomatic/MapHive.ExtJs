@@ -34,7 +34,7 @@
         controllers: [
             'mh.controller.Root',
             'mh.controller.Auth',
-            'mh.controller.Organisation',
+            'mh.controller.Organization',
             'mh.controller.Splash'
         ],
 
@@ -115,9 +115,9 @@
         /**
          * This is a standard, generic checkup that determines if an org has access to an app and if a user can use an app; This process is the same for all the
          * applications that require authentication
-         * Organisation owners/admins determine to which apps the access is granted; this is done via roles / teams
+         * Organization owners/admins determine to which apps the access is granted; this is done via roles / teams
          *
-         * verifies if a scoped organisation has an access to the application and also if a user has been granted an access to this app; if not checks if another user org has an access
+         * verifies if a scoped organization has an access to the application and also if a user has been granted an access to this app; if not checks if another user org has an access
          * to the application and if so re-scopes the org silently;
          * for the common/public apps org->app context checkup is irrelevant, but it is important for non common/public apps
          *

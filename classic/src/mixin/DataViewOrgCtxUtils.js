@@ -24,7 +24,7 @@
         apiEndpoint: null,
 
         /**
-         * sets up org context related functionality, so a view can adjust its content based on the scoped organisation
+         * sets up org context related functionality, so a view can adjust its content based on the scoped organization
          * @param apiEndpoint
          */
         setUpOrgContextHandlers: function(apiEndpoint){

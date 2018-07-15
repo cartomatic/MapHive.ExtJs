@@ -138,10 +138,10 @@
                     },
                     {
                         xtype: 'combo',
-                        reference: 'organisationRole',
+                        reference: 'organizationRole',
                         bind: {
                             fieldLabel: '{localisation.orgRole}',
-                            value: '{rec.organisationRole}',
+                            value: '{rec.organizationRole}',
                             store: '{orgRoles}'
                         },
                         valueField: 'id',

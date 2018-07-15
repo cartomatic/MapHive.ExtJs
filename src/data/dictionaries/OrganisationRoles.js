@@ -5,11 +5,11 @@
     /**
      * Created by domin on 03.03.2017.
      */
-    Ext.define('mh.data.dictionaries.OrganisationRoles', {
+    Ext.define('mh.data.dictionaries.OrganizationRoles', {
         singleton: true,
 
         requires: [
-            'mh.data.dictionaries.OrganisationRolesLocalisation'
+            'mh.data.dictionaries.OrganizationRolesLocalisation'
         ],
 
         mixins: [
@@ -17,8 +17,8 @@
         ],
 
         /**
-         * returns a simple store cfg with organisation specific roles based on
-         * OrganisationRole enum in MapHive.Server.Core.DataModel.Organisation
+         * returns a simple store cfg with organization specific roles based on
+         * OrganizationRole enum in MapHive.Server.Core.DataModel.Organization
          */
         getOrgRolesStore: function(){
 
