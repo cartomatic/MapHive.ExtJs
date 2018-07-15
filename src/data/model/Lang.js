@@ -20,7 +20,7 @@
         ],
         proxy: {
             type: 'mhrest',
-            url : mh.mixin.ApiMap.getApiEndPoint('langs')
+            url : mh.mixin.ApiMap.getApiEndPointUrl('langs')
         }
     });
 

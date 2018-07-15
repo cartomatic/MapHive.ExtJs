@@ -560,7 +560,7 @@
 
             //grab the client cfg
             this.doGet({
-                url: this.getApiEndPoint('userConfiguration'),
+                url: this.getApiEndPointUrl('userConfiguration'),
                 scope: this,
                 autoHandleExceptions: false,
                 success: this.onGetUserConfigurationSuccess,
@@ -963,7 +963,7 @@
             this.duringAppsRetrieval = true;
 
             this.doGet({
-                url: this.getApiEndPoint('userApps'),
+                url: this.getApiEndPointUrl('userApps'),
                 scope: this,
                 success: this.onGetAppsSuccess,
                 failure: this.onGetAppsFailure

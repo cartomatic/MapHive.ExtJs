@@ -59,7 +59,7 @@
             });
 
             this.doPost({
-                url: this.getApiEndPoint('accountCreate'),
+                url: this.getApiEndPointUrl('accountCreate'),
                 params: user.getData(),
                 autoHandleExceptions: false,
                 success: this.onAccountCreateSuccess,

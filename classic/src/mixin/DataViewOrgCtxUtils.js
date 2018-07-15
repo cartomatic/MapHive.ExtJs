@@ -42,7 +42,7 @@
             this.getEditor = Ext.bind(function(btn){
                 var editor = this.getEditorOrig(btn);
                 editor.getForm().setCustomUrl(
-                    this.getApiEndPoint(apiEndpoint).replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId())
+                    this.getApiEndPointUrl(apiEndpoint).replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId())
                 );
                 return editor;
             }, this);
@@ -50,7 +50,7 @@
             //and override the deletion op generator fn
             this.prepareDeletionOp = Ext.bind(function(rec){
                 var me = this,
-                    url = this.getApiEndPoint(apiEndpoint).replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId()),
+                    url = this.getApiEndPointUrl(apiEndpoint).replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId()),
                     cfg = {
                         scope: me,
                         success: me.onRecDeleteSuccess,
@@ -194,7 +194,7 @@
                 return;
             }
 
-            var newUrl = this.getApiEndPoint(this.apiEndpoint).replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId());
+            var newUrl = this.getApiEndPointUrl(this.apiEndpoint).replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId());
             if(newUrl != this.lastDataUrl){
 
                 //note: in some scenarios, because of some reason (late binding perhaps) cannot obtain the gridstore off the viewmodel; in suchscenarios just wait a bit

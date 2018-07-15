@@ -31,7 +31,7 @@
         proxy: {
             type: 'mhrest',
             //this is at the Ext.define level so no access to instance based stuff. need to talk to a static method
-            url: mh.mixin.ApiMap.getApiEndPoint('organisations')
+            url: mh.mixin.ApiMap.getApiEndPointUrl('organisations')
         }
     });
     

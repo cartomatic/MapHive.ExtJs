@@ -222,7 +222,7 @@
          */
         handleGetOrgCtxLocally: function(){
             this.doGet({
-                url: this.getApiEndPoint('userOrgs'),
+                url: this.getApiEndPointUrl('userOrgs'),
                 scope: this,
                 success: this.onGetOrgsContextSuccess,
                 failure: this.onGetOrgsContextFailure
