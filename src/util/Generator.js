@@ -91,6 +91,26 @@
             else {
                 return uuid.substring(uuid.lastIndexOf('-') + 1, uuid.length);
             }
+        },
+
+        getDefaultGuid: function(){
+            return '00000000-0000-0000-0000-000000000000';
+        },
+
+        /**
+         * validates if a string is guid like
+         * @param wouldBeGuid
+         *
+         * Note: borowed from http://stackoverflow.com/a/13653180 (https://jsfiddle.net/mshaffer/6e2Ljh97/)
+         */
+        isGuid: function(wouldBeGuid){
+            if (wouldBeGuid[0] === "{")
+            {
+                wouldBeGuid = wouldBeGuid.substring(1, wouldBeGuid.length - 1);
+            }
+            //var regexGuid = /^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$/gi;
+            var regexGuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+            return regexGuid.test(wouldBeGuid);
         }
     });
 }());
