@@ -8,7 +8,7 @@
         singleton: true,
 
         icons: {
-            iconNotFound: 'x-slil slil-report-problem-circle'
+            iconNotFound: 'x-i54c i54c-zombie'
         },
 
         /**

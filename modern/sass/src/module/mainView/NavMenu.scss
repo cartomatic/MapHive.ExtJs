@@ -1,0 +1,263 @@
+$navmenu-sidebar-background-color: dynamic(#353535);
+$navmenu-sidebar-color: dynamic(#f5f5f5);
+$navmenu-sidebar-neutral-light-color: dynamic(#f5f5f5);
+$navmenu-sidebar-item-selected-color: dynamic(#505050);
+
+$navmenu-sidebar-font-size: dynamic(14px);
+$navmenu-sidebar-font-size-big: dynamic(14px);
+$navmenu-sidebar-item-padding: dynamic(16px);
+$navmenu-sidebar-item-padding-big: dynamic(18px);
+$navmenu-sidebar-icon-size: dynamic(21px);
+$navmenu-sidebar-icon-size-big: dynamic(21px);
+$navmenu-sidebar-icon-horizontal-spacing: dynamic($navmenu-sidebar-item-padding);
+$navmenu-sidebar-icon-horizontal-spacing-big: dynamic($navmenu-sidebar-item-padding-big);
+$navmenu-sidebar-slide-width: dynamic(75vw);
+$navmenu-sidebar-micro-width: dynamic($navmenu-sidebar-icon-size + $navmenu-sidebar-item-padding*2);
+$navmenu-sidebar-micro-expanded-width: dynamic(256px);
+
+.navmenu-sidebar {
+  $navmenu-sidebar-picture-size: $navmenu-sidebar-icon-size*1.6;
+  $navmenu-sidebar-picture-size-big: $navmenu-sidebar-icon-size-big*1.8;
+  $navmenu-sidebar-picture-spacing: (2*$navmenu-sidebar-item-padding + $navmenu-sidebar-icon-size - $navmenu-sidebar-picture-size)/2;
+  $navmenu-sidebar-picture-spacing-big: (2*$navmenu-sidebar-item-padding-big + $navmenu-sidebar-icon-size-big - $navmenu-sidebar-picture-size-big)/2;
+
+  background-color: $navmenu-sidebar-background-color;
+  color: $navmenu-sidebar-color;
+  overflow: visible;
+
+  > .x-dock {
+    overflow: visible;
+  }
+
+  @include button-ui(
+    $ui: 'navmenu-large',
+    $icon-horizontal-spacing: $navmenu-sidebar-icon-horizontal-spacing,
+    $icon-horizontal-spacing-big: $navmenu-sidebar-icon-horizontal-spacing-big
+  );
+
+  @include button-ui(
+    $ui: 'navmenu-picture',
+    $icon-horizontal-spacing: $navmenu-sidebar-picture-spacing,
+    $icon-horizontal-spacing-big: $navmenu-sidebar-picture-spacing-big,
+    $icon-size: $navmenu-sidebar-picture-size,
+    $icon-size-big: $navmenu-sidebar-picture-size-big,
+    $icon-font-size: $navmenu-sidebar-picture-size,
+    $icon-font-size-big: $navmenu-sidebar-picture-size-big,
+    $padding: $navmenu-sidebar-picture-spacing,
+    $padding-big: $navmenu-sidebar-picture-spacing-big
+  );
+}
+
+.navmenu-sidebar-body-el {
+  z-index: 2;
+}
+
+.navmenu-sidebar-micro {
+  width: $navmenu-sidebar-micro-width;
+}
+
+.expanded > .navmenu-sidebar-body-el {
+  width: $navmenu-sidebar-micro-expanded-width;
+}
+
+.navmenu-sidebar-micro-body-el {
+  @include transition-property(width);
+  @include transition-duration(0.25s);
+  width: $navmenu-sidebar-micro-width;
+
+  > div {
+    width: $navmenu-sidebar-micro-expanded-width;
+  }
+}
+.navmenu-expander-container{
+  position: absolute;
+  bottom: 30px;
+  right: -10px;
+  width: 20px!important;
+}
+.navmenu-expander {
+  width: 20px!important;
+  height: 20px;
+  background-color: #353535;
+  border: 1px solid #FEFEFE;
+  border-radius: 20px;
+  position: fixed;
+  z-index: 1000;
+
+  .x-inner-el {
+    padding: 0px!important;
+
+    .x-icon-el {
+      width: 18px;
+      height: 18px;
+      color: #FEFEFE;
+      font-weight: 700;
+    }
+    .x-icon-el:before {
+      line-height: 18px;
+      font-size: 8px;
+      text-align: center;
+      font-weight: 700;
+      color: #FEFEFE;
+    }
+  }
+}
+
+.navmenu-sidebar-slide {
+  width: 0;
+}
+
+.navmenu-sidebar-slide-body-el {
+  @include transition-property(margin-left);
+  @include transition-duration(0.25s);
+  margin-top: $navmenu-sidebar-icon-size-big + $navmenu-sidebar-item-padding-big * 2;
+  margin-left: -$navmenu-sidebar-slide-width;
+  width: $navmenu-sidebar-slide-width;
+
+  .expanded > & {
+    margin-left: 0;
+  }
+}
+
+.navmenu-sidebar-mask {
+  background: black;
+  display: none;
+  opacity: .005;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+
+  .navmenu-sidebar.expanded > & {
+    display: block;
+  }
+}
+
+.navmenu {
+  .navmenu-sidebar-body-el {
+    border: 1px solid rgb(53, 53, 53);
+  }
+  .sliding-menu {
+    opacity: 0.9;
+  }
+  .x-button-dark {
+    opacity: 0.9;
+    .x-text-el {
+      margin-left: 10px;
+    }
+  }
+  .x-dataview-item {
+    cursor: pointer;
+    .text {
+      margin-left: 10px;
+    }
+    .icon {
+      display: inline-block;
+      font-size: $navmenu-sidebar-icon-size;
+      line-height: 1;
+      margin-right: $navmenu-sidebar-icon-horizontal-spacing;
+      height: $navmenu-sidebar-icon-size;
+      width: $navmenu-sidebar-icon-size;
+      text-align: center;
+      vertical-align: middle;
+
+      .x-big & {
+        font-size: $navmenu-sidebar-icon-size-big;
+        margin-right: $navmenu-sidebar-icon-horizontal-spacing-big;
+        height: $navmenu-sidebar-icon-size-big;
+        width: $navmenu-sidebar-icon-size-big;
+      }
+    }
+  }
+
+  .x-dataview-dark {
+    border-bottom: 2px solid contrasted($navmenu-sidebar-background-color, 5%);
+  }
+}
+
+/**
+some uis used by the nav menu
+ */
+
+@include button-ui(
+  $ui: 'navmenu-large',
+  $font-size: 14px,
+  $font-size-big: 14px,
+  $icon-size: 21px,
+  $icon-size-big: 21px,
+  $icon-font-size: 21px,
+  $icon-font-size-big: 21px,
+  $icon-only-padding: 16px,
+  $icon-only-padding-big: 18px,
+  $padding: 16px,
+  $padding-big: 18px
+);
+
+@include button-ui(
+  $ui: 'navmenu-flat',
+  $background-color: rgba(white, 0),
+  $color: $neutral-medium-dark-color,
+  $pressed-color: $base-color
+);
+
+@include button-ui(
+  $ui: 'navmenu-dark',
+  $color: $neutral-light-color,
+  $pressed-color: $neutral-light-color,
+  $background-color: $color,
+  $hovered-background-color: $highlight-color,
+  $pressing-background-color: $base-light-color,
+  $pressed-background-color: $base-light-color
+);
+
+@include dataview-ui(
+  $ui: 'navmenu-light',
+  $item-color: $navmenu-sidebar-background-color,
+  $item-hovered-color: contrasted($navmenu-sidebar-background-color, -5%),
+  $item-selected-color: contrasted($navmenu-sidebar-background-color, -20%),
+  $item-pressed-color: contrasted($navmenu-sidebar-background-color, -10%),
+  $item-background-color: $navmenu-sidebar-neutral-light-color,
+  $item-alt-background-color: contrasted($navmenu-sidebar-neutral-light-color, -5%),
+  $item-hovered-background-color: contrasted($navmenu-sidebar-neutral-light-color, 5%),
+  $item-selected-background-color: $navmenu-sidebar-item-selected-color,
+  $item-pressed-background-color: contrasted($navmenu-sidebar-neutral-light-color, 10%)
+);
+
+@include dataview-ui(
+  $ui: 'navmenu-dark',
+  $background-color: $navmenu-sidebar-background-color,
+  $item-color: $navmenu-sidebar-neutral-light-color,
+  $item-hovered-color: contrasted($navmenu-sidebar-neutral-light-color, -5%),
+  $item-selected-color: contrasted($navmenu-sidebar-neutral-light-color, -20%),
+  $item-pressed-color: contrasted($navmenu-sidebar-neutral-light-color, -10%),
+  $item-background-color: $navmenu-sidebar-background-color,
+  $item-alt-background-color: contrasted($navmenu-sidebar-background-color, -5%),
+  $item-hovered-background-color: contrasted($navmenu-sidebar-background-color, 5%),
+  $item-selected-background-color: $navmenu-sidebar-item-selected-color,
+  $item-pressed-background-color: contrasted($navmenu-sidebar-background-color, 15%)
+);
+
+@include dataview-ui(
+  $ui: 'navmenu-large',
+  $item-font-weight: 400,
+  $item-font-size: 14px,
+  $item-font-size-big: 14px,
+  $item-padding: 16px,
+  $item-padding-big: 18px
+);
+
+@include dataview-ui(
+  $ui: 'navmenu-thumbnails',
+  $background-color: $navmenu-sidebar-neutral-light-color
+);
+
+.x-dataview-thumbnails {
+  .x-dataview-item {
+    .thumbnail {
+      @include background-size('cover');
+      cursor: pointer;
+    }
+  }
+}
