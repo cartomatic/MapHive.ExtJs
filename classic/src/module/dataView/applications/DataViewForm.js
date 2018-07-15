@@ -33,7 +33,7 @@
                         xtype: 'textfield',
                         reference: 'name',
                         bind: {
-                            fieldLabel: '{localisation.name}',
+                            fieldLabel: '{localization.name}',
                             value: '{rec.name}'
                         },
                         readOnly: true
@@ -42,7 +42,7 @@
                         xtype: 'textfield',
                         reference: 'shortName',
                         bind: {
-                            fieldLabel: '{localisation.shortName}',
+                            fieldLabel: '{localization.shortName}',
                             value: '{rec.shortName}'
                         },
                         readOnly: true
@@ -51,7 +51,7 @@
                         xtype: 'textfield',
                         reference: 'description',
                         bind: {
-                            fieldLabel: '{localisation.description}',
+                            fieldLabel: '{localization.description}',
                             value: '{rec.description}'
                         },
                         readOnly: true
@@ -60,7 +60,7 @@
                         xtype: 'textarea',
                         reference: 'urls',
                         bind: {
-                            fieldLabel: '{localisation.urls}',
+                            fieldLabel: '{localization.urls}',
                             value: '{rec.urls}'
                         },
                         readOnly: true
@@ -69,7 +69,7 @@
                         xtype: 'checkbox',
                         reference: 'useSplashscreen',
                         bind: {
-                            fieldLabel: '{localisation.useSplashscreen}',
+                            fieldLabel: '{localization.useSplashscreen}',
                             value: '{rec.useSplashscreen}'
                         },
                         readOnly: true
@@ -78,7 +78,7 @@
                         xtype: 'checkbox',
                         reference: 'requiresAuth',
                         bind: {
-                            fieldLabel: '{localisation.requiresAuth}',
+                            fieldLabel: '{localization.requiresAuth}',
                             value: '{rec.requiresAuth}'
                         },
                         readOnly: true
@@ -87,7 +87,7 @@
                         xtype: 'checkbox',
                         reference: 'isCommon',
                         bind: {
-                            fieldLabel: '{localisation.isCommon}',
+                            fieldLabel: '{localization.isCommon}',
                             value: '{rec.isCommon}'
                         },
                         readOnly: true
@@ -96,7 +96,7 @@
                         xtype: 'checkbox',
                         reference: 'isDefault',
                         bind: {
-                            fieldLabel: '{localisation.isDefault}',
+                            fieldLabel: '{localization.isDefault}',
                             value: '{rec.isDefault}'
                         },
                         readOnly: true

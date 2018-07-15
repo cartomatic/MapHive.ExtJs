@@ -4,17 +4,17 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationKeysLocalisation', {
+    Ext.define('mh.module.dataView.localizations.translationKeys.TranslationKeysLocalization', {
 
         requires: [
-            'mh.localisation.Localisation',
-            'mh.module.dataView.DataViewBaseLocalisation'
+            'mh.localization.Localization',
+            'mh.module.dataView.DataViewBaseLocalization'
         ],
         statics: {
 
-            inherits: 'mh.module.dataView.DataViewBaseLocalisation',
+            inherits: 'mh.module.dataView.DataViewBaseLocalization',
 
-            localisation:{
+            localization:{
                 gridTitle: {
                     en: 'Translation keys',
                     pl: 'Klucze'
@@ -30,7 +30,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

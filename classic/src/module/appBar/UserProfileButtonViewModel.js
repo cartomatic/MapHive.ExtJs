@@ -11,11 +11,11 @@
         alias: 'viewmodel.mh-user-profile-button',
 
         requires: [
-            'mh.module.appBar.UserProfileButtonLocalisation'
+            'mh.module.appBar.UserProfileButtonLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation'
+            'mh.mixin.Localization'
         ],
 
         stores: {
@@ -32,7 +32,7 @@
                     deep: true
                 },
                 get: function(userProfile){
-                    return userProfile ? userProfile.get('username') : this.getTranslation('anonymous', 'mh.module.appBar.UserProfileButtonLocalisation');
+                    return userProfile ? userProfile.get('username') : this.getTranslation('anonymous', 'mh.module.appBar.UserProfileButtonLocalization');
                 }
             },
             menuUserIconCls: {

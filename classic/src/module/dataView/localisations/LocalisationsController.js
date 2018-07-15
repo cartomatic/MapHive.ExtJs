@@ -4,36 +4,36 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.LocalisationsController', {
+    Ext.define('mh.module.dataView.localizations.LocalizationsController', {
         extend: 'Ext.app.ViewController',
 
-        alias: 'controller.mh-localisations',
+        alias: 'controller.mh-localizations',
 
     requires: [
         'Ext.app.Application',
-        'mh.module.dataView.localisations.LocalisationsLocalisation'
+        'mh.module.dataView.localizations.LocalizationsLocalization'
     ],
 
     mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent',
             'mh.mixin.GridUtils',
             'mh.mixin.RouteUtils'
         ],
 
         routes: {
-            'localisations': 'onViewKickIn',
-            'localisations/:subView': 'onViewKickIn'
+            'localizations': 'onViewKickIn',
+            'localizations/:subView': 'onViewKickIn'
         },
 
-        mainRoute: 'localisations',
+        mainRoute: 'localizations',
 
         /**
          * Called when the view is created
          */
         init: function() {
             this.callMeParent('init', arguments);
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             //this is a startup, so need to grab the route manually and feed it into the route handler for the view...
             this.getView().on('afterrender', function(){

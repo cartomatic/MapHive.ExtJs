@@ -19,13 +19,13 @@
         'mh.util.console.Custom',
         'mh.communication.MsgBusXWindow',
         'mh.dummy.AppLauncher',
-        'mh.ApplicationLocalisation'
+        'mh.ApplicationLocalization'
     ],
 
     mixins: [
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.UrlUtils',
             'mh.mixin.UserAppsUtils'
         ],

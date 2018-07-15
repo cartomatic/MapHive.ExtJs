@@ -10,11 +10,11 @@
         alias: 'controller.mh-auth-account-editor',
 
         requires: [
-            'mh.module.auth.AccountEditorLocalisation'
+            'mh.module.auth.AccountEditorLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.communication.MsgBus'
         ],
 
@@ -22,7 +22,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
             this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);

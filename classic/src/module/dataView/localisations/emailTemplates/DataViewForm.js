@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.emailTemplates.DataViewForm', {
+    Ext.define('mh.module.dataView.localizations.emailTemplates.DataViewForm', {
         extend: 'Ext.container.Container',
     
         xtype: 'mh-email-templates-data-view-form',
@@ -15,7 +15,7 @@
         'Ext.form.field.TextArea',
         'Ext.layout.container.Form',
         'Ext.layout.container.VBox',
-        'mh.module.dataView.localisations.emailTemplates.TranslationsGrid'
+        'mh.module.dataView.localizations.emailTemplates.TranslationsGrid'
     ],
 
     layout: {
@@ -31,7 +31,7 @@
                         xtype: 'textfield',
                         reference: 'name',
                         bind: {
-                            fieldLabel: '{localisation.name}',
+                            fieldLabel: '{localization.name}',
                             value: '{rec.name}'
                         },
                         readOnly: true
@@ -40,7 +40,7 @@
                         xtype: 'textarea',
                         reference: 'description',
                         bind: {
-                            fieldLabel: '{localisation.description}',
+                            fieldLabel: '{localization.description}',
                             value: '{rec.description}'
                         },
                         readOnly: true
@@ -49,7 +49,7 @@
                         xtype: 'textfield',
                         reference: 'applicationName',
                         bind: {
-                            fieldLabel: '{localisation.applicationName}',
+                            fieldLabel: '{localization.applicationName}',
                             value: '{rec.applicationName}'
                         },
                         readOnly: true
@@ -58,7 +58,7 @@
                         xtype: 'textfield',
                         reference: 'identifier',
                         bind: {
-                            fieldLabel: '{localisation.identifier}',
+                            fieldLabel: '{localization.identifier}',
                             value: '{rec.identifier}'
                         },
                         readOnly: true
@@ -67,7 +67,7 @@
                         xtype: 'checkbox',
                         reference: 'isBodyHtml',
                         bind: {
-                            fieldLabel: '{localisation.isBodyHtml}',
+                            fieldLabel: '{localization.isBodyHtml}',
                             value: '{rec.isBodyHtml}'
                         },
                         readOnly: true

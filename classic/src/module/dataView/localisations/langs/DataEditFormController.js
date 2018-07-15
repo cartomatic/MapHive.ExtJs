@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.langs.DataEditFormController', {
+    Ext.define('mh.module.dataView.localizations.langs.DataEditFormController', {
         extend: 'mh.module.dataView.GenericEditFormController',
         alias: 'controller.mh-langs-data-edit-form',
 
         requires: [
-            'mh.module.dataView.localisations.langs.DataEditFormLocalisation'
+            'mh.module.dataView.localizations.langs.DataEditFormLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent'
         ],
 
@@ -22,7 +22,7 @@
          */
         init: function() {
             this.callMeParent('init', arguments);
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             //enable input fields - this view inherits from a display only view
             this.lookupReference('langCode').setReadOnly(false);

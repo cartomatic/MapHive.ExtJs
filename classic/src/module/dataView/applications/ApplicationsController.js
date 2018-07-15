@@ -10,11 +10,11 @@
         alias: 'controller.mh-applications',
 
         requires: [
-            'mh.module.dataView.applications.ApplicationsLocalisation'
+            'mh.module.dataView.applications.ApplicationsLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent',
             'mh.mixin.GridUtils'
         ],

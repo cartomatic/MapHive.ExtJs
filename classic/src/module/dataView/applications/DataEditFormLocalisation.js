@@ -4,18 +4,18 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.applications.DataEditFormLocalisation', {
+    Ext.define('mh.module.dataView.applications.DataEditFormLocalization', {
         requires: [
-            'mh.localisation.Localisation',
-            'mh.module.dataView.applications.ApplicationsLocalisation'
+            'mh.localization.Localization',
+            'mh.module.dataView.applications.ApplicationsLocalization'
         ],
         statics: {
-            inherits: 'mh.module.dataView.applications.ApplicationsLocalisation',
-            localisation: {}
+            inherits: 'mh.module.dataView.applications.ApplicationsLocalization',
+            localization: {}
         }
 
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

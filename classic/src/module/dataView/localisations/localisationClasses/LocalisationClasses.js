@@ -4,24 +4,24 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.localisationClasses.LocalisationClasses', {
+    Ext.define('mh.module.dataView.localizations.localizationClasses.LocalizationClasses', {
         extend: 'mh.module.dataView.DataViewBase',
 
     requires: [
         'Ext.grid.Panel',
         'Ext.grid.filters.Filters',
-        'mh.module.dataView.localisations.localisationClasses.DataEditForm',
-        'mh.module.dataView.localisations.localisationClasses.LocalisationClassesController',
-        'mh.module.dataView.localisations.localisationClasses.LocalisationClassesModel'
+        'mh.module.dataView.localizations.localizationClasses.DataEditForm',
+        'mh.module.dataView.localizations.localizationClasses.LocalizationClassesController',
+        'mh.module.dataView.localizations.localizationClasses.LocalizationClassesModel'
     ],
 
-    xtype: 'mh-localisation-classes',
+    xtype: 'mh-localization-classes',
 
         viewModel: {
-            type: 'mh-localisation-classes'
+            type: 'mh-localization-classes'
         },
     
-        controller: 'mh-localisation-classes',
+        controller: 'mh-localization-classes',
 
         gridIconCls: 'x-i54c i54c-computer-network2',
 
@@ -34,7 +34,7 @@
             bind: {store: '{gridstore}'},
             columns: [
                 {
-                    bind: {text: '{localisation.applicationName}'},
+                    bind: {text: '{localization.applicationName}'},
                     dataIndex: 'applicationName',
                     width: 200,
                     filter: {
@@ -42,7 +42,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.className}'},
+                    bind: {text: '{localization.className}'},
                     dataIndex: 'className',
                     flex: 1,
                     filter: {
@@ -50,7 +50,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.inheritedClassName}'},
+                    bind: {text: '{localization.inheritedClassName}'},
                     dataIndex: 'inheritedClassName',
                     flex: 1,
                     filter: {
@@ -62,7 +62,7 @@
 
         form: false,
         //formWidth: 300,
-        editForm: 'mh.module.dataView.localisations.localisationClasses.DataEditForm'
+        editForm: 'mh.module.dataView.localizations.localizationClasses.DataEditForm'
     });
 
 }());

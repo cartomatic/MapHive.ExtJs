@@ -9,11 +9,11 @@
         singleton: true,
 
         requires: [
-            'mh.data.dictionaries.OrganizationRolesLocalisation'
+            'mh.data.dictionaries.OrganizationRolesLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation'
+            'mh.mixin.Localization'
         ],
 
         /**

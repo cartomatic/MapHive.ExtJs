@@ -11,7 +11,7 @@
         },
 
         data: {
-            localisation: null,
+            localization: null,
             rec: null
         }
     });

@@ -10,7 +10,7 @@
         alias: 'controller.mh-userscatalogue',
 
     requires: [
-        'mh.module.dataView.users.CatalogueLocalisation',
+        'mh.module.dataView.users.CatalogueLocalization',
         'mh.module.dataView.users.CatalogueUsersModel',
         'mh.module.dataView.users.Users'
     ],

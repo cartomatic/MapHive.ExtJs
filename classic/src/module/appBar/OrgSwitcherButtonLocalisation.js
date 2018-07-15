@@ -5,12 +5,12 @@
     /**
      * Created by domin on 17.02.2017.
      */
-    Ext.define('mh.module.appBar.OrgSwitcherButtonLocalisation', {
+    Ext.define('mh.module.appBar.OrgSwitcherButtonLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 orgSwitchLoadMask: {
                     en: 'Changing organization context...',
                     pl: 'Zmiana organizacji...'
@@ -26,7 +26,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
     
 }());

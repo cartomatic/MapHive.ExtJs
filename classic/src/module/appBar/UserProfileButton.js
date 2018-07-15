@@ -50,7 +50,7 @@
                     reference: 'btnChangePass',
                     iconCls: 'x-i54c i54c-key-22',
                     bind: {
-                        text: '{localisation.btnChangePass}'
+                        text: '{localization.btnChangePass}'
                     },
                     hidden: true,
                     listeners: {
@@ -64,7 +64,7 @@
                     reference: 'btnLogOn',
                     iconCls: 'x-i54c i54c-enter-2',
                     bind: {
-                        text: '{localisation.btnLogOn}'
+                        text: '{localization.btnLogOn}'
                     },
                     listeners: {
                         click: 'onBtnLogOnClick'
@@ -74,7 +74,7 @@
                     reference: 'btnLogOff',
                     iconCls: 'x-i54c i54c-exit-2',
                     bind: {
-                        text: '{localisation.btnLogOff}'
+                        text: '{localization.btnLogOff}'
                     },
                     listeners: {
                         click: 'onBtnLogOffClick'

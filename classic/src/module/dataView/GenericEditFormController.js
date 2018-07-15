@@ -12,13 +12,13 @@
         alias: 'controller.editform',
 
         requires: [
-            'mh.module.dataView.GenericEditFormLocalisation'
+            'mh.module.dataView.GenericEditFormLocalization'
         ],
 
         mixins: [
             'mh.data.Ajax',
             'mh.mixin.PublishApi',
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.ResponseValidationErrorReader'
         ],
 
@@ -94,7 +94,7 @@
                 exceptionMsg = rec.get('uuid') ?
 
                     //try to obtain the translation from a derived class first, but make the call return null if not found instead of the standart
-                    //'translation not found msg', then look at the 'mh.module.dataView.GenericEditFormController' namespace that indeed provides a standard localisation
+                    //'translation not found msg', then look at the 'mh.module.dataView.GenericEditFormController' namespace that indeed provides a standard localization
                     this.getTranslation('failedEdit', null, true) || this.getTranslation('failedEdit', 'mh.module.dataView.GenericEditFormController')
                     :
                     this.getTranslation('failedNew', null, true) || this.getTranslation('failedNew', 'mh.module.dataView.GenericEditFormController'),

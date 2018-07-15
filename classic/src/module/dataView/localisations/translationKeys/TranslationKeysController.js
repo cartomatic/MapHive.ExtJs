@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationKeysController', {
+    Ext.define('mh.module.dataView.localizations.translationKeys.TranslationKeysController', {
         extend: 'mh.module.dataView.DataViewBaseController',
         alias: 'controller.mh-translation-keys',
 
         requires: [
-            'mh.module.dataView.localisations.translationKeys.TranslationKeysLocalisation'
+            'mh.module.dataView.localizations.translationKeys.TranslationKeysLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent',
             'mh.mixin.GridUtils',
             'mh.mixin.PublishApi'
@@ -27,34 +27,34 @@
 
             this.publishApi('setContext');
 
-            //disable the Create btn; can only create new translation keys in scope of a localisation class
+            //disable the Create btn; can only create new translation keys in scope of a localization class
             this.lookupReference('gridTbar').disable();
             this.lookupReference('pagingToolbar').disable();
 
         },
 
         /**
-         * currently bound localisation class; used to set the context for the store and newly created translation keys
+         * currently bound localization class; used to set the context for the store and newly created translation keys
          */
-        currentLocalisationClass: null,
+        currentLocalizationClass: null,
 
         /**
-         * sets the localisation class context for this module
-         * @param localisationClass
+         * sets the localization class context for this module
+         * @param localizationClass
          */
-        setContext: function(localisationClass){
-            this.currentLocalisationClass = localisationClass;
+        setContext: function(localizationClass){
+            this.currentLocalizationClass = localizationClass;
 
             var store = this.getViewModel().get('gridstore');
 
-            if(localisationClass){
+            if(localizationClass){
                 this.lookupReference('gridTbar').enable();
                 this.lookupReference('pagingToolbar').enable();
 
                 //set a filter on the store
                 store.addFilter({
-                    property: 'localisationClassUuid',
-                    value: localisationClass.get('uuid'),
+                    property: 'localizationClassUuid',
+                    value: localizationClass.get('uuid'),
                     operator: 'guid'
                 });
 
@@ -66,7 +66,7 @@
 
                 //wipe put the store data.
                 store.removeFilter({
-                    property: 'localisationClassUuid'
+                    property: 'localizationClassUuid'
                 }, true);
                 store.loadData([]);
             }
@@ -91,7 +91,7 @@
 
             //bind an empty rec to the editor
             rec = Ext.create(model, {
-                localisationClassUuid: this.currentLocalisationClass.get('uuid')
+                localizationClassUuid: this.currentLocalizationClass.get('uuid')
             });
 
             editor.setRecord(rec);

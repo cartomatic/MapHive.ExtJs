@@ -4,14 +4,14 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.auth.AuthLocalisation', {
+    Ext.define('mh.module.auth.AuthLocalization', {
         requires: [
-            'mh.localisation.Localisation',
-            'mh.module.auth.AuthBaseLocalisation'
+            'mh.localization.Localization',
+            'mh.module.auth.AuthBaseLocalization'
         ],
         statics: {
-            inherits: 'mh.module.auth.AuthBaseLocalisation',
-            localisation: {
+            inherits: 'mh.module.auth.AuthBaseLocalization',
+            localization: {
                 titleLogin: {
                     en: 'Login',
                     pl: 'Logowanie'
@@ -103,7 +103,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

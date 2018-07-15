@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.LinksPickerLocalisation', {
+    Ext.define('mh.module.dataView.LinksPickerLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 btnAdd: {
                     en: 'Add',
                     pl: 'Dodaj'
@@ -29,7 +29,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

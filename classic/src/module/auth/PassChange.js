@@ -24,7 +24,7 @@
 
         header: {
             bind: {
-                title: '{localisation.title}'
+                title: '{localization.title}'
             },
             iconCls: 'x-i54c i54c-key-22',
             height: 45
@@ -51,19 +51,19 @@
             {
                 reference: 'txtOldPass',
                 bind: {
-                    fieldLabel: '{localisation.oldPass}'
+                    fieldLabel: '{localization.oldPass}'
                 }
             },
             {
                 reference: 'txtNewPass',
                 bind: {
-                    fieldLabel: '{localisation.newPass}'
+                    fieldLabel: '{localization.newPass}'
                 }
             },
             {
                 reference: 'txtRepeatPass',
                 bind: {
-                    fieldLabel: '{localisation.repeatPass}'
+                    fieldLabel: '{localization.repeatPass}'
                 }
             }
         ],
@@ -76,7 +76,7 @@
                     {
                         iconCls: 'x-li li-refresh',
                         bind: {
-                            text: '{localisation.btnChangePass}'
+                            text: '{localization.btnChangePass}'
                         },
                         listeners: {
                             click: 'onBtnChangePassClick'
@@ -85,7 +85,7 @@
                     {
                         iconCls: 'x-li li-cross-circle',
                         bind: {
-                            text: '{localisation.btnCancel}'
+                            text: '{localization.btnCancel}'
                         },
                         listeners: {
                             click: 'onBtnCancelClick'

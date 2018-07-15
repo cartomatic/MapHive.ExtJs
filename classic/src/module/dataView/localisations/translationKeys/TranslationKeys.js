@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationKeys', {
+    Ext.define('mh.module.dataView.localizations.translationKeys.TranslationKeys', {
         extend: 'mh.module.dataView.DataViewBase',
 
     requires: [
         'Ext.grid.Panel',
         'Ext.grid.filters.Filters',
-        'mh.module.dataView.localisations.translationKeys.DataEditForm',
-        'mh.module.dataView.localisations.translationKeys.DataViewForm',
-        'mh.module.dataView.localisations.translationKeys.TranslationKeysController',
-        'mh.module.dataView.localisations.translationKeys.TranslationKeysModel'
+        'mh.module.dataView.localizations.translationKeys.DataEditForm',
+        'mh.module.dataView.localizations.translationKeys.DataViewForm',
+        'mh.module.dataView.localizations.translationKeys.TranslationKeysController',
+        'mh.module.dataView.localizations.translationKeys.TranslationKeysModel'
     ],
 
     xtype: 'mh-translation-keys',
@@ -37,7 +37,7 @@
             bind: {store: '{gridstore}'},
             columns: [
                 {
-                    bind: {text: '{localisation.key}'},
+                    bind: {text: '{localization.key}'},
                     dataIndex: 'key',
                     width: 200,
                     filter: {
@@ -45,7 +45,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.translations}'},
+                    bind: {text: '{localization.translations}'},
                     dataIndex: 'translations',
                     flex: 1,
                     filter: {
@@ -56,9 +56,9 @@
             ]
         },
 
-        form: 'mh.module.dataView.localisations.translationKeys.DataViewForm',
+        form: 'mh.module.dataView.localizations.translationKeys.DataViewForm',
         //formWidth: 300,
-        editForm: 'mh.module.dataView.localisations.translationKeys.DataEditForm'
+        editForm: 'mh.module.dataView.localizations.translationKeys.DataEditForm'
     });
 
 }());

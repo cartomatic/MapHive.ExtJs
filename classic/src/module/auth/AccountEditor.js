@@ -66,7 +66,7 @@
                                         xtype: 'button',
                                         iconCls: 'x-li li-cross-circle',
                                         bind: {
-                                            text: '{localisation.btnRemoveProfilePicture}'
+                                            text: '{localization.btnRemoveProfilePicture}'
                                         },
                                         flex: 1
                                     },
@@ -74,7 +74,7 @@
                                         xtype: 'button',
                                         iconCls: 'x-li li-cloud-upload',
                                         bind: {
-                                            text: '{localisation.btnUploadProfilePicture}'
+                                            text: '{localization.btnUploadProfilePicture}'
                                         },
                                         flex: 1,
                                         margin: '0 0 0 10'
@@ -95,7 +95,7 @@
                                 xtype: 'textfield',
                                 vtype: 'email',
                                 bind: {
-                                    fieldLabel: '{localisation.email}',
+                                    fieldLabel: '{localization.email}',
                                     value: '{rec.email}'
                                 },
                                 labelAlign: 'top',
@@ -104,7 +104,7 @@
                             {
                                 xtype: 'textfield',
                                 bind: {
-                                    fieldLabel: '{localisation.slug}',
+                                    fieldLabel: '{localization.slug}',
                                     value: '{rec.slug}'
                                 },
                                 labelAlign: 'top',
@@ -114,7 +114,7 @@
                                 xtype: 'textfield',
                                 vtype: 'email',
                                 bind: {
-                                    fieldLabel: '{localisation.gravatarEmail}',
+                                    fieldLabel: '{localization.gravatarEmail}',
                                     value: '{rec.gravatarEmail}'
                                 },
                                 labelAlign: 'top',
@@ -140,7 +140,7 @@
                             {
                                 xtype: 'textfield',
                                 bind: {
-                                    fieldLabel: '{localisation.forename}',
+                                    fieldLabel: '{localization.forename}',
                                     value: '{rec.forename}'
                                 },
                                 labelAlign: 'top',
@@ -150,7 +150,7 @@
                             {
                                 xtype: 'textfield',
                                 bind: {
-                                    fieldLabel: '{localisation.surname}',
+                                    fieldLabel: '{localization.surname}',
                                     value: '{rec.surname}'
                                 },
                                 labelAlign: 'top',
@@ -162,7 +162,7 @@
                     {
                         xtype: 'textarea',
                         bind: {
-                            fieldLabel: '{localisation.bio}',
+                            fieldLabel: '{localization.bio}',
                             value: '{rec.bio}'
                         },
                         labelAlign: 'top',
@@ -171,7 +171,7 @@
                     {
                         xtype: 'textfield',
                         bind: {
-                            fieldLabel: '{localisation.company}',
+                            fieldLabel: '{localization.company}',
                             value: '{rec.company}'
                         },
                         labelAlign: 'top',
@@ -180,7 +180,7 @@
                     {
                         xtype: 'textfield',
                         bind: {
-                            fieldLabel: '{localisation.department}',
+                            fieldLabel: '{localization.department}',
                             value: '{rec.department}'
                         },
                         labelAlign: 'top',
@@ -189,7 +189,7 @@
                     {
                         xtype: 'textfield',
                         bind: {
-                            fieldLabel: '{localisation.location}',
+                            fieldLabel: '{localization.location}',
                             value: '{rec.location}'
                         },
                         labelAlign: 'top',

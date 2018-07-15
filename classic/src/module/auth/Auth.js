@@ -151,7 +151,7 @@
                         xtype: 'panel',
                         header: {
                             bind: {
-                                title: '{localisation.titleLogin}'
+                                title: '{localization.titleLogin}'
                             },
                             iconCls: 'x-i54c i54c-lock-1',
                             height: 45
@@ -171,7 +171,7 @@
                                 reference: 'txtEmail',
                                 height: 35,
                                 bind: {
-                                    emptyText: '{localisation.emailEmptyText}'
+                                    emptyText: '{localization.emailEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -184,7 +184,7 @@
                                 height: 35,
                                 inputType: 'password',
                                 bind: {
-                                    emptyText: '{localisation.passEmptyText}'
+                                    emptyText: '{localization.passEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -201,7 +201,7 @@
                                     {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.createAccountBtn}'
+                                            text: '{localization.createAccountBtn}'
                                         },
                                         iconCls: 'x-li li-user-plus mh-auth-icon-right',
                                         ui: 'mh-auth-gray-btn',
@@ -220,7 +220,7 @@
                                 padding: '0 0 0 10',
                                 items: [
                                     { xtype: 'container', flex: 1, cls: 'mh-auth-separator-bar-line'},
-                                    { xtype: 'tbtext', bind: {text: '{localisation.or}'}, cls: 'mh-auth-separator-bar-text'},
+                                    { xtype: 'tbtext', bind: {text: '{localization.or}'}, cls: 'mh-auth-separator-bar-text'},
                                     { xtype: 'container', flex: 1, cls: 'mh-auth-separator-bar-line'}
                                 ]
                             },
@@ -231,7 +231,7 @@
                                         {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.btnLogin}'
+                                            text: '{localization.btnLogin}'
                                         },
                                         reference: 'btnLogin',
                                         //iconCls: 'x-i54c i54c-enter-1 mh-auth-icon-right',
@@ -254,7 +254,7 @@
                                         xtype: 'button',
                                         reference: 'btnCancelAuth',
                                         bind: {
-                                            text: '{localisation.btnCancelAuth}'
+                                            text: '{localization.btnCancelAuth}'
                                         },
                                         listeners: {
                                             click: 'onBtnCancelAuthClick'
@@ -267,7 +267,7 @@
                                         xtype: 'button',
                                         reference: 'btnForgotPass',
                                         bind: {
-                                            text: '{localisation.btnForgotPass}'
+                                            text: '{localization.btnForgotPass}'
                                         },
                                         listeners: {
                                             click: 'onForgotPassBtnClick'
@@ -283,7 +283,7 @@
                         xtype: 'panel',
                         header: {
                             bind: {
-                                title: '{localisation.titleForgotPass}'
+                                title: '{localization.titleForgotPass}'
                             },
                             iconCls: 'x-i54c i54c-pin-code',
                             height: 45
@@ -300,7 +300,7 @@
                                 reference: 'txtForgotPassEmail',
                                 height: 35,
                                 bind: {
-                                    emptyText: '{localisation.emailEmptyText}'
+                                    emptyText: '{localization.emailEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -317,7 +317,7 @@
                                         xtype: 'button',
                                         reference: 'btnResetPassRequest',
                                         bind: {
-                                            text:  '{localisation.btnResetPassRequest}'
+                                            text:  '{localization.btnResetPassRequest}'
                                         },
                                         listeners: {
                                             click: 'onPassResetRequestBtnClick'
@@ -328,7 +328,7 @@
                                     {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.btnResetPassCancel}'
+                                            text: '{localization.btnResetPassCancel}'
                                         },
                                         reference: 'btnResetPassCancel',
                                         iconCls: 'x-li li-chevron-left-circle',
@@ -344,7 +344,7 @@
                         xtype: 'panel',
                         header: {
                             bind: {
-                                title: '{localisation.titleActivateAccount}'
+                                title: '{localization.titleActivateAccount}'
                             },
                             iconCls: 'x-i54c i54c-key-22',
                             height: 45
@@ -362,8 +362,8 @@
                                 height: 35,
                                 inputType: 'password',
                                 bind: {
-                                    emptyText: '{localisation.verificationKeyEmptyText}',
-                                    fieldLabel: '{localisation.verificationKeyEmptyText}'
+                                    emptyText: '{localization.verificationKeyEmptyText}',
+                                    fieldLabel: '{localization.verificationKeyEmptyText}'
                                 },
                                 labelAlign: 'top',
                                 enableKeyEvents: true,
@@ -378,8 +378,8 @@
                                 inputType: 'password',
                                 labelAlign: 'top',
                                 bind: {
-                                    emptyText: '{localisation.passEmptyText}',
-                                    fieldLabel: '{localisation.passEmptyText}'
+                                    emptyText: '{localization.passEmptyText}',
+                                    fieldLabel: '{localization.passEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -397,7 +397,7 @@
                                         xtype: 'button',
                                         iconCls: 'x-i54c i54c-key-22',
                                         bind: {
-                                            text: '{localisation.btnActivateAccount}'
+                                            text: '{localization.btnActivateAccount}'
                                         },
                                         reference: 'btnActivateAccount',
                                         listeners: {
@@ -412,7 +412,7 @@
                         xtype: 'panel',
                         header: {
                             bind: {
-                                title: '{localisation.titleResetPass}'
+                                title: '{localization.titleResetPass}'
                             },
                             iconCls: 'x-li li-refresh',
                             height: 45
@@ -436,8 +436,8 @@
                                 inputType: 'password',
                                 labelAlign: 'top',
                                 bind: {
-                                    emptyText: '{localisation.passNewEmptyText}',
-                                    fieldLabel: '{localisation.passNewEmptyText}'
+                                    emptyText: '{localization.passNewEmptyText}',
+                                    fieldLabel: '{localization.passNewEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -451,8 +451,8 @@
                                 inputType: 'password',
                                 labelAlign: 'top',
                                 bind: {
-                                    emptyText: '{localisation.passRepeatEmptyText}',
-                                    fieldLabel: '{localisation.passRepeatEmptyText}'
+                                    emptyText: '{localization.passRepeatEmptyText}',
+                                    fieldLabel: '{localization.passRepeatEmptyText}'
                                 },
                                 enableKeyEvents: true,
                                 listeners: {
@@ -469,7 +469,7 @@
                                     {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.btnResetPass}'
+                                            text: '{localization.btnResetPass}'
                                         },
                                         iconCls: 'x-li li-refresh',
                                         reference: 'btnResetPass',

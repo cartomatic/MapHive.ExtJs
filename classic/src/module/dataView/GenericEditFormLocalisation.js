@@ -5,14 +5,14 @@
     'use strict';
 
     /**
-     * Localisation for the generic editor controller
+     * Localization for the generic editor controller
      */
-    Ext.define('mh.module.dataView.GenericEditFormLocalisation', {
+    Ext.define('mh.module.dataView.GenericEditFormLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 failedNew: {
                     en: 'Failed to create a record.',
                     pl: 'Utworzenie rekordu nie powiodło się.'
@@ -24,7 +24,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

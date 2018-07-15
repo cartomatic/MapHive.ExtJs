@@ -48,8 +48,8 @@
          */
 
         /**
-         * localisation {Object} [localisation]
-         * localisation for the application
+         * localization {Object} [localization]
+         * localization for the application
          */
 
     });

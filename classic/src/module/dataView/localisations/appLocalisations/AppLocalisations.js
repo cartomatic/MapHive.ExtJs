@@ -4,23 +4,23 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.AppLocalisations', {
+    Ext.define('mh.module.dataView.localizations.appLocalizations.AppLocalizations', {
         extend: 'Ext.Container',
 
     requires: [
-        'mh.module.dataView.localisations.appLocalisations.AppLocalisationsController',
-        'mh.module.dataView.localisations.appLocalisations.AppLocalisationsModel',
-        'mh.module.dataView.localisations.localisationClasses.LocalisationClasses',
-        'mh.module.dataView.localisations.translationKeys.TranslationKeys'
+        'mh.module.dataView.localizations.appLocalizations.AppLocalizationsController',
+        'mh.module.dataView.localizations.appLocalizations.AppLocalizationsModel',
+        'mh.module.dataView.localizations.localizationClasses.LocalizationClasses',
+        'mh.module.dataView.localizations.translationKeys.TranslationKeys'
     ],
 
-    xtype: 'mh-app-localisations',
+    xtype: 'mh-app-localizations',
 
         viewModel: {
-            type: 'mh-app-localisations'
+            type: 'mh-app-localizations'
         },
     
-        controller: 'mh-app-localisations',
+        controller: 'mh-app-localizations',
 
         layout: {
             type: 'border'
@@ -28,8 +28,8 @@
 
         items: [
             {
-                xtype: 'mh-localisation-classes',
-                reference: 'localisationClasses',
+                xtype: 'mh-localization-classes',
+                reference: 'localizationClasses',
                 region: 'west',
                 width: 700,
                 split: true

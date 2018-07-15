@@ -19,12 +19,12 @@
         'Ext.layout.container.Form',
         'Ext.menu.CheckItem',
         'Ext.menu.Menu',
-        'mh.module.dataView.DataViewBaseLocalisation',
+        'mh.module.dataView.DataViewBaseLocalization',
         'mh.module.dataView.Editor'
     ],
 
     mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.data.Ajax',
             'mh.mixin.PublishApi',
             'mh.mixin.CustomComponentConfig',
@@ -58,7 +58,7 @@
         init: function() {
 
             //bring in translations to a view model - ui txt is bound via view model
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             //apply custom configurations
             this.applyCustomViewConfig();
@@ -211,7 +211,7 @@
          * returns this view's title
          */
         getTitle: function(){
-            return this.getViewModel().get('localisation.gridTitle');
+            return this.getViewModel().get('localization.gridTitle');
         },
 
         /**
@@ -722,12 +722,12 @@
                     bind: { store: '{gridstore}' },
                     columns: [
                         {
-                            bind: { text: '{localisation.col1}'},
+                            bind: { text: '{localization.col1}'},
                             dataIndex: 'col1',
                             flex: 1
                         },
                         {
-                            bind: { text: '{localisation.col2}'},
+                            bind: { text: '{localization.col2}'},
                             dataIndex: 'col2',
                             flex: 1
                         }
@@ -747,7 +747,7 @@
                 form = {
                     xtype: 'form',
                     layout: 'form',
-                    bind: { title: '{localisation.formTitle}'},
+                    bind: { title: '{localization.formTitle}'},
                     split: true,
                     items: [
                         {
@@ -757,14 +757,14 @@
                         {
                             xtype: 'textfield',
                             bind: {
-                                fieldLabel: '{localisation.col1}',
+                                fieldLabel: '{localization.col1}',
                                 value: '{rec.col1}'
                             }
                         },
                         {
                             xtype: 'numberfield',
                             bind: {
-                                fieldLabel: '{localisation.col2}',
+                                fieldLabel: '{localization.col2}',
                                 value: '{rec.col2}'
                             }
                         }

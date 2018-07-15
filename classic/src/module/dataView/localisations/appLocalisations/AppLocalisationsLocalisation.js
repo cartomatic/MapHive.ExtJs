@@ -4,19 +4,19 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation', {
+    Ext.define('mh.module.dataView.localizations.appLocalizations.AppLocalizationsLocalization', {
 
         requires: [
-            'mh.localisation.Localisation',
-            'mh.module.dataView.DataViewBaseLocalisation'
+            'mh.localization.Localization',
+            'mh.module.dataView.DataViewBaseLocalization'
         ],
         statics: {
 
-            inherits: 'mh.module.dataView.DataViewBaseLocalisation',
+            inherits: 'mh.module.dataView.DataViewBaseLocalization',
 
-            localisation:{
+            localization:{
                 gridTitle: {
-                    en: 'App localisations',
+                    en: 'App localizations',
                     pl: 'Tłumaczenia aplikacji'
                 },
                 applicationName: {
@@ -38,7 +38,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

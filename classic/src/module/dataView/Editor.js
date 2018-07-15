@@ -66,7 +66,7 @@
                         reference: 'btnCancel',
                         iconCls: 'x-li li-cross-circle',
                         bind: {
-                            text: '{localisation.btnCancel}'
+                            text: '{localization.btnCancel}'
                         },
                         listeners: {
                             click: 'onBtnCancelClick'

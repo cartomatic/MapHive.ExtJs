@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.emailTemplates.TranslationsGrid', {
+    Ext.define('mh.module.dataView.localizations.emailTemplates.TranslationsGrid', {
         
         extend: 'Ext.container.Container',
     
@@ -21,8 +21,8 @@
         'Ext.grid.plugin.CellEditing',
         'Ext.layout.container.VBox',
         'Ext.toolbar.Toolbar',
-        'mh.module.dataView.localisations.emailTemplates.TranslationsGridController',
-        'mh.module.dataView.localisations.emailTemplates.TranslationsGridModel'
+        'mh.module.dataView.localizations.emailTemplates.TranslationsGridController',
+        'mh.module.dataView.localizations.emailTemplates.TranslationsGridModel'
     ],
 
     controller: 'mh-email-templates-translationsgrid',
@@ -58,7 +58,7 @@
                 xtype: 'grid',
                 iconCls: 'x-i54 i54-speach-bubbles-8',
                 bind: {
-                    title: '{localisation.translations}'
+                    title: '{localization.translations}'
                 },
                 reference: 'translationsgrid',
                 plugins: {
@@ -68,7 +68,7 @@
                 height: 175,
                 columns: [
                     {
-                        bind: {text: '{localisation.langCode}'},
+                        bind: {text: '{localization.langCode}'},
                         dataIndex: 'langCode',
                         width: 100,
                         editor: {
@@ -83,7 +83,7 @@
                         }
                     },
                     {
-                        bind: {text: '{localisation.title}'},
+                        bind: {text: '{localization.title}'},
                         dataIndex: 'title',
                         flex: 1,
                         editor: {

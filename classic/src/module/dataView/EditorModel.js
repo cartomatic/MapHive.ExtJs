@@ -14,7 +14,7 @@
         data: {
             //need an empty placeholder, so when property is applied by a child, it does not end up in the root view model
             //https://www.sencha.com/forum/showthread.php?305387
-            localisation: null,
+            localization: null,
 
             /**
              * the record the form should bind to

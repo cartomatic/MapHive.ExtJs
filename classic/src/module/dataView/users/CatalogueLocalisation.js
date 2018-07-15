@@ -5,14 +5,14 @@
     /**
      * Created by domin on 28.02.2017.
      */
-    Ext.define('mh.module.dataView.users.CatalogueLocalisation', {
+    Ext.define('mh.module.dataView.users.CatalogueLocalization', {
         requires: [
-            'mh.localisation.Localisation',
-            'mh.module.dataView.LinksPickerLocalisation'
+            'mh.localization.Localization',
+            'mh.module.dataView.LinksPickerLocalization'
         ],
         statics: {
-            inherits: 'mh.module.dataView.LinksPickerLocalisation',
-            localisation: {
+            inherits: 'mh.module.dataView.LinksPickerLocalization',
+            localization: {
                 title: {
                     en: 'Users Catalogue',
                     pl: 'Katalog użytkowników'
@@ -20,7 +20,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

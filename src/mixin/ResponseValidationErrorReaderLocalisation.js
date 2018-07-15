@@ -5,14 +5,14 @@
     'use strict';
 
     /**
-     * Localisation for the generic editor controller
+     * Localization for the generic editor controller
      */
-    Ext.define('mh.mixin.ResponseValidationErrorReaderLocalisation', {
+    Ext.define('mh.mixin.ResponseValidationErrorReaderLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 validationErrorServer: {
                     en: 'Server error :: Invalid form data',
                     pl: 'Błąd servera :: Błędne dane formularza'
@@ -70,7 +70,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

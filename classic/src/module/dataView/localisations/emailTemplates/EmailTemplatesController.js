@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.emailTemplates.EmailTemplatesController', {
+    Ext.define('mh.module.dataView.localizations.emailTemplates.EmailTemplatesController', {
         extend: 'mh.module.dataView.DataViewBaseController',
         alias: 'controller.mh-email-templates',
 
         requires: [
-            'mh.module.dataView.localisations.emailTemplates.EmailTemplatesLocalisation'
+            'mh.module.dataView.localizations.emailTemplates.EmailTemplatesLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent'
         ],
 

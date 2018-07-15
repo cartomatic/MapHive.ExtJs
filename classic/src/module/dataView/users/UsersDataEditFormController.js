@@ -9,11 +9,11 @@
         alias: 'controller.mh-users-data-edit-form',
 
         requires: [
-            'mh.module.dataView.users.UsersDataEditFormLocalisation'
+            'mh.module.dataView.users.UsersDataEditFormLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent'
         ],
 
@@ -22,7 +22,7 @@
          */
         init: function() {
             this.callMeParent('init', arguments);
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             //enable input fields - this view inherits from a display only view
             this.lookupReference('email').setReadOnly(false);

@@ -5,12 +5,12 @@
     'use strict';
 
     /**
-     * Plugs in localisation utilities into other classes
+     * Plugs in localization utilities into other classes
      */
-    Ext.define('mh.mixin.Localisation', {
+    Ext.define('mh.mixin.Localization', {
 
     requires: [
-        'mh.localisation.Localisation'
+        'mh.localization.Localization'
     ],
 
     /**
@@ -24,26 +24,26 @@
             if(!namespace){
                 namespace = Ext.getClassName(this);
             }
-            return mh.localisation.Localisation.getTranslation(translationKey, namespace, null, suppressWarningReturn);
+            return mh.localization.Localization.getTranslation(translationKey, namespace, null, suppressWarningReturn);
         },
 
         /**
          * Injects all the translations registered for given namespace and injects them into a view model; handy when binding the UI to view model.
          * @param namespace
          */
-        injectLocalisationToViewModel: function(namespace){
+        injectLocalizationToViewModel: function(namespace){
             if(!namespace){
                 namespace = Ext.getClassName(this);
             }
-            var translationKeys = mh.localisation.Localisation.getTranslationKeys(namespace, true),
+            var translationKeys = mh.localization.Localization.getTranslationKeys(namespace, true),
                 tk = 0, tklen = translationKeys.length,
-                localisation = {};
+                localization = {};
 
             for(tk; tk < tklen; tk++){
-                localisation[translationKeys[tk]] = this.getTranslation(translationKeys[tk], namespace);
+                localization[translationKeys[tk]] = this.getTranslation(translationKeys[tk], namespace);
             }
 
-            this.getViewModel().set('localisation', localisation);
+            this.getViewModel().set('localization', localization);
         }
     });
 

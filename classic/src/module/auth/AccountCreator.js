@@ -32,7 +32,7 @@
 
         header: {
             bind: {
-                title: '{localisation.title}'
+                title: '{localization.title}'
             },
             iconCls: 'x-li li-user-plus',
             height: 45
@@ -51,7 +51,7 @@
                 reference: 'txtEmail',
                 height: 35,
                 bind: {
-                    emptyText: '{localisation.emailEmptyText}'
+                    emptyText: '{localization.emailEmptyText}'
                 }
             },
             {
@@ -59,7 +59,7 @@
                 reference: 'txtSlug',
                 height: 35,
                 bind: {
-                    emptyText: '{localisation.slugEmptyText}'
+                    emptyText: '{localization.slugEmptyText}'
                 }
             },
             {
@@ -67,7 +67,7 @@
                 reference: 'txtForename',
                 height: 35,
                 bind: {
-                    emptyText: '{localisation.forenameEmptyText}'
+                    emptyText: '{localization.forenameEmptyText}'
                 }
             },
             {
@@ -75,7 +75,7 @@
                 reference: 'txtSurname',
                 height: 35,
                 bind: {
-                    emptyText: '{localisation.surnameEmptyText}'
+                    emptyText: '{localization.surnameEmptyText}'
                 }
             }
         ],
@@ -87,7 +87,7 @@
                     {
                         xtype: 'button',
                         bind: {
-                            text: '{localisation.btnCancel}'
+                            text: '{localization.btnCancel}'
                         },
                         iconCls: 'x-li li-cross-circle',
                         listeners: {
@@ -98,7 +98,7 @@
                     {
                         xtype: 'button',
                         bind: {
-                            text: '{localisation.btnCreate}'
+                            text: '{localization.btnCreate}'
                         },
                         iconCls: 'x-li li-user-plus',
                         listeners: {

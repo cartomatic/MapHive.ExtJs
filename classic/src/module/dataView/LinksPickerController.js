@@ -10,12 +10,12 @@
         alias: 'controller.mh-links-picker',
 
         requires: [
-            'mh.module.dataView.LinksPickerLocalisation'
+            'mh.module.dataView.LinksPickerLocalization'
         ],
 
         mixins: [
             'mh.mixin.ModalMode',
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.PublishApi',
             'mh.mixin.CustomComponentConfig'
         ],
@@ -30,7 +30,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.injectLocalisationToViewModel()
+            this.injectLocalizationToViewModel()
             this.trackModalModeStatus();
 
             //apply custom configurations

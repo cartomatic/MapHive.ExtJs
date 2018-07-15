@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationsGrid', {
+    Ext.define('mh.module.dataView.localizations.translationKeys.TranslationsGrid', {
         extend: 'mh.module.dataView.BindableStoreGrid',
     
         xtype: 'mh-translationsgrid',
@@ -16,9 +16,9 @@
         'Ext.grid.column.Action',
         'Ext.grid.plugin.CellEditing',
         'Ext.toolbar.Toolbar',
-        'mh.module.dataView.localisations.translationKeys.TranslationsGridController',
-        'mh.module.dataView.localisations.translationKeys.TranslationsGridModel',
-        'mh.module.dataView.localisations.emailTemplates.TranslationsGridController'
+        'mh.module.dataView.localizations.translationKeys.TranslationsGridController',
+        'mh.module.dataView.localizations.translationKeys.TranslationsGridModel',
+        'mh.module.dataView.localizations.emailTemplates.TranslationsGridController'
     ],
 
     plugins: {
@@ -39,7 +39,7 @@
         //Note: width is required here even though the min width is used, as the container window auto adjusts itself to the content. without it grid will fail to do layout after record add. min width will get overriden when nesting in a parent that controls the width itself
         width: 100,
         bind: {
-            title: '{localisation.translations}',
+            title: '{localization.translations}',
             gridData: {
                 bindTo: '{rec}'
                 //,deep: true
@@ -47,7 +47,7 @@
         },
         columns: [
             {
-                bind: {text: '{localisation.langCode}'},
+                bind: {text: '{localization.langCode}'},
                 dataIndex: 'langCode',
                 width: 100,
                 editor: {
@@ -62,7 +62,7 @@
                 }
             },
             {
-                bind: {text: '{localisation.translation}'},
+                bind: {text: '{localization.translation}'},
                 dataIndex: 'translation',
                 flex: 1,
                 editor: {

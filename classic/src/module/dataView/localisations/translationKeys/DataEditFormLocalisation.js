@@ -4,19 +4,19 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.localisations.translationKeys.DataEditFormLocalisation', {
+    Ext.define('mh.module.dataView.localizations.translationKeys.DataEditFormLocalization', {
 
         requires: [
-            'mh.localisation.Localisation',
-            'mh.module.dataView.localisations.translationKeys.TranslationKeysLocalisation'
+            'mh.localization.Localization',
+            'mh.module.dataView.localizations.translationKeys.TranslationKeysLocalization'
         ],
         statics: {
-            inherits: 'mh.module.dataView.localisations.translationKeys.TranslationKeysLocalisation',
-            localisation: {}
+            inherits: 'mh.module.dataView.localizations.translationKeys.TranslationKeysLocalization',
+            localization: {}
         }
 
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

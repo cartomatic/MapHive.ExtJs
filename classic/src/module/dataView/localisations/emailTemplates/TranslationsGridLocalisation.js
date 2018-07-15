@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.emailTemplates.TranslationsGridLocalisation', {
+    Ext.define('mh.module.dataView.localizations.emailTemplates.TranslationsGridLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 translations: {
                     en: 'Translations',
                     pl: 'Tłumaczenia'
@@ -34,7 +34,7 @@
         }
 
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());
