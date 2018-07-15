@@ -67,23 +67,16 @@
          */
         updateExpanded: function(value) {
             this.getView().toggleCls('expanded', value);
-        },
-
-        /**
-         * updates
-         * @param curr
-         * @param prev
-         */
-        updateMode: function(curr, prev) {
-            this.getview().replaceCls(prev, curr);
+            this.getView().setExpanded(value);
+            this.lookup('navMenuExpander').setIconCls(
+                value ? mh.FontIconsDictionary.getIcon('navMenuCollapse') : mh.FontIconsDictionary.getIcon('navMenuExpand'));
         },
 
         /**
          * toggles vie expanded state
          */
         toggleExpanded: function() {
-            var vw = this.getView();
-            vw.setExpanded(!vw.getExpanded());
+            this.updateExpanded(!this.getView().getExpanded());
         },
 
         /**
@@ -92,6 +85,7 @@
          */
         onMaskTap: function(ev) {
             this.getView().setExpanded(false);
+            this.updateExpanded(false);
             ev.preventDefault();
         },
 
@@ -119,26 +113,14 @@
          * collapses menu
          */
         collapse: function() {
-            var view = this.getView(),
-                navMenuExpander = view.lookup('navMenuExpander');
-            view.setExpanded(false);
-
-            navMenuExpander.setIconCls(mh.FontIconsDictionary.getIcon('navMenuExpand'));
+            this.updateExpanded(false);
         },
 
         /**
          * expander btn tap handler
          */
         onNavMenuExpanderTap: function() {
-            var view = this.getView(),
-                expanded = view.getExpanded(),
-                navMenuExpander = view.lookup('navMenuExpander');
-            if(!expanded){
-                navMenuExpander.setIconCls(mh.FontIconsDictionary.getIcon('navMenuCollapse'));
-            }else{
-                navMenuExpander.setIconCls(mh.FontIconsDictionary.getIcon('navMenuExpand'));
-            }
-            view.setExpanded(!expanded);
+            this.updateExpanded(!this.getView().getExpanded());
         },
 
         /**
@@ -238,6 +220,8 @@
                 });
 
             dialog.show();
+
+            this.updateExpanded(false);
         }
     });
     
