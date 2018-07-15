@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.emailTemplates.EmailTemplates', {
+    Ext.define('mh.module.dataView.localizations.emailTemplates.EmailTemplates', {
         extend: 'mh.module.dataView.DataViewBase',
 
     requires: [
         'Ext.grid.Panel',
         'Ext.grid.filters.Filters',
-        'mh.module.dataView.localisations.emailTemplates.DataEditForm',
-        'mh.module.dataView.localisations.emailTemplates.DataViewForm',
-        'mh.module.dataView.localisations.emailTemplates.EmailTemplatesController',
-        'mh.module.dataView.localisations.emailTemplates.EmailTemplatesModel'
+        'mh.module.dataView.localizations.emailTemplates.DataEditForm',
+        'mh.module.dataView.localizations.emailTemplates.DataViewForm',
+        'mh.module.dataView.localizations.emailTemplates.EmailTemplatesController',
+        'mh.module.dataView.localizations.emailTemplates.EmailTemplatesModel'
     ],
 
     xtype: 'mh-email-templates',
@@ -35,7 +35,7 @@
             bind: {store: '{gridstore}'},
             columns: [
                 {
-                    bind: {text: '{localisation.name}'},
+                    bind: {text: '{localization.name}'},
                     dataIndex: 'name',
                     flex: 1,
                     filter: {
@@ -43,7 +43,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.description}'},
+                    bind: {text: '{localization.description}'},
                     dataIndex: 'description',
                     flex: 1,
                     filter: {
@@ -51,7 +51,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.applicationName}'},
+                    bind: {text: '{localization.applicationName}'},
                     dataIndex: 'applicationName',
                     flex: 1,
                     filter: {
@@ -59,7 +59,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.identifier}'},
+                    bind: {text: '{localization.identifier}'},
                     dataIndex: 'identifier',
                     flex: 1,
                     filter: {
@@ -67,7 +67,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.isBodyHtml}'},
+                    bind: {text: '{localization.isBodyHtml}'},
                     dataIndex: 'isBodyHtml',
                     width: 75,
                     filter: {
@@ -75,7 +75,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.translations}'},
+                    bind: {text: '{localization.translations}'},
                     dataIndex: 'translations',
                     width: 0, //so the column is effectively hidden, but searchable at the same time
                     filter: {
@@ -84,9 +84,9 @@
                 }
             ]
         },
-        form: 'mh.module.dataView.localisations.emailTemplates.DataViewForm',
+        form: 'mh.module.dataView.localizations.emailTemplates.DataViewForm',
         //formWidth: 300,
-        editForm: 'mh.module.dataView.localisations.emailTemplates.DataEditForm'
+        editForm: 'mh.module.dataView.localizations.emailTemplates.DataEditForm'
     });
 
 }());

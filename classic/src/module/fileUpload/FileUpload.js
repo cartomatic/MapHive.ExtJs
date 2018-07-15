@@ -54,7 +54,7 @@
                         reference: 'uploadBtn',
                         iconCls: 'x-i54c i54c-upload',
                         bind: {
-                            text: '{localisation.btnUpload}'
+                            text: '{localization.btnUpload}'
                         },
                         listeners: {
                             click: 'onBtnUploadClick'
@@ -64,7 +64,7 @@
                         reference: 'cancelBtn',
                         iconCls: 'x-li li-cross-circle',
                         bind: {
-                            text: '{localisation.btnCancel}'
+                            text: '{localization.btnCancel}'
                         },
                         listeners: {
                             click: 'onBtnCancelClick'

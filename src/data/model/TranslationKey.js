@@ -14,7 +14,7 @@
         ],
 
         fields: [
-            { name: 'localisationClassUuid', type: 'string', useNull: true },
+            { name: 'localizationClassUuid', type: 'string', useNull: true },
 
             { name: 'key', type: 'string', useNull: true },
             { name: 'translations', type: 'auto', useNull: true, defaultValue: [] }

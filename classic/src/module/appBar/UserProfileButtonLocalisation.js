@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.appBar.UserProfileButtonLocalisation', {
+    Ext.define('mh.module.appBar.UserProfileButtonLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 btnLogOn: {
                     en: 'Log on',
                     pl: 'Zaloguj'
@@ -49,7 +49,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

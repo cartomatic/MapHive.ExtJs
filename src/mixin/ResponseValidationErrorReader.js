@@ -9,7 +9,7 @@
     */
     Ext.define('mh.mixin.ResponseValidationErrorReader', {
         requires: [
-            'mh.mixin.ResponseValidationErrorReaderLocalisation'
+            'mh.mixin.ResponseValidationErrorReaderLocalization'
         ],
 
         /**
@@ -56,7 +56,7 @@
          */
         getErrTranslation: function(translationKey){
             //Note: when displaying a field name that caused error, translation is first found at the inheriting class, then over here to finally default to the field name returned by the server (so it is clear which field failed rather than seeing the default large 'translation not found for blah, blah, blah' msg
-            return this.getTranslation(translationKey, null, true) || this.getTranslation(translationKey, 'mh.mixin.ResponseValidationErrorReaderLocalisation')
+            return this.getTranslation(translationKey, null, true) || this.getTranslation(translationKey, 'mh.mixin.ResponseValidationErrorReaderLocalization')
         },
 
         /**
@@ -121,7 +121,7 @@
 
             msg = msg.replace(
                 '{field_name}',
-                this.getTranslation(propertyName, null, true) || this.getTranslation(propertyName, 'mh.mixin.ResponseValidationErrorReaderLocalisation', true) || propertyName
+                this.getTranslation(propertyName, null, true) || this.getTranslation(propertyName, 'mh.mixin.ResponseValidationErrorReaderLocalization', true) || propertyName
             );
 
             return msg;

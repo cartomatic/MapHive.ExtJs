@@ -7,7 +7,7 @@
     /**
      * Created by domin on 5/18/2016.
      */
-    Ext.define('mh.module.dataView.localisations.emailTemplates.TranslationsGridModel', {
+    Ext.define('mh.module.dataView.localizations.emailTemplates.TranslationsGridModel', {
         extend: 'Ext.app.ViewModel',
         alias: 'viewmodel.mh-email-templates-translationsgrid',
 

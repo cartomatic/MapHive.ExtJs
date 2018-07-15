@@ -65,11 +65,11 @@
                 teamApps: 'organizations/' + orgIdentifier + '/teams/' + parentIdentifier + '/applications',
 
                 //locale
-                localisationClasses: 'localisationclasses',
+                localizationClasses: 'localizationclasses',
                 translationKeys: 'translationkeys',
                 langs: 'langs',
-                emailTemplateLocalisations: 'emailtemplatelocalisations',
-                appLocalisationsBulkSave: 'applocalisations/bulksave'
+                emailTemplateLocalizations: 'emailtemplatelocalizations',
+                appLocalizationsBulkSave: 'applocalizations/bulksave'
             }
 
         }

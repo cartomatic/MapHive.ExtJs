@@ -4,19 +4,19 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.emailTemplates.TranslationsGridController', {
+    Ext.define('mh.module.dataView.localizations.emailTemplates.TranslationsGridController', {
         extend: 'mh.module.dataView.BindableStoreGridController',
         alias: 'controller.mh-email-templates-translationsgrid',
 
     requires: [
         'Ext.data.Store',
-        'mh.module.dataView.localisations.emailTemplates.TranslationsGridLocalisation',
+        'mh.module.dataView.localizations.emailTemplates.TranslationsGridLocalization',
         'mh.data.model.EmailTemplateTranslation',
         'mh.data.model.Translation'
     ],
 
     mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.GridUtils',
             'mh.mixin.PublishApi'
         ],
@@ -26,7 +26,7 @@
          */
         init: function() {
             //self translate - bring in translations to a view model - ui txt is bound via view model
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
 
             //create a grid store and bind it to a grid

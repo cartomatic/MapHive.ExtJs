@@ -5,9 +5,9 @@
     'use strict';
 
     /**
-     * localisation service; meant to be used as a mixin
+     * localization service; meant to be used as a mixin
      */
-    Ext.define('mh.localisation.Localisation', {
+    Ext.define('mh.localization.Localization', {
         singleton: true,
 
         mixins: [
@@ -36,7 +36,7 @@
             this.langCode = this.getMhCfgProperty('langCode') || this.defaultLangCode;
 
             //translations are injected via separate script
-            this.translations = typeof __mhlocalisation__ !== 'undefined' ? __mhlocalisation__ || {} : {};
+            this.translations = typeof __mhlocalization__ !== 'undefined' ? __mhlocalization__ || {} : {};
         },
 
         /**
@@ -60,7 +60,7 @@
 
             var key = this.getTranslationNamespace(Ext.getClassName(translationsClass)),
 
-                newTranslations = translationsClass.localisation || {},
+                newTranslations = translationsClass.localization || {},
 
                 currentTranslations = this.translations[key],
                 translationKeys, translationKey, tk, tklen,
@@ -151,7 +151,7 @@
                 //this should make it obvious, some translations are missing ;)
                 if(suppressWarningReturn !== true){
 
-                    var warningMsg = 'No "' + langCode + '" translation key detected for "' + namespace + 'Localisation.' + translationKey + ' nor its superclasses."';
+                    var warningMsg = 'No "' + langCode + '" translation key detected for "' + namespace + 'Localization.' + translationKey + ' nor its superclasses."';
 
                     translation = warningMsg;
 
@@ -238,18 +238,18 @@
         translationsNamespaceCache: {},
 
         /**
-         * Gets a translation namespace based on a class name. returns a string without the last Controller or Module or localisation word
+         * Gets a translation namespace based on a class name. returns a string without the last Controller or Module or localization word
          * @param className
          */
         getTranslationNamespace: function(className){
 
             className = this.fixClassName(className);
 
-            //need to cut the Controller, Model, localisation from the end of the String.
-            //Just assuming the localisation file name to class name mapping is always as follows:
-            //some.Class -> some.ClassLocalisation
-            //some.ClassController -> some.ClassLocalisation
-            //some.ClassModel -> some.ClassLocalisation
+            //need to cut the Controller, Model, localization from the end of the String.
+            //Just assuming the localization file name to class name mapping is always as follows:
+            //some.Class -> some.ClassLocalization
+            //some.ClassController -> some.ClassLocalization
+            //some.ClassModel -> some.ClassLocalization
 
             if(this.translationsNamespaceCache[className]){
                 return this.translationsNamespaceCache[className];
@@ -258,15 +258,15 @@
             var remove = false,
                 namespace = className;
 
-            //truncate ending Controller / Model / localisation so can obtain a 'main' class name for the translations file
+            //truncate ending Controller / Model / localization so can obtain a 'main' class name for the translations file
             if(Ext.String.endsWith(className, 'Controller')){
                 remove = 'Controller';
             }
             else if(Ext.String.endsWith(className, 'Model')){
                 remove = 'Model';
             }
-            else if(Ext.String.endsWith(className, 'Localisation')){
-                remove = 'Localisation';
+            else if(Ext.String.endsWith(className, 'Localization')){
+                remove = 'Localization';
             }
 
             if(remove) {
@@ -303,27 +303,27 @@
         },
 
         /**
-         * gets app localisations in a form of a list of LocalisationClass
+         * gets app localizations in a form of a list of LocalizationClass
          */
-        getAppLocalisations: function(){
+        getAppLocalizations: function(){
             var me = this,
-                localisationClasses = [];
+                localizationClasses = [];
             Ext.Array.each(this.getLocalisedClassNames(), function(lcn){
-                //need to check if a class is actually defined in code. basically it should, but in some scenarios some localisation classes may not be defined in code as such (dev mode, mistakes...)
+                //need to check if a class is actually defined in code. basically it should, but in some scenarios some localization classes may not be defined in code as such (dev mode, mistakes...)
                 //and therefore will not have a clientside equivalent
-                var clientLocalisationClassName = lcn + 'Localisation',
-                    clientLocalisationClass = Ext.ClassManager.get(clientLocalisationClassName),
-                    localisationClass;
+                var clientLocalizationClassName = lcn + 'Localization',
+                    clientLocalizationClass = Ext.ClassManager.get(clientLocalizationClassName),
+                    localizationClass;
 
-                if(clientLocalisationClass){
-                    localisationClass = {
+                if(clientLocalizationClass){
+                    localizationClass = {
                         applicationName: lcn.substring(0, lcn.indexOf('.')),
                         className: lcn.substring(lcn.indexOf('.') + 1),
-                        inheritedClassName: clientLocalisationClass.inherits,
+                        inheritedClassName: clientLocalizationClass.inherits,
                         translationKeys: []
                     };
 
-                    Ext.Array.each(Ext.Object.getKeys(clientLocalisationClass.localisation), function(tk){
+                    Ext.Array.each(Ext.Object.getKeys(clientLocalizationClass.localization), function(tk){
 
                         if(tk === me.translationsSuperclass){
                             return;
@@ -333,26 +333,26 @@
                             key: tk,
                             translations: {}
                         };
-                        Ext.Array.each(Ext.Object.getKeys(clientLocalisationClass.localisation[tk]), function(lng){
-                            translationKey.translations[lng] = clientLocalisationClass.localisation[tk][lng];
+                        Ext.Array.each(Ext.Object.getKeys(clientLocalizationClass.localization[tk]), function(lng){
+                            translationKey.translations[lng] = clientLocalizationClass.localization[tk][lng];
                         });
 
-                        localisationClass.translationKeys.push(translationKey);
+                        localizationClass.translationKeys.push(translationKey);
                     });
 
-                    localisationClasses.push(localisationClass);
+                    localizationClasses.push(localizationClass);
                 }
             });
 
-            return localisationClasses;
+            return localizationClasses;
         },
 
         /**
-         * Saves app localisations
+         * Saves app localizations
          * @param overwrite
          * @param langsToImport
          */
-        saveAppLocalisations: function(overwrite, langsToImport){
+        saveAppLocalizations: function(overwrite, langsToImport){
 
             //note: need to avoid recursion in mixing in classes, so just calling stuff via class instances...
             //note: the variables are there so WebStorm's Sencha plugin does not do auto requires, that in return triggers circular ref err
@@ -361,11 +361,11 @@
                 apiMap = 'mh.mixin.ApiMap';
 
             Ext.create(ajax).doPost({
-                url: Ext.create(apiMap).getApiEndPointUrl('appLocalisationsBulkSave'),
+                url: Ext.create(apiMap).getApiEndPointUrl('appLocalizationsBulkSave'),
                 params: {
                     overwrite: overwrite,
                     langsToImport: langsToImport,
-                    appLocalisations: this.getAppLocalisations()
+                    appLocalizations: this.getAppLocalizations()
                 },
                 autoHandleExceptions: false,
                 success: Ext.emptyFn,

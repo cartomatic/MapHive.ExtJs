@@ -5,12 +5,12 @@
     /**
      * Created by info_000 on 31-Jul-16.
      */
-    Ext.define('mh.module.fileUpload.FileUploadLocalisation', {
+    Ext.define('mh.module.fileUpload.FileUploadLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 uploadTitle: {
                     en: 'File upload',
                     pl: 'Zapisywanie pliku'
@@ -58,6 +58,6 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 }());

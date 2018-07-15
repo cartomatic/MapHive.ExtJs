@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.langs.DataViewForm', {
+    Ext.define('mh.module.dataView.localizations.langs.DataViewForm', {
         extend: 'Ext.container.Container',
     
         xtype: 'mh-langs-data-view-form',
@@ -30,7 +30,7 @@
                         xtype: 'textfield',
                         reference: 'langCode',
                         bind: {
-                            fieldLabel: '{localisation.langCode}',
+                            fieldLabel: '{localization.langCode}',
                             value: '{rec.langCode}'
                         },
                         readOnly: true
@@ -39,7 +39,7 @@
                         xtype: 'textfield',
                         reference: 'name',
                         bind: {
-                            fieldLabel: '{localisation.name}',
+                            fieldLabel: '{localization.name}',
                             value: '{rec.name}'
                         },
                         readOnly: true
@@ -48,7 +48,7 @@
                         xtype: 'textarea',
                         reference: 'description',
                         bind: {
-                            fieldLabel: '{localisation.description}',
+                            fieldLabel: '{localization.description}',
                             value: '{rec.description}'
                         },
                         readOnly: true
@@ -57,7 +57,7 @@
                         xtype: 'checkbox',
                         reference: 'isDefault',
                         bind: {
-                            fieldLabel: '{localisation.isDefault}',
+                            fieldLabel: '{localization.isDefault}',
                             value: '{rec.isDefault}'
                         },
                         readOnly: true

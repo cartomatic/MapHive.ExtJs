@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.AppLocalisationsController', {
+    Ext.define('mh.module.dataView.localizations.appLocalizations.AppLocalizationsController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-app-localisations',
+        alias: 'controller.mh-app-localizations',
 
         requires: [
-            'mh.module.dataView.localisations.appLocalisations.AppLocalisationsLocalisation'
+            'mh.module.dataView.localizations.appLocalizations.AppLocalizationsLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent',
             'mh.mixin.GridUtils'
         ],
@@ -25,17 +25,17 @@
             this.callMeParent('init', arguments);
 
             //wire up some listeners on the objects, so can specify interactions between them
-            this.lookupReference('localisationClasses').lookupReference('grid').on('selectionchange', this.onLocalisationClassesSelectionChange, this);
+            this.lookupReference('localizationClasses').lookupReference('grid').on('selectionchange', this.onLocalizationClassesSelectionChange, this);
 
         },
 
         /**
-         * localisation classes selection change callback
+         * localization classes selection change callback
          * @param grid
          * @param selected
          * @param eOpts
          */
-        onLocalisationClassesSelectionChange: function(grid, selected, eOpts){
+        onLocalizationClassesSelectionChange: function(grid, selected, eOpts){
             this.lookupReference('translationKeys').setContext(selected.length > 0 ? selected[0] : null);
         },
 

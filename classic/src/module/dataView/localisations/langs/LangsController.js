@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.langs.LangsController', {
+    Ext.define('mh.module.dataView.localizations.langs.LangsController', {
         extend: 'mh.module.dataView.DataViewBaseController',
         alias: 'controller.mh-langs',
 
         requires: [
-            'mh.module.dataView.localisations.langs.LangsLocalisation'
+            'mh.module.dataView.localizations.langs.LangsLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent',
             'mh.mixin.GridUtils'
         ],

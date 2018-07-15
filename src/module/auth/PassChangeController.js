@@ -12,11 +12,11 @@
         alias: 'controller.mh-auth-pass-change',
 
         requires: [
-            'mh.module.auth.PassChangeLocalisation'
+            'mh.module.auth.PassChangeLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.data.Ajax',
             'mh.mixin.ApiMap'
         ],
@@ -25,7 +25,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             this.watchGlobal('auth::passchanged', this.onPassChanged, this);
             this.watchGlobal('auth::passchangefailed', this.onPassChangeFailed, this);

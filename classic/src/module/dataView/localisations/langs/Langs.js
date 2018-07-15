@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.langs.Langs', {
+    Ext.define('mh.module.dataView.localizations.langs.Langs', {
         extend: 'mh.module.dataView.DataViewBase',
 
     requires: [
         'Ext.grid.Panel',
         'Ext.grid.filters.Filters',
-        'mh.module.dataView.localisations.langs.LangsController',
-        'mh.module.dataView.localisations.langs.LangsModel',
-        'mh.module.dataView.localisations.langs.DataEditForm',
-        'mh.module.dataView.localisations.langs.DataViewForm'
+        'mh.module.dataView.localizations.langs.LangsController',
+        'mh.module.dataView.localizations.langs.LangsModel',
+        'mh.module.dataView.localizations.langs.DataEditForm',
+        'mh.module.dataView.localizations.langs.DataViewForm'
     ],
 
     xtype: 'mh-langs',
@@ -35,7 +35,7 @@
             bind: {store: '{gridstore}'},
             columns: [
                 {
-                    bind: {text: '{localisation.langCode}'},
+                    bind: {text: '{localization.langCode}'},
                     dataIndex: 'langCode',
                     flex: 1,
                     filter: {
@@ -43,7 +43,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.name}'},
+                    bind: {text: '{localization.name}'},
                     dataIndex: 'name',
                     flex: 1,
                     filter: {
@@ -51,7 +51,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.description}'},
+                    bind: {text: '{localization.description}'},
                     dataIndex: 'description',
                     flex: 1,
                     filter: {
@@ -59,7 +59,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.isDefault}'},
+                    bind: {text: '{localization.isDefault}'},
                     dataIndex: 'isDefault',
                     flex: 1,
                     filter: {
@@ -68,9 +68,9 @@
                 }
             ]
         },
-        form: 'mh.module.dataView.localisations.langs.DataViewForm',
+        form: 'mh.module.dataView.localizations.langs.DataViewForm',
         //formWidth: 300,
-        editForm: 'mh.module.dataView.localisations.langs.DataEditForm'
+        editForm: 'mh.module.dataView.localizations.langs.DataEditForm'
     });
 
 }());

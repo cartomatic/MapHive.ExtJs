@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.EditorLocalisation', {
+    Ext.define('mh.module.dataView.EditorLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 btnSaveNew: {
                     en: 'Create',
                     pl: 'Utwórz'
@@ -41,7 +41,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

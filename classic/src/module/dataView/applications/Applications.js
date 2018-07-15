@@ -40,7 +40,7 @@
             border: false,
             columns: [
                 {
-                    bind: {text: '{localisation.name}'},
+                    bind: {text: '{localization.name}'},
                     dataIndex: 'name',
                     width: 175,
                     filter: {
@@ -50,7 +50,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.shortName}'},
+                    bind: {text: '{localization.shortName}'},
                     dataIndex: 'shortName',
                     width: 100,
                     filter: {
@@ -59,7 +59,7 @@
                     }
                 },
                 {
-                    bind: {text: '{localisation.description}'},
+                    bind: {text: '{localization.description}'},
                     dataIndex: 'description',
                     flex: 2
                     //filter: {
@@ -71,7 +71,7 @@
                     //}
                 },
                 {
-                    bind: {text: '{localisation.url}'},
+                    bind: {text: '{localization.url}'},
                     dataIndex: 'url',
                     flex: 1
                 },

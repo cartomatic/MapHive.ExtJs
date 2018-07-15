@@ -43,7 +43,7 @@
             {
                 margin: '10 0 10 0', //trbl
                 bind: {
-                    html: '{localisation.title}'
+                    html: '{localization.title}'
                 }
             },
             {
@@ -51,7 +51,7 @@
                 reference: 'txtOldPass',
                 clearIcon: true,
                 bind: {
-                    placeholder: '{localisation.oldPass}'
+                    placeholder: '{localization.oldPass}'
                 },
                 cls: 'mh-auth-text-border',
                 margin: '5 0 0 0' //trbl
@@ -61,7 +61,7 @@
                 reference: 'txtNewPass',
                 clearIcon: true,
                 bind: {
-                    placeholder: '{localisation.newPass}'
+                    placeholder: '{localization.newPass}'
                 },
                 cls: 'mh-auth-text-border',
                 margin: '5 0 0 0' //trbl
@@ -71,7 +71,7 @@
                 reference: 'txtRepeatPass',
                 clearIcon: true,
                 bind: {
-                    placeholder: '{localisation.repeatPass}'
+                    placeholder: '{localization.repeatPass}'
                 },
                 cls: 'mh-auth-text-border',
                 margin: '5 0 10 0' //trbl
@@ -82,7 +82,7 @@
                     {
                         xtype: 'button',
                         bind: {
-                            text: '{localisation.btnChangePass}'
+                            text: '{localization.btnChangePass}'
                         },
                         iconAlign: 'left',
                         iconCls: 'x-li li-refresh',
@@ -99,7 +99,7 @@
                     {
                         xtype: 'button',
                         bind: {
-                            text: '{localisation.btnCancel}'
+                            text: '{localization.btnCancel}'
                         },
                         iconAlign: 'right',
                         iconCls: 'x-li li-cross-circle',

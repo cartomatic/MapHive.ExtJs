@@ -5,14 +5,14 @@
     'use strict';
 
     /**
-     * auth base localisation - contains localisation keys that are requested by the AuthController
+     * auth base localization - contains localization keys that are requested by the AuthController
      */
-    Ext.define('mh.module.auth.AuthBaseLocalisation', {
+    Ext.define('mh.module.auth.AuthBaseLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 authMask: {
                     en: 'Authenticating...',
                     pl: 'Autoryzacja...'
@@ -160,7 +160,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

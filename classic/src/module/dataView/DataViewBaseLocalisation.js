@@ -5,14 +5,14 @@
     'use strict';
 
     /**
-     * Base data view localisation
+     * Base data view localization
      */
-    Ext.define('mh.module.dataView.DataViewBaseLocalisation', {
+    Ext.define('mh.module.dataView.DataViewBaseLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 btnCreate:{
                     pl: 'Nowy',
                     en: 'New'
@@ -93,7 +93,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

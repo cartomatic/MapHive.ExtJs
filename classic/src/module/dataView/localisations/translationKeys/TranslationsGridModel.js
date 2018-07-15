@@ -7,7 +7,7 @@
     /**
      * Created by domin on 5/18/2016.
      */
-    Ext.define('mh.module.dataView.localisations.translationKeys.TranslationsGridModel', {
+    Ext.define('mh.module.dataView.localizations.translationKeys.TranslationsGridModel', {
         extend: 'Ext.app.ViewModel',
         alias: 'viewmodel.mh-translationsgrid',
 

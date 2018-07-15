@@ -15,12 +15,12 @@
             'mh.mixin.ApiMap',
             'mh.mixin.UrlUtils',
             'mh.mixin.UserAppsUtils',
-            'mh.mixin.Localisation'
+            'mh.mixin.Localization'
         ],
 
         requires: [
             'mh.data.model.Organization',
-            'mh.module.appBar.OrgSwitcherButtonLocalisation'
+            'mh.module.appBar.OrgSwitcherButtonLocalization'
         ],
 
         /**

@@ -4,14 +4,14 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.auth.PassChangeLocalisation', {
+    Ext.define('mh.module.auth.PassChangeLocalization', {
         requires: [
-            'mh.localisation.Localisation',
-            'mh.module.auth.AuthBaseLocalisation'
+            'mh.localization.Localization',
+            'mh.module.auth.AuthBaseLocalization'
         ],
         statics: {
-            inherits: 'mh.module.auth.AuthBaseLocalisation',
-            localisation: {
+            inherits: 'mh.module.auth.AuthBaseLocalization',
+            localization: {
                 title: {
                     en: 'Change password',
                     pl: 'Zmiana hasła'
@@ -43,7 +43,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

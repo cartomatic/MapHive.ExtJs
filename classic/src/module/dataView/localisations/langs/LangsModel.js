@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.langs.LangsModel', {
+    Ext.define('mh.module.dataView.localizations.langs.LangsModel', {
         extend: 'mh.module.dataView.DataViewBaseModel',
         alias: 'viewmodel.mh-langs',
 

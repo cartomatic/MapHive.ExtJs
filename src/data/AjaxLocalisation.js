@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.data.AjaxLocalisation', {
+    Ext.define('mh.data.AjaxLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 error: {
                     en: 'Error',
                     pl: 'Błąd'
@@ -49,7 +49,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

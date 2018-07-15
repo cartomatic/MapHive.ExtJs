@@ -56,7 +56,7 @@
                             {
                                 margin: '10 0 10 0', //trbl
                                 bind: {
-                                    html: '{localisation.titleLogin}'
+                                    html: '{localization.titleLogin}'
                                 }
                             },
                             {
@@ -64,7 +64,7 @@
                                 reference: 'txtEmail',
                                 clearIcon: true,
                                 bind: {
-                                    placeholder: '{localisation.emailEmptyText}'
+                                    placeholder: '{localization.emailEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 0 0' //trbl
@@ -74,7 +74,7 @@
                                 reference: 'txtPass',
                                 clearIcon: true,
                                 bind: {
-                                    placeholder: '{localisation.passEmptyText}'
+                                    placeholder: '{localization.passEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -85,7 +85,7 @@
                                     {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.btnForgotPass}'
+                                            text: '{localization.btnForgotPass}'
                                         },
                                         iconAlign: 'left',
                                         iconCls: 'x-i54c i54c-key-22',
@@ -102,7 +102,7 @@
                                     {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.btnLogin}'
+                                            text: '{localization.btnLogin}'
                                         },
                                         iconAlign: 'right',
                                         iconCls: 'x-li li-chevron-right-circle',
@@ -126,7 +126,7 @@
                             {
                                 margin: '10 0 10 0', //trbl
                                 bind: {
-                                    html: '{localisation.titleForgotPass}'
+                                    html: '{localization.titleForgotPass}'
                                 }
                             },
                             {
@@ -134,7 +134,7 @@
                                 reference: 'txtForgotPassEmail',
                                 clearIcon: true,
                                 bind: {
-                                    placeHolder: '{localisation.emailEmptyText}'
+                                    placeHolder: '{localization.emailEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -145,7 +145,7 @@
                                     {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.btnResetPassRequest}'
+                                            text: '{localization.btnResetPassRequest}'
                                         },
                                         iconAlign: 'left',
                                         iconCls: 'x-i54c i54c-key-22',
@@ -162,7 +162,7 @@
                                     {
                                         xtype: 'button',
                                         bind: {
-                                            text: '{localisation.btnResetPassCancel}'
+                                            text: '{localization.btnResetPassCancel}'
                                         },
                                         iconAlign: 'right',
                                         iconCls: 'x-li li-chevron-right-circle',
@@ -186,7 +186,7 @@
                             {
                                 margin: '10 0 10 0', //trbl
                                 bind: {
-                                    html: '{localisation.titleResetPass}'
+                                    html: '{localization.titleResetPass}'
                                 }
                             },
                             {
@@ -199,7 +199,7 @@
                                 reference: 'txtPassReset',
                                 clearIcon: true,
                                 bind: {
-                                    placeholder: '{localisation.passNewEmptyText}'
+                                    placeholder: '{localization.passNewEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -209,7 +209,7 @@
                                 reference: 'txtPassResetRepeat',
                                 clearIcon: true,
                                 bind: {
-                                    placeholder: '{localisation.passRepeatEmptyText}'
+                                    placeholder: '{localization.passRepeatEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -217,7 +217,7 @@
                             {
                                 xtype: 'button',
                                 bind: {
-                                    text: '{localisation.btnResetPass}'
+                                    text: '{localization.btnResetPass}'
                                 },
                                 iconAlign: 'right',
                                 iconCls: 'x-li li-chevron-right-circle',
@@ -239,7 +239,7 @@
                             {
                                 margin: '10 0 10 0', //trbl
                                 bind: {
-                                    html: '{localisation.titleActivateAccount}'
+                                    html: '{localization.titleActivateAccount}'
                                 }
                             },
                             {
@@ -247,7 +247,7 @@
                                 reference: 'txtVerificationKey',
                                 clearIcon: true,
                                 bind: {
-                                    placeholder: '{localisation.verificationKeyEmptyText}'
+                                    placeholder: '{localization.verificationKeyEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -257,7 +257,7 @@
                                 reference: 'txtInitialPassword',
                                 clearIcon: true,
                                 bind: {
-                                    placeholder: '{localisation.passEmptyText}'
+                                    placeholder: '{localization.passEmptyText}'
                                 },
                                 cls: 'mh-auth-text-border',
                                 margin: '5 0 5 0' //trbl
@@ -265,7 +265,7 @@
                             {
                                 xtype: 'button',
                                 bind: {
-                                    text: '{localisation.btnActivateAccount}'
+                                    text: '{localization.btnActivateAccount}'
                                 },
                                 iconAlign: 'right',
                                 iconCls: 'x-li li-chevron-right-circle',

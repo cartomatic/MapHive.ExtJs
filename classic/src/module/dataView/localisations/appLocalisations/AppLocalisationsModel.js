@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.appLocalisations.AppLocalisationsModel', {
+    Ext.define('mh.module.dataView.localizations.appLocalizations.AppLocalizationsModel', {
         extend: 'mh.module.dataView.DataViewBaseModel',
-        alias: 'viewmodel.mh-app-localisations',
+        alias: 'viewmodel.mh-app-localizations',
 
         requires: [
         ],

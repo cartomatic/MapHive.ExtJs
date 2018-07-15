@@ -33,15 +33,15 @@
 
     requires: [
         'mh.communication.MsgBus',
-        'mh.data.AjaxLocalisation',
+        'mh.data.AjaxLocalization',
         'mh.data.AjaxRequestCfg',
-        'mh.localisation.Localisation'
+        'mh.localization.Localization'
     ],
 
     mixins: [
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.InitialCfg'
         ],
 
@@ -150,7 +150,7 @@
                 'Accept': 'application/json,text/html,application/xhtml+xml,application/xml;*/*'
             };
             //some custom headers
-            headers[this.getMhCfgProperty('headerLang')] = mh.localisation.Localisation.langCode;
+            headers[this.getMhCfgProperty('headerLang')] = mh.localization.Localization.langCode;
             headers[this.getMhCfgProperty('headerSource')] = window.location.href;
 
             //only add the auth header if present, skip it otherwise
@@ -321,7 +321,7 @@
                 //whether or not the op timed out
                 timedout = response ? response.timedout : false,
 
-             //Note: need to explicitly specify the localisations namespace, as this class is meant to be used as a mixin and otherwise would use the class name of a classes it gets mixed into
+             //Note: need to explicitly specify the localizations namespace, as this class is meant to be used as a mixin and otherwise would use the class name of a classes it gets mixed into
                 title = this.getTranslation('error', 'mh.data.Ajax') + (cfg.exceptionMsg ? ' :: ' + cfg.exceptionMsg : ''),
 
                 msg =

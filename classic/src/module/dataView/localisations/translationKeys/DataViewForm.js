@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.translationKeys.DataViewForm', {
+    Ext.define('mh.module.dataView.localizations.translationKeys.DataViewForm', {
         extend: 'Ext.container.Container',
     
         xtype: 'mh-translation-keys-data-view-form',
@@ -14,7 +14,7 @@
         'Ext.form.field.Text',
         'Ext.layout.container.Form',
         'Ext.layout.container.VBox',
-        'mh.module.dataView.localisations.translationKeys.TranslationsGrid'
+        'mh.module.dataView.localizations.translationKeys.TranslationsGrid'
     ],
 
     layout: {
@@ -30,7 +30,7 @@
                         xtype: 'textfield',
                         reference: 'key',
                         bind: {
-                            fieldLabel: '{localisation.key}',
+                            fieldLabel: '{localization.key}',
                             value: '{rec.key}'
                         },
                         readOnly: true

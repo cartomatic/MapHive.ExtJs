@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.localisationClasses.DataEditFormController', {
+    Ext.define('mh.module.dataView.localizations.localizationClasses.DataEditFormController', {
         extend: 'mh.module.dataView.GenericEditFormController',
-        alias: 'controller.mh-localisation-classes-data-edit-form',
+        alias: 'controller.mh-localization-classes-data-edit-form',
 
         requires: [
-            'mh.module.dataView.localisations.localisationClasses.DataEditFormLocalisation'
+            'mh.module.dataView.localizations.localizationClasses.DataEditFormLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent'
         ],
 
@@ -22,7 +22,7 @@
          */
         init: function() {
             this.callMeParent('init', arguments);
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
         }
     });
 

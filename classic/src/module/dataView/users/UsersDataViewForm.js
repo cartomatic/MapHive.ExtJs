@@ -32,7 +32,7 @@
                         xtype: 'textfield',
                         reference: 'email',
                         bind: {
-                            fieldLabel: '{localisation.email}',
+                            fieldLabel: '{localization.email}',
                             value: '{rec.email}'
                         },
                         readOnly: true
@@ -41,7 +41,7 @@
                         xtype: 'textfield',
                         reference: 'slug',
                         bind: {
-                            fieldLabel: '{localisation.slug}',
+                            fieldLabel: '{localization.slug}',
                             value: '{rec.slug}'
                         },
                         readOnly: true
@@ -50,7 +50,7 @@
                         xtype: 'textfield',
                         reference: 'gravatarEmail',
                         bind: {
-                            fieldLabel: '{localisation.gravatarEmail}',
+                            fieldLabel: '{localization.gravatarEmail}',
                             value: '{rec.gravatarEmail}'
                         },
                         readOnly: true
@@ -59,7 +59,7 @@
                         xtype: 'textfield',
                         reference: 'forename',
                         bind: {
-                            fieldLabel: '{localisation.forename}',
+                            fieldLabel: '{localization.forename}',
                             value: '{rec.forename}'
                         },
                         readOnly: true
@@ -68,7 +68,7 @@
                         xtype: 'textfield',
                         reference: 'surname',
                         bind: {
-                            fieldLabel: '{localisation.surname}',
+                            fieldLabel: '{localization.surname}',
                             value: '{rec.surname}'
                         },
                         readOnly: true
@@ -77,7 +77,7 @@
                         xtype: 'textarea',
                         reference: 'bio',
                         bind: {
-                            fieldLabel: '{localisation.bio}',
+                            fieldLabel: '{localization.bio}',
                             value: '{rec.bio}'
                         },
                         readOnly: true
@@ -86,7 +86,7 @@
                         xtype: 'textfield',
                         reference: 'company',
                         bind: {
-                            fieldLabel: '{localisation.company}',
+                            fieldLabel: '{localization.company}',
                             value: '{rec.company}'
                         },
                         readOnly: true
@@ -95,7 +95,7 @@
                         xtype: 'textfield',
                         reference: 'department',
                         bind: {
-                            fieldLabel: '{localisation.department}',
+                            fieldLabel: '{localization.department}',
                             value: '{rec.department}'
                         },
                         readOnly: true
@@ -104,7 +104,7 @@
                         xtype: 'checkbox',
                         reference: 'isOrgUser',
                         bind: {
-                            fieldLabel: '{localisation.isOrgUser}',
+                            fieldLabel: '{localization.isOrgUser}',
                             value: '{rec.isOrgUser}'
                         },
                         readOnly: true
@@ -113,7 +113,7 @@
                         xtype: 'checkbox',
                         reference: 'visibleInCatalogue',
                         bind: {
-                            fieldLabel: '{localisation.visibleInCatalogue}',
+                            fieldLabel: '{localization.visibleInCatalogue}',
                             value: '{rec.visibleInCatalogue}'
                         },
                         readOnly: true
@@ -122,7 +122,7 @@
                         xtype: 'checkbox',
                         reference: 'isAccountClosed',
                         bind: {
-                            fieldLabel: '{localisation.isAccountClosed}',
+                            fieldLabel: '{localization.isAccountClosed}',
                             value: '{rec.isAccountClosed}'
                         },
                         readOnly: true
@@ -131,7 +131,7 @@
                         xtype: 'checkbox',
                         reference: 'isAccountVerified',
                         bind: {
-                            fieldLabel: '{localisation.isAccountVerified}',
+                            fieldLabel: '{localization.isAccountVerified}',
                             value: '{rec.isAccountVerified}'
                         },
                         readOnly: true
@@ -140,7 +140,7 @@
                         xtype: 'combo',
                         reference: 'organizationRole',
                         bind: {
-                            fieldLabel: '{localisation.orgRole}',
+                            fieldLabel: '{localization.orgRole}',
                             value: '{rec.organizationRole}',
                             store: '{orgRoles}'
                         },

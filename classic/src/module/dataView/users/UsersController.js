@@ -9,11 +9,11 @@
         alias: 'controller.mh-users',
 
         requires: [
-            'mh.module.dataView.users.UsersLocalisation'
+            'mh.module.dataView.users.UsersLocalization'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.CallMeParent'
         ],
 

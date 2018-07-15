@@ -9,13 +9,13 @@
         alias: 'controller.mh-auth',
 
         requires: [
-            'mh.module.auth.AuthLocalisation'
+            'mh.module.auth.AuthLocalization'
         ],
 
         mixins: [
             'mh.communication.MsgBus',
             'mh.mixin.CustomComponentConfig',
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.PublishApi',
             'mh.mixin.UserAppsUtils'
         ],
@@ -48,7 +48,7 @@
          * Called when the view is created
          */
         init: function () {
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             this.applyCustomViewConfig();
 

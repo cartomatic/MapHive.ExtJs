@@ -4,21 +4,21 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.localisationClasses.DataEditForm', {
+    Ext.define('mh.module.dataView.localizations.localizationClasses.DataEditForm', {
 
         extend: 'Ext.container.Container',
     
-        xtype: 'mh-localisation-classes-data-edit-form',
+        xtype: 'mh-localization-classes-data-edit-form',
 
         viewModel: {
-            type: 'mh-localisation-classes-data-edit-form'
+            type: 'mh-localization-classes-data-edit-form'
         },
 
-        controller: 'mh-localisation-classes-data-edit-form',
+        controller: 'mh-localization-classes-data-edit-form',
 
     requires: [
-        'mh.module.dataView.localisations.localisationClasses.DataEditFormController',
-        'mh.module.dataView.localisations.localisationClasses.DataEditFormModel'
+        'mh.module.dataView.localizations.localizationClasses.DataEditFormController',
+        'mh.module.dataView.localizations.localizationClasses.DataEditFormModel'
     ],
 
     layout: {
@@ -34,7 +34,7 @@
                         xtype: 'textfield',
                         reference: 'applicationName',
                         bind: {
-                            fieldLabel: '{localisation.applicationName}',
+                            fieldLabel: '{localization.applicationName}',
                             value: '{rec.applicationName}'
                         }
                     },
@@ -42,7 +42,7 @@
                         xtype: 'textfield',
                         reference: 'className',
                         bind: {
-                            fieldLabel: '{localisation.className}',
+                            fieldLabel: '{localization.className}',
                             value: '{rec.className}'
                         }
                     },
@@ -50,7 +50,7 @@
                         xtype: 'textfield',
                         reference: 'inheritedClassName',
                         bind: {
-                            fieldLabel: '{localisation.inheritedClassName}',
+                            fieldLabel: '{localization.inheritedClassName}',
                             value: '{rec.inheritedClassName}'
                         }
                     }

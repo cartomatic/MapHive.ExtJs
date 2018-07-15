@@ -32,7 +32,7 @@
             columns: {
                 items: [
                     {
-                        bind: {text: '{localisation.email}'},
+                        bind: {text: '{localization.email}'},
                         dataIndex: 'email',
                         flex: 1,
                         filter: {
@@ -41,7 +41,7 @@
                         }
                     },
                     {
-                        bind: {text: '{localisation.forename}'},
+                        bind: {text: '{localization.forename}'},
                         dataIndex: 'forename',
                         flex: 1,
                         filter: {
@@ -50,7 +50,7 @@
                         }
                     },
                     {
-                        bind: {text: '{localisation.surname}'},
+                        bind: {text: '{localization.surname}'},
                         dataIndex: 'forename',
                         flex: 1,
                         filter: {

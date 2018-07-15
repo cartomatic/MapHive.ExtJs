@@ -5,13 +5,13 @@
     /**
      * Created by domin on 03.03.2017.
      */
-    Ext.define('mh.data.dictionaries.OrganizationRolesLocalisation', {
+    Ext.define('mh.data.dictionaries.OrganizationRolesLocalization', {
 
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 orgOwner: {
                     en: 'Organization owner',
                     pl: 'Właściciel organizacji'
@@ -27,7 +27,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
     
 }());

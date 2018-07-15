@@ -172,7 +172,7 @@
                 region: 'center',
                 split: true,
                 bind: {
-                    title: '{localisation.gridTitle}'
+                    title: '{localization.gridTitle}'
                 },
                 items: [
                     {
@@ -192,7 +192,7 @@
                                         xtype: 'button',
                                         reference: 'btnCreate',
                                         iconCls: 'x-li li-plus-circle',
-                                        bind: { text: '{localisation.btnCreate}'},
+                                        bind: { text: '{localization.btnCreate}'},
                                         listeners: {
                                             click: 'onBtnCreateClick'
                                         }
@@ -203,7 +203,7 @@
                                         reference: 'btnEdit',
                                         iconCls: 'x-i54 i54-edit-app',
                                         bind: {
-                                            text: '{localisation.btnEdit}',
+                                            text: '{localization.btnEdit}',
                                             disabled: '{!editable}'
                                         },
                                         listeners: {
@@ -216,7 +216,7 @@
                                         reference: 'btnDelete',
                                         iconCls: 'x-li li-cross-circle',
                                         bind: {
-                                            text: '{localisation.btnDelete}',
+                                            text: '{localization.btnDelete}',
                                             disabled: '{!deletable}'
                                         },
                                         listeners: {
@@ -240,7 +240,7 @@
             {
                 xtype: 'panel',
                 bind: {
-                    title: '{localisation.formTitle}'
+                    title: '{localization.formTitle}'
                 },
                 layout: 'fit',
                 reference: 'eastFormHolder',

@@ -5,12 +5,12 @@
     /**
      * Created by domin on 15.02.2017.
      */
-    Ext.define('mh.module.auth.AccountEditorLocalisation', {
+    Ext.define('mh.module.auth.AccountEditorLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 email: {
                     en: 'Email',
                     pl: 'Email'
@@ -59,7 +59,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
     
 }());

@@ -5,12 +5,12 @@
     /**
      * Created by domin on 10.02.2017.
      */
-    Ext.define('mh.module.auth.AccountCreatorLocalisation', {
+    Ext.define('mh.module.auth.AccountCreatorLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 title: {
                     en: 'Create account',
                     pl: 'Załóż konto'
@@ -82,7 +82,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
     
 }());

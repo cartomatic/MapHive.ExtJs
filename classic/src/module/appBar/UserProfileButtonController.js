@@ -11,13 +11,13 @@
 
         requires: [
             'mh.data.model.User',
-            'mh.module.appBar.UserProfileButtonLocalisation',
+            'mh.module.appBar.UserProfileButtonLocalization',
             'mh.module.auth.PassChange',
             'mh.module.auth.AccountEditor'
         ],
 
         mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.communication.MsgBus',
             'mh.mixin.UserAppsUtils'
         ],
@@ -26,7 +26,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             //check if the tbar is visible, or it should be suppressed
             //if toolbar should be hidden, there is no point in triggering the full setup here, as the toolbar is not there anyway!

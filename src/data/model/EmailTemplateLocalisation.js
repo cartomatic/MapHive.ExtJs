@@ -2,7 +2,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.data.model.EmailTemplateLocalisation', {
+    Ext.define('mh.data.model.EmailTemplateLocalization', {
         extend: 'mh.data.model.Base',
 
         requires: [
@@ -21,7 +21,7 @@
         proxy: {
             type: 'mhrest',
             //this is at the Ext.define level so no access to instance based stuff. need to talk to a static method
-            url: mh.mixin.ApiMap.getApiEndPointUrl('emailTemplateLocalisations')
+            url: mh.mixin.ApiMap.getApiEndPointUrl('emailTemplateLocalizations')
         }
     });
 }());

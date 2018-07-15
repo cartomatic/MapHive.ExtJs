@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.ApplicationLocalisation', {
+    Ext.define('mh.ApplicationLocalization', {
         requires: [
-            'mh.localisation.Localisation'
+            'mh.localization.Localization'
         ],
         statics: {
-            localisation: {
+            localization: {
                 getClientCfgLoadMask: {
                     en: 'Configuring...',
                     pl: 'Konfiguracja...'
@@ -33,7 +33,7 @@
             }
         }
     }, function(){
-        mh.localisation.Localisation.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

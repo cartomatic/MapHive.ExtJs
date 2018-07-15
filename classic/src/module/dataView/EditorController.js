@@ -9,12 +9,12 @@
         alias: 'controller.mh-editor',
 
         requires: [
-            'mh.module.dataView.EditorLocalisation'
+            'mh.module.dataView.EditorLocalization'
         ],
 
         mixins: [
             'mh.mixin.ModalMode',
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.PublishApi',
             'mh.mixin.CustomComponentConfig',
             'mh.mixin.ResponseValidationErrorReader'
@@ -31,7 +31,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.injectLocalisationToViewModel()
+            this.injectLocalizationToViewModel()
             this.trackModalModeStatus();
             this.publishApi(['setRecord', 'getRecord', 'setForm', 'getForm']);
 

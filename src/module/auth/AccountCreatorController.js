@@ -11,11 +11,11 @@
 
     requires: [
         'mh.data.model.User',
-        'mh.module.auth.AccountCreatorLocalisation'
+        'mh.module.auth.AccountCreatorLocalization'
     ],
 
     mixins: [
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.data.Ajax',
             'mh.mixin.ApiMap'
         ],
@@ -29,7 +29,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
         },
 
         /**

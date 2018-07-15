@@ -12,12 +12,12 @@
     requires: [
         'mh.data.model.Base',
         'mh.module.dataView.LinksPicker',
-        'mh.module.dataView.SingleLinkFieldLocalisation'
+        'mh.module.dataView.SingleLinkFieldLocalization'
     ],
 
     mixins: [
             'mh.mixin.PublishApi',
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.data.Ajax'
         ],
 

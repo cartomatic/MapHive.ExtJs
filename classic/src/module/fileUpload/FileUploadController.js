@@ -11,12 +11,12 @@
 
     requires: [
         'mh.data.Ajax',
-        'mh.module.fileUpload.FileUploadLocalisation'
+        'mh.module.fileUpload.FileUploadLocalization'
     ],
 
     mixins: [
             'mh.mixin.CallMeParent',
-            'mh.mixin.Localisation',
+            'mh.mixin.Localization',
             'mh.mixin.PublishApi'
         ],
 
@@ -28,7 +28,7 @@
         init: function() {
 
             //this.callMeParent('init', arguments);
-            this.injectLocalisationToViewModel();
+            this.injectLocalizationToViewModel();
 
             this.publishApi('setFormData');
 

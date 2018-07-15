@@ -67,7 +67,7 @@
                         reference: 'btnAdd',
                         iconCls: 'x-li li-plus-circle',
                         bind: {
-                            text: '{localisation.btnAdd}'
+                            text: '{localization.btnAdd}'
                         },
                         listeners: {
                             click: 'onBtnAddClick'
@@ -78,7 +78,7 @@
                         reference: 'btnCancel',
                         iconCls: 'x-li li-cross-circle',
                         bind: {
-                            text: '{localisation.btnCancel}'
+                            text: '{localization.btnCancel}'
                         },
                         listeners: {
                             click: 'onBtnCancelClick'

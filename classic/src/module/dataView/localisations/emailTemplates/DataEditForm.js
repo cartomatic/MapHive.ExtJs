@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.localisations.emailTemplates.DataEditForm', {
+    Ext.define('mh.module.dataView.localizations.emailTemplates.DataEditForm', {
 
-        extend: 'mh.module.dataView.localisations.emailTemplates.DataViewForm',
+        extend: 'mh.module.dataView.localizations.emailTemplates.DataViewForm',
     
         xtype: 'mh-email-templates-data-edit-form',
 
@@ -17,8 +17,8 @@
         controller: 'mh-email-templates-data-edit-form',
 
     requires: [
-        'mh.module.dataView.localisations.emailTemplates.DataEditFormController',
-        'mh.module.dataView.localisations.emailTemplates.DataEditFormModel'
+        'mh.module.dataView.localizations.emailTemplates.DataEditFormController',
+        'mh.module.dataView.localizations.emailTemplates.DataEditFormModel'
     ]
 });
 
