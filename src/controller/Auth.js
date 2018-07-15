@@ -261,7 +261,7 @@
         onRequestUserLogOff: function(){
             //send and forget
             this.doGet({
-                url: this.getApiEndPoint('logout'),
+                url: this.getApiEndPointUrl('logout'),
                 autoHandleExceptions: false,
                 success: Ext.emptyFn,
                 failure: Ext.emptyFn
@@ -323,7 +323,7 @@
                 else {
                     //uhuh, got the token, and remote auth has not been explicitly dismissed, so do token verification...
                     this.doGet({
-                        url: this.getApiEndPoint('tokenValidation'),
+                        url: this.getApiEndPointUrl('tokenValidation'),
                         scope: {
                             me: this,
                             refreshToken: data.refreshToken
@@ -514,7 +514,7 @@
          */
         onAuthenticateUser: function(e){
             this.doGet({
-                url: this.getApiEndPoint('login'),
+                url: this.getApiEndPointUrl('login'),
                 scope: this,
                 params: {
                     email: e.email,
@@ -604,7 +604,7 @@
             this.duringUserProfileRetrieval = true;
 
             this.doGet({
-                url: this.getApiEndPoint('userprofile'),
+                url: this.getApiEndPointUrl('userprofile'),
                 scope: this,
                 success: this.onGetUserProfileSuccess,
                 failure: this.onGetUserProfileFailure
@@ -648,7 +648,7 @@
          */
         passResetRequest: function(email){
             this.doPut({
-                url: this.getApiEndPoint('passResetRequest'),
+                url: this.getApiEndPointUrl('passResetRequest'),
                 scope: this,
                 params: {
                     email: email
@@ -729,7 +729,7 @@
          */
         resetPass: function(newPass, verificationKey){
             this.doPut({
-                url: this.getApiEndPoint('resetPass'),
+                url: this.getApiEndPointUrl('resetPass'),
                 scope: this,
                 params: {
                     verificationKey: verificationKey,
@@ -793,7 +793,7 @@
          */
         activateAccount: function(verificationKey, initialPassword){
             this.doPut({
-                url: this.getApiEndPoint('accountActivation'),
+                url: this.getApiEndPointUrl('accountActivation'),
                 scope: this,
                 params: {
                     verificationKey: verificationKey,
@@ -848,7 +848,7 @@
          */
         changePass: function(newPass, oldPass){
             this.doPut({
-                url: this.getApiEndPoint('changePass'),
+                url: this.getApiEndPointUrl('changePass'),
                 scope: this,
                 params: {
                     oldPass: oldPass,

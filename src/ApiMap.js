@@ -25,49 +25,52 @@
         /**
          * default api map; this is overridable through the web.config... see the apiMap key for details
          */
-        map: {
-            //auth
-            login: 'auth/letmein',
-            logout: 'auth/letmeoutofhere',
-            tokenValidation: 'auth/tokenvalidation',
-            accountActivation: 'auth/accountactivation',
-            resendActivation: 'auth/resendactivation/{userId}',
-            passResetRequest: 'auth/passresetrequest',
-            resetPass: 'auth/resetpass',
-            changePass: 'auth/changepass',
-            forceResetPass: 'auth/forceresetpass',
+        apiMaps: {
+            authApi: {
+                login: 'auth/letmein',
+                logout: 'auth/letmeoutofhere',
+                tokenValidation: 'auth/tokenvalidation',
+                accountActivation: 'auth/accountactivation',
+                resendActivation: 'auth/resendactivation/{userId}',
+                passResetRequest: 'auth/passresetrequest',
+                resetPass: 'auth/resetpass',
+                changePass: 'auth/changepass',
+                forceResetPass: 'auth/forceresetpass'
+            },
 
-            //cfg
-            userConfiguration: 'configuration/user',
+            coreApi: {
+                //cfg
+                userConfiguration: 'configuration/user',
 
-            //apps
-            applications: 'applications',
-            userApps: 'users/userapps',
+                //apps
+                applications: 'applications',
+                userApps: 'users/userapps',
 
-            //orgs
-            userOrgs: 'users/userorgs',
-            organisations: 'organisations',
-            orgHasAppAccess: 'organisations/' + orgIdentifier + '/allowsapplication/{appId}',
-            organisationLinkableApps: 'organisations/' + orgIdentifier + '/applications/linkable',
+                //orgs
+                userOrgs: 'users/userorgs',
+                organisations: 'organisations',
+                orgHasAppAccess: 'organisations/' + orgIdentifier + '/allowsapplication/{appId}',
+                organisationLinkableApps: 'organisations/' + orgIdentifier + '/applications/linkable',
 
-            //users
-            users: 'users',
-            organisationUsers: 'organisations/' + orgIdentifier + '/users',
-            organisationUsersLink: 'organisations/' + orgIdentifier + '/users/link',
-            userprofile: 'users/owndetails',
-            accountCreate: 'users/account',
+                //users
+                users: 'users',
+                organisationUsers: 'organisations/' + orgIdentifier + '/users',
+                organisationUsersLink: 'organisations/' + orgIdentifier + '/users/link',
+                userprofile: 'users/owndetails',
+                accountCreate: 'users/account',
 
-            //teams
-            organisationTeams: 'organisations/' + orgIdentifier + '/teams',
-            teamUsers: 'organisations/' + orgIdentifier + '/teams/' + parentIdentifier + '/users',
-            teamApps: 'organisations/' + orgIdentifier + '/teams/' + parentIdentifier + '/applications',
+                //teams
+                organisationTeams: 'organisations/' + orgIdentifier + '/teams',
+                teamUsers: 'organisations/' + orgIdentifier + '/teams/' + parentIdentifier + '/users',
+                teamApps: 'organisations/' + orgIdentifier + '/teams/' + parentIdentifier + '/applications',
 
-            //locale
-            localisationClasses: 'localisationclasses',
-            translationKeys: 'translationkeys',
-            langs: 'langs',
-            emailTemplateLocalisations: 'emailtemplatelocalisations',
-            appLocalisationsBulkSave: 'applocalisations/bulksave'
+                //locale
+                localisationClasses: 'localisationclasses',
+                translationKeys: 'translationkeys',
+                langs: 'langs',
+                emailTemplateLocalisations: 'emailtemplatelocalisations',
+                appLocalisationsBulkSave: 'applocalisations/bulksave'
+            }
 
         }
 

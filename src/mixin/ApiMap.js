@@ -4,25 +4,68 @@
     //Make sure strict mode is on
     'use strict';
 
+    /**
+     * Whether or not the API map has already been configured
+     */
     var apiMapConfigured = false,
 
-        staticInstance = null;
+        /**
+         * the actual API map used by the application; see the configureApiMap for details on how this is instantiated
+         */
+        apiMap = null,
+
+        /**
+         * Organisation context set for org apis url assembly
+         * @type {null}
+         */
+        orgContextUuid = null,
+
+        /**
+         * static instance
+         * @type {null}
+         */
+        staticInstance = null,
+
+        /**
+         * gets a static instance
+         * @returns {null}
+         */
+        getStaticInstance = function(){
+            if(!staticInstance){
+                staticInstance = Ext.create('mh.mixin.ApiMap');
+            }
+            return staticInstance;
+        },
+
+        /**
+         * a collection of models to take care of when an organisation context changes, and their need proxy url updates
+         * @type {Array}
+         */
+        orgChangesModelWatches = [];
 
     /**
-     * Provides a centralised access point to the API endpoints
+     * Provides a centralised access point to the API endpoints;
+     * The basic MapHive API map is defined in the mh.ApiMap
+     *
+     * This class is intended to be used as a mixin
      */
     Ext.define('mh.mixin.ApiMap', {
 
-        requires: [
-            'mh.ApiMap'
-        ],
-
         statics: {
-            getApiEndPoint: function(apiMapKey){
-                if(!staticInstance){
-                    staticInstance = Ext.create('mh.mixin.ApiMap');
-                }
-                return staticInstance.getApiEndPoint(apiMapKey)
+            getApiEndPointUrl: function(endPoint, skipOrgCtxReplace){
+                return getStaticInstance().getApiEndPointUrl(endPoint, skipOrgCtxReplace)
+            },
+
+            getApiEndPointBaseUrl: function(endPoint){
+                return getStaticInstance().getApiEndPointBaseUrl(endPoint)
+            },
+
+            getApiEndPoint: function(endPoint){
+                return getStaticInstance().getApiEndPoint(endPoint)
+            },
+
+            getApiEndPointToken: function(endPoint){
+                return getStaticInstance().getApiEndPointToken(endPoint)
             },
 
             getParentIdentifier: function(){
@@ -31,47 +74,122 @@
 
             getOrgIdentifier: function(){
                 return mh.ApiMap.getOrgIdentifier();
+            },
+
+            getAppShortNameIdentifier: function(){
+                return mh.ApiMap.getAppShortNameIdentifier();
+            },
+
+            getOrgContextUuid: function(){
+                return orgContextUuid;
+            },
+
+            watchOrgContextChanges: function(model){
+                getStaticInstance().watchOrgContextChanges(model);
             }
         },
 
-        mixins: [
-            'mh.mixin.InitialCfg'
+        requires: [
+            'mh.ApiMap'
         ],
 
+        mixins: [
+            'mh.mixin.InitialCfg',
+            'mh.communication.MsgBus'
+        ],
+
+
+        constructor: function(){
+            this.watchGlobal('org::contextchange', this.onOrgContextChange, this);
+        },
+
         /**
-         * Whether or not the API map has already been configured
+         * org context change callback
+         * @param org
          */
-        apiMapConfigured: false,
+        onOrgContextChange: function(org){
+            orgContextUuid = org.uuid;
+
+            var modelNames = Ext.Object.getKeys(orgChangesModelWatches),
+                m = 0, len = modelNames.length,
+                model;
+
+            for(m; m < len; m++){
+                model = orgChangesModelWatches[modelNames[m]];
+
+                if(model){
+                    //force create a model if proxy not there yet;
+                    //this is important, because can only access a proxy on a model once it has been instantiated. And obviously not always a model
+                    //is instantiated straight away, while we still want it to watch org ctx changes
+                    if(!model.proxy){
+                        try{
+                            Ext.create(modelNames[m]).getProxy();
+                        }
+                        catch(e){}
+                    }
+                }
+
+                if(model && model.proxy){
 
 
+                    if(!model.proxy.apiMapKey){
+                        console.error(modelNames[m] + ' proxy does not define an apiMapKey!');
+                    }
+
+
+                    model.proxy.url = this.getApiEndPointUrl(model.proxy.apiMapKey);
+                }
+            }
+        },
 
         /**
-         * works out an api endpoint to call
-         * @param endPoint
+         * works out an api endpoint to call - uses api map key to work out a full api path
+         * @param apiMapKey
+         * @param skipOrgCtxReplace
          * @returns {string}
          */
-        getApiEndPoint: function(apiMapKey){
+        getApiEndPointUrl: function(apiMapKey, skipOrgCtxReplace){
 
             if(!apiMapConfigured){
                 this.configureApiMap();
             }
 
-            var ep = (mh.ApiMap.map[apiMapKey] || 'misconfiguredApiEndpoint::' + apiMapKey),
-                apiEndpoints = this.getMhCfgProperty('apiEndPoints') || {},
-                apiEndPoint =
-                    ep.apiEndPointKey ?
-                        apiEndpoints[ep.apiEndPointKey] :
-                        apiEndpoints.mhApi,
+            var ep = (apiMap[apiMapKey] || 'misconfiguredEndpoint::' + apiMapKey),
+
+                apiEndPoint = this.getApiEndPoint(ep.apiEndPointKey),
 
                 //finally a route
                 route = ep.route ? ep.route : ep;
 
-            return apiEndPoint + route;
+            return (apiEndPoint || {}).url + (skipOrgCtxReplace ? route : route.replace(this.getApiMapOrgIdentifier(), orgContextUuid || 'undefined_org_context'));
+        },
+
+        /**
+         * gets an api endpoint object
+         * @param apiKey
+         */
+        getApiEndPoint: function(apiKey){
+            var apiEndpoints = this.getMhCfgProperty('apiEndPoints') || {};
+            return apiEndpoints[apiKey];
+        },
+
+        /**
+         * gets api endpoint base url
+         * @param apiKey
+         */
+        getApiEndPointBaseUrl: function(apiKey){
+            return (this.getApiEndPoint(apiKey) || {}).url;
+        },
+
+        /**
+         * gets an api token if configured
+         */
+        getApiEndPointToken: function(apiKey){
+            return (this.getApiEndPoint(apiKey) || {}).token;
         },
 
         /**
          * applies a specified api endpoint key to a passed api map
-         * This is used when there is a need to extend the basic API map with some other APIs with or without own api endpoints (configured via ApiEndPoints web.config property)
          * @param apiMap
          * @param apiEndPointKey
          */
@@ -86,17 +204,44 @@
                 apiMap[apiMapKey].apiEndPointKey = apiEndPointKey;
             });
 
+            //<debug>
+            console.warn('ApiMap with reapplied api end point key: ', apiMap);
+            //</debug>
+
             return apiMap;
         },
 
         /**
-         * Overrides the default API map with the configuration defined in the web.config
+         * Overrides the default API map with the configuration that could have been extracted from the webclient config
          */
         configureApiMap: function(){
 
             //grab the cfg off the global initial cfg
-            var apiMapChanges = this.getMhCfgProperty('apiMap'),
+            var apiMaps = mh.ApiMap.apiMaps;
+
+            //register apis defined in the mh.ApiMap;
+            apiMap = apiMap || {};
+
+            Ext.Array.each(Ext.Object.getKeys(apiMaps), function(apiMapKey){
+                this.extendOrUpdateApiMap(this.applyApiEndPointKey(apiMaps[apiMapKey], apiMapKey), true);
+            }, this);
+
+
+            //once the default api map is prepared, can apply changes delivered via the webclient cfg and mhApiMap property
+            this.applyApiMapOverrides();
+
+            apiMapConfigured = true;
+        },
+
+        /**
+         * applies server side supplied api map overrides
+         */
+        applyApiMapOverrides: function(){
+            //grab the cfg off the global initial cfg
+            var apiMapChanges = this.getMhCfgProperty('mhApiMap'),
                 keys, key, k = 0, klen;
+
+            //note: this is not used very often but leaves a hook for redirecting some apis
             if(apiMapChanges){
                 keys = Ext.Object.getKeys(apiMapChanges);
                 klen = keys.length;
@@ -104,34 +249,35 @@
                 for(k; k < klen; k++){
                     key = keys[k];
 
-                    mh.ApiMap.map[key] = this.prepareApiMapValue(mh.ApiMap.map[key], apiMapChanges[key]);
+                    apiMap[key] = this.prepareApiMapValue(apiMap[key], apiMapChanges[key]);
                 }
             }
-
-            apiMapConfigured = true;
         },
 
         /**
-         * Extends or updates the API map
+         * Extends or updates the api map
          * @param newApis
+         * @param skipOverrides whether or not should avoid the api overrides re-application; defaults to true;
          */
-        extendOrUpdateApiMap: function(newApis){
+        extendOrUpdateApiMap: function(newApis, skipOverrides){
             var newKeys = Ext.Object.getKeys(newApis),
                 nk = 0, nklen = newKeys.length;
 
             for(nk; nk < nklen; nk++){
-                mh.ApiMap.map[newKeys[nk]] = this.prepareApiMapValue(mh.ApiMap.map[newKeys[nk]], newApis[newKeys[nk]]);
+                apiMap[newKeys[nk]] = this.prepareApiMapValue(apiMap[newKeys[nk]], newApis[newKeys[nk]]);
             }
 
-            //make sure to recofigure api map. after all, server supplied changes should take precedence!
-            this.configureApiMap();
+            //make sure to re-configure api map if needed. after all, server supplied changes should take precedence!
+            if(skipOverrides !== true){
+                this.applyApiMapOverrides();
+            }
         },
 
         /**
          * takes care of preparing an overwritten api map value; overwrites url, apiEndPoint or both
          * @param oldV
          * @param newV
-         * @returns {*} a simple string api map value representing route or an object with route / apiEndPointKey properties
+         * @returns {*} a simple string api map value representing route or an object with route / apiEndPoint keys
          */
         prepareApiMapValue: function(oldV, newV){
 
@@ -160,24 +306,36 @@
          * @returns {string}
          */
         getApiMapParentIdentifier: function(){
-            return mh.ApiMap.getParentIdentifier();
+            return mh.ApiMap.getParentIdentifier();;
         },
 
         /**
-         * gets a parent identifier token
-         * @obsolete
+         * gets an org indentifier token
          * @returns {string}
          */
-        getParentIdentifier: function(){
-            return this.getApiMapParentIdentifier();
+        getApiMapOrgIdentifier: function(){
+            return mh.ApiMap.getOrgIdentifier();;
         },
 
         /**
-         * gets an org identifier
+         * gets an org context uuid
          * @returns {*}
          */
-        getApiMapOrgIdentifier: function(){
-            return mh.ApiMap.getOrgIdentifier();
+        getApiMapOrgContextUuid: function(){
+            return orgContextUuid;
+        },
+
+        /**
+         * collects the object
+         * @param model
+         */
+        watchOrgContextChanges: function(model){
+
+            var className = Ext.getClassName(model);
+
+            if(!orgChangesModelWatches[className]){
+                orgChangesModelWatches[className] = model;
+            }
         }
 
     });

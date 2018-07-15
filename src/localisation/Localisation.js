@@ -361,7 +361,7 @@
                 apiMap = 'mh.mixin.ApiMap';
 
             Ext.create(ajax).doPost({
-                url: Ext.create(apiMap).getApiEndPoint('appLocalisationsBulkSave'),
+                url: Ext.create(apiMap).getApiEndPointUrl('appLocalisationsBulkSave'),
                 params: {
                     overwrite: overwrite,
                     langsToImport: langsToImport,

@@ -10,7 +10,6 @@
 
     //customise and add endpoints as required
     __mhcfg__.apiEndPoints = {
-        getUrl: getUrl,
         authApi: {
             dev: 'https://localhost:44358/',
             production: 'https://core-api.maphive.net/'
@@ -19,12 +18,14 @@
         coreApi: {
             dev: 'https://localhost:44358/',
             production: 'https://core-api.maphive.net/'
-        },
-        appLocalizationApi: {
-            dev: 'https://localhost:44358/applocalization/',
-            production: 'https://core-api.maphive.net/'
         }
     };
+
+    for(apiEndPoint in __mhcfg__.apiEndPoints){
+        __mhcfg__.apiEndPoints[apiEndPoint].url = getUrl(apiEndPoint);
+        delete __mhcfg__.apiEndPoints[apiEndPoint].dev;
+        delete __mhcfg__.apiEndPoints[apiEndPoint].production;
+    }
 
     //namespaces to get the localizatin for
     __mhcfg__.namespacesToLocalize = [
