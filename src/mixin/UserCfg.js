@@ -36,7 +36,7 @@
          * @returns {*|{}}
          */
         getCurrentUser: function(){
-            return userCfg.user || {};
+            return (userCfg || {}).user || {};
         },
 
         /**
