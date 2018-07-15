@@ -14,8 +14,8 @@
             mh.FontIconsDictionary.addIcons({
                 navMenuUser: 'x-i54 i54-male-circle-2',
                 navMenuLogOff: 'x-i54c i54c-exit-2',
-                navMenuExpand: 'x-i54c i54c-right-13',
-                navMenuCollapse: 'x-i54c i54c-left-13'
+                navMenuExpand: 'x-i54c i54c-right-2',
+                navMenuCollapse: 'x-i54c i54c-left-2'
             });
         }
     });
