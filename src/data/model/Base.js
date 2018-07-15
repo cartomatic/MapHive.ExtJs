@@ -8,7 +8,8 @@
         extend: 'Ext.data.Model',
 
     requires: [
-        'mh.data.identifier.Null'
+        'mh.data.identifier.Null',
+        'mh.data.field.UtcDateTime'
     ],
 
     idProperty : 'uuid',
