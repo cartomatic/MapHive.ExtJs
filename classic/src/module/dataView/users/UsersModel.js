@@ -9,7 +9,7 @@
         alias: 'viewmodel.mh-users',
 
     requires: [
-        'mh.data.dictionaries.OrganisationRoles',
+        'mh.data.dictionaries.OrganizationRoles',
         'mh.data.model.User',
         'mh.data.proxy.Rest',
         'mh.mixin.ApiMap'
@@ -27,7 +27,7 @@
                     }
                 ]
             },
-            orgRoles: mh.data.dictionaries.OrganisationRoles.getOrgRolesStore()
+            orgRoles: mh.data.dictionaries.OrganizationRoles.getOrgRolesStore()
         }
     });
 

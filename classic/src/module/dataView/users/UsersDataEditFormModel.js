@@ -9,11 +9,11 @@
         alias: 'viewmodel.mh-users-data-edit-form',
 
     requires: [
-        'mh.data.dictionaries.OrganisationRoles'
+        'mh.data.dictionaries.OrganizationRoles'
     ],
 
     stores: {
-            orgRoles: mh.data.dictionaries.OrganisationRoles.getOrgRolesStore()
+            orgRoles: mh.data.dictionaries.OrganizationRoles.getOrgRolesStore()
         },
     
         data: {

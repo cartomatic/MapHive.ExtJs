@@ -5,7 +5,7 @@
     /**
      * Created by domin on 03.03.2017.
      */
-    Ext.define('mh.data.dictionaries.OrganisationRolesLocalisation', {
+    Ext.define('mh.data.dictionaries.OrganizationRolesLocalisation', {
 
         requires: [
             'mh.localisation.Localisation'
@@ -13,15 +13,15 @@
         statics: {
             localisation: {
                 orgOwner: {
-                    en: 'Organisation owner',
+                    en: 'Organization owner',
                     pl: 'Właściciel organizacji'
                 },
                 orgAdmin: {
-                    en: 'Organisation administrator',
+                    en: 'Organization administrator',
                     pl: 'Administrator organizacji'
                 },
                 orgMember: {
-                    en: 'Organisation member',
+                    en: 'Organization member',
                     pl: 'Członek organizacji'
                 }
             }

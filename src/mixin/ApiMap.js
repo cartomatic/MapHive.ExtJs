@@ -15,7 +15,7 @@
         apiMap = null,
 
         /**
-         * Organisation context set for org apis url assembly
+         * Organization context set for org apis url assembly
          * @type {null}
          */
         orgContextUuid = null,
@@ -38,7 +38,7 @@
         },
 
         /**
-         * a collection of models to take care of when an organisation context changes, and their need proxy url updates
+         * a collection of models to take care of when an organization context changes, and their need proxy url updates
          * @type {Array}
          */
         orgChangesModelWatches = [];

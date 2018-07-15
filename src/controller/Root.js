@@ -569,7 +569,7 @@
         },
 
         /**
-         * client config retrieved, so now there is time to obtain user organisation ctx
+         * client config retrieved, so now there is time to obtain user organization ctx
          */
         onGetUserConfigurationSuccess: function(response){
             //since we got here, user orgs context also needs to be ensured.
@@ -710,12 +710,12 @@
             }
 
             //isDefault - default application, when there is application context. something like an org dashboard app
-            //isHome - home application - the one to start with when there is no organisation context
+            //isHome - home application - the one to start with when there is no organization context
 
 
 
             //get a default app
-            //if no app is present, but there is an organisation token, then need to load org dashboard - org && isDefault
+            //if no app is present, but there is an organization token, then need to load org dashboard - org && isDefault
             //otherwise load the 'main' maphive app - !org && isHome
             if(!appToLoad){
                 a = 0;
