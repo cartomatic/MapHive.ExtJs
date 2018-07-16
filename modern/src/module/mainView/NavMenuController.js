@@ -22,7 +22,8 @@
         mixins: [
             'mh.mixin.Localization',
             'mh.mixin.UserCfg',
-            'mh.communication.MsgBus'
+            'mh.communication.MsgBus',
+            'mh.mixin.UserAppsUtils'
         ],
 
         init: function() {
@@ -41,7 +42,7 @@
 
             this.setUserIconAndEmail();
 
-            this.watchGlobal('user::avatarchanged', this.setUserIconAndEmail, this);
+            this.watchGlobal('user::profilepicturechanged', this.setUserIconAndEmail, this);
         },
 
         /**
@@ -66,17 +67,23 @@
          * @param value
          */
         updateExpanded: function(value) {
+            this.sliderExpanded = value;
             this.getView().toggleCls('expanded', value);
-            this.getView().setExpanded(value);
+
             this.lookup('navMenuExpander').setIconCls(
                 value ? mh.FontIconsDictionary.getIcon('navMenuCollapse') : mh.FontIconsDictionary.getIcon('navMenuExpand'));
         },
 
         /**
+         * slider menu state
+         */
+        sliderExpanded: false,
+
+        /**
          * toggles vie expanded state
          */
         toggleExpanded: function() {
-            this.updateExpanded(!this.getView().getExpanded());
+            this.updateExpanded(!this.sliderExpanded);
         },
 
         /**
@@ -84,7 +91,6 @@
          * @param ev
          */
         onMaskTap: function(ev) {
-            this.getView().setExpanded(false);
             this.updateExpanded(false);
             ev.preventDefault();
         },
@@ -97,7 +103,7 @@
 
             var profileButton = this.lookup('profileButton');
 
-            if(user.get('avatar')) {
+            if(user.get('profilePicture')) {
                 profileButton.setIcon(user.get('profilePicture'));
                 profileButton.setIconCls('roundImage');
             }
@@ -106,7 +112,12 @@
                 profileButton.setIconCls(mh.FontIconsDictionary.getIcon('navMenuUser'));
             }
 
-            profileButton.setText(user.get('email'));
+            profileButton.setText(
+                user.get('uuid')
+                    ? user.get('email')
+                    : this.getTranslation('anonymous')
+            );
+
         },
 
         /**
@@ -120,7 +131,7 @@
          * expander btn tap handler
          */
         onNavMenuExpanderTap: function() {
-            this.updateExpanded(!this.getView().getExpanded());
+            this.updateExpanded(!this.sliderExpanded);
         },
 
         /**
@@ -140,8 +151,14 @@
          * profile btn tap handler
          */
         onProfileButtonTap: function() {
-            this.redirectTo(this.getView().getUserSettingsRoute() || 'unknown');
-            this.collapse();
+            if(this.getCurrentUser().uuid){
+                this.redirectTo(this.getView().getUserProfileRoute() || 'unknown');
+                this.collapse();
+            }
+            else {
+                //just let the global Auth controller know user wants to authenticate
+                this.fireGlobal('auth::requestuserauth');
+            }
         },
 
         /**
@@ -179,7 +196,7 @@
 
             //also register user settings route
             if(!this.getView().getHideProfileBtn()){
-                this.fireGlobal('route::register', {route: this.getView().getUserSettingsRoute() || 'unknown', type: 'nav'});
+                this.fireGlobal('route::register', {route: this.getView().getUserProfileRoute() || 'unknown', type: 'nav'});
             }
         },
 
@@ -188,23 +205,37 @@
          * log off btn tap handler
          */
         onLogOffTap: function() {
+            var currentApp = this.getCurrentApp(),
+                msg = currentApp && currentApp.get('requiresAuth') ?
+                    this.getTranslation('logOffConfirmMsgWithReload') :
+                    this.getTranslation('logOffConfirmMsgNoReload');
+
             var me = this,
                 dialog = Ext.create({
                     xtype: 'dialog',
                     title: me.getTranslation('logOffConfirmTitle'),
-                    html: me.getTranslation('logOffConfirmMsg'),
+                    html: msg,
                     bodyPadding: 20,
-                    maxWidth: 300,
+                    width: 350,
                     buttons: {
                         yes: {
                             ui: 'base',
                             text: me.getTranslation('yes'),
                             handler: function() {
                                 dialog.destroy();
+
                                 me.fireGlobal('loadmask::show', me.getTranslation('logOffMask'));
-                                me.fireGlobal('auth::logoff');
+
+                                //let the auth controller do the work for us
+                                me.fireGlobal('auth::requestuserlogoff');
+
+                                //wait a bit and finalise
                                 Ext.defer(function(){
-                                    window.location.reload();
+                                    me.fireGlobal('loadmask::hide');
+                                    if(currentApp && currentApp.get('requiresAuth')){
+                                        //need to reload to home as the current app requires auth!
+                                        me.fireGlobal('root::reloadapp', me.getHomeApp());
+                                    }
                                 }, 1000);
                             }
                         },

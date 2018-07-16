@@ -22,9 +22,16 @@
         ],
 
         config: {
+            /**
+             * whether or not the view is expanded
+             */
             expanded: false,
 
+            /**
+             * currently selected item
+             */
             selection: null,
+
             /**
              * @cfg should contain mh.data.model.NavRoute models
              * @required
@@ -34,7 +41,7 @@
             /**
              * @cfg - route to load for user profile edits
              */
-            userSettingsRoute: 'usersettings',
+            userProfileRoute: 'user-profile',
 
             /**
              * whether or not logout btn should be hidden

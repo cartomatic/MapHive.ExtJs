@@ -18,8 +18,8 @@
     requires: [
         'mh.util.console.Custom',
         'mh.communication.MsgBusXWindow',
-        'mh.dummy.AppLauncher',
-        'mh.ApplicationLocalization'
+        'mh.ApplicationLocalization',
+        'mh.module.loadMask.LoadMask'
     ],
 
     mixins: [
