@@ -37,7 +37,7 @@
                 this.lookupReference('logOffBtn').hide();
             }
             if(vw.getHideProfileBtn()){
-                this.lookupReference('profileButton').hide();
+                this.lookupReference('profileBtn').hide();
             }
 
             this.setUserIconAndEmail();
@@ -70,7 +70,7 @@
             this.sliderExpanded = value;
             this.getView().toggleCls('expanded', value);
 
-            this.lookup('navMenuExpander').setIconCls(
+            this.lookup('navMenuExpanderBtn').setIconCls(
                 value ? mh.FontIconsDictionary.getIcon('navMenuCollapse') : mh.FontIconsDictionary.getIcon('navMenuExpand'));
         },
 
@@ -101,18 +101,18 @@
         setUserIconAndEmail: function() {
             var user = Ext.create('mh.data.model.User', this.getCurrentUser());
 
-            var profileButton = this.lookup('profileButton');
+            var profileBtn = this.lookup('profileBtn');
 
             if(user.get('profilePicture')) {
-                profileButton.setIcon(user.get('profilePicture'));
-                profileButton.setIconCls('roundImage');
+                profileBtn.setIcon(user.get('profilePicture'));
+                profileBtn.setIconCls('roundImage');
             }
             else {
-                profileButton.setIcon(null);
-                profileButton.setIconCls(mh.FontIconsDictionary.getIcon('navMenuUser'));
+                profileBtn.setIcon(null);
+                profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('navMenuUser'));
             }
 
-            profileButton.setText(
+            profileBtn.setText(
                 user.get('uuid')
                     ? user.get('email')
                     : this.getTranslation('anonymous')
@@ -130,7 +130,7 @@
         /**
          * expander btn tap handler
          */
-        onNavMenuExpanderTap: function() {
+        onNavMenuExpanderBtnTap: function() {
             this.updateExpanded(!this.sliderExpanded);
         },
 
@@ -139,7 +139,7 @@
          * @param menu
          * @param location
          */
-        onMenuChildTap: function(menu, location) {
+        onMenuItemTap: function(menu, location) {
             var record = location.record;
             if (record) {
                 this.redirectTo(record.get('navigationRoute'));
@@ -150,7 +150,7 @@
         /**
          * profile btn tap handler
          */
-        onProfileButtonTap: function() {
+        onprofileBtnTap: function() {
             if(this.getCurrentUser().uuid){
                 this.redirectTo(this.getView().getUserProfileRoute() || 'unknown');
                 this.collapse();
@@ -204,7 +204,7 @@
         /**
          * log off btn tap handler
          */
-        onLogOffTap: function() {
+        onLogOffBtnTap: function() {
             var currentApp = this.getCurrentApp(),
                 msg = currentApp && currentApp.get('requiresAuth') ?
                     this.getTranslation('logOffConfirmMsgWithReload') :
@@ -253,6 +253,41 @@
             dialog.show();
 
             this.updateExpanded(false);
+        },
+
+        appsMenu: null,
+
+        ensureAppsMenu: function(){
+            if(this.appsMenu){
+                return;
+            }
+
+            this.appsMenu = Ext.create('Ext.ActionSheet', {
+                layout: 'fit',
+                bodyPadding: 0,
+                width: 300,
+                items: [
+                    //TODO - make the nav tray globally accessible
+                    //TODO - app switcher as a separate module perhaps
+                    //TODO - etc
+                    {
+                        xtype: 'panel',
+                        title: this.getTranslation('appSwitcherBtn'),
+                        iconCls: mh.FontIconsDictionary.getIcon('navMenuApps'),
+                        html: 'This is gonna be app switcher...',
+                    }
+                ]
+            });
+
+            Ext.Viewport.setMenu(this.appsMenu, {
+                side: 'left'
+            });
+        },
+
+        onAppSwitcherBtnTap: function(btn){
+            this.ensureAppsMenu();
+
+            Ext.Viewport.toggleMenu('left');
         }
     });
     

@@ -12,10 +12,11 @@
         ],
         constructor: function() {
             mh.FontIconsDictionary.addIcons({
-                navMenuUser: 'x-i54 i54-male-circle-2',
-                navMenuLogOff: 'x-i54c i54c-exit-2',
+                navMenuUser: 'x-li li-user',
+                navMenuLogOff: 'x-li li-power-switch',
                 navMenuExpand: 'x-i54c i54c-right-2',
-                navMenuCollapse: 'x-i54c i54c-left-2'
+                navMenuCollapse: 'x-i54c i54c-left-2',
+                navMenuApps: 'x-i54 i54-multy-task-2'
             });
         }
     });

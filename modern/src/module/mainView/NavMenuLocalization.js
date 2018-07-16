@@ -10,6 +10,10 @@
         ],
         statics: {
             localization: {
+                appSwitcherBtn: {
+                    en: 'Applications',
+                    pl: 'Aplikacje'
+                },
                 logOff: {
                     en: 'Log off',
                     pl: 'Wyloguj'
