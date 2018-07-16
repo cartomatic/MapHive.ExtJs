@@ -32,11 +32,13 @@
             disableAccountCreation: true
         },
 
-        layout: {
-            type: 'vbox',
-            align: 'center',
-            pack: 'center'
-        },
+        // layout: {
+        //     type: 'vbox',
+        //     align: 'center',
+        //     pack: 'center'
+        // },
+
+        layout: 'center',
 
         items: [
             {
@@ -44,7 +46,9 @@
                 reference: 'cardLayout',
                 layout: 'card',
                 width: '90%',
-                height: 400,
+                maxWidth: 400,
+                minHeight: 150,
+                //minHeight: 270,
                 items: [
                     //login view
                     {

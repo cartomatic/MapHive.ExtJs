@@ -12,10 +12,11 @@
     
         xtype: 'mh.locking-screen',
 
-        fullscreen: true
+        fullscreen: true,
+        maximized: true,
+        modal: true,
 
-        //TODO - need mobile cls, as all the stuff ends up in common resources dir. this is a package lib after all ;)
-        //cls: 'mh-locking-screen'
+        cls: 'mh-locking-screen'
     });
 
 }());

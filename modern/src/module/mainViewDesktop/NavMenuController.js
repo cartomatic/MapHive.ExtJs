@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.mainView.NavMenuController', {
+    Ext.define('mh.module.mainViewDesktop.NavMenuController', {
         extend: 'Ext.app.ViewController',
 
         alias: 'controller.mh-main-view-nav-menu',
@@ -15,8 +15,8 @@
             'Ext.menu.Menu',
             'mh.FontIconsDictionary',
             'mh.data.model.User',
-            'mh.module.mainView.Icons',
-            'mh.module.mainView.NavMenuLocalization'
+            'mh.module.mainViewDesktop.Icons',
+            'mh.module.mainViewDesktop.NavMenuLocalization'
         ],
 
         mixins: [
