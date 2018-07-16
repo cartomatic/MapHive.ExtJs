@@ -2,9 +2,9 @@
 /*global window,console,Ext*/
 (function(){
     //Make sure strict mode is on
-    'use strict';
-
-    Ext.define('mh.module.mainViewDesktop.Icons', {
+    'use strict'
+    
+    Ext.define('mh.module.mainViewDesktop.AppSwitcherIcons', {
         singleton: true,
 
         requires: [
@@ -12,12 +12,8 @@
         ],
         constructor: function() {
             mh.FontIconsDictionary.addIcons({
-                navMenuUser: 'x-li li-user',
-                navMenuLogOff: 'x-li li-power-switch',
-                navMenuExpand: 'x-i54c i54c-right-2',
-                navMenuCollapse: 'x-i54c i54c-left-2'
+                appSwitcherApps: 'x-i54 i54-multy-task-2'
             });
         }
     });
-    
 }());

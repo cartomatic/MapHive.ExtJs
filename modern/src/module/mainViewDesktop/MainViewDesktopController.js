@@ -30,13 +30,21 @@
             this.watchGlobal('route::register', this.onRouteRegister, this);
 
             var vw = this.getView(),
-                navMenu = vw.getNavMenu();
+                navMenu = vw.getNavMenu(),
+                appSwitcher = vw.getAppSwitcher();
 
             if(navMenu){
                 navMenu.zIndex = 4;
                 navMenu.reference = 'navmenu';
 
                 vw.setLbar(navMenu);
+            }
+
+            //create app switcher if provided
+            if(appSwitcher){
+                Ext.create(appSwitcher, {
+                    navModule: vw.getLbar()
+                });
             }
 
             //non menu routes registration

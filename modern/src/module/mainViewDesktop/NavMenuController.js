@@ -23,11 +23,14 @@
             'mh.mixin.Localization',
             'mh.mixin.UserCfg',
             'mh.communication.MsgBus',
-            'mh.mixin.UserAppsUtils'
+            'mh.mixin.UserAppsUtils',
+            'mh.mixin.PublishApi'
         ],
 
         init: function() {
             this.injectLocalizationToViewModel();
+
+            this.publishApi('addAppSwitcherBtn', 'addOrgContextSwitcherBtn');
 
             var vw = this.getView();
 
@@ -255,40 +258,31 @@
             this.updateExpanded(false);
         },
 
-        appsMenu: null,
+        /**
+         * inserts app switcher btn
+         * @param appSwitcher
+         */
+        addAppSwitcherBtn: function(appSwitcherBtn){
 
-        ensureAppsMenu: function(){
-            if(this.appsMenu){
-                return;
-            }
+            //nav bar specific styling
+            appSwitcherBtn.setUi('navmenu-flat navmenu-dark navmenu-large');
+            appSwitcherBtn.setTextAlign('left');
+            appSwitcherBtn.setWeight(1);
 
-            this.appsMenu = Ext.create('Ext.ActionSheet', {
-                layout: 'fit',
-                bodyPadding: 0,
-                width: 300,
-                items: [
-                    //TODO - make the nav tray globally accessible
-                    //TODO - app switcher as a separate module perhaps
-                    //TODO - etc
-                    {
-                        xtype: 'panel',
-                        title: this.getTranslation('appSwitcherBtn'),
-                        iconCls: mh.FontIconsDictionary.getIcon('navMenuApps'),
-                        html: 'This is gonna be app switcher...',
-                    }
-                ]
-            });
+            console.warn('WHHAPPAA', this.getView());
 
-            Ext.Viewport.setMenu(this.appsMenu, {
-                side: 'left'
-            });
+            this.getView().insert(0, appSwitcherBtn);
         },
 
-        onAppSwitcherBtnTap: function(btn){
-            this.ensureAppsMenu();
-
-            Ext.Viewport.toggleMenu('left');
+        /**
+         * inserts org context switcher btn
+         * @param orgContextSwitcherBtn
+         */
+        addOrgContextSwitcherBtn: function(orgContextSwitcherBtn){
+            //TODO
         }
+
+
     });
     
 }());

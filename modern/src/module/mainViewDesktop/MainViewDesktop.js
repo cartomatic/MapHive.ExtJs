@@ -15,7 +15,8 @@
         requires: [
             'Ext.layout.Card',
             'mh.module.mainViewDesktop.MainViewDesktopController',
-            'mh.module.mainViewDesktop.MainViewDesktopModel'
+            'mh.module.mainViewDesktop.MainViewDesktopModel',
+            'mh.module.mainViewDesktop.AppSwitcher'
         ],
 
         xtype: 'mh-main-view',
@@ -39,7 +40,21 @@
             /**
              * store with non main nav menu routes to be registered; should contain mh.data.model.NavRoute models
              */
-            nonMenuRoutesStore: null
+            nonMenuRoutesStore: null,
+
+            /**
+             * app switcher module; takes care of handling app switching; defaults to mh.module.mainViewDesktop.AppSwitcher;
+             * when not provided, setting is ignored;
+             * navMenu is passed to the constructor; expects the navMenu module to expose a 'addAppSwitcherBtn' method in order to pass own UI back
+             */
+            appSwitcher: 'mh.module.mainViewDesktop.AppSwitcher',
+
+            /**
+             * org context switcher module; takes care of handling organization context switching; defaults to mh.module.mainViewDesktop.OrgContextSwitcher;
+             * when not provided, setting gets ignored;
+             * navMenu is passed to the constructor; expects the navMenu module to expose a 'addOrgContextSwitcherBtn' method in order to pass own UI back
+             */
+            orgContextSwitcher: 'mh.module.mainViewDesktop.OrgContextSwitcher'
         },
 
         layout: {

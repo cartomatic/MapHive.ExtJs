@@ -73,25 +73,6 @@
 
         items: {
 
-            appSwitcher: {
-                xtype: 'button',
-                reference: 'appSwitcherBtn',
-
-                ui: 'navmenu-flat navmenu-dark navmenu-large',
-
-                iconCls: mh.FontIconsDictionary.getIcon('navMenuApps'),
-
-                bind: {
-                    text: '{localization.appSwitcherBtn}'
-                },
-
-                textAlign: 'left',
-                weight: 1,
-                listeners: {
-                    tap: 'onAppSwitcherBtnTap'
-                }
-            },
-
             //small expander container - expand / collapse menu
             expanderContainer: {
                 xtype: 'container',
