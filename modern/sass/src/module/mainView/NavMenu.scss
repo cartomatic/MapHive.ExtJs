@@ -71,7 +71,7 @@ $navmenu-sidebar-micro-expanded-width: dynamic(256px);
 }
 .navmenu-expander-container{
   position: absolute;
-  bottom: 30px;
+  top: 45px;
   right: -10px;
   width: 20px!important;
 }
@@ -151,7 +151,8 @@ $navmenu-sidebar-micro-expanded-width: dynamic(256px);
   .x-dataview-item {
     cursor: pointer;
     .text {
-      margin-left: 10px;
+      //margin-left: 10px;
+      text-transform: uppercase;
     }
     .icon {
       display: inline-block;
