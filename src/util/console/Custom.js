@@ -151,7 +151,7 @@
                 //return args;
             }
 
-            return [stringArgs.join(' ')].concat(styleArgs).concat(nonStringArgs);
+            return [stringArgs.join(' ')].concat(styleArgs).concat(nonStringArgs).concat([this.getCaller()]);
         },
 
         handleIeArgs: function(args){
@@ -317,6 +317,26 @@
         parseInt: function(value, defaultValue){
             var parsed = parseInt(value);
             return !isNaN(parsed) ? parsed : !isNaN(defaultValue) ? defaultValue : undefined;
+        },
+
+        /**
+         * gets a caller name with line info
+         * inspired by https://stackoverflow.com/questions/29572466/how-do-you-find-out-the-caller-function-in-javascript-when-use-strict-is-enabled:
+         */
+        getCaller: function(){
+            var caller;
+            try { throw new Error(); }
+            catch (e) {
+                var stack = e.stack.split('\n');
+                if(Ext.isChrome) {
+                    caller = (stack[4] || stack[3] || stack[2] || stack[1] || stack[0]).replace('    at constructor.', '');
+                }
+                //if(Ext.isFirefox){
+                else {
+                    caller = stack[3] || stack[2] || stack[1] || stack[0];
+                }
+            }
+            return '\nsource: ' + caller+ '\n';
         }
     });
 
