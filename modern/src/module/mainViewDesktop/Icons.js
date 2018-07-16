@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.mainView.Icons', {
+    Ext.define('mh.module.mainViewDesktop.Icons', {
         singleton: true,
 
         requires: [

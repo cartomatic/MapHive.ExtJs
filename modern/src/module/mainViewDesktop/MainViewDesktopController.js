@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.mainView.MainViewController', {
+    Ext.define('mh.module.mainViewDesktop.MainViewDesktopController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-main-view',
 

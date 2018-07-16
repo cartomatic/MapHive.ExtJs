@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.mainView.NavMenu', {
+    Ext.define('mh.module.mainViewDesktop.NavMenu', {
         extend: 'Ext.Container',
 
         xtype: 'mh-main-view-nav-menu',
@@ -13,8 +13,8 @@
             'Ext.dataview.DataView',
             'Ext.layout.VBox',
             'mh.FontIconsDictionary',
-            'mh.module.mainView.NavMenuController',
-            'mh.module.mainView.NavMenuModel'
+            'mh.module.mainViewDesktop.NavMenuController',
+            'mh.module.mainViewDesktop.NavMenuModel'
         ],
 
         mixins: [

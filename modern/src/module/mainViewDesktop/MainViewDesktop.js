@@ -5,17 +5,17 @@
     'use strict';
 
     /**
-     * MH modern apps main app view.
+     * MH modern apps main app view for desktop apps.
      * abstracts a generic app view with a left hand side menu - based on the ExtJs's admin-dashboard template;
      * allows for generic view switching and routing
      */
-    Ext.define('mh.module.mainView.MainView', {
+    Ext.define('mh.module.mainViewDesktop.MainViewDesktop', {
         extend: 'Ext.Panel',
 
         requires: [
             'Ext.layout.Card',
-            'mh.module.mainView.MainViewController',
-            'mh.module.mainView.MainViewModel'
+            'mh.module.mainViewDesktop.MainViewDesktopController',
+            'mh.module.mainViewDesktop.MainViewDesktopModel'
         ],
 
         xtype: 'mh-main-view',

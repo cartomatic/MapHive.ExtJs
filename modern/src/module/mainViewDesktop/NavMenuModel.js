@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.mainView.MainViewModel', {
+    Ext.define('mh.module.mainViewDesktop.NavMenuModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-main-view'
+        alias: 'viewmodel.mh-main-view-nav-menu'
     });
     
 }());
