@@ -6,6 +6,12 @@
     
     Ext.define('mh.module.mainViewDesktop.AppSwitcherModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-app-switcher'
+        alias: 'viewmodel.mh-app-switcher',
+
+        stores: {
+            apps: {
+                model: 'mh.data.model.Application'
+            }
+        }
     });
 }());

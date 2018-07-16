@@ -269,8 +269,6 @@
             appSwitcherBtn.setTextAlign('left');
             appSwitcherBtn.setWeight(1);
 
-            console.warn('WHHAPPAA', this.getView());
-
             this.getView().insert(0, appSwitcherBtn);
         },
 
