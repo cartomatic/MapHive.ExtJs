@@ -18,13 +18,21 @@
                     en: 'Profile',
                     pl: 'Profil'
                 },
-                logOffConfirmTitle: {
-                    en: 'Log off',
-                    pl: 'Wylogowywanie'
+                anonymous: {
+                    en: 'Anonymous user',
+                    pl: 'Uzytkownik anonimowy'
                 },
-                logOffConfirmMsg: {
+                logOffConfirmMsgNoReload: {
                     en: 'Are you sure you want to log off?',
                     pl: 'Czy na pewno chcesz się wylogować?'
+                },
+                logOffConfirmMsgWithReload: {
+                    en: 'Active application requires auth. Logging off will load the default application instead.<br/>Are you sure you want to log off?',
+                    pl: 'Aktywna aplikacja wymaga zalogowania. Wylogowanie spowoduje zmianę aplikacji, na aplikację domyślną.<br/>Czy na pewno chcesz się wylogować?'
+                },
+                logOffConfirmTitle: {
+                    en: 'Log off',
+                    pl: 'Wylogowanie'
                 },
                 logOffMask: {
                     en: 'Logging off...',

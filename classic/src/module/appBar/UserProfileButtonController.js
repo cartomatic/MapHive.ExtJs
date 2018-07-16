@@ -185,7 +185,9 @@
                 iconCls: 'x-i54c i54c-exit-2',
                 fn: function(btn){
                     if(btn === 'yes'){
-                        Ext.getBody().mask(me.getTranslation('logOffMask'));
+
+                        me.fireGlobal('loadmask::show', me.getTranslation('logOffMask'));
+
                         //let the auth controller do the work for us
                         me.fireGlobal('auth::requestuserlogoff');
 
