@@ -73,28 +73,22 @@
 
         items: {
 
-            //TODO - add maphive left menu sliding btn!
+            appSwitcher: {
+                xtype: 'button',
+                reference: 'appSwitcherBtn',
 
-            navigator: {
-                xtype: 'dataview',
-                cls: 'sliding-menu',
+                ui: 'navmenu-flat navmenu-dark navmenu-large',
 
-                scrollable: 'y',
+                iconCls: mh.FontIconsDictionary.getIcon('navMenuApps'),
 
-                weight: 0,
-                flex: 1,
-
-                ui: 'navmenu-dark navmenu-large',
-                selectable: {
-                    deselectable: false
+                bind: {
+                    text: '{localization.appSwitcherBtn}'
                 },
-                itemTpl: [
-                    '<span class="icon {[mh.FontIconsDictionary.getIcon(values.iconCls)]}"></span>',
-                    '<span class="text">{text}</span>'
-                ],
+
+                textAlign: 'left',
+                weight: 1,
                 listeners: {
-                    childtap: 'onMenuChildTap',
-                    initialize: 'onMenuInitialize'
+                    tap: 'onAppSwitcherBtnTap'
                 }
             },
 
@@ -106,18 +100,42 @@
                 items: [
                     {
                         xtype: 'button',
-                        reference: 'navMenuExpander',
-                        handler: 'onNavMenuExpanderTap',
+                        reference: 'navMenuExpanderBtn',
+                        handler: 'onNavMenuExpanderBtnTap',
                         iconCls: mh.FontIconsDictionary.getIcon('navMenuExpand'),
                         cls: 'navmenu-expander'
                     }
                 ]
             },
 
+            navigator: {
+                xtype: 'dataview',
+                cls: 'sliding-menu',
+
+                scrollable: 'y',
+
+                weight: 2,
+                flex: 1,
+
+                ui: 'navmenu-flat navmenu-dark navmenu-large',
+                selectable: {
+                    deselectable: false
+                },
+                itemTpl: [
+                    '<span class="icon {[mh.FontIconsDictionary.getIcon(values.iconCls)]}"></span>',
+                    '<span class="text">{text}</span>'
+                ],
+                listeners: {
+                    childtap: 'onMenuItemTap',
+                    initialize: 'onMenuInitialize'
+                }
+            },
+
+
             //profile btn
             profile: {
                 xtype: 'button',
-                reference: 'profileButton',
+                reference: 'profileBtn',
                 ui: 'navmenu-flat navmenu-dark navmenu-picture',
 
                 iconCls: mh.FontIconsDictionary.getIcon('navMenuUser'),
@@ -125,14 +143,14 @@
                 textAlign: 'left',
                 weight: 10,
                 listeners: {
-                    tap: 'onProfileButtonTap'
+                    tap: 'onprofileBtnTap'
                 }
             },
 
             //log out btn
             logoff: {
                 xtype: 'button',
-                handler: 'onLogOffTap',
+                handler: 'onLogOffBtnTap',
                 reference: 'logOffBtn',
                 iconCls: mh.FontIconsDictionary.getIcon('navMenuLogOff'),
 
