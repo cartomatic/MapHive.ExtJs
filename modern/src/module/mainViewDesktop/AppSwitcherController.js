@@ -12,6 +12,7 @@
 
         requires:[
             'mh.module.mainViewDesktop.AppSwitcherIcons',
+            'mh.module.mainViewDesktop.AppSwitcherLocalization'
         ],
 
         mixins: [
@@ -66,8 +67,8 @@
                 this.appSwitcherBtn = Ext.create('Ext.Button', {
                     hidden: true,
                     bind: {
-                        text: this.getTranslation('apSwitcherBtn'),
-                        tooltip: this.getTranslation('apSwitcherBtn')
+                        text: this.getTranslation('appSwitcherBtn'),
+                        tooltip: this.getTranslation('appSwitcherBtn')
                     },
                     iconCls: mh.FontIconsDictionary.getIcon('appSwitcherApps'),
                     listeners: {
@@ -132,6 +133,25 @@
         onAppSwitcherBtnTap: function(btn){
             this.ensureAppsMenu();
             Ext.Viewport.toggleMenu('left');
+        },
+
+
+        onFilterChange: function(field, newV, oldV){
+            var store = this.getViewModel().get('apps');
+
+            store.clearFilter();
+            if(newV){
+                store.addFilter([
+                    {
+                        property: 'name',
+                        value: newV,
+                        operator: 'like',
+                        disableOnEmpty: true,
+                        anyMatch: true
+                    }
+                ]);
+            }
+
         },
 
         /**

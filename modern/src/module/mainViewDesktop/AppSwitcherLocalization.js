@@ -20,6 +20,10 @@
                 appSwitcherBtn: {
                     en: 'Applications',
                     pl: 'Aplikacje'
+                },
+                search: {
+                    en: 'Search',
+                    pl: 'Szukaj'
                 }
             }
         }
