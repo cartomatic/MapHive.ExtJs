@@ -119,7 +119,7 @@
                 reference: 'profileBtn',
                 ui: 'navmenu-flat navmenu-dark navmenu-picture',
 
-                iconCls: mh.FontIconsDictionary.getIcon('navMenuUser'),
+                iconCls: mh.FontIconsDictionary.getIcon('navMenuUserAnonymous'),
 
                 textAlign: 'left',
                 weight: 10,
