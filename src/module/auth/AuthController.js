@@ -585,14 +585,19 @@
 
             if(!currentApp || currentApp.get('requiresAuth')){
                 var me = this;
+
+                //TODO - differnt msg for modern / classic toolkits!
+
                 Ext.Msg.show({
                     animateTarget: btn,
                     title: this.getTranslation('cancelAuthWithReloadTitle'),
                     message: this.getTranslation('cancelAuthWithReloadMsg'),
                     width: 350,
-                    buttons: Ext.Msg.YESNO,
-                    icon: Ext.MessageBox.QUESTION,
-                    iconCls: 'x-i54c i54c-exit-2',
+                    buttons: Ext.MessageBox.YESNO,
+                    //icon: Ext.MessageBox.QUESTION,
+
+                    //iconCls: 'x-i54c i54c-exit-2',
+
                     fn: function(btn){
                         if(btn === 'yes'){
                             me.reset();
