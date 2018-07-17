@@ -141,6 +141,25 @@
                 (hash ? '#' + hash : '');
         },
 
+        /**
+         * params that get removed from url when normalizing it
+         */
+        appUrlParamsToClear: [
+            'lng=',
+            'cache=',
+            'testmode=',
+            'testsonside=',
+            'spec=',
+            'throwFailures=',
+            'catch=',
+            'debug=',
+            'platformTags='
+        ],
+
+        /**
+         * matcher regex
+         */
+        appUrlParamsMatcher: null,
 
         /**
          * gets a url that should uniquely identify an app - removes all the parts of the url that can be dynamically added during the standard maphive app (re)loading
@@ -171,11 +190,19 @@
             //take care of params if any
             if(baseParams.length > 1){
                 outParams = [];
+
+                if(!this.appUrlParamsMatcher){
+                    this.appUrlParamsMatcher = new RegExp(this.appUrlParamsMatcher.join('|'), "g");
+                }
+
                 Ext.Array.each(baseParams, function(param){
-                    if(param.indexOf('lng=') === -1){
+                    //if(param.indexOf('lng=') === -1){
+                    if(!param.match(this.appUrlParamsMatcher)){
                         outParams.push(param);
                     }
                 });
+
+                console.warn('ale co jest???',outParams);
 
                 if(outParams.length > 0){
                     outUrl += '?' + outParams.join('&');
