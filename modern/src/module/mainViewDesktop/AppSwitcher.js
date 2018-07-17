@@ -24,40 +24,68 @@
             title: '{localization.appSwitcherTitle}'
         },
 
-        width: 300,
+        width: 265,
 
         iconCls: mh.FontIconsDictionary.getIcon('appSwitcherApps'),
 
-        layout: 'fit',
+        layout: 'vbox',
+        
+        bodyPadding: 0,
 
-        items: [{
-            xtype: 'dataview',
-            inline: true,
-            cls: 'dataview-basic',
-            itemTpl: '<div class="img" style="background-image: url({photo});"></div>' +
-                    '<div class="content">' +
-                    '<div class="name">{name}</div>' +
-                    '<div class="description">{description}</div>' +
-                    '</div>',
-            bind: {
-                store: '{apps}'
+        items: [
+            {
+                xtype: 'toolbar',
+                docked: 'top',
+                items: [
+                    {
+                        xtype: 'searchfield',
+                        cleareable: true,
+
+                        bind: {
+                            placeholder: '{localization.search}'
+                        },
+                        flex: 1,
+                        listeners: {
+                            change: 'onFilterChange'
+                        }
+                    }
+                ]
             },
-            plugins: {
-                dataviewtip: {
-                    align: 'tl-bl',
-                    maxHeight: 200,
-                    width: 300,
-                    scrollable: 'y',
-                    delegate: '.img',
-                    allowOver: true,
-                    anchor: true,
-                    bind: '{record}',
-                    cls: 'dataview-basic',
-                    tpl: '<strong>Name</strong><div class="info">{name}</div>' +
-                    '<strong>Description</strong><div class="info">{description}</div>'
-                }
+            {
+                xtype: 'container',
+                layout: 'fit',
+                padding: 8,
+                items: [
+                    {
+                        xtype: 'dataview',
+                        flex: 1,
+                        inline: true,
+                        cls: 'dataview-basic',
+                        itemTpl: '<div class="dataview-inline box">' +
+                        '<div class="name"><strong>{name}</strong></div>' +
+                        '</div>',
+                        bind: {
+                            store: '{apps}'
+                        },
+                        plugins: {
+                            dataviewtip: {
+                                align: 'tl-bl',
+                                maxHeight: 100,
+                                width: 150,
+                                scrollable: 'y',
+                                delegate: '.box',
+                                allowOver: true,
+                                anchor: true,
+                                bind: '{record}',
+                                cls: 'dataview-basic',
+                                tpl: '<div class="info"><strong>{name}</strong></div>' +
+                                '<div class="info">{description}</div>'
+                            }
+                        }
+                    }
+                ]
             }
-        }],
+        ],
 
         config: {
 
