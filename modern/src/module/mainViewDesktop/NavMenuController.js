@@ -43,9 +43,12 @@
                 this.lookupReference('profileBtn').hide();
             }
 
-            this.setUserIconAndEmail();
+            this.updateUserInfo();
 
-            this.watchGlobal('user::profilepicturechanged', this.setUserIconAndEmail, this);
+            this.watchGlobal('user::profilepicturechanged', this.updateUserInfo, this);
+
+            this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
+            this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
         },
 
         /**
@@ -63,6 +66,43 @@
                 tap: 'onMaskTap',
                 scope: this
             });
+        },
+
+        /**
+         * user authenticated callback
+         */
+        onUserAuthenticated: function(){
+            //obtain user info!
+            this.userProfile = null;
+            this.getUserProfile();
+        },
+
+        /**
+         * user logged off callback
+         */
+        onUserLoggedOff: function(){
+            this.userProfile = null;
+            this.updateUserInfo();
+        },
+
+        /**
+         * currently bound user profile
+         */
+        userProfile: null,
+
+        getUserProfile: function(){
+            var tunnel = this.getTunnelId();
+            this.watchGlobal('auth::userprofileretrieved', this.onUserProfileRetrieved, this, {single: true, tunnel: tunnel});
+            this.fireGlobal('auth::getuserprofile', null, {tunnel: tunnel});
+        },
+
+        /**
+         * user profile retrieved callback
+         * @param userProfile
+         */
+        onUserProfileRetrieved: function(userProfile){
+            this.userProfile = userProfile;
+            this.updateUserInfo();
         },
 
         /**
@@ -101,23 +141,28 @@
         /**
          * sets user img in the profile btn
          */
-        setUserIconAndEmail: function() {
-            var user = Ext.create('mh.data.model.User', this.getCurrentUser());
+        updateUserInfo: function() {
 
             var profileBtn = this.lookup('profileBtn');
 
-            if(user.get('profilePicture')) {
-                profileBtn.setIcon(user.get('profilePicture'));
-                profileBtn.setIconCls('roundImage');
+            if(this.userProfile){
+                if(this.userProfile.get('profilePicture')) {
+                    //TODO
+                    profileBtn.setIcon(user.get('profilePicture'));
+                    profileBtn.setIconCls('roundImage');
+                }
+                else {
+                    profileBtn.setIcon(null);
+                    profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('navMenuUser'));
+                }
             }
             else {
-                profileBtn.setIcon(null);
-                profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('navMenuUser'));
+                profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('navMenuUserAnonymous'));
             }
 
             profileBtn.setText(
-                user.get('uuid')
-                    ? user.get('email')
+                this.userProfile && this.userProfile.get('uuid')
+                    ? this.userProfile.get('email')
                     : this.getTranslation('anonymous')
             );
 
@@ -154,7 +199,8 @@
          * profile btn tap handler
          */
         onprofileBtnTap: function() {
-            if(this.getCurrentUser().uuid){
+
+            if(this.userProfile){
                 this.redirectTo(this.getView().getUserProfileRoute() || 'unknown');
                 this.collapse();
             }

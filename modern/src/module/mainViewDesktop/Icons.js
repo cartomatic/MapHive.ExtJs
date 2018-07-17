@@ -12,7 +12,8 @@
         ],
         constructor: function() {
             mh.FontIconsDictionary.addIcons({
-                navMenuUser: 'x-li li-user',
+                navMenuUserAnonymous: 'x-i54c i54c-anonymous-2',
+                navMenuUser: 'x-i54c i54c-bald-male',
                 navMenuLogOff: 'x-li li-power-switch',
                 navMenuExpand: 'x-i54c i54c-right-2',
                 navMenuCollapse: 'x-i54c i54c-left-2'
