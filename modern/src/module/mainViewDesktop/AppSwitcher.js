@@ -81,6 +81,9 @@
                                 tpl: '<div class="info"><strong>{name}</strong></div>' +
                                 '<div class="info">{description}</div>'
                             }
+                        },
+                        listeners: {
+                            childsingletap: 'onAppPicked'
                         }
                     }
                 ]

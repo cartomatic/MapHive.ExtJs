@@ -110,19 +110,18 @@
             //success, so this should be an array of appDTO objects
             this.appSwitcherBtn.setVisibility((apps && apps.length > 0));
 
-            this.reloadApps(apps);
-        },
-
-        reloadApps: function(apps){
+            //load apps to the store
             this.getViewModel().get('apps').loadRecords(apps);
         },
+
+        menuSide: 'left',
 
         /**
          * makes sure app switcher menu is present
          */
         ensureAppsMenu: function(){
             Ext.Viewport.setMenu(this.getView(), {
-                side: 'left'
+                side: this.menuSide
             });
         },
 
@@ -132,10 +131,16 @@
          */
         onAppSwitcherBtnTap: function(btn){
             this.ensureAppsMenu();
-            Ext.Viewport.toggleMenu('left');
+            Ext.Viewport.toggleMenu(this.menuSide);
         },
 
 
+        /**
+         * filter change callback
+         * @param field
+         * @param newV
+         * @param oldV
+         */
         onFilterChange: function(field, newV, oldV){
             var store = this.getViewModel().get('apps');
 
@@ -151,7 +156,6 @@
                     }
                 ]);
             }
-
         },
 
         /**
@@ -162,36 +166,36 @@
 
 
         /**
-         * App btn click callback - initiates app change procedure by firing the root::reloadapp that should be handled by mh.controller.AppLoader
-         * @param btn
-         * @param e
+         * app picked -  initiates app change procedure by firing the root::reloadapp that should be handled by mh.controller.AppLoader
+         * @param dataview
+         * @param location
          * @param eOpts
          */
-        onAppBtnClick: function(btn, e, eOpts){
-            this.hideAppsPanel();
+        onAppPicked: function(dataview, location, eOpts){
 
-            //FIXME - no btn!
+            Ext.Viewport.hideMenu(this.menuSide);
 
-            var currentApp = this.getCurrentApp();
+            var newApp = location.record,
+                currentApp = this.getCurrentApp();
 
-            if(!currentApp || btn.app.get('uuid') !== currentApp.get('uuid')){
+            if(!currentApp || newApp.get('uuid') !== currentApp.get('uuid')){
 
-                if(btn.app.get('requiresAuth') && !userAuthenticated){
+                if(newApp.get('requiresAuth') && !userAuthenticated){
 
                     this.watchGlobal('auth::userauthenticated', this.onContinueAppSwitchAfterLogonCompleted, this);
                     this.watchGlobal('auth::userauthcancel', this.onCancelAppSwitchAfterLogonCancelation, this);
 
-                    //FIXME
-                    this.appToBeSwitchedTo = btn.app;
+                    this.appToBeSwitchedTo = newApp;
 
                     this.fireGlobal('auth::requestuserauth');
                 }
                 else {
                     //load the new url
-                    this.fireGlobal('root::reloadapp', btn.app);
+                    this.fireGlobal('root::reloadapp', newApp);
                 }
             }
         },
+
 
         /**
          * continues app switch after user logon
