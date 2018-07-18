@@ -30,7 +30,7 @@
         init: function() {
             this.injectLocalizationToViewModel();
 
-            this.publishApi('addAppSwitcherBtn', 'addOrgContextSwitcherBtn');
+            this.publishApi('addAppSwitcherBtn', 'addOrgContextSwitcherBtn', 'getExpanded');
 
             var vw = this.getView();
 
@@ -313,7 +313,7 @@
             //nav bar specific styling
             appSwitcherBtn.setUi('navmenu-flat navmenu-dark navmenu-large');
             appSwitcherBtn.setTextAlign('left');
-            appSwitcherBtn.setWeight(1);
+            //appSwitcherBtn.setWeight(1);
 
             this.getView().insert(0, appSwitcherBtn);
         },
@@ -323,9 +323,23 @@
          * @param orgContextSwitcherBtn
          */
         addOrgContextSwitcherBtn: function(orgContextSwitcherBtn){
-            //TODO
-        }
+            //nav bar specific styling
+            orgContextSwitcherBtn.setUi('navmenu-flat navmenu-dark navmenu-large');
+            orgContextSwitcherBtn.setTextAlign('left');
+            //orgContextSwitcherBtn.setWeight(10);
 
+            var totalBtnCount = this.getView().items.items.length - 1; //-1 for the expander
+
+            this.getView().insert(totalBtnCount - 1, orgContextSwitcherBtn); //-1 so above log off && user btns - 0 based index!
+        },
+
+        /**
+         * whether or not slider is expanded
+         * @returns {boolean}
+         */
+        getExpanded: function(){
+            return this.sliderExpanded;
+        }
 
     });
     

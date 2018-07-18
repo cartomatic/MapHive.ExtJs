@@ -16,7 +16,11 @@
                 navMenuUser: 'x-i54c i54c-bald-male',
                 navMenuLogOff: 'x-li li-power-switch',
                 navMenuExpand: 'x-i54c i54c-right-2',
-                navMenuCollapse: 'x-i54c i54c-left-2'
+                navMenuCollapse: 'x-i54c i54c-left-2',
+
+                appSwitcherApps: 'x-i54 i54-multy-task-2',
+
+                orgSwitcherOrganization: 'x-i54c i54c-globe-2'
             });
         }
     });

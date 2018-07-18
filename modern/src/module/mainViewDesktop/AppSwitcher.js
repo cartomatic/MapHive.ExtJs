@@ -8,7 +8,7 @@
         extend: 'Ext.ActionSheet',
 
         requires: [
-            'mh.module.mainViewDesktop.AppSwitcherIcons',
+            'mh.module.mainViewDesktop.Icons',
             'mh.FontIconsDictionary',
             'Ext.dataview.plugin.ItemTip',
             'mh.module.mainViewDesktop.AppSwitcherController',

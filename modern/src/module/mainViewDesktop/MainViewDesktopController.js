@@ -31,7 +31,8 @@
 
             var vw = this.getView(),
                 navMenu = vw.getNavMenu(),
-                appSwitcher = vw.getAppSwitcher();
+                appSwitcher = vw.getAppSwitcher(),
+                orgSwitcher = vw.getOrgContextSwitcher();
 
             if(navMenu){
                 navMenu.zIndex = 4;
@@ -43,6 +44,13 @@
             //create app switcher if provided
             if(appSwitcher){
                 Ext.create(appSwitcher, {
+                    navModule: vw.getLbar()
+                });
+            }
+
+            //create org ctx switcher if provided
+            if(orgSwitcher){
+                Ext.create(orgSwitcher, {
                     navModule: vw.getLbar()
                 });
             }

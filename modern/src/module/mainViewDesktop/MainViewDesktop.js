@@ -16,7 +16,8 @@
             'Ext.layout.Card',
             'mh.module.mainViewDesktop.MainViewDesktopController',
             'mh.module.mainViewDesktop.MainViewDesktopModel',
-            'mh.module.mainViewDesktop.AppSwitcher'
+            'mh.module.mainViewDesktop.AppSwitcher',
+            'mh.module.mainViewDesktop.OrgContextSwitcher'
         ],
 
         xtype: 'mh-main-view',

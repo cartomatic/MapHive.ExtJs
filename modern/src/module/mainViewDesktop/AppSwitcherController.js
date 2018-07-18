@@ -11,7 +11,7 @@
         alias: 'controller.mh-app-switcher',
 
         requires:[
-            'mh.module.mainViewDesktop.AppSwitcherIcons',
+            'mh.module.mainViewDesktop.Icons',
             'mh.module.mainViewDesktop.AppSwitcherLocalization'
         ],
 
