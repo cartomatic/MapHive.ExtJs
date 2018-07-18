@@ -10,7 +10,9 @@
         requires: [
             'mh.module.mainViewDesktop.AppSwitcherIcons',
             'mh.FontIconsDictionary',
-            'Ext.dataview.plugin.ItemTip'
+            'Ext.dataview.plugin.ItemTip',
+            'mh.module.mainViewDesktop.AppSwitcherController',
+            'mh.module.mainViewDesktop.AppSwitcherModel'
         ],
 
         xtype: 'mh-app-switcher',

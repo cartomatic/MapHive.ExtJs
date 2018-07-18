@@ -49,7 +49,7 @@
             {
                 xtype: 'passwordfield',
                 reference: 'txtOldPass',
-                clearIcon: true,
+                clearable: true,
                 bind: {
                     placeholder: '{localization.oldPass}'
                 },
@@ -59,7 +59,7 @@
             {
                 xtype: 'passwordfield',
                 reference: 'txtNewPass',
-                clearIcon: true,
+                clearable: true,
                 bind: {
                     placeholder: '{localization.newPass}'
                 },
@@ -69,7 +69,7 @@
             {
                 xtype: 'passwordfield',
                 reference: 'txtRepeatPass',
-                clearIcon: true,
+                clearable: true,
                 bind: {
                     placeholder: '{localization.repeatPass}'
                 },

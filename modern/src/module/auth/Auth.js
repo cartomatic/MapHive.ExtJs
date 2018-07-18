@@ -66,7 +66,7 @@
                             {
                                 xtype: 'emailfield',
                                 reference: 'txtEmail',
-                                clearIcon: true,
+                                clearable: true,
                                 bind: {
                                     placeholder: '{localization.emailEmptyText}'
                                 },
@@ -76,7 +76,7 @@
                             {
                                 xtype: 'passwordfield',
                                 reference: 'txtPass',
-                                clearIcon: true,
+                                clearable: true,
                                 bind: {
                                     placeholder: '{localization.passEmptyText}'
                                 },
@@ -183,7 +183,7 @@
                             {
                                 xtype: 'emailfield',
                                 reference: 'txtForgotPassEmail',
-                                clearIcon: true,
+                                clearable: true,
                                 bind: {
                                     placeHolder: '{localization.emailEmptyText}'
                                 },
@@ -248,7 +248,7 @@
                             {
                                 xtype: 'passwordfield',
                                 reference: 'txtPassReset',
-                                clearIcon: true,
+                                clearable: true,
                                 bind: {
                                     placeholder: '{localization.passNewEmptyText}'
                                 },
@@ -258,7 +258,7 @@
                             {
                                 xtype: 'passwordfield',
                                 reference: 'txtPassResetRepeat',
-                                clearIcon: true,
+                                clearable: true,
                                 bind: {
                                     placeholder: '{localization.passRepeatEmptyText}'
                                 },
@@ -296,7 +296,7 @@
                             {
                                 xtype: 'textfield',
                                 reference: 'txtVerificationKey',
-                                clearIcon: true,
+                                clearable: true,
                                 bind: {
                                     placeholder: '{localization.verificationKeyEmptyText}'
                                 },
@@ -306,7 +306,7 @@
                             {
                                 xtype: 'textfield',
                                 reference: 'txtInitialPassword',
-                                clearIcon: true,
+                                clearable: true,
                                 bind: {
                                     placeholder: '{localization.passEmptyText}'
                                 },
