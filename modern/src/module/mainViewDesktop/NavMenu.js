@@ -22,10 +22,6 @@
         ],
 
         config: {
-            /**
-             * whether or not the view is expanded
-             */
-            expanded: false,
 
             /**
              * currently selected item
@@ -95,7 +91,7 @@
 
                 scrollable: 'y',
 
-                weight: 2,
+                //weight: 2,
                 flex: 1,
 
                 ui: 'navmenu-flat navmenu-dark navmenu-large',
@@ -122,7 +118,7 @@
                 iconCls: mh.FontIconsDictionary.getIcon('navMenuUserAnonymous'),
 
                 textAlign: 'left',
-                weight: 10,
+                //weight: 20,
                 listeners: {
                     tap: 'onprofileBtnTap'
                 }
@@ -141,7 +137,7 @@
 
                 textAlign: 'left',
                 ui: 'navmenu-large navmenu-flat navmenu-dark',
-                weight: 20
+               // weight: 30
             }
         },
 
