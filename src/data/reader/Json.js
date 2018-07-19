@@ -35,7 +35,12 @@
                 //after all it would be possible to override a total property on an object if present.
                 //debugging such shit would be fun, huh...
                 var data = {};
-                data[this.getRootProperty()] = Ext.decode(response.responseText);
+                if (response.responseJson) {
+                    data[this.getRootProperty()] = response.responseJson;
+                }
+                else {
+                    data[this.getRootProperty()] = Ext.decode(response.responseText);
+                }
 
                 //grab the response header and set a total property based on it;
                 //this sets a property on the actual output object though!
