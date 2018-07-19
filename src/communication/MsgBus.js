@@ -28,9 +28,9 @@
          * @param {Bool} [eOpts.suppressLocal]
          */
         fireGlobal: function(evtName, evtData, eOpts){
-            //check if the communication should be channelled or not. basically if there are registered channells, a component stops firing global events.
-            //at least at this stage
-            var channels = Ext.Object.getKeys(this.registeredChannels || {}),
+            //check if the communication should be channelled or not.
+            //use provided channels (this is used when one wants to enforce specific channels to fire via) or the channels registered in this component
+            var channels = (Ext.Object.getKeys(eOpts || {}).channels || this.registeredChannels || {}),
                 me = this;
             if(channels.length > 0){
                 //looks like some channels were registered for this module
@@ -63,10 +63,7 @@
                 //pretend the 'async' behavior. delaying the evt will result in it being queued before firing
                 setTimeout(
                     function(){
-                        Ext.GlobalEvents.fireEvent(evtName, evtData, eOpts.tunnel);
-                        //Note: tunnel is passed to an evt listener, so some listeners can act in 'tunneled' mode.
-                        //Since listeners implement custom logic, there is no need to pass an extra eOpts object, as all the customising params
-                        //may be passed in the evtData object
+                        Ext.GlobalEvents.fireEvent(evtName, evtData, eOpts);
                     },
                     1
                 );
