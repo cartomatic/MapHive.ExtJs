@@ -30,8 +30,9 @@
         fireGlobal: function(evtName, evtData, eOpts){
             //check if the communication should be channelled or not.
             //use provided channels (this is used when one wants to enforce specific channels to fire via) or the channels registered in this component
-            var channels = (Ext.Object.getKeys(eOpts || {}).channels || this.registeredChannels || {}),
+            var channels = (eOpts || {}).channels || Ext.Object.getKeys(this.registeredChannels || {}),
                 me = this;
+
             if(channels.length > 0){
                 //looks like some channels were registered for this module
                 Ext.Array.each(channels, function(channel){

@@ -581,21 +581,22 @@
         /**
          * auth::getuserprofile callback
          * @param e
-         * @param tunnel
+         * @param eOpts
+         * @param eOpts.tunnel
          *
          * initiates a procedure of user profile retrieval; replies with auth::userprofileretrieved when ready
          */
-        onGetUserProfile: function(e, tunnel){
+        onGetUserProfile: function(e, eOpts){
 
             //profile known OR user is anonymous
             if(this.currentUser || !(authTokens && authTokens.accessToken)){
-                this.fireGlobal(this.getTunneledEvtName('auth::userprofileretrieved', tunnel), this.currentUser || null);
+                this.fireGlobal(this.getTunneledEvtName('auth::userprofileretrieved', eOpts.tunnel), this.currentUser || null);
                 return;
             }
 
             //expect many potential subsequent requests
             //IMPORTANT - cache the event by the OUTPUT event name!!!!
-            this.bufferCurrentTunnel('auth::userprofileretrieved', tunnel);
+            this.bufferCurrentTunnel('auth::userprofileretrieved', eOpts.tunnel);
 
             if(this.duringUserProfileRetrieval){
                 return;

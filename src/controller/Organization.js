@@ -137,12 +137,14 @@
         /**
          * gets the current org context
          */
-        getOrgContext: function(e, tunnel){
+        getOrgContext: function(e, eOpts){
 
             //now, this is a bit tricky, because the auth could have been done locally and also xwindow.
             //since auth usually triggers obtaining user orgs, need to do it the very same way - either locally or xwindow, so can both spare multiple backend calls
             //but also, and that is more important, work out the org scope only once - user could have provided and address with an org he has no access to, so if a host
             //decides to reset the org to the user's org, so should the child app.
+
+            var tunnel = (eOpts || {}).tunnel;
 
             //if ctx is known OR user is anonymous, return straight away
             if(this.userOrgs || !this.userAuthenticated){
