@@ -52,13 +52,16 @@
                 gridCfg = vw.getGridCfg(),
                 store = this.getViewModel().getStore('gridstore');
 
-            //add some handy btns to grid
+                        //add some handy btns to grid
             this.addGridBtns(gridCfg);
 
+            console.warn('gridCfg', gridCfg);
 
-            this.grid = view.add(gridCfg);
+            this.grid = Ext.create(gridCfg);
             this.grid.setStore(store);
+            this.grid.setViewModel(this.getViewModel()); //so localization and such is propagated down the stack
 
+            vw.add(this.grid);
 
             this.setUpAutoFilter();
 
@@ -121,7 +124,7 @@
                                 xtype: 'button',
                                 ui: 'base', //TODO - change
                                 tooltip: this.getTranslation('btnEdit'),
-                                iconCls: wg.FontIconsDict.getIcon('mhDataViewBtnEdit'),
+                                iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnEdit'),
                                 handler: function(btn){
                                     var rec = btn.ownerCmp.ownerCmp.getRecord();
                                     if(rec) {
@@ -218,9 +221,9 @@
             if(success){
 
                 //on success focus first row, so grid scrolls to top
-                var firstRow = grid.getViewItems()[0];
+                var firstRow = this.grid.getViewItems()[0];
                 if(firstRow){
-                    grid.getScrollable().ensureVisible(firstRow.el);
+                    this.grid.getScrollable().ensureVisible(firstRow.el);
                 }
                 //Note: this does not change the selection if present; just scrolls to top
             }
@@ -494,7 +497,7 @@
                         xtype: 'searchfield',
                         reference: 'searchInput',
                         placeholder: this.getTranslation('filterBlankText'),
-                        bind: '{filters.search}',
+                        //bind: '{filters.search}',
                         enableKeyEvents: true,
                         listeners: {
                             //in order to make the component movable elsewhere, bind event explicitly

@@ -13,8 +13,8 @@
         ],
 
         mixins: [
-            'wg.mixin.ApiMap',
-            'wg.mixin.Localization'
+            'mh.mixin.ApiMap',
+            'mh.mixin.Localization'
         ],
 
         data: {
