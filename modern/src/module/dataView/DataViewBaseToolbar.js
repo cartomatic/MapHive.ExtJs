@@ -53,7 +53,7 @@
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDestroy'),
                 handler: 'onBtnDestroyTap',
                 bind: {
-                    text: '{localization.btnDelete}',
+                    text: '{localization.btnDestroy}',
                     disabled: '{!deletable}'
                 }
             }

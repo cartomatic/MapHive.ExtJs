@@ -6,7 +6,7 @@
     
     Ext.define('mh.module.dataView.DataViewBaseLocalization', {
         requires: [
-            'wg.localization.Localization'
+            'mh.localization.Localization'
         ],
         statics: {
             localization: {
@@ -136,7 +136,7 @@
             }
         }
     }, function(){
-        wg.localization.Localization.registerTranslations(this);
+        mh.localization.Localization.registerTranslations(this);
     });
 
 }());

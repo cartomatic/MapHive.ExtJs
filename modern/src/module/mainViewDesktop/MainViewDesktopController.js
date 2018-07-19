@@ -203,19 +203,20 @@
                 item = container.child('component[xtype=' + config.xtype + ']') || container.child('component[viewId=' + id + ']');
 
             if (!item) {
-                try {
+                // try {
+
                     item = container.add(Ext.apply({viewId: id}, config));
 
                     this.fireGlobal('mainview::itemcreated', {
                         viewId: id,
                         item: item
                     });
-                }
-                catch(e){
-                    //<debug>
-                    console.error(e.message, e);
-                    //</debug>
-                }
+                // }
+                // catch(e){
+                //     //<debug>
+                //     console.error(e.message, e);
+                //     //</debug>
+                // }
             }
 
             if (Ext.isDefined(item.config.route)) {

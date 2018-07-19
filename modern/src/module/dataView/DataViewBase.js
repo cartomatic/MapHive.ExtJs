@@ -67,7 +67,7 @@
             /**
              * whether or not delete btn should be visible
              */
-            getPreventDestroy: false,
+            preventDestroy: false,
 
             /**
              * whether or not dbl taps on grid should be handled or not; default behavior is to open up a record in 'view' mode

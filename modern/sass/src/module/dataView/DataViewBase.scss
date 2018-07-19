@@ -1,0 +1,24 @@
+.data-view-img {
+  display: inline-block;
+  height: 45px;
+  span{
+    height: 45px;
+    vertical-align: middle;
+    display: inline-block;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 45px 45px;
+    width: 45px;
+    border-radius: 40px;
+    margin-right: 5px;
+  }
+}
+
+.data-view-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: $base-light-color;
+  &:hover {
+    text-decoration: underline;
+  }
+}
