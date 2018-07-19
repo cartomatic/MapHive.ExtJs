@@ -500,10 +500,11 @@
         /**
          * root::getcustomhashparam callback; responds with root::customhashparam_param-name
          * @param pName - name of a custom param
+         * @param eOpts
          * @param tunnel - this event handler supports evt tunneling
          */
-        onGetCustomHashParam: function(pName, tunnel){
-            this.fireGlobal(this.getTunneledEvtName('root::customhashparam', tunnel), this.getCustomHashParam(pName));
+        onGetCustomHashParam: function(pName, eOpts){
+            this.fireGlobal(this.getTunneledEvtName('root::customhashparam', eOpts.tunnel), this.getCustomHashParam(pName));
         },
 
         /**
@@ -942,19 +943,20 @@
         /**
          * root::getapps callback;
          * @param e
+         * @param eOpts
          * @param tunnel
          * triggers the procedure of apps retrieval. whenever procedure is finished, the resultset distributed through a root::appsretrieved event
          */
-        onGetApps: function(e, tunnel){
+        onGetApps: function(e, eOpts){
 
             if(this.apps){
-                this.fireGlobal(this.getTunneledEvtName('root::appsretrieved', tunnel), this.apps);
+                this.fireGlobal(this.getTunneledEvtName('root::appsretrieved', eOpts.tunnel), this.apps);
                 return;
             }
 
             //expect many potential subsequent requests
             //IMPORTANT - cache the event by the output event name!!!!
-            this.bufferCurrentTunnel('root::appsretrieved', tunnel);
+            this.bufferCurrentTunnel('root::appsretrieved', eOpts.tunnel);
 
             if(this.duringAppsRetrieval){
                 return;
