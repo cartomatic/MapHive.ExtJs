@@ -7,12 +7,12 @@
     Ext.define('mh.data.model.Base', {
         extend: 'Ext.data.Model',
 
-    requires: [
-        'mh.data.identifier.Null',
-        'mh.data.field.UtcDateTime'
-    ],
+        requires: [
+            'mh.data.identifier.Null',
+            'mh.data.field.UtcDateTime'
+        ],
 
-    idProperty : 'uuid',
+        idProperty : 'uuid',
         identifier: 'mhnull', //this will enforce a default null value for the idProperty for newly created models inheriting from base
         fields: [
 
@@ -47,17 +47,19 @@
             { name: 'linkData', type: 'auto', useNull: true}
         ],
 
+        getEntityName: function(){
+            //assume the last part of the namespace is the model's default url part,
+            //so basically an entity name
+            var entityNsParts = this.entityName.split('.');
+            return entityNsParts[entityNsParts.length - 1].toLowerCase();
+        },
+
         /**
-         * gets a view url
+         * gets a view url for a record
          * @returns {String}
          */
         getViewUrl: function() {
-
-            //assume the last part of the namespace is the model's url part,
-            //so basically an entity name
-            var entityNsParts = this.entityName.split('.'),
-                entityName = entityNsParts[entityNsParts.length - 1].toLowerCase();
-            return Ext.String.format('{0}/{1}', entityName, this.get('uuid'));
+            return Ext.String.format('{0}/{1}', this.getEntityName(), this.get('uuid'));
         },
 
         /**
@@ -65,7 +67,7 @@
          * @returns {string}
          */
         getEditUrl: function() {
-            return this.toUrl() + '/edit';
+            return this.getViewUrl() + '/edit';
         },
 
         /**
@@ -73,10 +75,7 @@
          * @returns {String}
          */
         getCreateUrl: function() {
-            var entityNsParts = this.entityName.split('.'),
-                entityName = entityNsParts[entityNsParts.length - 1].toLowerCase();
-
-            return Ext.String.format('{0}/{1}', entityName, 'create');
+            return Ext.String.format('{0}/{1}', this.getEntityName(), 'create');
         }
     });
 

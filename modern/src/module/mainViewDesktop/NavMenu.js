@@ -29,7 +29,7 @@
             selection: null,
 
             /**
-             * @cfg should contain mh.data.model.NavRoute models
+             * @cfg should contain mh.data.model.Route models
              * @required
              */
             menuStore: null,

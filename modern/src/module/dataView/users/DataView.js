@@ -6,7 +6,10 @@
 
     Ext.define('mh.module.dataView.users.DataView', {
         extend: 'mh.module.dataView.DataViewBase',
-        xtype: 'users-dataview',
+        xtype: [
+            'mh-users-data-view',
+            'users'
+        ],
 
         requires: [
             'mh.module.dataView.users.Icons',
@@ -17,10 +20,10 @@
             'mh.FontIconsDictionary'
         ],
 
-        controller: 'mh-users-dataview',
+        controller: 'mh-users-data-view',
 
         viewModel: {
-            type: 'mh-users-dataview'
+            type: 'mh-users-data-view'
         },
 
         iconCls: mh.FontIconsDictionary.getIcon('mhUsersViewHeader'),

@@ -39,7 +39,7 @@
             navMenu: null,
 
             /**
-             * store with non main nav menu routes to be registered; should contain mh.data.model.NavRoute models
+             * store with non main nav menu routes to be registered; should contain mh.data.model.Route models
              */
             nonMenuRoutesStore: null,
 

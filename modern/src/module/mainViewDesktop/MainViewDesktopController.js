@@ -116,12 +116,12 @@
                 nonMenuStore = Ext.getStore(this.getView().getNonMenuRoutesStore()),
 
                 //first check if this is a menu route
-                entry = menuStore.getById(type),
+                entry = menuStore.getAt(menuStore.find('navigationRoute', type)) || menuStore.getById(type),
                 xtype = type;
 
             //not menu but maybe non-menu?
             if(!entry && nonMenuStore){
-                entry = nonMenuStore.getById(type);
+                entry =  nonMenuStore.getAt(nonMenuStore.find('navigationRoute', type)) || nonMenuStore.getById(type);
             }
 
             //if not a left menu entry, see if can find a component
@@ -130,14 +130,20 @@
                 //check in class manager if xtype exists - both with and without dataview suffix
                 var inst = Ext.ClassManager.getByAlias('widget.' + xtype);
                 if(!inst){
-                    xtype = xtype + '-dataview';
+                    xtype = xtype + '-data-view';
                     inst = Ext.ClassManager.getByAlias('widget.' + xtype);
                 }
 
-                entry = Ext.create('Ext.data.Model',{
-                    xtype: xtype,
-                    id: type
-                });
+                try{
+                    entry = Ext.create('Ext.data.Model',{
+                        xtype: xtype,
+                        id: type
+                    });
+                }
+                catch (e) {
+                    this.logErr(e, 'Invalid route: no view for xtype: ' + xtype);
+                }
+
             }
 
             //mark main menu if it contains an entry for the current path
@@ -199,11 +205,11 @@
         ensureView: function(id, config, route) {
 
             var container = this.getView(),
-                //search by xtype or id; when found by xtype, item will be reused
+                //search items by xtype or id; when found, item will be reused as it has already been instantiated
                 item = container.child('component[xtype=' + config.xtype + ']') || container.child('component[viewId=' + id + ']');
 
             if (!item) {
-                // try {
+                try {
 
                     item = container.add(Ext.apply({viewId: id}, config));
 
@@ -211,19 +217,28 @@
                         viewId: id,
                         item: item
                     });
-                // }
-                // catch(e){
-                //     //<debug>
-                //     console.error(e.message, e);
-                //     //</debug>
-                // }
+
+                    if (Ext.isDefined(item.config.route)) {
+                        item.setRoute(item.config.route);
+                    }
+                }
+                catch(e){
+                    this.logErr(e, 'Could not ensure view for xtype: ' + config.xtype);
+                }
             }
 
-            if (Ext.isDefined(item.config.route)) {
-                item.setRoute(item.config.route);
-            }
+            return item || container.add(Ext.create('Ext.Panel', {
+                html: '<h1 style="color:red;">Uuuuuups, no view for xtype: ' + config.xtype + ' could be found!</h1>'
+            }));
+        },
 
-            return item;
+        logErr: function(e, msg){
+            //<debug>
+            console.log('-----------------------------------------------------------------------------');
+            Ext.log.error(msg);
+            console.error(e.message, e);
+            console.log('-----------------------------------------------------------------------------');
+            //</debug>
         },
 
         /**
@@ -245,29 +260,29 @@
             if (id === 'create') {
                 action = 'create';
                 id = null;
-            } else if (args[0] === 'edit') {
+            }
+            else if (args[0] === 'edit') {
                 action = 'edit';
                 args.shift();
-            } else {
-                action = 'show';
             }
-            xtype = type + action;
-
-            // leave a developer message in case of new types addition
-            if (!Ext.ClassManager.getNameByAlias('widget.' + xtype)) {
-                Ext.log.error('Invalid route: no view for xtype: ' + xtype);
-            }
-            view = me.ensureView(xtype, { xtype: xtype });
-            if(!view.getController().isViewAvailable()){
-                window.history.back();
-                return false;
+            else {
+                action = 'record-view';
             }
 
-            me.activate(view);
+            xtype = type + '-' + action;
 
-            //wtf this does not kick in???
-            //view.loadRecord(id);
-            view.getController().loadRecord(id);
+            try{
+                view = me.ensureView(xtype, { xtype: xtype });
+
+                me.activate(view);
+
+                //wtf this does not kick in even though it is exposed ???
+                //view.loadRecord(id);
+                view.getController().loadRecord(id);
+            }
+            catch (e) {
+                this.logErr(e, 'Invalid route: no view for xtype: ' + xtype);
+            }
         }
 
     });

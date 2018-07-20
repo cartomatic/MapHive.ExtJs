@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.users.DataViewController', {
         extend: 'mh.module.dataView.DataViewBaseController',
-        alias: 'controller.mh-users-dataview',
+        alias: 'controller.mh-users-data-view',
 
         requires: [
             'mh.module.dataView.users.DataViewLocalization'
