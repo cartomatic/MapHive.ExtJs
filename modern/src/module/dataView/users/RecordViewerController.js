@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.orgUsers.DataViewController', {
-        extend: 'mh.module.dataView.users.DataViewController',
-        alias: 'controller.mh-org-users-dataview',
+    Ext.define('mh.module.dataView.users.RecordViewerController', {
+        extend: 'mh.module.dataView.RecordViewerController',
+        alias: 'controller.mh-users-record-viewer',
 
         requires: [
-            'mh.module.dataView.orgUsers.DataViewLocalization'
+            'mh.module.dataView.users.RecordViewerLocalization'
         ],
 
         mixins: [
@@ -20,5 +20,4 @@
             this.callMeParent('init', arguments);
         }
     });
-
 }());
