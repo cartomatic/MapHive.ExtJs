@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.users.RecordViewModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-users-record-viewer',
+        alias: 'viewmodel.mh-users-record-view',
         stores: {
         }
     });

@@ -11,11 +11,13 @@
         extend: 'mh.data.model.Base',
 
         requires: [
-        'mh.data.proxy.Rest',
-        'mh.mixin.ApiMap'
-    ],
+            'mh.data.proxy.Rest',
+            'mh.mixin.ApiMap'
+        ],
 
-    fields: [
+        customEntityNavigationUrl: 'users',
+
+        fields: [
             { name: 'email', type: 'string', useNull: true },
 
             { name: 'isAccountClosed', type: 'boolean', useNull: true },

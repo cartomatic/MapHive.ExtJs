@@ -7,7 +7,7 @@
     /**
      * user mode scoped to organization
      */
-    Ext.define('mh.data.model.OganizationUser', {
+    Ext.define('mh.data.model.OrganizationUser', {
         extend: 'mh.data.model.User',
 
         requires: [

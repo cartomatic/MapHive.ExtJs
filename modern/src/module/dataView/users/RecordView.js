@@ -8,24 +8,34 @@
         extend: 'mh.module.dataView.RecordView',
 
         requires: [
+            'mh.util.AliasMapper',
             'mh.FontIconsDictionary',
-            'mh.module.dataView.users.Icons'
+            'mh.module.dataView.users.Icons',
+            'mh.module.dataView.users.RecordViewController',
+            'mh.module.dataView.users.RecordViewModel'
         ],
 
         xtype: [
-            'mh-users-record-view',
-            'users-record-view'
+            'mh-users-record-view'
         ],
 
-        controller: {
-            type: 'mh-users-record-viewer'
+        statics: {
+            aliases: [
+                'users-record-view'
+            ]
         },
 
+        controller: 'mh-users-record-view',
+
         viewModel: {
-            type: 'mh-users-record-viewer'
+            type: 'mh-users-record-view'
         },
 
         iconCls: mh.FontIconsDictionary.getIcon('mhUsersViewHeader'),
+
+        bind: {
+            title: '{record.username}'
+        },
 
         screens: [
             {
@@ -51,5 +61,7 @@
                 }]
             }
         ]
+    }, function(){
+        mh.util.AliasMapper.registerAliases(this);
     });
 }());

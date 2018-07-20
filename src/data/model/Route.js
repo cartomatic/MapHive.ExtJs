@@ -37,8 +37,8 @@
             /**
              * mh.data.model.Route#dataRoute is used as a base for working out an appropriate xtype for a record-view, edit or create views
              * when a data route is picked, router works out the appropriate xtypes the following way:
-             *   * 'edit' token found, '-edit' suffix is appended, for example users-edit
-             *   * 'create' token found '-create' suffix is appended, for example users-create
+             *   * 'edit' token found, '-edit-view' suffix is appended, for example users-edit
+             *   * 'create' token found '-create-view' suffix is appended, for example users-create
              *   * no token, it assumes a record view mode and appends '-record-view' suffix, for example users-record-view
              * once an id is worked out, it is used as a lookup in order to find a class to instantiate
              * it is therefore important to match navigation route with proper xtypes on appropriate views
