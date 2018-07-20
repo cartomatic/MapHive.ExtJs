@@ -13,7 +13,8 @@
         ],
 
         xtype: [
-            'mh-users-record-viewer'
+            'mh-users-record-view',
+            'users-record-view'
         ],
 
         controller: {

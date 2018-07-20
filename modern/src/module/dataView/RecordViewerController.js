@@ -26,15 +26,6 @@
         },
 
         /**
-         * handles view initialization setup - this is where the screens cfg gets processed
-         * @param vw
-         * @param eOpts
-         */
-        onViewInitialize: function(vw, eOpts){
-            vw.lookup('tabPanel').add(vw.getScreens());
-        },
-
-        /**
          * controllers init
          */
         init: function(){
@@ -43,6 +34,15 @@
             this.injectLocalizationToViewModel();
 
             this.publishApi('loadRecord');
+        },
+
+        /**
+         * handles view initialization setup - this is where the screens cfg gets processed
+         * @param vw
+         * @param eOpts
+         */
+        onViewInitialize: function(vw, eOpts){
+            vw.lookup('tabPanel').add(vw.getScreens());
         },
 
         /**
