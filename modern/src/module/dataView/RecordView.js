@@ -3,14 +3,14 @@
 (function(){
     //Make sure strict mode is on
     'use strict';
-    Ext.define('mh.module.dataView.RecordViewer', {
+    Ext.define('mh.module.dataView.RecordView', {
         extend: 'Ext.Panel',
 
         requires: [
             'Ext.tab.Panel',
             'mh.FontIconsDictionary',
-            'mh.module.dataView.RecordViewerController',
-            'mh.module.dataView.RecordViewerModel',
+            'mh.module.dataView.RecordViewController',
+            'mh.module.dataView.RecordViewModel',
             'mh.module.dataView.Icons'
         ],
 

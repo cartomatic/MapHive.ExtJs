@@ -5,7 +5,7 @@
     'use strict';
 
     /**
-     * utilities for unified record loading for recordviewer + editor views
+     * utilities for unified record loading for RecordView + editor views
      */
     Ext.define('mh.module.dataView.RecordLoader', {
 

@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.RecordViewerLocalization', {
+    Ext.define('mh.module.dataView.users.RecordViewLocalization', {
         requires: [
             'mh.localization.Localization',
             'mh.module.dataView.users.DataViewLocalization'

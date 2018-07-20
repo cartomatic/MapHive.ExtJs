@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.RecordViewerModel', {
+    Ext.define('mh.module.dataView.users.RecordViewModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.users-record-viewer',
+        alias: 'viewmodel.mh-users-record-viewer',
         stores: {
         }
     });

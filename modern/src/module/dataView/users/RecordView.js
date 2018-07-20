@@ -4,8 +4,8 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.RecordViewer', {
-        extend: 'mh.module.dataView.RecordViewer',
+    Ext.define('mh.module.dataView.users.RecordView', {
+        extend: 'mh.module.dataView.RecordView',
 
         requires: [
             'mh.FontIconsDictionary',
