@@ -10,33 +10,9 @@
         ],
         statics: {
             localization: {
-                add:{
-                    pl: 'Dodaj',
-                    en: 'Add'
-                },
-                edit:{
-                    pl: 'Edytuj',
-                    en: 'Edit'
-                },
-                cancel:{
-                    pl: 'Anuluj',
-                    en: 'Cancel'
-                },
-                back:{
-                    pl: 'Powrót',
-                    en: 'Back'
-                },
-                save:{
-                    pl: 'Zapisz',
-                    en: 'Save'
-                },
                 btnCreate:{
                     pl: 'Nowy',
                     en: 'New'
-                },
-                create: {
-                    pl: 'Utwórz',
-                    en: 'Create'
                 },
                 btnEdit: {
                     pl: 'Edytuj',
@@ -50,7 +26,6 @@
                     pl: 'Odśwież',
                     en: 'Refresh'
                 },
-
                 createDate: {
                     pl: 'Data utworzenia',
                     en: 'Create date'
@@ -59,14 +34,6 @@
                     pl: 'Data zmiany',
                     en: 'Modify date'
                 },
-
-                editorCfgErrTitle: {
-                    en: 'Error'
-                },
-                editorCfgErrMsg: {
-                    en: 'Failed to create editor instance; full err msg is:<br/>'
-                },
-
                 confirmDeleteManyTitle: {
                     en: 'Delete records',
                     pl: 'Usuń rekordy'
@@ -95,20 +62,6 @@
                     en: 'Failed to delete record.',
                     pl: 'Usunięcie rekordu nie powiodło się.'
                 },
-                saveLoadMask: {
-                    en: 'Saving changes...',
-                    pl: 'Zapisywanie zmian...'
-                },
-
-                recordLoadFailure: {
-                    en: 'Failed to load a record.',
-                    pl: 'Załadowanie rekordu nie powiodło się.'
-                },
-                loadRecLoadMask: {
-                    en: 'Loading...',
-                    pl: 'Ładowanie...'
-                },
-
                 btnFilterOn: {
                     en: 'Filter by...',
                     pl: 'Filtruj po...'
@@ -129,9 +82,19 @@
                     en: 'No',
                     pl: 'Nie'
                 },
-                pageSize: {
-                    en: 'Display',
-                    pl: 'Wyświetl'
+
+                //
+                btnBack:{
+                    pl: 'Powrót',
+                    en: 'Back'
+                },
+                recordLoadFailure: {
+                    en: 'Failed to load a record.',
+                    pl: 'Załadowanie rekordu nie powiodło się.'
+                },
+                loadRecLoadMask: {
+                    en: 'Loading...',
+                    pl: 'Ładowanie...'
                 }
             }
         }

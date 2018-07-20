@@ -14,14 +14,14 @@
             'mh.module.dataView.orgUsers.DataViewController',
             'mh.module.dataView.orgUsers.DataViewModel',
             //'mh.module.dataView.orgUsers.Editor',
-            //'mh.module.dataView.orgUsers.RecordView',
+            //'mh.module.dataView.orgUsers.RecordViewer',
             'mh.FontIconsDictionary'
         ],
 
-        controller: 'org-users-dataview',
+        controller: 'mh-org-users-dataview',
 
         viewModel: {
-            type: 'org-users-dataview'
+            type: 'mh-org-users-dataview'
         }
     });
 

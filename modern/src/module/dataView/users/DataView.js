@@ -13,14 +13,14 @@
             'mh.module.dataView.users.DataViewController',
             'mh.module.dataView.users.DataViewModel',
             //'mh.module.dataView.users.Editor',
-            //'mh.module.dataView.users.RecordView',
+            //'mh.module.dataView.users.RecordViewer',
             'mh.FontIconsDictionary'
         ],
 
-        controller: 'users-dataview',
+        controller: 'mh-users-dataview',
 
         viewModel: {
-            type: 'users-dataview'
+            type: 'mh-users-dataview'
         },
 
         iconCls: mh.FontIconsDictionary.getIcon('mhUsersViewHeader'),
