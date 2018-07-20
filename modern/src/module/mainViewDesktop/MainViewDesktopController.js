@@ -16,7 +16,8 @@
         ],
 
         requires: [
-            'Ext.data.Model'
+            'Ext.data.Model',
+            'mh.util.AliasMapper'
         ],
 
         /**
@@ -257,12 +258,16 @@
             // - #{type}/{id}: show record with "id"
             // - #{type}/{id}/edit: edit record with "id"
 
+            //Note:
+            //a bit over the edge, but maybe could make the create, edit, record 'actions' customizable
+            //this would be nice but i guess not used too often ;)
+
             if (id === 'create') {
-                action = 'create';
+                action = 'create-view';
                 id = null;
             }
             else if (args[0] === 'edit') {
-                action = 'edit';
+                action = 'edit-view';
                 args.shift();
             }
             else {
@@ -270,6 +275,11 @@
             }
 
             xtype = type + '-' + action;
+
+            //check if xtype exists and if not inspect alias map!
+            if(!Ext.ClassManager.getByAlias('widget.' + xtype)){
+                xtype = mh.util.AliasMapper.getXtypeFromAlias(xtype) || xtype; //so get proper msg on err!
+            }
 
             try{
                 view = me.ensureView(xtype, { xtype: xtype });

@@ -20,15 +20,13 @@
             'mh.communication.MsgBus'
         ],
 
-        constructor: function(){
-            //when view kicks in, make sure to add its items
-            this.getView().on('initialize', this.onViewInitialize, this);
-        },
-
         /**
          * controllers init
          */
         init: function(){
+            //when view kicks in, make sure to add its items
+            this.getView().on('initialize', this.onViewInitialize, this);
+
             //Note: in most cases injected localizations will inherit from specific dataviews and in consequence from mh.module.dataView.DataViewBaseLocalization
             //this is why translations for this module are not placed in its own file but in mh.module.dataView.DataViewBaseLocalization instead
             this.injectLocalizationToViewModel();

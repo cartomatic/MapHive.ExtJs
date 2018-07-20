@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.users.RecordViewController', {
         extend: 'mh.module.dataView.RecordViewController',
-        alias: 'controller.mh-users-record-viewer',
+        alias: 'controller.mh-users-record-view',
 
         requires: [
             'mh.module.dataView.users.RecordViewLocalization'

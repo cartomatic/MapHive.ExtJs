@@ -6,19 +6,23 @@
 
     Ext.define('mh.module.dataView.users.DataView', {
         extend: 'mh.module.dataView.DataViewBase',
-        xtype: [
-            'mh-users-data-view',
-            'users'
-        ],
 
         requires: [
             'mh.module.dataView.users.Icons',
             'mh.module.dataView.users.DataViewController',
             'mh.module.dataView.users.DataViewModel',
-            //'mh.module.dataView.users.Editor',
-            //'mh.module.dataView.users.RecordView',
-            'mh.FontIconsDictionary'
+            //'mh.module.dataView.users.EditView',
+            'mh.module.dataView.users.RecordView',
+            'mh.FontIconsDictionary',
+            'mh.data.model.User'
         ],
+
+        statics: {
+            //so can manage routes in a limited number of places!
+            navigationRoute: 'users'
+        },
+
+        xtype: 'mh-users-data-view',
 
         controller: 'mh-users-data-view',
 
@@ -42,7 +46,8 @@
                         encodeHtml: false
                     },
                     tpl: [
-                        '<a class="data-view-link data-view-img" href="#users/{uuid}"><span style="background-image: url(\'{profilePicture}\')"></span>{username}</a>'
+                        //user is a part of record view edit url!!!
+                        '<a class="data-view-link data-view-img" href="#' + mh.data.model.User.getEntityNavigationUrlBase() + '/{uuid}"><span style="background-image: url(\'{profilePicture}\')"></span>{username}</a>'
                     ],
                     flex: 1,
                     filter: {

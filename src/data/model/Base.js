@@ -12,6 +12,16 @@
             'mh.data.field.UtcDateTime'
         ],
 
+        inheritableStatics: {
+            /**
+             * gets entity base url name
+             * @returns {*|String}
+             */
+            getEntityNavigationUrlBase: function(){
+                return new this().getEntityNavigationUrlBase();
+            }
+        },
+
         idProperty : 'uuid',
         identifier: 'mhnull', //this will enforce a default null value for the idProperty for newly created models inheriting from base
         fields: [
@@ -47,6 +57,21 @@
             { name: 'linkData', type: 'auto', useNull: true}
         ],
 
+        /**
+         * custom entity url name - used to provide customized routing for models
+         * if this is adjusted DO MAKE SURE to provide appropriate xtypes for views that are affected:
+         *    * record-view
+         *    * edit-view
+         *    * create-view
+         *
+         * edit & create view may often be combined - in such case xtypes can be provided via xtype: []
+         */
+        customEntityNavigationUrl: null,
+
+        /**
+         * gets entity name worked out from the class name
+         * @returns {string}
+         */
         getEntityName: function(){
             //assume the last part of the namespace is the model's default url part,
             //so basically an entity name
@@ -55,11 +80,19 @@
         },
 
         /**
+         * gets base entity name
+         * @returns {string}
+         */
+        getEntityNavigationUrlBase: function(){
+            return this.customEntityNavigationUrl || this.getEntityName();
+        },
+
+        /**
          * gets a view url for a record
          * @returns {String}
          */
         getViewUrl: function() {
-            return Ext.String.format('{0}/{1}', this.getEntityName(), this.get('uuid'));
+            return Ext.String.format('{0}/{1}', this.getEntityNavigationUrlBase(), this.get('uuid'));
         },
 
         /**
@@ -75,7 +108,7 @@
          * @returns {String}
          */
         getCreateUrl: function() {
-            return Ext.String.format('{0}/{1}', this.getEntityName(), 'create');
+            return Ext.String.format('{0}/{1}', this.getEntityNavigationUrlBase(), 'create');
         }
     });
 

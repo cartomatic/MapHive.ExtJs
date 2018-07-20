@@ -4,6 +4,8 @@
     //Make sure strict mode is on
     'use strict';
 
+    var modelsCache = {};
+
     /**
      * utilities for unified record loading for RecordView + editor views
      */
@@ -68,31 +70,66 @@
                 type = (this.getDataRouteViewType() || '').toLowerCase(),
                 model;
 
-            //TODO - plug in model aliases so can use totaly customised routes
-            //TODO - this will be connected with the base's model getEditUrl / getCreateUrl!
-            //TODO - could potentially inspect a static property on a model or a static method - something like getEditUrlBase / getCreateUrlBase
-            //tODO - this will habe
+            if(modelsCache[type]){
+                return modelsCache[type];
+            }
 
+            //Note: assume all records inherit from mh.data.model.Base.
+            //after all it would be weird if it some did not
             Ext.Array.each(Ext.Object.getKeys(appModels), function(m){
-                if(m.toLowerCase() === type){
-                    model = appModels[m];
+
+                var staticModel = this.getModelStaticDef(appName + '.model.' + m),
+                    navUrlBase;
+                if(staticModel && Ext.isFunction(staticModel.getEntityNavigationUrlBase)){
+                    navUrlBase = staticModel.getEntityNavigationUrlBase();
                 }
-            });
+
+                if(navUrlBase === type || m.toLowerCase() === type){
+                    model = mh.data.model[m];
+                }
+            }, this);
 
             if(!model){
                 //uhuh, looks like the app model is not there...
-                //perhaps using the core models???
                 Ext.Array.each(Ext.Object.getKeys(mh.data.model), function(m){
-                    if(m.toLowerCase() === type){
+
+                    var staticModel = this.getModelStaticDef('mh.data.model.' + m),
+                        navUrlBase;
+                    if(staticModel && Ext.isFunction(staticModel.getEntityNavigationUrlBase)){
+                        navUrlBase = staticModel.getEntityNavigationUrlBase();
+                    }
+
+                    if(navUrlBase === type || m.toLowerCase() === type){
                         model = mh.data.model[m];
                     }
-                });
+                }, this);
             }
 
-            if(!model){
+            if(model){
+                modelsCache[type] = model;
+            }
+            else {
                 console.error('Could not find model for the "' + type + '" data route.');
             }
 
+            return model;
+        },
+
+
+        /**
+         * gets model static def from path
+         * @param path
+         * @returns {*}
+         */
+        getModelStaticDef: function(path){
+            //try to find a model
+            var model = window;
+            Ext.Array.each(path.split('.'), function(part){
+                if(!model){ //not found, so skip
+                    return false;
+                }
+                model = model[part];
+            });
             return model;
         }
     });
