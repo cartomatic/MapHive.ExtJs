@@ -8,20 +8,20 @@
 
     Ext.define('mh.module.dataView.orgUsers.DataView', {
         extend: 'mh.module.dataView.users.DataView',
-        xtype: 'org-users-dataview',
+        xtype: 'org-users-data-view',
 
         requires: [
             'mh.module.dataView.orgUsers.DataViewController',
             'mh.module.dataView.orgUsers.DataViewModel',
-            //'mh.module.dataView.orgUsers.Editor',
-            //'mh.module.dataView.orgUsers.RecordViewer',
+            //'mh.module.dataView.orgUsers.EditView',
+            //'mh.module.dataView.orgUsers.RecordView',
             'mh.FontIconsDictionary'
         ],
 
-        controller: 'mh-org-users-dataview',
+        controller: 'mh-org-users-data-view',
 
         viewModel: {
-            type: 'mh-org-users-dataview'
+            type: 'mh-org-users-data-view'
         }
     });
 

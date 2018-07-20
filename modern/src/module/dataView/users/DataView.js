@@ -16,7 +16,7 @@
             'mh.module.dataView.users.DataViewController',
             'mh.module.dataView.users.DataViewModel',
             //'mh.module.dataView.users.Editor',
-            //'mh.module.dataView.users.RecordViewer',
+            //'mh.module.dataView.users.RecordView',
             'mh.FontIconsDictionary'
         ],
 

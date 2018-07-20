@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.orgUsers.DataViewModel', {
         extend: 'mh.module.dataView.users.DataViewModel',
-        alias: 'viewmodel.mh-org-users-dataview',
+        alias: 'viewmodel.mh-org-users-data-view',
 
         stores: {
             gridstore: {
