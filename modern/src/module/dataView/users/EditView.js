@@ -57,28 +57,28 @@
                                 xtype: 'textfield',
                                 bind: {
                                     label: '{localization.forename}',
-                                    html: '{record.forename}'
+                                    value: '{record.forename}'
                                 }
                             },
                             {
                                 xtype: 'textfield',
                                 bind: {
                                     label: '{localization.surname}',
-                                    html: '{record.surname}'
+                                    value: '{record.surname}'
                                 }
                             },
                             {
                                 xtype: 'textfield',
                                 bind: {
                                     label: '{localization.email}',
-                                    html: '{record.email}'
+                                    value: '{record.email}'
                                 }
                             },
                             {
                                 xtype: 'textfield',
                                 bind: {
                                     label: '{localization.slug}',
-                                    html: '{record.slug}'
+                                    value: '{record.slug}'
                                 }
                             }
                         ]
