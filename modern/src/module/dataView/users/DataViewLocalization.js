@@ -32,6 +32,10 @@
                     en: 'User',
                     pl: 'Użytkownik'
                 },
+                slug: {
+                    en: 'Slug',
+                    pl: 'Slug'
+                },
                 department: {
                     en: 'Department',
                     pl: 'Dział'
