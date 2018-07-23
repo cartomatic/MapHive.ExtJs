@@ -38,7 +38,7 @@
                 scope: this,
                 success: this.onRecordLoadSuccess,
                 failure: this.onRecordLoadFailure,
-                exceptionMsg: this.getTranslation('recordLoadFailure', null, true) || this.getTranslation('recordLoadFailure', 'mh.module.dataView.DataViewBaseLocalization'),
+                exceptionMsg: this.getTranslation('recordLoadFailure', null, true) || this.getTranslation('recordLoadFailure', 'mh.module.dataView.DataViewLocalization'),
                 autoIgnore404: false //this is required to show msg on 404 which will often be the case in dev mode!
             };
 

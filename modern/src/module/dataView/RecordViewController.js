@@ -10,7 +10,7 @@
 
         requires: [
             'Ext.History',
-            'mh.module.dataView.DataViewBaseLocalization'
+            'mh.module.dataView.DataViewLocalization'
         ],
 
         mixins: [
@@ -27,8 +27,8 @@
             //when view kicks in, make sure to add its items
             this.getView().on('initialize', this.onViewInitialize, this);
 
-            //Note: in most cases injected localizations will inherit from specific data views and in consequence from mh.module.dataView.DataViewBaseLocalization
-            //this is why translations for this module are not placed in its own file but in mh.module.dataView.DataViewBaseLocalization instead
+            //Note: in most cases injected localizations will inherit from specific data views and in consequence from mh.module.dataView.DataViewLocalization
+            //this is why translations for this module are not placed in its own file but in mh.module.dataView.DataViewLocalization instead
             this.injectLocalizationToViewModel();
 
             this.publishApi('loadRecord');
@@ -53,7 +53,7 @@
 
             this.showLoadMask(
                 //try to grab customized translation first and fallback for default
-                this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewBaseLocalization')
+                this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewLocalization')
             );
 
             this.loadRecordInternal(id);

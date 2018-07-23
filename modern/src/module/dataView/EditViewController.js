@@ -9,7 +9,7 @@
 
         requires: [
             'Ext.History',
-            'mh.module.dataView.DataViewBaseLocalization',
+            'mh.module.dataView.DataViewLocalization',
             'mh.mixin.ResponseValidationErrorReader'
         ],
 
@@ -121,18 +121,18 @@
                 exceptionMsg = rec.get('uuid') ?
 
                     //try to obtain the translation from a derived class first, but make the call return null if not found instead of the standard
-                    //'translation not found msg', then look at the 'mh.module.dataView.DataViewBaseLocalization' namespace that indeed provides a standard localization
-                    this.getTranslation('failedCreate', null, true) || this.getTranslation('failedCreate', 'mh.module.dataView.DataViewBaseLocalization')
+                    //'translation not found msg', then look at the 'mh.module.dataView.DataViewLocalization' namespace that indeed provides a standard localization
+                    this.getTranslation('failedCreate', null, true) || this.getTranslation('failedCreate', 'mh.module.dataView.DataViewLocalization')
                     :
-                    this.getTranslation('failedUpdate', null, true) || this.getTranslation('failedUpdate', 'mh.module.dataView.DataViewBaseLocalization'),
+                    this.getTranslation('failedUpdate', null, true) || this.getTranslation('failedUpdate', 'mh.module.dataView.DataViewLocalization'),
 
                 loadMaskMsg = rec.get('uuid') ?
 
                     //try to obtain the translation from a derived class first, but make the call return null if not found instead of the standard
-                    //'translation not found msg', then look at the 'mh.module.dataView.DataViewBaseLocalization' namespace that indeed provides a standard localization
-                    this.getTranslation('createLoadMask', null, true) || this.getTranslation('createLoadMask', 'mh.module.dataView.DataViewBaseLocalization')
+                    //'translation not found msg', then look at the 'mh.module.dataView.DataViewLocalization' namespace that indeed provides a standard localization
+                    this.getTranslation('createLoadMask', null, true) || this.getTranslation('createLoadMask', 'mh.module.dataView.DataViewLocalization')
                     :
-                    this.getTranslation('updateLoadMask', null, true) || this.getTranslation('updateLoadMask', 'mh.module.dataView.DataViewBaseLocalization'),
+                    this.getTranslation('updateLoadMask', null, true) || this.getTranslation('updateLoadMask', 'mh.module.dataView.DataViewLocalization'),
 
                 //save op cfg
                 cfg = {
