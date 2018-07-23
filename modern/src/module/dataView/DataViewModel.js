@@ -58,7 +58,7 @@
                         selection = [selection];
                     }
 
-                    return grid.selection.items;
+                    return selection;
                 }
             },
             editable: {
