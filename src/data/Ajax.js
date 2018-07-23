@@ -440,7 +440,7 @@
                             ok: this.getTranslation('btnOk', 'mh.data.Ajax')
                         },
 
-                    buttons: allowRetry && retry ? Ext.Msg.OKCANCEL : Ext.Msg.OK,
+                    buttons: allowRetry && retry ? Ext.MessageBox.OKCANCEL : Ext.MessageBox.OK,
 
                     fn: function (btn) {
 

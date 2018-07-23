@@ -283,6 +283,8 @@
             var grid = this.lookup('dataviewgrid'),
                 record = grid.getSelection();
 
+            //TODO - multiselect
+
             this.initRecordEdit(record);
         },
 
@@ -292,7 +294,7 @@
          */
         initRecordEdit: function(rec){
             if(rec) {
-                this.redirectTo(record.toEditUrl());
+                this.redirectTo(rec.getEditUrl());
             }
         },
 
@@ -304,9 +306,11 @@
         onBtnDestroyTap: function(btn, e){
             var grid = this.lookup('dataviewgrid'),
                 //need to clone selection arr as otherwise would fuck up the selection collection during array slicing
-                records = Ext.Array.clone(grid.getSelected().items);
+                record = grid.getSelection();
 
-            this.initRecordDestroy(records);
+            //TODO - multiselect
+
+            this.initRecordDestroy([record]);
         },
 
 
@@ -320,7 +324,8 @@
                 return;
             }
 
-            var dialog = Ext.create({
+            var me = this,
+                dialog = Ext.create({
                 xtype: 'dialog',
                 title: me.getTranslation(records.length > 1 ? 'confirmDeleteManyTitle' : 'confirmDestroySingleTitle'),
                 html: me.getTranslation(records.length > 1 ? 'confirmDeleteManyRecords' : 'confirmDestroySingleRecord'),
