@@ -18,6 +18,11 @@
             'mh.FontIconsDictionary'
         ],
 
+        statics: {
+            //so can manage routes in a limited number of places!
+            navigationRoute: 'org-users'
+        },
+
         controller: 'mh-org-users-data-view',
 
         viewModel: {
