@@ -121,6 +121,10 @@
                 updateLoadMask: {
                     en: 'Updating record...',
                     pl: 'Aktualizacja rekordu...'
+                },
+                invalidFieldsMsg: {
+                    en: 'The following fields are invalid: ',
+                    pl: 'Następujące pola nie są poprawne: '
                 }
             }
         }

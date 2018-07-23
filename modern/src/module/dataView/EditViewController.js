@@ -9,13 +9,13 @@
 
         requires: [
             'Ext.History',
-            'mh.module.dataView.DataViewLocalization',
-            'mh.mixin.ResponseValidationErrorReader'
+            'mh.module.dataView.DataViewLocalization'
         ],
 
         mixins: [
             'mh.mixin.CallMeParent',
-            'mh.module.dataView.RecordLoader'
+            'mh.module.dataView.RecordLoader',
+            'mh.mixin.ResponseValidationErrorReader'
         ],
 
         init: function(){
@@ -67,9 +67,22 @@
          * @returns {boolean}
          */
         isValid: function(){
-            //TODO - auto validation???
-            //perfield validate() / isValid calls
-            //return validations as expected by the mh.mixin.ResponseValidationErrorReader mixin!!!
+            var invalidFields = [];
+
+            Ext.Array.each(this.getView().down('panel'), function(panel){
+                Ext.Array.each(panel.items.items, function(fld){
+                    if(Ext.isFunction(fld.validate)){
+                        fld.validate(); //aka clearInvalid
+                        if(!fld.isValid()){
+                            invalidFields.push(fld.getLabel())
+                        }
+                    }
+                });
+            });
+
+            if(invalidFields.length > 0){
+                return (this.getTranslation('invalidFieldsMsg', null, true) || this.getTranslation('invalidFieldsMsg', 'mh.module.dataView.DataViewLocalization')) + invalidFields.join(', ');
+            }
 
             return true;
         },
@@ -79,11 +92,17 @@
          */
         resetValidationErrs: function(){
 
-            Ext.Array.each(this.getView().getItems().items, function(form){
-                //fixme
-                // Ext.Array.each(form.getFields(false, true), function(fld){
-                //     fld.setError(null); //aka clearInvalid
-                // });
+            //forms are placed in a tabpanel, so tabpanel's children should be panels/ forms
+            //find all panels inside
+            //with default maphive's data handling approach, form panel is not used, as the data is bound to a record
+            //and then posted directly to the server.
+
+            Ext.Array.each(this.getView().down('panel'), function(panel){
+                Ext.Array.each(panel.items.items, function(fld){
+                    if(Ext.isFunction(fld.setError)){
+                        fld.setError(null); //aka clearInvalid
+                    }
+                });
             });
         },
 
