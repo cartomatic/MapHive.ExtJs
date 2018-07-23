@@ -5,10 +5,8 @@
     'use strict';
 
     Ext.define('mh.module.dataView.users.RecordViewModel', {
-        extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-users-record-view',
-        stores: {
-        }
+        extend: 'mh.module.dataView.RecordViewModel',
+        alias: 'viewmodel.mh-users-record-view'
     });
 
 }());

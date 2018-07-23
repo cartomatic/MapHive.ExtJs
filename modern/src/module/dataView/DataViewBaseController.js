@@ -52,10 +52,8 @@
                 gridCfg = vw.getGridCfg(),
                 store = this.getViewModel().getStore('gridstore');
 
-                        //add some handy btns to grid
+            //add some handy btns to grid
             this.addGridBtns(gridCfg);
-
-            console.warn('gridCfg', gridCfg);
 
             this.grid = Ext.create(gridCfg);
             this.grid.setStore(store);

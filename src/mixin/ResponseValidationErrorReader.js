@@ -166,11 +166,12 @@
          * @param validationFeedback
          * @param btn
          */
-        showValidationMsgServerErr: function(validationFeedback, btn){
+        showValidationMsgServerErr: function(validationFeedback, btn, callback){
             this.showValidationMsg(
                 validationFeedback,
                 this.getErrTranslation('validationErrorServer'),
-                btn
+                btn,
+                callback
             );
         },
 
@@ -182,7 +183,7 @@
          * an ext component to animate the msg from
          * @template
          */
-        showValidationMsg: function(validationFeedback, msgTitle, btn){
+        showValidationMsg: function(validationFeedback, msgTitle, btn, callback){
 
             //make sure there is work to be done!
             if(validationFeedback === null || validationFeedback === undefined){
@@ -209,14 +210,31 @@
                     '<br/><ul><li>' + validationFeedback.join('</li><li>') + '</li></ul>'
             }
 
-            Ext.Msg.show({
-                title: msgTitle || this.getErrTranslation('validationErrorTitle'),
-                message: msg,
-                width: 500,
-                buttons: Ext.Msg.OK,
-                animateTarget: btn ? btn : undefined,
-                icon: Ext.MessageBox.WARNING
-            });
+
+            if(Ext.isModern){
+                //classic toolkit
+                Ext.Msg.show({
+                    title: msgTitle || this.getErrTranslation('validationErrorTitle'),
+                    message: msg,
+                    width: 500,
+                    buttons: Ext.MessageBox.OK,
+                    animateTarget: btn ? btn : undefined,
+                    icon: Ext.MessageBox.WARNING,
+                    fn: Ext.isFunction(callback) ? callback : undefined
+                });
+            }
+            else {
+                //classic toolkit
+                Ext.Msg.show({
+                    title: msgTitle || this.getErrTranslation('validationErrorTitle'),
+                    message: msg,
+                    width: 500,
+                    buttons: Ext.Msg.OK,
+                    animateTarget: btn ? btn : undefined,
+                    icon: Ext.MessageBox.WARNING,
+                    fn: Ext.isFunction(callback) ? callback : undefined
+                });
+            }
         }
     });
 }());

@@ -29,7 +29,7 @@
              * hook for providing definitions of child components. they are pushed into view's tab panel on init
              * this way it is not necessary to re-declare tab panel every time a view is extended
              */
-            screens: []
+            screens: null
         },
         bind: {
             title: '{record.name}'
@@ -56,7 +56,7 @@
                 xtype: 'spacer',
                 //weight: 10
             },
-            edit: {
+            action: {
                 xtype: 'button',
                 reference: 'btnEdit',
                 bind: {
