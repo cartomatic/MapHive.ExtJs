@@ -49,16 +49,48 @@
                     type: 'vbox',
                     align: 'center'
                 },
-                items: [{
-                    xtype: 'panel',
-                    width: 400,
-                    items: [{
-                        xtype: 'label',
-                        bind: {
-                            html: '{record.name}'
-                        }
-                    }]
-                }]
+                items: [
+                    {
+                        xtype: 'panel',
+                        width: 400,
+                        items: [
+                            {
+                                xtype: 'label',
+                                bind: {
+                                    html: '<h3>{record.username}</h3>'
+                                }
+                            },
+                            {
+                                xtype: 'displayfield',
+                                bind: {
+                                    label: '{localization.forename}',
+                                    html: '{record.forename}'
+                                }
+                            },
+                            {
+                                xtype: 'displayfield',
+                                bind: {
+                                    label: '{localization.surname}',
+                                    html: '{record.surname}'
+                                }
+                            },
+                            {
+                                xtype: 'displayfield',
+                                bind: {
+                                    label: '{localization.email}',
+                                    html: '{record.email}'
+                                }
+                            },
+                            {
+                                xtype: 'displayfield',
+                                bind: {
+                                    label: '{localization.slug}',
+                                    html: '{record.slug}'
+                                }
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }, function(){
