@@ -14,6 +14,8 @@
             'mh.mixin.ApiMap'
         ],
 
+        customEntityNavigationUrl: 'org-users',
+
         proxy: {
             type: 'mhrest',
             //this is at the Ext.define level so no access to instance based stuff. need to talk to a static method
