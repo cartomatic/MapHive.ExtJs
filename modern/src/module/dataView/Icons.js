@@ -13,15 +13,16 @@
             mh.FontIconsDictionary.addIcons({
                 mhDataViewBasicInfo: 'x-i54 i54-information',
                 mhDataViewFilter: 'x-i54c i54c-filter',
-                mhDataViewNew: 'x-i54 i54-add-note',
-                mhDataViewEdit: 'x-li li-plus-circle',
+                mhDataViewNew: 'x-li li-plus-circle',
+                mhDataViewEdit: 'x-li li-pencil5',
                 mhDataViewBtnPrev: 'x-li li-chevron-left-circle',
                 mhDataViewBtnNext: 'x-li li-chevron-right-circle',
                 mhDataViewBtnEdit: 'x-li li-pencil5',
                 mhDataViewBtnCreate: 'x-li li-plus-circle',
                 mhDataViewBtnDestroy: 'x-li li-cross-circle',
                 mhDataViewBtnRefresh: 'x-li li-sync2',
-                mhDataViewBtnBack: 'x-li li-cross-circle'
+                mhDataViewBtnBack: 'x-li li-cross-circle',
+                mhDataViewBtnSave: 'x-li li-floppy-disk'
             });
         }
     });

@@ -82,8 +82,10 @@
                     en: 'No',
                     pl: 'Nie'
                 },
-
-                //
+                basicInfo: {
+                    en: 'Basic info',
+                    pl: 'Informacje podstawowe'
+                },
                 btnBack:{
                     pl: 'Powrót',
                     en: 'Back'
@@ -95,6 +97,30 @@
                 loadRecLoadMask: {
                     en: 'Loading...',
                     pl: 'Ładowanie...'
+                },
+                create: {
+                    en: 'Create',
+                    pl: 'Utwórz'
+                },
+                update: {
+                    en: 'Update',
+                    pl: 'Aktualizuj'
+                },
+                failedCreate: {
+                    en: 'Failed to create a record.',
+                    pl: 'Utworzenie rekordu nie powiodło się.'
+                },
+                failedUpdate: {
+                    en: 'Failed to update a record.',
+                    pl: 'Aktualizacja rekordu nie powiodła się.'
+                },
+                createLoadMask: {
+                    en: 'Creating record...',
+                    pl: 'Tworzenie rekordu...'
+                },
+                updateLoadMask: {
+                    en: 'Updating record...',
+                    pl: 'Aktualizacja rekordu...'
                 }
             }
         }

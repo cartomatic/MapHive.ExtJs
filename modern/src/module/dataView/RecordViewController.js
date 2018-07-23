@@ -27,7 +27,7 @@
             //when view kicks in, make sure to add its items
             this.getView().on('initialize', this.onViewInitialize, this);
 
-            //Note: in most cases injected localizations will inherit from specific dataviews and in consequence from mh.module.dataView.DataViewBaseLocalization
+            //Note: in most cases injected localizations will inherit from specific data views and in consequence from mh.module.dataView.DataViewBaseLocalization
             //this is why translations for this module are not placed in its own file but in mh.module.dataView.DataViewBaseLocalization instead
             this.injectLocalizationToViewModel();
 
@@ -48,9 +48,10 @@
          * @param id
          */
         loadRecord: function(id) {
-            this.fireGlobal(
-                'loadmask::show',
 
+            this.rewindToFirstView();
+
+            this.showLoadMask(
                 //try to grab customized translation first and fallback for default
                 this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewBaseLocalization')
             );
@@ -58,13 +59,15 @@
             this.loadRecordInternal(id);
         },
 
+
+
         /**
          * record load success callback
          * @param rec
          */
         onRecordLoadSuccess: function(rec){
             this.getViewModel().set('record', rec);
-            this.fireGlobal('loadmask::hide');
+            this.hideLoadMask();
         },
 
         /**
@@ -72,7 +75,7 @@
          */
         onRecordLoadFailure: function(){
             this.getViewModel().set('record', null);
-            this.fireGlobal('loadmask::hide');
+            this.hideLoadMask();
         },
 
         /**
@@ -179,6 +182,56 @@
             // This event is triggered when the view is being destroyed!
             if (!tabs.destroying) {
                 this.resync();
+            }
+        },
+
+        /**
+         * rewinds form to first view
+         */
+        rewindToFirstView: function(){
+
+            //find index to turn on
+            var tabPanel = this.lookup('tabPanel'),
+                tabs = tabPanel.getTabBar().items.items;
+
+            //first shown tab to be activated
+            Ext.Array.each(tabs, function(tab, idx){
+                if(tab.getHidden())
+                {
+                    return ;
+                }
+                else {
+                    tabPanel.setActiveItem(idx);
+                    return false;
+                }
+            });
+        },
+
+        /**
+         * shows loadmask for this module
+         * @param msg
+         */
+        showLoadMask: function(msg){
+            if(this.getView().getFloated()){
+                this.getView().setMasked({
+                    xtype: 'loadmask',
+                    message: msg
+                });
+            }
+            else {
+                this.fireGlobal('loadmask::show', msg);
+            }
+        },
+
+        /**
+         * hides loadmask for this module
+         */
+        hideLoadMask: function(){
+            if(this.getView().getFloated()){
+                this.getView().setMasked(false);
+            }
+            else {
+                this.fireGlobal('loadmask::hide');
             }
         }
     });

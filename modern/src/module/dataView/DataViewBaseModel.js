@@ -23,7 +23,7 @@
             localization: null,
 
             //grid to be used by this view model
-            grid: null,
+            'dataview-grid': null,
 
             //see how it gets updated in the controller!
             //this is because modern toolkit does not expose a sensible selection property on the grid.
@@ -47,12 +47,18 @@
                     deep: true
                 },
                 get: function(timestamp){
-                    var grid = this.get('grid');
-                    if(!grid){
+                    var grid = this.get('dataview-grid'),
+                        selection = grid.selection;
+
+                    if(!grid || !selection){
                         return null;
                     }
+                    //TODO - multiselect????
+                    if(!Ext.isArray(selection)){
+                        selection = [selection];
+                    }
 
-                    return grid.getSelected().items;
+                    return grid.selection.items;
                 }
             },
             editable: {
@@ -62,6 +68,7 @@
                 },
                 get: function(timestamp){
                     var selection = this.get('selection');
+
                     return selection !== null && selection.length === 1;
                 }
             },
