@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.users.DataViewModel', {
-        extend: 'mh.module.dataView.DataViewBaseModel',
+        extend: 'mh.module.dataView.DataViewModel',
         alias: 'viewmodel.mh-users-data-view',
 
         stores: {

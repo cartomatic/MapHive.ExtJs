@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.localizations.translationKeys.TranslationKeysModel', {
-        extend: 'mh.module.dataView.DataViewBaseModel',
+        extend: 'mh.module.dataView.DataViewModel',
         alias: 'viewmodel.mh-translation-keys',
 
     requires: [

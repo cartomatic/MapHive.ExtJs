@@ -7,13 +7,13 @@
     /**
      * controls the generic data view behavior - filtering, sorting, reloading and such
      */
-    Ext.define('mh.module.dataView.DataViewBaseController', {
+    Ext.define('mh.module.dataView.DataViewController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-dataview-base',
+        alias: 'controller.mh-data-view',
 
         requires: [
             'mh.FontIconsDictionary',
-            'mh.module.dataView.DataViewBaseLocalization'
+            'mh.module.dataView.DataViewLocalization'
         ],
 
         mixins: [
@@ -280,7 +280,7 @@
          * @param rec
          */
         onBtnEditTap: function(btn, e){
-            var grid = this.lookup('dataview-grid'),
+            var grid = this.lookup('dataviewgrid'),
                 record = grid.getSelection();
 
             this.initRecordEdit(record);
@@ -302,7 +302,7 @@
          * @param e
          */
         onBtnDestroyTap: function(btn, e){
-            var grid = this.lookup('dataview-grid'),
+            var grid = this.lookup('dataviewgrid'),
                 //need to clone selection arr as otherwise would fuck up the selection collection during array slicing
                 records = Ext.Array.clone(grid.getSelected().items);
 
@@ -401,7 +401,7 @@
         destroyRecordsFailure: function(){
             var grid = this.getGridInstance();
             grid.setMasked(false);
-            this.lookup('dataview-grid').getStore().load();
+            this.lookup('dataviewgrid').getStore().load();
         },
 
         /**
@@ -409,7 +409,7 @@
          */
         onBtnCreateTap: function(){
             var model = Ext.create(
-                    Ext.getClassName(this.lookup('dataview-grid').getStore().getModel())
+                    Ext.getClassName(this.lookup('dataviewgrid').getStore().getModel())
                 );
 
             this.redirectTo(model.getCreateUrl());
@@ -441,7 +441,7 @@
          * Sets up the auto filter
          */
         setUpAutoFilter: function(){
-            var grid = this.lookupReference('dataview-grid'),
+            var grid = this.lookupReference('dataviewgrid'),
                 cols = grid.getColumns(), c = 0, clen = cols.length, col,
                 colSpecifierSplitBtnItems = [],
                 tbar;
@@ -487,7 +487,7 @@
                 //set internal state
                 this.autoFilterEnabled = true;
 
-                tbar = this.lookupReference('dataview-toolbar');
+                tbar = this.lookupReference('dataviewtoolbar');
 
                 //TODO: consider this to be somewhat setup-able, maybe just put it in the bar by default, but hidden or something...
                 tbar.insert(0, [
@@ -625,7 +625,7 @@
             //need to work out the filters to be applied. it's pretty much about parsing the values for filter types
             //other than string and if a value is parsable, then a filter should be applied
 
-            var grid = this.lookup('dataview-grid'),
+            var grid = this.lookup('dataviewgrid'),
                 view = this.getView(),
                 cols = grid.getColumns(),
                 store = grid.getStore(),

@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.users.DataView', {
-        extend: 'mh.module.dataView.DataViewBase',
+        extend: 'mh.module.dataView.DataView',
 
         requires: [
             'mh.module.dataView.users.Icons',
@@ -35,7 +35,7 @@
             title: '{localization.viewName}'
         },
         gridCfg: {
-            xtype: 'mh-dataview-base-grid',
+            xtype: 'mh-data-view-grid',
             columns: [
                 {
                     bind: {

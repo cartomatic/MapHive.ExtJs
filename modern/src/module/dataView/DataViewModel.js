@@ -4,10 +4,10 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.DataViewBaseModel', {
+    Ext.define('mh.module.dataView.DataViewModel', {
         extend: 'Ext.app.ViewModel',
 
-        alias: 'viewmodel.mh-dataview-base',
+        alias: 'viewmodel.mh-data-view',
 
         requires: [
         ],
@@ -23,7 +23,7 @@
             localization: null,
 
             //grid to be used by this view model
-            'dataview-grid': null,
+            dataviewgrid: null,
 
             //see how it gets updated in the controller!
             //this is because modern toolkit does not expose a sensible selection property on the grid.
@@ -47,7 +47,7 @@
                     deep: true
                 },
                 get: function(timestamp){
-                    var grid = this.get('dataview-grid'),
+                    var grid = this.get('dataviewgrid'),
                         selection = grid.selection;
 
                     if(!grid || !selection){

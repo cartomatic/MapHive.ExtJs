@@ -7,24 +7,23 @@
     /**
      * a generic toolbar for data views
      */
-    Ext.define('mh.module.dataView.DataViewBaseToolbar', {
+    Ext.define('mh.module.dataView.DataViewToolbar', {
 
         extend: 'Ext.Toolbar',
 
-        xtype: 'mh-dataview-base-toolbar',
+        xtype: 'mh-data-view-toolbar',
 
         requires: [
             'mh.FontIconsDictionary',
             'mh.module.dataView.Icons'
         ],
 
-        cls: 'browse-toolbar',
         ui: 'tools',
 
         defaults: {
             ui: 'base'
         },
-        reference: 'dataview-toolbar',
+        reference: 'dataviewtoolbar',
 
         items: [
             {

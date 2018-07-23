@@ -7,30 +7,30 @@
     /**
      * generic data view skeleton
      */
-    Ext.define('mh.module.dataView.DataViewBase', {
+    Ext.define('mh.module.dataView.DataView', {
 
         extend: 'Ext.Panel',
-        xtype: 'mh-dataview-base',
+        xtype: 'mh-data-view',
 
         requires: [
             'Ext.layout.Fit',
-            'mh.module.dataView.DataViewBaseController',
-            'mh.module.dataView.DataViewBaseGrid',
-            'mh.module.dataView.DataViewBaseModel',
-            'mh.module.dataView.DataViewBaseToolbar',
+            'mh.module.dataView.DataViewController',
+            'mh.module.dataView.DataViewGrid',
+            'mh.module.dataView.DataViewModel',
+            'mh.module.dataView.DataViewToolbar',
             'mh.module.dataView.Icons'
         ],
 
-        controller: 'mh-dataview-base',
+        controller: 'mh-data-view',
 
         viewModel: {
-            type: 'mh-dataview-base'
+            type: 'mh-data-view'
         },
 
         config: {
 
             /**
-             * mh-dataview-base-grid cfg to be used for this view
+             * mh-data-view-grid cfg to be used for this view
              */
             gridCfg: null,
 
@@ -78,7 +78,7 @@
         layout: 'fit',
 
         tbar: {
-            xtype: 'mh-dataview-base-toolbar'
+            xtype: 'mh-data-view-toolbar'
         },
 
         listeners: {

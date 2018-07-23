@@ -7,12 +7,12 @@
     /**
      * base configuration for a dataview grid
      */
-    Ext.define('mh.module.dataView.DataViewBaseGrid', {
+    Ext.define('mh.module.dataView.DataViewGrid', {
         extend: 'Ext.grid.Grid',
 
-        xtype: 'mh-dataview-base-grid',
+        xtype: 'mh-data-view-grid',
 
-        reference: 'dataview-grid',
+        reference: 'dataviewgrid',
 
         selectable: {
             mode: 'multi'
