@@ -43,6 +43,7 @@
          * cleans up view and closes it; special handling for floating / windowed editors
          */
         cleanNClose: function(){
+            this.hideLoadMask();
             if(this.getView().getFloated()){
                 this.getView().close();
             }
@@ -155,8 +156,8 @@
                         callback: callback
                     };
                     //customise save url for the proxy!
-                    if(me.getCustomUrl()){
-                        saveCfg.url = me.getCustomUrl();
+                    if(me.getView().getCustomUrl()){
+                        saveCfg.url = me.getView().getCustomUrl();
                     }
                     rec.save(saveCfg);
                 };
