@@ -31,6 +31,12 @@
              *    * widget presence is tested by xtype being a route with a '-data-view' suffix, for example 'users-data-view'
              * if a view is not found an exception is thrown.
              * it is therefore important to match navigation route with a proper xtype on an appropriate view
+             *
+             * view.statics.navigationRoute is often used in order to limit the places routes are defined
+             * see mh.module.dataView.users.DataView#statics.navigationRoute for implementation details:
+             *  navigationRoute: mh.module.dataView.users.DataView.navigationRoute
+             *
+             *
              */
             { name: 'navigationRoute', type: 'string' },
 
@@ -48,10 +54,20 @@
              * - mh.data.model.Base#getCreateUrl
              * - mh.data.model.Base#getEditUrl
              *
+             * by default data route is the same as the model name. it is possible to change it though via mh.data.model.Base#customEntityNavigationUrl
+             * when done so, model returns a customised route base that is then glued with an appropriate suffix (record, create, edit)
+             *
              * so it is necessary to ensure appropriate models return urls that can be picked by router
+             * see mh.data.model.User#customEntityNavigationUrl for implentation details:
+             *  mh.data.model.User.getEntityNavigationUrlBase()
              *
              * furthermore picked routes are used by the generic record loader to work out a model to init and load, so there must be a clear
              * relation between the routes and data models
+             *
+             * quite often the same views can be used in two modes, for example create / edit. in order to enable this, they use internal aliasing mechanism
+             * that is implemented via view.statics.aliases array - it specifies aliases that should point to a single xtype;
+             * see mh.module.dataView.users.EditView#statics.aliases for implementation details:
+             *
              */
             { name: 'dataRoute', type: 'string' },
 
