@@ -161,13 +161,6 @@
                 });
             });
 
-            menuItems.push({
-                text: 'dupa'
-            });
-            menuItems.push({
-                text: 'cipa'
-            });
-
             if(menuItems.length > 0){
                 btn.setMenu(menuItems);
             }
