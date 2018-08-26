@@ -37,7 +37,7 @@
             /**
              * @cfg - route to load for user profile edits
              */
-            userProfileRoute: 'user-profile',
+            userProfileRoute: 'mh-user-profile',
 
             /**
              * whether or not logout btn should be hidden
