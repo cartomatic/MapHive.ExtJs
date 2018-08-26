@@ -25,7 +25,7 @@
         arrow: false,
 
 
-        iconCls: mh.FontIconsDictionary.getIcon('orgSwitcherOrganization'),
+        iconCls: mh.FontIconsDictionary.getIcon('mhOrgSwitcherOrganization'),
 
         hidden: true,
 

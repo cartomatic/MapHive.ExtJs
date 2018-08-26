@@ -70,7 +70,7 @@
                         text: this.getTranslation('appSwitcherBtn'),
                         tooltip: this.getTranslation('appSwitcherBtn')
                     },
-                    iconCls: mh.FontIconsDictionary.getIcon('appSwitcherApps'),
+                    iconCls: mh.FontIconsDictionary.getIcon('mhAppSwitcherApps'),
                     listeners: {
                         tap: Ext.bind(this.onAppSwitcherBtnTap, this)
                     }

@@ -114,7 +114,7 @@
             this.getView().toggleCls('expanded', value);
 
             this.lookup('navMenuExpanderBtn').setIconCls(
-                value ? mh.FontIconsDictionary.getIcon('navMenuCollapse') : mh.FontIconsDictionary.getIcon('navMenuExpand'));
+                value ? mh.FontIconsDictionary.getIcon('mhNavMenuCollapse') : mh.FontIconsDictionary.getIcon('mhNavMenuExpand'));
         },
 
         /**
@@ -153,11 +153,11 @@
                 }
                 else {
                     profileBtn.setIcon(null);
-                    profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('navMenuUser'));
+                    profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('mhNavMenuUser'));
                 }
             }
             else {
-                profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('navMenuUserAnonymous'));
+                profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('mhNavMenuUserAnonymous'));
             }
 
             profileBtn.setText(
