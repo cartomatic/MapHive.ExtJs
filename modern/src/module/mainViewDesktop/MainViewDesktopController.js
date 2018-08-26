@@ -12,7 +12,8 @@
             'mh.mixin.Localization',
             'mh.communication.MsgBus',
             'mh.data.Ajax',
-            'mh.mixin.Router'
+            'mh.mixin.Router',
+            'mh.mixin.ModalMode'
         ],
 
         requires: [
@@ -112,6 +113,17 @@
          * Called when the view is created
          */
         handleNavigationRoute: function(type, args) {
+
+            //properly handle MODAL MODE!
+            if (this.getModalModeActive()) {
+
+                //<debug>
+                console.warn('[ROUTER@Main]', 'prevented route adjustment - modal mode active!');
+                //</debug>
+
+                window.location.hash = this.getModalModeRouteSnapshot();
+                return;
+            }
 
             var menuStore = Ext.getStore(this.lookup('navmenu').getMenuStore()),
                 nonMenuStore = Ext.getStore(this.getView().getNonMenuRoutesStore()),
@@ -254,6 +266,17 @@
          * @param args
          */
         handleDataRoute: function(type, id, args) {
+            //properly handle MODAL MODE!
+            if (this.getModalModeActive()) {
+
+                //<debug>
+                console.warn('[ROUTER@Main]', 'prevented route adjustment - modal mode active!');
+                //</debug>
+
+                window.location.hash = this.getModalModeRouteSnapshot();
+                return;
+            }
+
             var me = this,
                 args = Ext.Array.clean((args || '').split('/')),
                 action, xtype, view;

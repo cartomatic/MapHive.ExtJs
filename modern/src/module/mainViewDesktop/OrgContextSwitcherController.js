@@ -72,7 +72,7 @@
             //</debug>
 
             //only show menu if user has access to some more orgs...
-            if(btn.getMenu().items.items.length > 1){
+            if(btn.getMenu() && btn.getMenu().items.items.length > 1){
                 //btn.showMenu();
                 btn.getMenu().showBy(btn, 'l-r',offset);
             }
