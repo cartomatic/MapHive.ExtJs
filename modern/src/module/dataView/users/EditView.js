@@ -58,8 +58,7 @@
                                 bind: {
                                     label: '{localization.forename}',
                                     value: '{record.forename}'
-                                },
-                                required: true
+                                }
                             },
                             {
                                 xtype: 'textfield',
@@ -73,7 +72,8 @@
                                 bind: {
                                     label: '{localization.email}',
                                     value: '{record.email}'
-                                }
+                                },
+                                required: true
                             },
                             {
                                 xtype: 'textfield',

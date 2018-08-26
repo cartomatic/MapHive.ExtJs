@@ -8,7 +8,7 @@
 
     Ext.define('mh.module.dataView.orgUsers.DataView', {
         extend: 'mh.module.dataView.users.DataView',
-        xtype: 'org-users-data-view',
+        xtype: 'mh-org-users-data-view',
 
         requires: [
             'mh.module.dataView.orgUsers.DataViewController',
