@@ -16,6 +16,53 @@
          */
         callMeParent: function(method, args) {
 
+            //work out the caller from the stack trace
+            var caller;
+            try { throw new Error(); }
+            catch (e) {
+                var stack = e.stack.split('\n'),
+                    stackInfoToParse,
+                    i;
+
+                //first find the first line of the stack that mentions this method - the actual caller should be the next one
+                for (i = 0; i < stack.length; i++){
+                    if(stack[i].indexOf('callMeParent') > -1){
+                        stackInfoToParse = stack[i+1];
+                        break;
+                    }
+                }
+
+                //depending on a browser, the stack line looks like this (2k18, september):
+                //EDGE: " at getHeaders (https://hgis.maphive.local/packages/local/mh/src/data/proxy/Rest.js?_dc=1535290046672:44:13)"
+                //Opera: "    at constructor.getHeaders (https://hgis.maphive.local/packages/local/mh/src/data/proxy/Rest.js?_dc=1535290016921:44:32)"
+                //FF: "getHeaders@https://hgis.maphive.local/packages/local/mh/src/data/proxy/Rest.js?_dc=1535289854213:44:27"
+                //Chrome: "    at constructor.getHeaders (https://hgis.maphive.local/packages/local/mh/src/data/proxy/Rest.js?_dc=1535289507373:44:32)"
+
+                //Opera & chrome seems to be the same
+
+                if(stackInfoToParse.indexOf('@') > -1){
+                    //ff
+                    caller = stackInfoToParse.split('@')[0];
+                }
+                else {
+                    //edge chrome, opera
+                    caller = Ext.String.trim(stackInfoToParse.split(' (')[0].replace('at', '').replace('constructor.', ''));
+                }
+            }
+
+            //<debug>
+            console.log('[CallMeParent] ', method + ' :: ' + caller, 'Got ya?', method === caller || !args && caller);
+            //</debug>
+
+            //method not explicitly provided, so assume only args were passed, and the method name is worked out above
+            if(!args){
+                if(!Ext.isArray(method)){
+                    method = [method]
+                }
+                args = method;
+                method = caller;
+            }
+
             //Note:
             //setting a calledParent flag on an instance results in it being set already for further calls which is not good
             //as it indicates a parent call has been made already and leads to unexpected behavior - parent is not called.
