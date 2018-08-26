@@ -29,8 +29,10 @@
                 //In a case route has been changed but not fixed because of some reason this will fix things
                 //WARNING - this may be potentially problematic when working with piped routes. They'd have to be applied prior to entering modal mode 'officially'
 
+                //<debug>
                 console.warn(window.location.href);
                 console.warn(modalModeRouteSnapshot);
+                //</debug>
 
                 window.location.hash = modalModeRouteSnapshot;
                 modalModeRouteSnapshot = null;
