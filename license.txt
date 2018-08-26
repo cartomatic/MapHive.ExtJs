@@ -1,15 +1,20 @@
     CARTONINJAS.NET DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-                   Version 2, December 2004
+                   Version 3, September 2018
 
-Copyright (C) 2015 (or later) cartoninjas.net
-Copyright (C) 2015 (or later) cartomatic.pl
+Copyright (C) 2018 (or later) cartoninjas.net
+Copyright (C) 2018 (or later) cartomatic.pl
 
 Everyone is permitted to copy and distribute verbatim or modified
 copies of this license document, and changing it is allowed as long
 as the name is changed.
 
-           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+    CARTONINJAS.NET  DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
  0. You just DO WHAT THE FUCK YOU WANT TO.
+ 
  1. It would be nice if you mentioned the source though ;)
+ 
+ 2. Do not hold the author(s), creator(s), developer(s) or distributor(s) liable for anything that happens or goes wrong with your use of the work.
+
+ 3. If we meet some day, and you think this work is worth it, you can buy us a beer in return or even better - donate a worthy equivalent to a charity of own choice
