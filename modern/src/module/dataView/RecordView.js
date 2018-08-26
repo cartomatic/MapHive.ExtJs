@@ -14,10 +14,10 @@
             'mh.module.dataView.Icons'
         ],
 
-        controller: 'mh-record-viewer-base',
+        controller: 'mh-record-view',
 
         viewModel: {
-            type: 'mh-record-viewer-base'
+            type: 'mh-record-view'
         },
 
         eventedConfig: {

@@ -8,7 +8,7 @@
     Ext.define('mh.module.auth.Auth', {
         extend: 'mh.module.auth.LockingScreen',
 
-        xtype: 'mh.auth-screen',
+        xtype: 'mh-auth-screen',
 
         controller: 'mh-auth',
 

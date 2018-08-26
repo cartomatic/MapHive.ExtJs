@@ -13,7 +13,7 @@
             'Ext.field.Password'
         ],
 
-        xtype: 'mh.auth-screen',
+        xtype: 'mh-auth-screen',
 
         controller: 'mh-auth',
 

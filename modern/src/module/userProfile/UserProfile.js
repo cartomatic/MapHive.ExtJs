@@ -9,12 +9,19 @@
      */
     Ext.define('mh.module.userProfile.UserProfile', {
         extend: 'Ext.Panel',
-    
-        xtype: [
-            'userprofile',
-            'user-profile'
-        ],
+
+        xtype: 'mh-user-profile',
+
+        statics: {
+            aliases: [
+                'user-profile',
+                'userprofile'
+            ]
+        },
 
         html: 'This is gonna be user profile'
+
+    }, function(){
+        mh.util.AliasMapper.registerAliases(this);
     });
 }());

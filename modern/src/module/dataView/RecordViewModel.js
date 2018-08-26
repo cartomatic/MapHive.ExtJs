@@ -7,7 +7,7 @@
     Ext.define('mh.module.dataView.RecordViewModel', {
         extend: 'Ext.app.ViewModel',
 
-        alias: 'viewmodel.mh-record-viewer-base',
+        alias: 'viewmodel.mh-record-view',
 
         mixins: [
             'mh.mixin.Localization'
