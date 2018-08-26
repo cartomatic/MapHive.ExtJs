@@ -1,0 +1,17 @@
+@include button-ui(
+  $ui: 'mh-record-view-btn-prev'
+);
+
+@include button-ui(
+  $ui: 'mh-record-view-btn-next'
+);
+
+@include button-ui(
+  $ui: 'mh-record-view-btn-edit',
+  $color: $neutral-light-color
+);
+
+@include button-ui(
+  $ui: 'mh-record-view-btn-back',
+  $color: $neutral-light-color
+);

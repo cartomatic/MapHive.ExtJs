@@ -29,7 +29,12 @@
              * hook for providing definitions of child components. they are pushed into view's tab panel on init
              * this way it is not necessary to re-declare tab panel every time a view is extended
              */
-            screens: null
+            screens: null,
+
+            btnNextUi: 'mh-record-view-btn-next',
+            btnPrevUi: 'mh-record-view-btn-prev',
+            btnEditUi: 'mh-record-view-btn-edit',
+            btnBackUi: 'mh-record-view-btn-back'
         },
         bind: {
             title: '{record.name}'
@@ -63,7 +68,6 @@
                     text: '{localization.btnEdit}'
                 },
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnEdit'),
-                ui: 'action', //FIXME - customize UI
                 margin: '0 10 0 0',
                 //weight: 20,
                 handler: 'onBtnEditTap'
@@ -76,7 +80,6 @@
                     text: '{localization.btnBack}'
                 },
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnBack'),
-                ui: 'action', //FIXME - customize UI
                 margin: '0 10 0 0',
                 //weight: 30,
                 handler: 'onBtnBackTap'

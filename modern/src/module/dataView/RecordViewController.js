@@ -32,6 +32,7 @@
             this.injectLocalizationToViewModel();
 
             this.publishApi('loadRecord');
+
         },
 
         /**
@@ -41,6 +42,28 @@
          */
         onViewInitialize: function(vw, eOpts){
             vw.lookup('tabPanel').add(vw.getScreens());
+
+            this.configureActionBtns();
+        },
+
+        /**
+         * configures action btns - uis and such
+         */
+        configureActionBtns: function(){
+            var vw = this.getView();
+
+            if(this.lookupReference('btnNext')){
+                this.lookupReference('btnNext').setUi(vw.getBtnPrevUi() || 'mh-record-view-btn-prev');
+            }
+            if(this.lookupReference('btnPrev')){
+                this.lookupReference('btnPrev').setUi(vw.getBtnNextUi() || 'mh-record-view-btn-next');
+            }
+            if(this.lookupReference('btnEdit')){
+                this.lookupReference('btnEdit').setUi(vw.getBtnEditUi() || 'mh-record-view-btn-edit');
+            }
+            if(this.lookupReference('btnBack')){
+                this.lookupReference('btnBack').setUi(vw.getBtnBackUi() || 'mh-record-view-btn-back');
+            }
         },
 
         /**
