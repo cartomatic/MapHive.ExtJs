@@ -12,15 +12,15 @@
         ],
         constructor: function() {
             mh.FontIconsDictionary.addIcons({
-                navMenuUserAnonymous: 'x-i54c i54c-anonymous-2',
-                navMenuUser: 'x-i54c i54c-bald-male',
-                navMenuLogOff: 'x-li li-power-switch',
-                navMenuExpand: 'x-i54c i54c-right-2',
-                navMenuCollapse: 'x-i54c i54c-left-2',
+                mhNavMenuUserAnonymous: 'x-i54c i54c-anonymous-2',
+                mhNavMenuUser: 'x-i54c i54c-bald-male',
+                mhNavMenuLogOff: 'x-li li-power-switch',
+                mhNavMenuExpand: 'x-i54c i54c-right-2',
+                mhNavMenuCollapse: 'x-i54c i54c-left-2',
 
-                appSwitcherApps: 'x-i54 i54-multy-task-2',
+                mhAppSwitcherApps: 'x-i54 i54-multy-task-2',
 
-                orgSwitcherOrganization: 'x-i54c i54c-globe-2'
+                mhOrgSwitcherOrganization: 'x-i54c i54c-globe-2'
             });
         }
     });

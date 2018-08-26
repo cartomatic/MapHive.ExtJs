@@ -28,7 +28,7 @@
 
         width: 265,
 
-        iconCls: mh.FontIconsDictionary.getIcon('appSwitcherApps'),
+        iconCls: mh.FontIconsDictionary.getIcon('mhAppSwitcherApps'),
 
         layout: 'vbox',
         

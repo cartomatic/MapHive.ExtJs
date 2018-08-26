@@ -79,7 +79,7 @@
                         xtype: 'button',
                         reference: 'navMenuExpanderBtn',
                         handler: 'onNavMenuExpanderBtnTap',
-                        iconCls: mh.FontIconsDictionary.getIcon('navMenuExpand'),
+                        iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuExpand'),
                         cls: 'navmenu-expander'
                     }
                 ]
@@ -115,7 +115,7 @@
                 reference: 'profileBtn',
                 ui: 'navmenu-flat navmenu-dark navmenu-picture',
 
-                iconCls: mh.FontIconsDictionary.getIcon('navMenuUserAnonymous'),
+                iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuUserAnonymous'),
 
                 textAlign: 'left',
                 //weight: 20,
@@ -129,7 +129,7 @@
                 xtype: 'button',
                 handler: 'onLogOffBtnTap',
                 reference: 'logOffBtn',
-                iconCls: mh.FontIconsDictionary.getIcon('navMenuLogOff'),
+                iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuLogOff'),
 
                 bind: {
                     text: '{localization.logOff}'
