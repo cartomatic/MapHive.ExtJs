@@ -28,6 +28,10 @@
             this.publishApi('reloadStore', 'getGridInstance', 'onViewActivate');
 
             this.configureGrid();
+
+            this.configureActionBtns();
+
+            this.handleInitialTbarBtnsVisibility();
         },
 
         /**
@@ -87,9 +91,6 @@
                    return false;
                 }
             }, this);
-
-
-            this.handleInitialTbarBtnsVisibility();
         },
 
         /**
@@ -120,7 +121,7 @@
                             xtype: 'widgetcell',
                             widget: {
                                 xtype: 'button',
-                                ui: view.getGridEditBtnUi() || 'mh-data-view-grid-edit-btn',
+                                ui: view.getGridBtnEditUi() || 'mh-data-view-grid-btn-edit',
                                 tooltip: this.getTranslation('btnEdit'),
                                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnEdit'),
                                 handler: function(btn){
@@ -147,7 +148,7 @@
                             xtype: 'widgetcell',
                             widget: {
                                 xtype: 'button',
-                                ui: view.getGridDestroyBtnUi() || 'mh-data-view-grid-destroy-btn',
+                                ui: view.getGridBtnDestroyUi() || 'mh-data-view-grid-btn-destroy',
                                 tooltip: this.getTranslation('btnDestroy'),
                                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDestroy'),
                                 handler: function(button){
@@ -189,6 +190,23 @@
         },
 
         /**
+         * configures action btns - uis and such
+         */
+        configureActionBtns: function(){
+            var vw = this.getView();
+
+            if(this.lookupReference('btnCreate')){
+                this.lookupReference('btnCreate').setUi(vw.getBtnCreateUi() || 'mh-data-view-btn-create');
+            }
+            if(this.lookupReference('btnEdit')){
+                this.lookupReference('btnEdit').setUi(vw.getBtnEditUi() || 'mh-data-view-btn-edit');
+            }
+            if(this.lookupReference('btnDestroy')){
+                this.lookupReference('btnDestroy').setUi(vw.getBtnDestroyUi() || 'mh-data-view-btn-destroy');
+            }
+        },
+
+        /**
          * handles initial configured btns visibility
          */
         handleInitialTbarBtnsVisibility: function(){
@@ -200,6 +218,7 @@
                 };
 
             Ext.Array.each(['btnCreate', 'btnEdit', 'btnDestroy'], function(btn){
+
                 //assume btns may not be present in the module - for example it uses a custom tbar...
                 if(this.lookupReference(btn)){
                     this.lookupReference(btn).setVisibility(!hidden[btn]);

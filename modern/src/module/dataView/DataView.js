@@ -74,8 +74,12 @@
              */
             disableGridDblTap: false,
 
-            gridEditBtnUi: 'mh-data-view-grid-edit-btn',
-            gridDestroyBtnUi: 'mh-data-view-grid-destroy-btn'
+            btnCreateUi: 'mh-data-view-btn-create',
+            btnEditUi: 'mh-data-view-btn-edit',
+            btnDestroyUi: 'mh-data-view-btn-destroy',
+
+            gridBtnEditUi: 'mh-data-view-grid-btn-edit',
+            gridBtnDestroyUi: 'mh-data-view-grid-btn-destroy'
         },
 
         layout: 'fit',

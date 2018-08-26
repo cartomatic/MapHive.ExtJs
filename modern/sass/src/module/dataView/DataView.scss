@@ -24,10 +24,23 @@
 }
 
 @include button-ui(
-  $ui: 'mh-data-view-grid-edit-btn'
+  $ui: 'mh-data-view-grid-btn-edit'
 );
 
 @include button-ui(
-  $ui: 'mh-data-view-grid-destroy-btn',
+  $ui: 'mh-data-view-grid-btn-destroy',
+  $color: #a7231a
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-create'
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-edit'
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-destroy',
   $color: #a7231a
 );
