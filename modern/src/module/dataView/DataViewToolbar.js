@@ -48,7 +48,7 @@
             },
             {
                 xtype: 'button',
-                reference: 'btnDelete',
+                reference: 'btnDestroy',
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDestroy'),
                 handler: 'onBtnDestroyTap',
                 bind: {
