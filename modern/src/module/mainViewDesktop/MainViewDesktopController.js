@@ -131,7 +131,12 @@
                 //check in class manager if xtype exists - both with and without dataview suffix
                 var inst = Ext.ClassManager.getByAlias('widget.' + xtype);
                 if(!inst){
-                    xtype = xtype + '-data-view';
+                    xtype = type + '-data-view';
+                    inst = Ext.ClassManager.getByAlias('widget.' + xtype);
+                }
+
+                if(!inst){
+                    xtype = mh.util.AliasMapper.getXtypeFromAlias(type) || type; //so get proper msg on err!
                     inst = Ext.ClassManager.getByAlias('widget.' + xtype);
                 }
 
