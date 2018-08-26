@@ -72,7 +72,10 @@
             /**
              * whether or not dbl taps on grid should be handled or not; default behavior is to open up a record in 'view' mode
              */
-            disableGridDblTap: false
+            disableGridDblTap: false,
+
+            gridEditBtnUi: 'mh-data-view-grid-edit-btn',
+            gridDestroyBtnUi: 'mh-data-view-grid-destroy-btn'
         },
 
         layout: 'fit',

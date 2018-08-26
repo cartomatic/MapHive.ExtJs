@@ -22,3 +22,12 @@
     text-decoration: underline;
   }
 }
+
+@include button-ui(
+  $ui: 'mh-data-view-grid-edit-btn'
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-grid-destroy-btn',
+  $color: #a7231a
+);

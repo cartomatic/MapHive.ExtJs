@@ -120,7 +120,7 @@
                             xtype: 'widgetcell',
                             widget: {
                                 xtype: 'button',
-                                ui: 'base', //TODO - change
+                                ui: view.getGridEditBtnUi() || 'mh-data-view-grid-edit-btn',
                                 tooltip: this.getTranslation('btnEdit'),
                                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnEdit'),
                                 handler: function(btn){
@@ -147,7 +147,7 @@
                             xtype: 'widgetcell',
                             widget: {
                                 xtype: 'button',
-                                ui: 'base', //TODO - change
+                                ui: view.getGridDestroyBtnUi() || 'mh-data-view-grid-destroy-btn',
                                 tooltip: this.getTranslation('btnDestroy'),
                                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDestroy'),
                                 handler: function(button){
