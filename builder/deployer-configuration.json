@@ -1,0 +1,15 @@
+{
+  /**
+   * Where to deploy to - deployer service endpoint
+   */
+  "endPoint": "http://localhost/webdeployer",
+  /**
+   * app identifier as configured at the deployer service
+   */
+  "appId": "here-goes-app-deploy-id",
+  
+  /**
+   * Where the git repo to extract the revision metadata is located against the app root
+   */
+  "gitRepo": "\\..\\"
+}

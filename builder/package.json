@@ -1,0 +1,16 @@
+{
+  "name": "mh-builder",
+  "version": "0.0.0",
+  "description": "mh-builder",
+  "main": "app.js",
+  "author": {
+    "name": "domin"
+  },
+  "dependencies": {
+    "archiver": "^2.0.3",
+    "ncp": "^2.0.0",
+    "node-minify": "^3.4.0",
+    "request": "^2.81.0",
+    "strip-json-comments": "^2.0.1"
+  }
+}
