@@ -10,6 +10,10 @@
     Ext.define('mh.module.userProfile.UserProfile', {
         extend: 'Ext.Panel',
 
+        requires: [
+            'mh.util.AliasMapper'
+        ],
+
         xtype: 'mh-user-profile',
 
         statics: {
