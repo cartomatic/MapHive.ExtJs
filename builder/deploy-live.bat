@@ -1,0 +1,1 @@
+node packages/local/mh/builder/app.js %~dp0 live
