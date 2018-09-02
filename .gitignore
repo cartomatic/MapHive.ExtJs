@@ -7,6 +7,8 @@ docs/docs/
 #webstorm
 .idea
 
+builder/
+
 ############
 # Sencha #
 ############
