@@ -10,9 +10,7 @@
 
     requires: [
         'Ext.data.Store',
-        'mh.module.dataView.localisations.emailTemplates.TranslationsGridLocalisation',
-        'mh.data.model.EmailTemplateTranslation',
-        'mh.data.model.Translation'
+        'mh.data.model.EmailTemplateTranslation'
     ],
 
     mixins: [

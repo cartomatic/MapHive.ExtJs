@@ -11,8 +11,7 @@
 
     requires: [
         'mh.data.model.Base',
-        'mh.module.dataView.LinksPicker',
-        'mh.module.dataView.SingleLinkFieldLocalisation'
+        'mh.module.dataView.LinksPicker'
     ],
 
     mixins: [

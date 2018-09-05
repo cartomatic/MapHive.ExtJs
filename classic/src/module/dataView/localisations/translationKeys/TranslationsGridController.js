@@ -8,13 +8,12 @@
         extend: 'mh.module.dataView.BindableStoreGridController',
         alias: 'controller.mh-translationsgrid',
 
-        requires: [
-            'Ext.data.Store',
-            'mh.data.model.Translation',
-            'mh.module.dataView.localisations.translationKeys.TranslationsGridLocalisation'
-        ],
+    requires: [
+        'Ext.data.Store',
+        'mh.data.model.Translation'
+    ],
 
-        mixins: [
+    mixins: [
             'mh.mixin.Localisation',
             'mh.mixin.GridUtils',
             'mh.mixin.PublishApi'

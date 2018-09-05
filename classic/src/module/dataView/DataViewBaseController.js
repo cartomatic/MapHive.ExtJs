@@ -18,9 +18,7 @@
         'Ext.grid.Panel',
         'Ext.layout.container.Form',
         'Ext.menu.CheckItem',
-        'Ext.menu.Menu',
-        'mh.module.dataView.DataViewBaseLocalisation',
-        'mh.module.dataView.Editor'
+        'Ext.menu.Menu'
     ],
 
     mixins: [
@@ -503,14 +501,19 @@
             //wait a bit so a user has some time to play with the checkboxes
             this.filterByCheckChangeTimeout = Ext.defer(
                 function(){
-                    //delegate the filter value setter further.
-                    if(checked){
-                        //just use whatever the last filter value was
-                        this.setFilters(this.lastFilterValue);
-                    }
-                    else {
-                        chckbox.filter.setActive(false);
-                    }
+                    // //delegate the filter value setter further.
+                    // if(checked){
+                    //     //just use whatever the last filter value was
+                    //     this.setFilters(this.lastFilterValue);
+                    // }
+                    // else {
+                    //     //console.warn('chckbox.filter', chckbox.filter);
+                    //     //Boom, filter is not an instance in 6.6.0
+                    //     //chckbox.filter.setActive(false);
+                    // }
+
+                    //looks like check check happens in setFilters.
+                    this.setFilters(this.lastFilterValue);
                 },
                 this.freeTextSearchFilterWaitTimeout,
                 this
