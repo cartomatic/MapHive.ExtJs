@@ -1031,7 +1031,7 @@
             this.reloadGrid();
 
             this.showValidationMsgServerErr(
-                this.getFriendlyServerValidationFeedback(response.responseText)
+                this.getFriendlyServerValidationFeedback(response.responseJson || response.responseText)
             );
         },
         

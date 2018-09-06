@@ -119,7 +119,7 @@
             if(response.status === 400){
                 //ok this failure was due to invalid data - give appropriate msg!
                 //this should be an array of errors
-                errors = Ext.JSON.decode(response.responseText);
+                errors = response.responseJson || Ext.JSON.decode(response.responseText);
 
                 msg = this.getTranslation('accountCreationFailureDetailedMsg');
                 msg += '<ul>';

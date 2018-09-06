@@ -205,7 +205,7 @@
                     cfg,
 
                     //this should prevent deserialisation problems when 204 (no content) pops out
-                    [(response.responseText !== '' ? Ext.JSON.decode(response.responseText) : {})]
+                    [response.responseJson || (response.responseText !== '' ? Ext.JSON.decode(response.responseText) : {})]
                 );
             }
             else {

@@ -144,7 +144,7 @@
          * @param operation
          */
         onSaveFailure: function(response, validationOutput){
-            this.broadcastSaveComplete(false, null, validationOutput.handled ? null : this.getFriendlyServerValidationFeedback(response.responseText));
+            this.broadcastSaveComplete(false, null, validationOutput.handled ? null : this.getFriendlyServerValidationFeedback(response.responseJson || response.responseText));
         },
 
         /**
