@@ -7,15 +7,16 @@
     Ext.define('mh.module.dataView.users.RecordView', {
         extend: 'mh.module.dataView.RecordView',
 
-        requires: [
-            'mh.util.AliasMapper',
-            'mh.FontIconsDictionary',
-            'mh.module.dataView.users.Icons',
-            'mh.module.dataView.users.RecordViewController',
-            'mh.module.dataView.users.RecordViewModel'
-        ],
+    requires: [
+        'Ext.layout.VBox',
+        'mh.FontIconsDictionary',
+        'mh.module.dataView.users.Icons',
+        'mh.module.dataView.users.RecordViewController',
+        'mh.module.dataView.users.RecordViewModel',
+        'mh.util.AliasMapper'
+    ],
 
-        xtype: [
+    xtype: [
             'mh-users-record-view'
         ],
 

@@ -7,15 +7,17 @@
     Ext.define('mh.module.dataView.users.EditView', {
         extend: 'mh.module.dataView.EditView',
 
-        requires: [
-            'mh.util.AliasMapper',
-            'mh.FontIconsDictionary',
-            'mh.module.dataView.users.Icons',
-            'mh.module.dataView.users.EditViewController',
-            'mh.module.dataView.users.EditViewModel'
-        ],
+    requires: [
+        'Ext.field.Text',
+        'Ext.layout.VBox',
+        'mh.FontIconsDictionary',
+        'mh.module.dataView.users.EditViewController',
+        'mh.module.dataView.users.EditViewModel',
+        'mh.module.dataView.users.Icons',
+        'mh.util.AliasMapper'
+    ],
 
-        xtype: [
+    xtype: [
             'mh-users-edit-view'
         ],
 
