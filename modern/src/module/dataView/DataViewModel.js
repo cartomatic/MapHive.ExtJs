@@ -47,7 +47,7 @@
                     deep: true
                 },
                 get: function(timestamp){
-                    var grid = this.get('dataviewgrid'),
+                    var grid = this.get('dataviewgrid') || {},
                         selection = grid.selection;
 
                     if(!grid || !selection){
