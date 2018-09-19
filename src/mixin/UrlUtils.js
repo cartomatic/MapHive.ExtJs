@@ -49,7 +49,7 @@
          * @param delimiter
          */
         getUrlToken: function(delimiter){
-            var urlParts = window.location.href.split('#')[0].split('/'),
+            var urlParts = window.location.href.split('#')[0].split('?')[0].split('/'),
                 tokenValue;
 
             Ext.Array.each(urlParts, function(p){
@@ -192,7 +192,7 @@
                 outParams = [];
 
                 if(!this.appUrlParamsMatcher){
-                    this.appUrlParamsMatcher = new RegExp(this.appUrlParamsMatcher.join('|'), "g");
+                    this.appUrlParamsMatcher = new RegExp(this.appUrlParamsToClear.join('|'), "g");
                 }
 
                 Ext.Array.each(baseParams, function(param){
@@ -201,8 +201,6 @@
                         outParams.push(param);
                     }
                 });
-
-                console.warn('ale co jest???',outParams);
 
                 if(outParams.length > 0){
                     outUrl += '?' + outParams.join('&');

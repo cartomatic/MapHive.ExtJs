@@ -136,8 +136,7 @@
          * @param cfg.orgCtx
          * @param cfg.userConfig
          * @param cfg.userConfig.user
-         * @param cfg.userConfig.app
-         * @param cfg.userConfig.allowedOrgs
+         * @param cfg.userConfig.orgs
          */
         preLaunchCheckup: function(cfg){
 
@@ -149,25 +148,76 @@
             }
 
 
-            //cfg.allowedOrgs should contain a key for the currently scoped org (its slug is the key actually);
-            //if the object does not contain such key, then need to re-scope org to the first key found
-            //if there are no keys, then well, there are no org context for which user can use this application
+            //cfg contains info on all the orgs that a user has access too
+            //each org has the info on the apps it can use
+            //each app on the other hand contains information on the access credentials to an app for the user that pulled the config
+            //cfg.userConfig.orgs: [] ->
+            //  org.applications: [] ->
+            //      app.orgUserAppAccessCredentials: {canUseApp: bool, isAppAdmin: bool}
+
+            //basically, when arrived here, the app should have auto contexted itself to an organization: either the one specified in the url
+            //or the first one from the received user orgs collection
+
+            //so need to check if the currently contexted organisation can use the application and continue with a launch procedure if so
+            //if an org does not have the app, the org checkup continues until it finds a very first user org that can actually use the app
+            //and silently re-scopes to it
+            //
+            //if there are no user orgs that can use this application, then well, boom - let the user know there is a problem and reload to a dashboard app.
 
 
-            var orgToken = this.getUrlOrgIdentifier(),
+            //each application may retrieve its config via api that serves more than one app and is not really aware of a calling app
+            //therefore need to investigate orgs and their apps and check the app access credentials for the authenticated user
+            //app match is done based on the app starting url compared with the app urls
+
+            var me = this,
+                orgToken = this.getUrlOrgIdentifier(),
+                appIdentifyingUrl = this.standardiseAppIdentifyingUrl(this.getAppIdentifyingUrl()),
                 alternateOrg,
-                allowedOrgs = cfg.userConfig.allowedOrgs,
-                orgCanUseApp = function(org){
-                    return !!org && (org.isAppAdmin || org.canUseApp);
+                //gets an org by slug off the cfg
+                getOrg = function(slug){
+                    var org;
+                    Ext.Array.each(cfg.userConfig.orgs, function(o){
+                        if(o.slug === slug){
+                            org = o;
+                            return false;
+                        }
+                    });
+                    return org;
                 },
-                canStart = orgCanUseApp(allowedOrgs[orgToken]),
-                me = this;
+                //checks if an app matches this app (this == the running app)
+                appMatches = function(app){
+                    var appUrls = app.urls.split('|'),
+                        matches = false;
+                    Ext.Array.each(appUrls, function(url){
+                        if(me.standardiseAppIdentifyingUrl(url) === appIdentifyingUrl){
+                            matches = true;
+                            return false;
+                        }
+                    });
+                    return matches;
+                },
+                //whether or not an org can use an app
+                orgCanUseApp = function(org){
+                    if(!org){
+                        return false;
+                    }
+                    var canUse = false;
+                    Ext.Array.each(org.applications, function(app){
+                        canUse = appMatches(app) && app.orgUserAppAccessCredentials && (app.orgUserAppAccessCredentials.isAppAdmin || app.orgUserAppAccessCredentials.canUseApp);
+                        if(canUse){
+                            return false;
+                        }
+                    });
+                    return canUse;
+                },
+
+                canStart = orgCanUseApp(getOrg(orgToken));
 
             if(!canStart){
                 //hmm, looks like the initially scoped org does not have the access to this app.
                 //grab the first other org where a user can use this application
-                Ext.Array.each(Ext.Object.getKeys(allowedOrgs), function(org){
-                    canStart = orgCanUseApp(allowedOrgs[org]);
+                Ext.Array.each(cfg.userConfig.orgs, function(org){
+                    canStart = orgCanUseApp(org);
                     if(canStart){
                         alternateOrg = org;
                         return false;
@@ -179,7 +229,7 @@
                 //if an org should be re-scoped do so
                 if(alternateOrg){
                     this.fireGlobal('org::changeslug', {
-                        slug: alternateOrg,
+                        slug: alternateOrg.slug,
                         replaceState: true //this will update history state instead of pushing a new entry!
                     });
                 }
@@ -199,7 +249,7 @@
                     title: this.getTranslation('noAppAccessForUserTitle'),
                     message: this.getTranslation('noAppAccessForUserMsg'),
                     width: 500,
-                    buttons: Ext.Msg.OK,
+                    buttons: Ext.MessageBox.OK,
                     icon: Ext.MessageBox.WARNING,
                     fn: function(){
                         //TODO - perhaps xwindow too??? for scenarios, where user retrieved an appset and it has changed in the meantime???
@@ -250,18 +300,18 @@
          * root::getuserconfigstart handler
          */
         onGetUserConfigStart: function(){
-            Ext.getBody().mask(this.getTranslation('getClientCfgLoadMask'));
+            this.fireGlobal('loadmask::show', this.getTranslation('getClientCfgLoadMask'));
         },
 
         /**
          * root::getuserconfigend handler
          */
         onGetUserConfigEnd: function(){
-            Ext.getBody().unmask();
+            this.fireGlobal('loadmask::hide');
         },
 
         onGetUserConfigFailure: function(){
-            Ext.getBody().unmask();
+            this.fireGlobal('loadmask::hide');
             this.fireGlobal('splash::hide');
 
             //<debug>

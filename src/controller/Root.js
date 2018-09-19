@@ -22,13 +22,14 @@
             'mh.mixin.UrlUtils'
         ],
 
-        requires: [
-            'Ext.app.Application',
-            'mh.dummy.AppLauncher',
-            'mh.data.model.Application'
-        ],
+    requires: [
+        'Ext.app.Application',
+        'Ext.util.History',
+        'mh.data.model.Application',
+        'mh.dummy.AppLauncher'
+    ],
 
-        /**
+    /**
          * @event auth::verifyauthstate
          * @param {string} [accessToken]
          */

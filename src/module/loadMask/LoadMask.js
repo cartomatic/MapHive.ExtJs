@@ -18,15 +18,24 @@
         },
 
         onLoadMaskShow: function(msg){
-            Ext.getBody().mask(msg);
-
-            //TODO - modern toolkit
+            if(Ext.isModern){
+                Ext.Viewport.setMasked({
+                    xtype: 'loadmask',
+                    message: msg
+                });
+            }
+            else {
+                Ext.getBody().mask(msg);
+            }
         },
 
         onLoadMaskHide: function(){
-            Ext.getBody().unmask();
-
-            //TODO - moder toolkit
+            if(Ext.isModern){
+                Ext.Viewport.setMasked(null);
+            }
+            else {
+                Ext.getBody().unmask();
+            }
         }
     });
     

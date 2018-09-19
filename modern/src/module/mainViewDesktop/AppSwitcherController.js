@@ -10,12 +10,13 @@
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-app-switcher',
 
-        requires:[
-            'mh.module.mainViewDesktop.Icons',
-            'mh.module.mainViewDesktop.AppSwitcherLocalization'
-        ],
+    requires: [
+        'mh.FontIconsDictionary',
+        'mh.module.mainViewDesktop.AppSwitcherLocalization',
+        'mh.module.mainViewDesktop.Icons'
+    ],
 
-        mixins: [
+    mixins: [
             'mh.util.console.Formatters',
             'mh.mixin.Localization',
             'mh.communication.MsgBus',

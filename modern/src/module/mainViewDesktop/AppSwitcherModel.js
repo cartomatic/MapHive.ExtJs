@@ -8,6 +8,10 @@
         extend: 'Ext.app.ViewModel',
         alias: 'viewmodel.mh-app-switcher',
 
+        requires: [
+            'mh.data.model.Application'
+        ],
+
         stores: {
             apps: {
                 model: 'mh.data.model.Application'

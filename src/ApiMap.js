@@ -5,7 +5,8 @@
     'use strict';
 
     var parentIdentifier = '{parent_uuid}',
-        orgIdentifier = '{org_uuid}';
+        orgIdentifier = '{org_uuid}',
+        appShortNameIdentifier = '{app_short_name}';
 
 
     /**
@@ -20,6 +21,10 @@
 
         getOrgIdentifier: function(){
             return orgIdentifier;
+        },
+
+        getAppShortNameIdentifier: function(){
+            return appShortNameIdentifier;
         },
 
         /**
