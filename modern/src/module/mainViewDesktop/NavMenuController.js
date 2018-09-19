@@ -44,6 +44,7 @@
             }
 
             this.updateUserInfo();
+            this.getUserProfile();
 
             this.watchGlobal('user::profilepicturechanged', this.updateUserInfo, this);
 
