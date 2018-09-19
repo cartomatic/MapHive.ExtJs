@@ -13,6 +13,8 @@
         xtype: 'mh-auth-pass-change',
 
         requires: [
+            'Ext.field.Password',
+            'Ext.layout.HBox',
             'mh.module.auth.PassChangeController'
         ],
 
@@ -38,6 +40,13 @@
         bodyPadding: 10,
 
         height: 270,
+
+        header: {
+            bind: {
+                title: '{localization.title}'
+            },
+            iconCls: 'x-i54c i54c-pin-code'
+        },
 
         items: [
             {
