@@ -49,7 +49,16 @@
             //TODO - email must be email...
             //TODO - slug will require a backend checkup!
 
-            this.getView().mask(this.getTranslation('accountCreateInProgress'));
+            if(Ext.isModern){
+                this.lookupReference('mainForm').setMasked({
+                    xtype: 'loadmask',
+                    msg: this.getTranslation('accountCreateInProgress')
+                });
+            }
+            else {
+                this.getView().mask(this.getTranslation('accountCreateInProgress'));
+            }
+
 
             var user = Ext.create('mh.data.model.User', {
                 email: email,
@@ -90,7 +99,13 @@
          */
         onAccountCreateSuccess: function(response){
             this.reset();
-            this.getView().unmask();
+            if(Ext.isModern){
+                this.lookupReference('mainForm').setMasked(null);
+            }
+            else {
+                this.getView().unmask();
+            }
+
             this.getView().fireEvent('accountcreatefinished');
 
             //give feedback msg
@@ -98,7 +113,7 @@
                 title: this.getTranslation('accountCreationSuccessTitle'),
                 message: this.getTranslation('accountCreationSuccessMsg'),
                 width: 300,
-                buttons: Ext.Msg.OK,
+                buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.INFO
             });
         },
@@ -109,7 +124,12 @@
          * @param response
          */
         onAccountCreateFailure: function(response){
-            this.getView().unmask();
+            if(Ext.isModern){
+                this.lookupReference('mainForm').setMasked(null);
+            }
+            else {
+                this.getView().unmask();
+            }
 
             //give feedback msg
             var title = this.getTranslation('accountCreationFailureTitle'),
@@ -132,11 +152,11 @@
 
             //looks like some other problem has occured...
             Ext.Msg.show({
-                iconCls: '',
+                //iconCls: '',
                 title: title,
                 message: msg,
                 width: 400,
-                buttons: Ext.Msg.OK,
+                buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.ERROR
             });
         }
