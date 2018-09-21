@@ -109,7 +109,7 @@
                     en: 'Passwords must be the same.',
                     pl: 'Hasła muszą być jednakowe'
                 },
-                resetPassFailureTitle_too_short: {
+                passResetFailureTitle_too_short: {
                     en: 'Invalid password',
                     pl: 'Nieprawidłowe hasło'
                 },
@@ -117,7 +117,7 @@
                     en: 'Password is too short. Minimum password length is 6.', //TODO - make it serverside configurable!
                     pl: 'Hasło jest zbyt krótkie. Minimalna długość hasła to 6.'
                 },
-                resetPassFailureTitle_not_complex_enough: {
+                passResetFailureTitle_not_complex_enough: {
                     en: 'Invalid password',
                     pl: 'Nieprawidłowe hasło'
                 },

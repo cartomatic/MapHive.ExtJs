@@ -122,10 +122,9 @@
          * @private
          */
         unmaskAll: function () {
-            this.unmask(this.lookupReference('loginView'));
-            this.unmask(this.lookupReference('forgotPassView'));
-            this.unmask(this.lookupReference('resetPassView'));
-            this.unmask(this.lookupReference('activateAccountView'));
+            this.unmask(this.lookupReference('loginForm'));
+            this.unmask(this.lookupReference('forgotPassForm'));
+            this.unmask(this.lookupReference('resetPassForm'));
 
             //this is the global mask for the account activator.
             this.fireGlobal('loadmask::hide');
@@ -248,7 +247,7 @@
          * @private
          */
         doAuth: function () {
-            this.mask(this.lookupReference('loginView'), this.getTranslation('authMask'));
+            this.mask(this.lookupReference('loginForm'), this.getTranslation('authMask'));
 
             this.fireGlobal(
                 'auth::authenticateuser',
@@ -290,7 +289,7 @@
          * @private
          */
         doPassResetRequest: function () {
-            this.mask(this.lookupReference('forgotPassView'), this.getTranslation('initPassResetMask'));
+            this.mask(this.lookupReference('forgotPassForm'), this.getTranslation('initPassResetMask'));
 
             this.fireGlobal(
                 'auth::passresetrequest',
@@ -457,7 +456,7 @@
             }
 
 
-            this.mask(this.lookupReference('resetPassView'), this.getTranslation('passResetMask'));
+            this.mask(this.lookupReference('resetPassForm'), this.getTranslation('passResetMask'));
 
             this.fireGlobal(
                 'auth::resetpass',

@@ -24,6 +24,7 @@
 
                 xtype: 'panel',
                 padding: 10,
+                reference: 'loginForm',
                 header: {
                     bind: {
                         title: '{localization.titleLogin}'

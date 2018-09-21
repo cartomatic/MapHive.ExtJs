@@ -25,6 +25,7 @@
             {
                 xtype: 'panel',
                 padding: 10,
+                reference: 'forgotPassForm',
                 header: {
                     bind: {
                         title: '{localization.titleForgotPass}'

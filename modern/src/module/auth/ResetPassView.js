@@ -23,6 +23,7 @@
             {
                 xtype: 'panel',
                 padding: 10,
+                reference: 'resetPassForm',
                 header: {
                     bind: {
                         title: '{localization.titleResetPass}'
