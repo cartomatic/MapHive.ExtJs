@@ -60,6 +60,7 @@
             }
 
 
+            //FIXME - use the AccountCreateDetails model instead... this one is a quick fix...
             var user = Ext.create('mh.data.model.User', {
                 email: email,
                 slug: slug,

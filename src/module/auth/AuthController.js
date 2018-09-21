@@ -113,8 +113,7 @@
             this.lookupReference('txtForgotPassEmail').setValue(null);
             this.lookupReference('txtPassReset').setValue(null);
             this.lookupReference('txtPassResetRepeat').setValue(null);
-            this.lookupReference('txtVerificationKey').setValue(null);
-            this.lookupReference('txtInitialPassword').setValue(null);
+
             this.unmaskAll();
         },
 
@@ -127,6 +126,9 @@
             this.unmask(this.lookupReference('forgotPassView'));
             this.unmask(this.lookupReference('resetPassView'));
             this.unmask(this.lookupReference('activateAccountView'));
+
+            //this is the global mask for the account activator.
+            this.fireGlobal('loadmask::hide');
         },
 
         /**
@@ -334,49 +336,30 @@
         },
 
         /**
-         * Activate account btn click handler
-         */
-        onActivateAccountBtnClick: function(){
-            this.doActivation();
-        },
-
-        /**
-         * Shows the account authentication view
-         * @param verificationKey
-         */
-        showAccountActivationView: function (verificationKey) {
-            this.lookupReference('cardLayout').setActiveItem(this.lookupReference('activateAccountView'));
-            this.lookupReference('txtVerificationKey').setValue(verificationKey);
-            this.getView().show();
-        },
-
-        /**
          * Shows account activation view and fires the auto activation procedure
          * @param verificationKey
          * @param initialPassword
          */
-        autoAccountActivate: function (verificationKey, initialPassword) {
+        autoAccountActivate: function (verificationKey) {
             this.lookupReference('cardLayout').setActiveItem(this.lookupReference('activateAccountView'));
-            this.lookupReference('txtVerificationKey').setValue(verificationKey);
-            this.lookupReference('txtInitialPassword').setValue(initialPassword);
             this.getView().show();
-            this.doActivation();
+            this.doActivation(verificationKey);
         },
 
         /**
          * maksks the account activation view and fires evt to perform account activation
          */
-        doActivation: function () {
-            this.mask(this.lookupReference('activateAccountView'), this.getTranslation('activateAccountMask'));
+        doActivation: function (verificationKey) {
+            this.fireGlobal('loadmask::show', this.getTranslation('activateAccountMask'));
 
             this.fireGlobal(
                 'auth::activateaccount',
                 {
-                    verificationKey: this.lookupReference('txtVerificationKey').getValue(),
-                    initialPassword: this.lookupReference('txtInitialPassword').getValue()
+                    verificationKey: verificationKey
                 }
             );
         },
+
 
         /**
          * account activated callback; resets accoutn activation view and shows logon view

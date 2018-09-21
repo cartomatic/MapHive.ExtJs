@@ -32,15 +32,15 @@
          */
         apiMaps: {
             authApi: {
-                login: 'auth/letmein',
-                logout: 'auth/letmeoutofhere',
-                tokenValidation: 'auth/tokenvalidation',
-                accountActivation: 'auth/accountactivation',
-                resendActivation: 'auth/resendactivation/{userId}',
-                passResetRequest: 'auth/passresetrequest',
-                resetPass: 'auth/resetpass',
-                changePass: 'auth/changepass',
-                forceResetPass: 'auth/forceresetpass'
+                login: 'letmein',
+                logout: 'letmeoutofhere',
+                tokenValidation: 'tokenvalidation',
+                accountActivation: 'accountactivation',
+                resendActivation: 'resendactivation/{userId}',
+                passResetRequest: 'passresetrequest',
+                resetPass: 'resetpass',
+                changePass: 'changepass',
+                forceResetPass: 'forceresetpass'
             },
 
             coreApi: {

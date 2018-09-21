@@ -17,58 +17,7 @@
         },
 
         items: [
-            {
-                xtype: 'container',
-                flex: 1
-            },
-            {
-                xtype: 'panel',
-                padding: 10,
-                header: {
-                    bind: {
-                        title: '{localization.titleActivateAccount}'
-                    },
-                    iconCls: 'x-i54c i54c-pin-code'
-                },
-                items: [
-                    {
-                        xtype: 'textfield',
-                        reference: 'txtVerificationKey',
-                        clearable: true,
-                        bind: {
-                            placeholder: '{localization.verificationKeyEmptyText}'
-                        },
-                        cls: 'mh-auth-text-border',
-                        margin: '5 0 5 0' //trbl
-                    },
-                    {
-                        xtype: 'textfield',
-                        reference: 'txtInitialPassword',
-                        clearable: true,
-                        bind: {
-                            placeholder: '{localization.passEmptyText}'
-                        },
-                        cls: 'mh-auth-text-border',
-                        margin: '5 0 5 0' //trbl
-                    },
-                    {
-                        xtype: 'button',
-                        bind: {
-                            text: '{localization.btnActivateAccount}'
-                        },
-                        iconAlign: 'right',
-                        iconCls: 'x-li li-chevron-right-circle',
-                        ui: 'confirm',
-                        listeners: {
-                            tap: 'onActivateAccountBtnClick'
-                        }
-                    }
-                ]
-            },
-            {
-                xtype: 'container',
-                flex: 1
-            }
+            //this is just a blank screen - the account activation should kick in automatically and simply show a load mask.
         ]
     });
 }());

@@ -767,15 +767,7 @@
          */
         activateAccountStart: function(e){
             this.hideSplash();
-
-            //if both initial pass & verification key are present, then try to activate account straight away
-            //if not show the account activation ui
-            if(e.ip && e.vk){
-                this.getAuthUiInstance().autoAccountActivate(e.vk, e.ip)
-            }
-            else {
-                this.getAuthUiInstance().showAccountActivationView(e.vk);
-            }
+            this.getAuthUiInstance().autoAccountActivate(e.vk);
         },
 
         /**
@@ -784,7 +776,7 @@
          * @param initialPass
          */
         onActivateAccount: function(e){
-            this.activateAccount(e.verificationKey, e.initialPassword);
+            this.activateAccount(e.verificationKey);
         },
 
         /**
@@ -792,13 +784,12 @@
          * @param verificationKey
          * @param initialPass
          */
-        activateAccount: function(verificationKey, initialPassword){
+        activateAccount: function(verificationKey){
             this.doPut({
                 url: this.getApiEndPointUrl('accountActivation'),
                 scope: this,
                 params: {
-                    verificationKey: verificationKey,
-                    initialPassword: initialPassword
+                    verificationKey: verificationKey
                 },
                 autoHandleExceptions: false,
                 success: this.activateAccountSuccess,
