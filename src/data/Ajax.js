@@ -324,8 +324,10 @@
              //Note: need to explicitly specify the localizations namespace, as this class is meant to be used as a mixin and otherwise would use the class name of a classes it gets mixed into
                 title = this.getTranslation('error', 'mh.data.Ajax') + (cfg.exceptionMsg ? ' :: ' + cfg.exceptionMsg : ''),
 
+                errMsg = (Ext.JSON.decode(response.responseText, true) || {} ).errorMessage || response.responseText || response.statusText,
+
                 msg =
-                    this.getTranslation('srvErrMsg', 'mh.data.Ajax') + this.emphasize(response.status + ' :: ' + response.statusText );
+                    this.getTranslation('srvErrMsg', 'mh.data.Ajax') + this.emphasize(response.status + ' :: ' + errMsg );
 
 
             //add the retry to output too so it can be handled at the caller level when required!
