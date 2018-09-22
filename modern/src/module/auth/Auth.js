@@ -13,6 +13,7 @@
         'Ext.field.Text',
         'Ext.layout.Card',
         'Ext.layout.HBox',
+        'Ext.layout.Center',
         'mh.module.auth.AccountCreator',
         'mh.module.auth.ActivateAccountView',
         'mh.module.auth.AuthController',
