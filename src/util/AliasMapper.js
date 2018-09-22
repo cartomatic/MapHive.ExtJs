@@ -23,7 +23,7 @@
             }
             //<debug>
             Ext.log.error('No alias found for: ' + alias);
-            //<debug>
+            //</debug>
             return undefined;
         },
 
