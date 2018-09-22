@@ -26,13 +26,7 @@ temp/
 build/
 
 
-bootstrap.css
-bootstrap.js
-bootstrap.json
-sass/example/bootstrap.css
-sass/example/bootstrap.js
-sass/example/bootstrap.json
-sass/example/example.css
+
 
 *slicer-temp*
 gwt-unitCache
