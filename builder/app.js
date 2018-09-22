@@ -9,7 +9,6 @@ const request = require('request');
 const cp = require('child_process');
 const compressor = require('node-minify');
 
-
 /**
  * whether or not command has the test switch
  */
@@ -43,7 +42,12 @@ const readAppJson = () => {
 const getAppName = () => {
     readAppJson();
     return appJson.name;
-} 
+}
+
+const getBuildProfiles = () => {
+    readAppJson();
+    return appJson.builds;
+}
 
 /**
  * gets application build directory for the appropriate build type (production / testing)
@@ -292,8 +296,12 @@ const copyResources = () => {
             output: dest + '\\maphive-bootstrap.js'
         });
 
+        //just grab build profiles - if they are present this is a multi profile build
+        var buildProfiles = getBuildProfiles();
+
         //for test build using a testing bootstraper and it loads bootstrap.json, not app.json...
-        if (hasTestSwitch()) {
+        //this is true for single profile builds
+        if (hasTestSwitch() && !buildProfiles) {
             copyFile(dest + '\\app.json', dest + '\\bootstrap.json');    
         }
 
@@ -303,6 +311,45 @@ const copyResources = () => {
             .then(compressBootstrap)
             .then(resolve);
     });
+}
+
+const extractExtBuildProfilePicker = () => {
+    return new Promise((resolve, reject) => {
+
+        //if there are no build profiles ignore the
+        if(!getBuildProfiles()){
+            resolve();
+            return;
+        }
+
+        var dst = getBuildDirectory();
+
+    //read the html first
+    var html = fs.readFileSync(dst + '\\index.html').toString();
+
+    var startIdx = html.indexOf('//app-build-profile-switcher');
+    var endIdx = html.indexOf('//eo-app-build-profile-switcher');
+
+    var bootstrap = html.substr(
+        startIdx,
+        endIdx - startIdx
+    );
+
+    fs.writeFileSync(dst + '\\..\\build-profile-bootstrap.js', bootstrap);
+
+    var compressBootstrap = compressor.minify({
+        compressor: 'uglifyjs',
+        input: dst + '\\..\\build-profile-bootstrap.js',
+        output: dst + '\\build-profile-bootstrap.js'
+    });
+
+
+
+
+    console.log('build-profile-bootstrap.js bootstrap extracted');
+
+    resolve();
+});
 }
 
 /**
@@ -359,6 +406,7 @@ const cleanupAndFixScripts = () => {
                 `<!--${getAppName()} :: ${appVersion}-->`,
                 `<!--MapHive :: ${mapHiveVersion}-->`,
                 firstPart,
+                `    <script type="text/javascript" src="build-profile-bootstrap.js?r=${new Date().getTime()}"></script>`,
                 `    <script type="text/javascript" src="maphive-bootstrap.js?r=${new Date().getTime()}"></script>`,
                 secondPart
         ].join('\r\n');
@@ -526,6 +574,7 @@ if (hasLiveSwitch()) {
         .then(getAppVersion)
         .then(buildExtJsApp)
         .then(copyResources)
+        .then(extractExtBuildProfilePicker)
         .then(extractExtBootstrap)
         .then(cleanupAndFixScripts)
         .then(zipContent)
