@@ -85,7 +85,7 @@
                 }
 
                 if(navUrlBase === type || m.toLowerCase() === type){
-                    model = mh.data.model[m];
+                    model = appModels[m];
                 }
             }, this);
 
