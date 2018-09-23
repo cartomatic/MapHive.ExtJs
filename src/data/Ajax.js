@@ -293,6 +293,9 @@
          */
         handleFailedRequest: function (response, cfg) {
 
+            //looks like in some cases no response...
+            response = response ||{};
+
                 //error handler output object passed to the configured failure handler
              var output = {
                     //whether or not the exception has been handled
