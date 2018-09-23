@@ -100,7 +100,7 @@
 
 
         constructor: function(){
-            this.watchGlobal('org::contextchange', this.onOrgContextChange, this);
+            this.watchGlobal('org::changed', this.onOrgContextChange, this);
         },
 
         /**
@@ -108,7 +108,7 @@
          * @param org
          */
         onOrgContextChange: function(org){
-            orgContextUuid = org.uuid;
+            orgContextUuid = org.get('uuid');
 
             var modelNames = Ext.Object.getKeys(orgChangesModelWatches),
                 m = 0, len = modelNames.length,
@@ -131,11 +131,9 @@
 
                 if(model && model.proxy){
 
-
                     if(!model.proxy.apiMapKey){
                         console.error(modelNames[m] + ' proxy does not define an apiMapKey!');
                     }
-
 
                     model.proxy.url = this.getApiEndPointUrl(model.proxy.apiMapKey);
                 }

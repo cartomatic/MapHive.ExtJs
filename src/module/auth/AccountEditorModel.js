@@ -25,7 +25,7 @@
                 },
                 get: function(userProfile){
                     //TODO - check gravatar and profile image too
-                    return userProfile ? '\eeda@icon54com' : '\edd9@icon54com';
+                    return userProfile ? 'eeda@icon54com' : 'edd9@icon54com';
                 }
             }
         }
