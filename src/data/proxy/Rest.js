@@ -15,16 +15,13 @@
         ],
 
     requires: [
-        'Ext.data.writer.Json',
+        'mh.data.writer.Json',
         'mh.data.reader.Json'
     ],
 
     //writer used to send data out
         writer: {
-            type: 'json',
-
-            //so a full record is sent on put
-            writeAllFields: true
+            type: 'mhjson'
         },
 
         reader: {

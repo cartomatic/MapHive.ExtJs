@@ -128,7 +128,6 @@
                 return;
             }
 
-
             //Note:
             //basically it is assumed the view binds to the record via view model,
             //so all the view changes are expressed at the record level straight away;
@@ -178,6 +177,7 @@
                     if(me.getView().getCustomUrl()){
                         saveCfg.url = me.getView().getCustomUrl();
                     }
+
                     rec.save(saveCfg);
                 };
 
