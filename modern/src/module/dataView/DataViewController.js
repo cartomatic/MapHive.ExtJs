@@ -164,7 +164,7 @@
                                                     text: me.getTranslation('yes'),
                                                     handler: function () {
                                                         dialog.destroy();
-                                                        me.destroyRecords([record]);
+                                                        me.destroyRecords([rec]);
                                                     }
                                                 },
                                                 no: {
@@ -325,11 +325,11 @@
         onBtnDestroyTap: function(btn, e){
             var grid = this.lookup('dataviewgrid'),
                 //need to clone selection arr as otherwise would fuck up the selection collection during array slicing
-                record = grid.getSelection();
+                records = Ext.Array.clone(grid.getSelected().items);
+                //record = grid.getSelection();
 
-            //TODO - multiselect
 
-            this.initRecordDestroy([record]);
+            this.initRecordDestroy(records);
         },
 
 
@@ -641,6 +641,8 @@
             }
         },
 
+        currentFilterSet: null,
+
         /**
          * Sets filters value
          * @param value
@@ -658,7 +660,7 @@
                 filter,
                 parseValue;
 
-            view.getFiltersSet().forEach(function(filter){
+            (this.currentFilterSet || []).forEach(function(filter){
                 store.removeFilter(filter);
             });
 
@@ -749,7 +751,7 @@
                     filter.setDisabled(true);
                 }
             }
-            view.setFiltersSet(filtersToApply);
+            this.currentFilterSet = filtersToApply;
             store.filter(filtersToApply);
         }
     });

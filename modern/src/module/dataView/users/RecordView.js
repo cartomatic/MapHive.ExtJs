@@ -35,7 +35,7 @@
         iconCls: mh.FontIconsDictionary.getIcon('mhUsersViewHeader'),
 
         bind: {
-            title: '{record.username}'
+            title: '{localization.viewName} :: {record.username}'
         },
 
         screens: [

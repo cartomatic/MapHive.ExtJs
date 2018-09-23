@@ -12,6 +12,10 @@
         statics: {
             inherits: 'mh.module.dataView.users.DataViewLocalization',
             localization: {
+                viewName: {
+                    en: 'User',
+                    pl: 'Użytkownik'
+                }
             }
         }
 
