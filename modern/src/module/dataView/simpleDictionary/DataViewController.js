@@ -46,8 +46,11 @@
             });
             //rest of the binding should happen automatically via view model
 
+            //add nav route as the view's instance property, so the composite view can review it and ensure view refreshes
+            this.getView().navigationRoute = navRoute;
 
             //need to register aliases based on the models nav properties!
+            //this way the record, create & edit views will become discoverable
             mh.util.AliasMapper.addAlias(navRoute + '-edit-view', mh.module.dataView.simpleDictionary.EditView.xtype);
             mh.util.AliasMapper.addAlias(navRoute + '-create-view', mh.module.dataView.simpleDictionary.EditView.xtype);
 
