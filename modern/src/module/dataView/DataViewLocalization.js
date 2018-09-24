@@ -26,6 +26,10 @@
                     pl: 'Odśwież',
                     en: 'Refresh'
                 },
+                pageSize: {
+                    en: 'Page size',
+                    pl: 'Wyświetlaj'
+                },
                 createDate: {
                     pl: 'Data utworzenia',
                     en: 'Create date'

@@ -79,7 +79,9 @@
             btnDestroyUi: 'mh-data-view-btn-destroy',
 
             gridBtnEditUi: 'mh-data-view-grid-btn-edit',
-            gridBtnDestroyUi: 'mh-data-view-grid-btn-destroy'
+            gridBtnDestroyUi: 'mh-data-view-grid-btn-destroy',
+
+            pageSizes: [25,50,75,100]
         },
 
         layout: 'fit',

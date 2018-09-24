@@ -54,7 +54,8 @@
 
             var vw = this.getView(),
                 gridCfg = vw.getGridCfg(),
-                store = this.getViewModel().getStore('gridstore');
+                store = this.getViewModel().getStore('gridstore'),
+                pageSizes = vw.getPageSizes();
 
             //add some handy btns to grid
             this.addGridBtns(gridCfg);
@@ -83,17 +84,69 @@
             //unfortunately in modern tkit this one is missing, duh...
             Ext.Array.each(this.grid.getPlugins(), function(p){
                 if(p.type === 'pagingtoolbar'){
-                    p.getToolbar().insert(0, {
+                    var toolbar = p.getToolbar();
+
+                    //always insert refresh btn
+                    toolbar.insert(0, {
                        xtype: 'button',
                        iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnRefresh'),
                        handler: 'reloadStore'
                    });
 
-                    //TODO - also insert a combo with a resultset count - 25, 50, 75, 100; based on a view cfg!
+                    //also insert a combo with a resultset count - 25, 50, 75, 100; based on a view cfg!
+                    if(Ext.isArray(pageSizes) && pageSizes.length > 0){
+
+                        if(pageSizes.indexOf(store.getPageSize()) === -1){
+                            pageSizes.push(store.getPageSize());
+                            pageSizes = pageSizes.sort(function(a,b){
+                                return a - b;
+                            });
+                        }
+
+                        var storeData = [];
+                        Ext.Array.each(pageSizes, function(ps){
+                            storeData.push({value: ps});
+                        });
+
+                        var pageSizeCmb = toolbar.insert(1, {
+                            xtype: 'combobox',
+                            displayField: 'value',
+                            valueField: 'value',
+                            editable: false,
+                            queryMode: 'local',
+                            store: storeData,
+                            bind: {
+                                label: '{localization.pageSize}'
+                            },
+                            labelWidth: 65,
+                            width: 115,
+                            labelAlign: 'left',
+                            listeners: {
+                                change: 'onPageSizeChange'
+                            }
+                        });
+
+                        pageSizeCmb.setValue(store.getPageSize())
+                    }
 
                    return false;
                 }
             }, this);
+        },
+
+        /**
+         * page size combo change handler
+         * @param cmb
+         * @param newV
+         * @param oldV
+         */
+        onPageSizeChange: function(cmb, newV, oldV){
+            var store = this.getViewModel().getStore('gridstore');
+
+            if(store.getPageSize() !== newV){
+                store.setPageSize(newV);
+                store.load();
+            }
         },
 
         /**
