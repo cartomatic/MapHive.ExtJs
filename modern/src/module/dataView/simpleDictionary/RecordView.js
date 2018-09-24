@@ -30,7 +30,12 @@
             /**
              * dictionary of titles this view can apply when loading records for particular routes
              */
-            titles: {}
+            titles: {},
+
+            /**
+             * dictionary of icons this view can apply when loading records for particular routes
+             */
+            icons: {}
         },
 
         controller: 'mh-simple-dictionary-record-view',
