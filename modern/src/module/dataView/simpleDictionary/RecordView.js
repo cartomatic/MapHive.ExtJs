@@ -39,7 +39,7 @@
             type: 'mh-simple-dictionary-record-view'
         },
 
-        iconCls: mh.FontIconsDictionary.getIcon('mhiProjectsViewHeader'),
+        iconCls: mh.FontIconsDictionary.getIcon('mhDictionariesViewHeader'),
 
         bind: {
             title: '{localization.viewName} :: {record.name}'

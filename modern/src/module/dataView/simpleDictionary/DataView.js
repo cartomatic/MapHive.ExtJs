@@ -25,8 +25,11 @@
             /**
              * @cfg title to be applied to single rec views; all the dicts use the very same instances of record, create & edit views
              */
-            singleRecViewTitle: null
+            singleRecViewTitle: null,
+
+            autoLoad: false
         },
+
 
         xtype: 'mh-simple-dictionary-data-view',
 
