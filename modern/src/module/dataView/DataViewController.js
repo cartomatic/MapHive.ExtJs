@@ -273,6 +273,7 @@
         reloadStore: function() {
 
             var store = this.getViewModel().getStore('gridstore');
+
             if(store.type === 'chained'){
                 store.source.load();
             } else {
@@ -301,8 +302,6 @@
         onBtnEditTap: function(btn, e){
             var grid = this.lookup('dataviewgrid'),
                 record = grid.getSelection();
-
-            //TODO - multiselect
 
             this.initRecordEdit(record);
         },
