@@ -75,6 +75,13 @@
                                     label: '{localization.description}',
                                     value: '{record.description}'
                                 }
+                            },
+                            {
+                                xtype: 'togglefield',
+                                bind: {
+                                    label: '{localization.isDefault}',
+                                    value: '{record.isDefault}'
+                                }
                             }
                         ]
                     }

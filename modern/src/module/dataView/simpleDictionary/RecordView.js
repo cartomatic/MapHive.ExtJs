@@ -76,12 +76,11 @@
                                 }
                             },
                             {
-                                xtype: 'togglefield',
+                                xtype: 'displayfield',
                                 bind: {
                                     label: '{localization.isDefault}',
-                                    value: '{record.isDefault}'
-                                },
-                                readOnly: true
+                                    html: '{record.isDefault}'
+                                }
                             }
                         ]
                     }

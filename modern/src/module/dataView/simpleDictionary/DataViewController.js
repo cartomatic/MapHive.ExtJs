@@ -21,13 +21,10 @@
 
         init: function(){
 
-            this.callMeParent(arguments);
-
             var vw = this.getView(),
                 model = vw.getModel(),
                 singleRecViewTitle = vw.getSingleRecViewTitle(),
-                navRoute,
-                store;
+                navRoute;
 
             if(!model){
                 throw {
@@ -38,18 +35,17 @@
             console.log('[SIMPLE DICT]' + this.evtHdrStyle, 'Initing dict for ' + model);
             //</debug>
 
-            navRoute = Ext.ClassManager.get('ManholeInspector.model.DictCoverShape').getEntityNavigationUrlBase();
-
-            store = Ext.create('Ext.data.Store', {
-                model: model
-            });
+            navRoute = Ext.ClassManager.get(model).getEntityNavigationUrlBase();
 
             //at this stage got a dictionary model, so can create a store and set it via view model
-            this.getViewModel().set('gridstore', store);
 
-            this.getGridInstance().setStore(store);
+            this.getViewModel().setStores({
+                gridstore: Ext.create('Ext.data.Store', {
+                    model: model
+                })
+            });
+            //rest of the binding should happen automatically via view model
 
-            //FIXME - fucked up binding - grid / store / paging toolbar; dunno wtf...
 
             //need to register aliases based on the models nav properties!
             mh.util.AliasMapper.addAlias(navRoute + '-edit-view', mh.module.dataView.simpleDictionary.EditView.xtype);
@@ -63,6 +59,9 @@
                 mh.module.dataView.simpleDictionary.EditView.titles[navRoute] = singleRecViewTitle;
                 mh.module.dataView.simpleDictionary.RecordView.titles[navRoute] = singleRecViewTitle;
             }
+
+            //continue with init so all the stuff properly binds to customised components
+            this.callMeParent(arguments);
 
         }
     });

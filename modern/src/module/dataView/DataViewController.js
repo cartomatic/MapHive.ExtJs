@@ -88,6 +88,9 @@
                        iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnRefresh'),
                        handler: 'reloadStore'
                    });
+
+                    //TODO - also insert a combo with a resultset count - 25, 50, 75, 100; based on a view cfg!
+
                    return false;
                 }
             }, this);
