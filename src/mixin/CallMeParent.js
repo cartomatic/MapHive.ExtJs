@@ -50,18 +50,20 @@
                 }
             }
 
+            //method not explicitly provided, so assume only args were passed, and the method name is worked out above
             //<debug>
-            console.log('[CallMeParent] ', method + ' :: ' + caller, 'Got ya?', method === caller || !args && caller);
+            console.log('[CallMeParent] ', 'method ::', method + ', args :: ',  args);
             //</debug>
 
-            //method not explicitly provided, so assume only args were passed, and the method name is worked out above
-            if(!args){
-                if(!Ext.isArray(method)){
-                    method = [method]
-                }
+            if(method.hasOwnProperty('callee')){
                 args = method;
                 method = caller;
             }
+
+            //<debug>
+            console.log('[CallMeParent] ', 'method ::', method + ', args :: ',  args);
+            //</debug>
+
 
             //Note:
             //setting a calledParent flag on an instance results in it being set already for further calls which is not good
