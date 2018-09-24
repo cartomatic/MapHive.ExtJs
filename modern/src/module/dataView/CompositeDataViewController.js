@@ -105,7 +105,10 @@
                         item.xtype === navRoute ||
 
                         //or a truncated xtype
-                        item.xtype === navRoute + '-data-view'
+                        item.xtype === navRoute + '-data-view' ||
+
+                        //if still no luck, try to investigate a runtime property
+                        item.navigationRoute === navRoute
                     )
                 ){
                     vw.suspendEvent('beforeactiveItemchange');
