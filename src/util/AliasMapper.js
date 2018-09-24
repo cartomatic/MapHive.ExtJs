@@ -41,6 +41,15 @@
         },
 
         /**
+         * adds alias to xtype mapping
+         * @param alias
+         * @param xtype
+         */
+        addAlias: function(alias, xtype){
+            aliases[alias] = xtype;
+        },
+
+        /**
          * returns alias map
          */
         getAliasMap: function(){
