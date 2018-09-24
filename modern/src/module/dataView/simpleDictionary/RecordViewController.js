@@ -9,7 +9,8 @@
         alias: 'controller.mh-simple-dictionary-record-view',
 
         requires: [
-            'mh.module.dataView.simpleDictionary.RecordViewLocalization'
+            'mh.module.dataView.simpleDictionary.RecordViewLocalization',
+            'mh.FontIconsDictionary'
         ],
 
         mixins: [
@@ -28,10 +29,14 @@
 
             var titleDict = Ext.getClass(this.getView()).titles,
                 routeKey  = (this.getDataRouteViewType() || '').toLowerCase(),
-                title = titleDict[routeKey] || this.getTranslation('genericViewName');
+                title = titleDict[routeKey] || this.getTranslation('genericViewName'),
+                iconsDict = Ext.getClass(this.getView()).icons,
+                iconCls = iconsDict[routeKey] || mh.FontIconsDictionary.getIcon('mhDictionariesViewHeader');
 
             //adjust view name based on the route
             this.getViewModel().set('localization.viewName', title);
+
+            this.getView().setIconCls(iconCls);
 
             //continue with the record loader
             this.callMeParent(arguments);

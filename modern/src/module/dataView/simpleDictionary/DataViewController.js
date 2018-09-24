@@ -24,6 +24,7 @@
             var vw = this.getView(),
                 model = vw.getModel(),
                 singleRecViewTitle = vw.getSingleRecViewTitle(),
+                iconCls = vw.getIconCls(),
                 navRoute;
 
             if(!model){
@@ -61,6 +62,11 @@
             if(singleRecViewTitle){
                 mh.module.dataView.simpleDictionary.EditView.titles[navRoute] = singleRecViewTitle;
                 mh.module.dataView.simpleDictionary.RecordView.titles[navRoute] = singleRecViewTitle;
+            }
+
+            if(iconCls){
+                //just rec view, editors will use their defaults for create / edit actions
+                mh.module.dataView.simpleDictionary.RecordView.icons[navRoute] = iconCls;
             }
 
             //continue with init so all the stuff properly binds to customised components
