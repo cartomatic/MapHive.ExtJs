@@ -52,7 +52,7 @@
 
             //method not explicitly provided, so assume only args were passed, and the method name is worked out above
             //<debug>
-            console.log('[CallMeParent] ', 'method ::', method + ', args :: ',  args);
+            console.log('[CallMeParent] ', 'method ::', method, 'args :: ',  args);
             //</debug>
 
             if(method.hasOwnProperty('callee')){
@@ -61,7 +61,7 @@
             }
 
             //<debug>
-            console.log('[CallMeParent] ', 'method ::', method + ', args :: ',  args);
+            console.log('[CallMeParent] ', 'method ::', method, 'args :: ',  args);
             //</debug>
 
 
