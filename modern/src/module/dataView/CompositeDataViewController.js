@@ -107,8 +107,9 @@
                         //or a truncated xtype
                         item.xtype === navRoute + '-data-view' ||
 
-                        //if still no luck, try to investigate a runtime property
-                        item.navigationRoute === navRoute
+                        //if still no luck, try to investigate runtime properties
+                        item.navigationRoute === navRoute ||
+                        (item.aliases || []).indexOf(navRoute) > -1
                     )
                 ){
                     vw.suspendEvent('beforeactiveItemchange');
@@ -144,6 +145,11 @@
                     classDef.navigationRoute ||
                     //if not check aliases and use the first one
                     (classDef.aliases || [])[0] ||
+
+                    //no luck wit static properties, try the same with dynamically declared
+                    newTab.navigationRoute ||
+                    (newTab.aliases || []) [0] ||
+
                     //if still no luck just use the xtype wit '-data-view' part truncated
                     newTab.xtype.replace('-data-view', '');
 
