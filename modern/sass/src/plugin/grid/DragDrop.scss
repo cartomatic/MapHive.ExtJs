@@ -1,0 +1,16 @@
+.mh-grid-frag-drop-proxy {
+  background-color: rgba(245,245,245,0.7);
+}
+
+.mh-grid-drag-drop-proxy-target-invalid {
+  border-color: rgba(144, 0, 6, 0.71)!important;
+}
+
+.mh-grid-drag-drop-proxy-target-valid {
+  border-color: rgba(0, 127, 8, 0.7)!important;
+}
+
+.mh-grid-drag-drop-row-over {
+  border-bottom-color: rgba(0, 127, 8, 0.7);
+  border-bottom-width: 2px!important;
+}
