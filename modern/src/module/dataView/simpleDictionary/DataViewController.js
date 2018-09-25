@@ -22,6 +22,10 @@
         init: function(){
 
             var vw = this.getView(),
+                recordView = vw.getRecordView(),
+                recordViewClassDef = Ext.ClassManager.get(recordView),
+                editView = vw.getEditView(),
+                editViewClassDef = Ext.ClassManager.get(editView),
                 model = vw.getModel(),
                 singleRecViewTitle = vw.getSingleRecViewTitle(),
                 iconCls = vw.getIconCls(),
@@ -52,21 +56,21 @@
 
             //need to register aliases based on the models nav properties!
             //this way the record, create & edit views will become discoverable
-            mh.util.AliasMapper.addAlias(navRoute + '-edit-view', mh.module.dataView.simpleDictionary.EditView.xtype);
-            mh.util.AliasMapper.addAlias(navRoute + '-create-view', mh.module.dataView.simpleDictionary.EditView.xtype);
+            mh.util.AliasMapper.addAlias(navRoute + '-edit-view', editViewClassDef.xtype);
+            mh.util.AliasMapper.addAlias(navRoute + '-create-view', editViewClassDef.xtype);
 
-            mh.util.AliasMapper.addAlias(navRoute + '-record-view', mh.module.dataView.simpleDictionary.RecordView.xtype);
+            mh.util.AliasMapper.addAlias(navRoute + '-record-view', recordViewClassDef.xtype);
 
 
             //register xtra titles, so editor for each model can be customised
             if(singleRecViewTitle){
-                mh.module.dataView.simpleDictionary.EditView.titles[navRoute] = singleRecViewTitle;
-                mh.module.dataView.simpleDictionary.RecordView.titles[navRoute] = singleRecViewTitle;
+                editViewClassDef.titles[navRoute] = singleRecViewTitle;
+                recordViewClassDef.titles[navRoute] = singleRecViewTitle;
             }
 
             if(iconCls){
                 //just rec view, editors will use their defaults for create / edit actions
-                mh.module.dataView.simpleDictionary.RecordView.icons[navRoute] = iconCls;
+                recordViewClassDef.icons[navRoute] = iconCls;
             }
 
             //continue with init so all the stuff properly binds to customised components
