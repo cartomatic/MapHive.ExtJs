@@ -94,6 +94,13 @@
         getNavRouteViewType: function(){
             var params = window.location.hash.substring(1).match(Ext.route.Router.routes[':type(/:args)?'].matcherRegex);
             return params ? params[1] : undefined;
+        },
+
+        /**
+         * whether or not current route seems to be a data route - matches data route id regex
+         */
+        isDataRoute: function(){
+            return Ext.route.Router.routes[':type/:id(/:args)?'].matcherRegex.test(window.location.hash.substring(1));
         }
 
     });

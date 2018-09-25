@@ -4,6 +4,8 @@
     //Make sure strict mode is on
     'use strict';
 
+    var consoleHdr = '[ROUTER@Main]_s::,orange,';
+
     Ext.define('mh.module.mainViewDesktop.MainViewDesktopController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-main-view',
@@ -13,13 +15,15 @@
             'mh.communication.MsgBus',
             'mh.data.Ajax',
             'mh.mixin.Router',
-            'mh.mixin.ModalMode'
+            'mh.mixin.ModalMode',
+            'mh.util.console.Formatters'
         ],
 
         requires: [
             'Ext.data.Model',
             'mh.util.AliasMapper'
         ],
+
 
         /**
          * @event route::register
@@ -114,11 +118,28 @@
          */
         handleNavigationRoute: function(type, args) {
 
+            //make sure to ignore routes that are also matched by the data routes.
+            //this is to catter for scenarios, where both - nav route and data route have the same core:
+            //projects
+            //projects/uuid
+            //projects/uuid/create
+            //such routes look more rest like and in some scenarios may be preferred over singular / plural differentiation
+            //projects
+            //project/uuid
+            //project/uuid/create
+            if(this.isDataRoute()){
+                return;
+            }
+
+            //<debug>
+            console.warn(consoleHdr, 'handling nav route: ', type, args);
+            //</debug>
+
             //properly handle MODAL MODE!
             if (this.getModalModeActive()) {
 
                 //<debug>
-                console.warn('[ROUTER@Main]', 'prevented route adjustment - modal mode active!');
+                console.log(consoleHdr, 'prevented route adjustment - modal mode active!');
                 //</debug>
 
                 window.location.hash = this.getModalModeRouteSnapshot();
@@ -173,9 +194,9 @@
             var className = Ext.getClassName(Ext.ClassManager.getByAlias('widget.' + entry.get('xtype')));
 
             //<debug>
-            console.warn('type from route', type);
-            console.warn('xtype', entry.get('xtype'));
-            console.warn('className', className);
+            console.log(consoleHdr, 'type from route:', type);
+            console.log(consoleHdr, 'xtype:', entry.get('xtype'));
+            console.log(consoleHdr, 'className:', className);
             //</debug>
 
             this.activate(
@@ -266,11 +287,16 @@
          * @param args
          */
         handleDataRoute: function(type, id, args) {
+
+            //<debug>
+            console.warn(consoleHdr, 'handling data route: ', type, args);
+            //</debug>
+
             //properly handle MODAL MODE!
             if (this.getModalModeActive()) {
 
                 //<debug>
-                console.warn('[ROUTER@Main]', 'prevented route adjustment - modal mode active!');
+                console.log(consoleHdr, 'prevented route adjustment - modal mode active!');
                 //</debug>
 
                 window.location.hash = this.getModalModeRouteSnapshot();
@@ -311,6 +337,12 @@
 
             try{
                 view = me.ensureView(xtype, { xtype: xtype });
+
+                //<debug>
+                console.log(consoleHdr, 'type from route:', type);
+                console.log(consoleHdr, 'xtype:', xtype);
+                console.log(consoleHdr, 'className:', Ext.ClassManager.getName(view));
+                //</debug>
 
                 me.activate(view);
 
