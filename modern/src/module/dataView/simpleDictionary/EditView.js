@@ -17,9 +17,7 @@
         'mh.util.AliasMapper'
     ],
 
-    xtype: [
-            'mh-simple-dictionary-edit-view'
-        ],
+    xtype: 'mh-simple-dictionary-edit-view',
 
         statics: {
             /**
@@ -74,13 +72,6 @@
                                 bind: {
                                     label: '{localization.description}',
                                     value: '{record.description}'
-                                }
-                            },
-                            {
-                                xtype: 'togglefield',
-                                bind: {
-                                    label: '{localization.isDefault}',
-                                    value: '{record.isDefault}'
                                 }
                             }
                         ]

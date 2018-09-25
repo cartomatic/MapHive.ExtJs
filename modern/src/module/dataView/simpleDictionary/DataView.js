@@ -27,7 +27,17 @@
              */
             singleRecViewTitle: null,
 
-            autoLoad: false
+            autoLoad: false,
+
+            /**
+             * default record view for this module
+             */
+            recordView: 'mh.module.dataView.simpleDictionary.RecordView',
+
+            /**
+             * default create/edit view for this module
+             */
+            editView: 'mh.module.dataView.simpleDictionary.EditView'
         },
 
 
@@ -63,13 +73,6 @@
                         type: 'string',
                         operator: 'like'
                     }
-                },
-                {
-                    bind: {
-                        text: '{localization.isDefault}'
-                    },
-                    dataIndex: 'isDefault',
-                    flex: 1
                 }
             ]
         }

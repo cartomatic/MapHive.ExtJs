@@ -64,7 +64,7 @@
          *    * edit-view
          *    * create-view
          *
-         * edit & create view may often be combined - in such case xtypes can be provided via xtype: []
+         * edit & create view may often be combined - in such case xtype aliases should be provided via alias mapper
          */
         customEntityNavigationUrl: null,
 

@@ -17,9 +17,7 @@
         'mh.util.AliasMapper'
     ],
 
-    xtype: [
-            'mh-users-edit-view'
-        ],
+    xtype: 'mh-users-edit-view',
 
         statics: {
             aliases: [

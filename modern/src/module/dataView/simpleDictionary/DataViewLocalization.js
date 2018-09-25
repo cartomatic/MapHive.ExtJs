@@ -19,10 +19,6 @@
                 description: {
                     en: 'Description',
                     pl: 'Opis'
-                },
-                isDefault: {
-                    en: 'Default',
-                    pl: 'Domyślna'
                 }
             }
         }
