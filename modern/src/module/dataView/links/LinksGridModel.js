@@ -13,6 +13,7 @@
         },
     
         data: {
+            localization: null // so data does not leak up the view model stack
         }
     });
 }());
