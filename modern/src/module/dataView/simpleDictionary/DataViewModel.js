@@ -13,6 +13,9 @@
         ],
 
         stores: {
+            gridstore:{
+                model: 'mh.data.model.SimpleDictionary'
+            }
         }
     });
 
