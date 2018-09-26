@@ -46,7 +46,9 @@
 
             this.getViewModel().setStores({
                 gridstore: Ext.create('Ext.data.Store', {
-                    model: model
+                    model: model,
+                    remoteSort: true,
+                    remoteFilter: true
                 })
             });
             //rest of the binding should happen automatically via view model
