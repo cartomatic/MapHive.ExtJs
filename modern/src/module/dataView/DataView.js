@@ -81,7 +81,12 @@
             gridBtnEditUi: 'mh-data-view-grid-btn-edit',
             gridBtnDestroyUi: 'mh-data-view-grid-btn-destroy',
 
-            pageSizes: [25,50,75,100]
+            pageSizes: [25,50,75,100],
+
+            /**
+             * selection mode for the grid
+             */
+            selMode: 'single'
         },
 
         layout: 'fit',

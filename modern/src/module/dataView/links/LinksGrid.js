@@ -55,7 +55,7 @@
 
             /**
              * @cfg {Boolean|Number}
-             * whether or not links picker refresh should be deferred. On some occassions a view that is used for picking up links may do some own setup
+             * whether or not links picker refresh should be deferred. On some occasions a view that is used for picking up links may do some own setup
              * that takes some time. this is a customisation point to let the links picker wait as long as required
              * when true, defers by 1ms, when number defers by the specified number
              */
@@ -64,7 +64,7 @@
             /**
              * @cfg selection mode for the grid - either single or multi
              */
-            selMode: 'single',
+            selMode: 'multi',
 
             /**
              * @cfg gridCfg links grid configuration
@@ -98,7 +98,7 @@
                         reference: 'btnAddLink',
                         iconCls: 'x-li li-plus-circle',
                         listeners: {
-                            click: 'onBtnAddLinkClick'
+                            tap: 'onBtnAddLinkClick'
                         }
                     }
                 ]

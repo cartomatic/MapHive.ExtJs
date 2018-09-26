@@ -10,7 +10,8 @@
 
         requires: [
             'mh.module.dataView.links.LinksGridLocalization',
-            'mh.mixin.ApiMap'
+            'mh.mixin.ApiMap',
+            'mh.module.dataView.links.LinksPicker'
         ],
 
         mixins: [
@@ -173,9 +174,6 @@
                     xtype: 'grid',
                     reference: 'linksgrid',
                     columns: cols,
-                    selectable: {
-                        mode: this.selMode || 'single'
-                    },
                     bind: {
                         store: '{gridstore}'
                     },
@@ -211,13 +209,13 @@
                     xtype: 'widgetcell',
                     widget: {
                         xtype: 'button',
-                        ui: 'mh-data-view-grid-btn-edit',
+                        ui: 'mh-data-view-grid-btn-destroy',
                         tooltip: this.getTranslation('btnDelete'),
                         iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDestroy'),
                         handler: function(btn){
                             var rec = btn.ownerCmp.ownerCmp.getRecord();
                             if(rec) {
-                                me.store.remove(rec);
+                                me.deleteLink(rec);
                             }
                         }
                     }
@@ -503,7 +501,7 @@
          * @param e
          * @param record
          */
-        onLinkDeleteClick: function(view, rowIdx, colIdx, item, e, record){
+        deleteLink: function(record){
             if(!record.get(this.tempLinkIdentifier)){
                 this.linksToDestroy.push(record);
             }
@@ -523,7 +521,7 @@
             //see if the links picker is already present and instantiate it if not
 
             if(!this.linksPicker){
-                this.linksPicker = Ext.create('mh.module.dataView.LinksPicker', {
+                this.linksPicker = Ext.create('mh.module.dataView.links.LinksPicker', {
                     animateTarget: btn,
                     deferLinksPickerRefresh: this.getView().getDeferLinksPickerRefresh()
                 });
@@ -580,8 +578,6 @@
                 else {
                     //right this is an object cfg...
                     inst = this.dataView;
-                    inst.xtype = this.dataView.type;
-                    delete inst.type;
                     if(!inst.selMode){
                         inst.selMode = this.selMode;
                     }
