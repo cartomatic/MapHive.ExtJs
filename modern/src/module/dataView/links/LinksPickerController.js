@@ -32,7 +32,7 @@
             this.injectLocalizationToViewModel();
             this.trackModalModeStatus();
 
-            this.publishApi(['setDataView']);
+            this.publishApi(['setDataView', 'getDataViewTitle']);
 
             this.getView().on('show', this.onShow, this);
             this.getView().on('hide', this.onHide, this);
@@ -91,18 +91,43 @@
          * sets the window title
          */
         setTitle: function(){
-            if(Ext.isFunction(this.dataView.getTitle) && this.dataView.getTitle()){
-                this.getView().setTitle(this.getTranslation('title') + this.getTranslation('titleSeparator') + this.dataView.getTitle());
-            }
-            else {
-                this.getView().setTitle(this.getTranslation('title'));
 
-                //<debug>
-                console.error('[LINKSPICKER] - ooops, the configured data view does not expose the getTitle method. Unable to obtain links!!! See mh.module.dataView.DataViewBaseController for details');
-                //</debug>
+            var dataViewTitle = this.getDataViewTitle(),
+                title = this.getTranslation('title');
+
+            if(dataViewTitle){
+                title += this.getTranslation('titleSeparator') + dataViewTitle;
             }
+
+            this.getView().setTitle(title);
         },
 
+        /**
+         * tries to obtaina dataview title
+         * @returns {*}
+         */
+        getDataViewTitle: function() {
+            var dataViewTitle;
+
+            //check if can obtain a title of the view title
+            if(Ext.isFunction(this.dataView.getTitle) && this.dataView.getTitle()){
+                dataViewTitle = this.dataView.getTitle();
+            }
+            //maybe set via view model bindings, so should be at a _title property
+            else if(this.dataView._title){
+                dataViewTitle = this.dataView._title;
+            }
+            else if(this.dataView.getViewModel().get('localization.viewName')){
+                dataViewTitle = this.dataView.getViewModel().get('localization.viewName');
+            }
+            else {
+                //<debug>
+                console.error('[LINKSPICKER] - ooops, could not obtain title for a view. Tried getTitle(), _title * viewModel.get("localization.viewName")');
+                //</debug>
+            }
+
+            return dataViewTitle;
+        },
 
         /**
          * cancel btn callback
