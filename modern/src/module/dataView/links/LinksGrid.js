@@ -29,21 +29,17 @@
             model: null,
 
             /**
-             * endpoint url. used to obtain data for the grid. this url should have a placeholder for the parent identifier;
+             * api map key. used to obtain an endpoint url to pull the data for the grid.
+             * url under this key should have a placeholder for the parent identifier;
              * url should look like this: 'some/url/parentIdentifierToken/some/more
              * see parentIdentifierToken for details
              */
-            apiUrl: null,
+            apiMapKey: null,
 
             /**
              * token used to inject parent uuid when customising the url for the store; defaults to mh.mixin.ApiMap.parentIdentifier ({parent_uuid})
              */
             parentIdentifierToken: mh.mixin.ApiMap.getParentIdentifier(),
-
-            /**
-             * token used to inject org uuid when customising url for the store; defaults to mh.mixin.ApiMap.orgIdentifier ({org_uuid})
-             */
-            orgIdentifierToken: mh.mixin.ApiMap.getOrgIdentifier(),
 
             /**
              * @cfg {string} dataView either xtype or class name inheriting from mh.module.dataView.DataViewBase;

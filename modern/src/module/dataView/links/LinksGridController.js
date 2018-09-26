@@ -9,13 +9,15 @@
         alias: 'controller.mh-links-grid',
 
         requires: [
-            'mh.module.dataView.links.LinksGridLocalization'
+            'mh.module.dataView.links.LinksGridLocalization',
+            'mh.mixin.ApiMap'
         ],
 
         mixins: [
             'mh.mixin.PublishApi',
             'mh.module.dataView.links.LinksGridLocalization',
-            'mh.mixin.Localization'
+            'mh.mixin.Localization',
+            'mh.communication.MsgBus'
         ],
 
         /**
@@ -31,21 +33,16 @@
         model: null,
 
         /**
-         * api endpoint to load the data from; see full description on the view object
+         * api key to work out the endpoint to load the data from; see full description on the view object
          * @private
          */
-        apiUrl: null,
+        apiMapKey: null,
 
         /**
          * token to use when substituting the parent identifier; see full description on the view object
          * @private
          */
         parentIdentifierToken: null,
-
-        /**
-         * token used when replacing the org identifier
-         */
-        orgIdentifierToken: null,
 
         /**
          * data view to be used for picking up linked objects; see full description on the view object
@@ -118,9 +115,8 @@
 
             //extract config
             this.model = vw.getModel();
-            this.apiUrl = vw.getApiUrl() || '';
+            this.apiMapKey = vw.getApiMapKey() || 'no-api=map-key-provided-dude';
             this.parentIdentifierToken = vw.getParentIdentifierToken();
-            this.orgIdentifierToken = vw.getOrgIdentifierToken();
             this.dataView = vw.getDataView();
             this.recLimit = vw.getRecLimit();
             this.selMode = vw.getSelMode();
@@ -129,7 +125,6 @@
 
             this.configureStore();
             this.configureGrid();
-
 
             //hook up some events, so data reloading works like expected
             vw.on('activate', this.onViewActivate, this);
@@ -357,10 +352,11 @@
          * @returns {void|XML|string}
          */
         getLinksGridApiUrl: function(rec){
-            var url = this.apiUrl.replace(this.parentIdentifierToken, rec.get('uuid'));
-            if(this.currentOrg){
-                url = url.replace(this.orgIdentifierToken, this.currentOrg.get('uuid'));
-            }
+            //this should give a url contexted to an org
+            var url = mh.mixin.ApiMap.getApiEndPointUrl(this.apiMapKey)
+                //and this should replace the parent token
+                .replace(this.parentIdentifierToken, rec.get('uuid'));
+
             return url;
         },
 
@@ -382,7 +378,6 @@
                 this.gridStore.loadPage(1, {limit: this.recLimit});
             }
         },
-
 
         /**
          * store loaded callback
