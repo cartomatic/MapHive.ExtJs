@@ -9,11 +9,13 @@
         alias: 'controller.mh-links-grid',
 
         requires: [
-
+            'mh.module.dataView.links.LinksGridLocalization'
         ],
 
         mixins: [
-            'mh.mixin.PublishApi'
+            'mh.mixin.PublishApi',
+            'mh.module.dataView.links.LinksGridLocalization',
+            'mh.mixin.Localization'
         ],
 
         /**
@@ -109,9 +111,10 @@
          * Called when the view is created
          */
         init: function() {
-            var vw = this.getView();
 
-            return;
+            this.injectLocalizationToViewModel();
+
+            var vw = this.getView();
 
             //extract config
             this.model = vw.getModel();
@@ -120,16 +123,13 @@
             this.orgIdentifierToken = vw.getOrgIdentifierToken();
             this.dataView = vw.getDataView();
             this.recLimit = vw.getRecLimit();
+            this.selMode = vw.getSelMode();
 
-            //this.selMode = vw.getSelMode();
+            this.publishApi(['setEditable','getChanges', 'setOrgContext', 'getLinkedObjects']);
 
-            this.publishApi(['setContext', 'setEditable','getChanges', 'setOrgContext', 'getLinkedObjects']);
+            this.configureStore();
+            this.configureGrid();
 
-            this.createAndSetStore();
-
-            this.addCustomColumns();
-
-            this.addDeleteColumn();
 
             //hook up some events, so data reloading works like expected
             vw.on('activate', this.onViewActivate, this);
@@ -147,6 +147,98 @@
         },
 
         /**
+         * configures links grid
+         */
+        configureGrid: function(){
+            var vw = this.getView(),
+                gridCfg = vw.getGridCfg(),
+                defaultCols = [
+                    {
+                        bind: {text: '{localization.name}'},
+                        dataIndex: 'name',
+                        flex: 1
+                    },
+                    {
+                        bind: {text: '{localization.description}'},
+                        dataIndex: 'description',
+                        flex: 1
+                    }
+                ],
+                cols = gridCfg.columns || defaultCols,
+                contentPresenterFn = Ext.isFunction(gridCfg.contentPresenterFn) ? gridCfg.contentPresenterFn : this.contentPresenterFn;
+
+            //customise columns if needed
+            this.addCustomColumns(cols);
+
+            //add delete btn
+            this.addDeleteColumn(cols);
+
+            this.grid = vw.add(
+                {
+                    xtype: 'grid',
+                    reference: 'linksgrid',
+                    columns: cols,
+                    selectable: {
+                        mode: this.selMode || 'single'
+                    },
+                    bind: {
+                        store: '{gridstore}'
+                    },
+                    plugins: [
+                        {
+                            type: 'mh-grid-drag-drop',
+                            contentPresenterFn: contentPresenterFn
+                        }
+                    ]
+                }
+            );
+        },
+
+        /**
+         * an extension point for adding some default links picker columns. called just before addDeleteColumn
+         * @param {object[]} columns
+         * @template
+         */
+        addCustomColumns: Ext.emptyFn,
+
+        /**
+         * Adds a delete column to the view
+         * @param {object[]} columns
+         */
+        addDeleteColumn: function(cols){
+            var me = this;
+
+            cols.push({
+                width: 45,
+                reference: 'gridBtnDelete',
+                menuDisabled: true,
+                cell: {
+                    xtype: 'widgetcell',
+                    widget: {
+                        xtype: 'button',
+                        ui: 'mh-data-view-grid-btn-edit',
+                        tooltip: this.getTranslation('btnDelete'),
+                        iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDestroy'),
+                        handler: function(btn){
+                            var rec = btn.ownerCmp.ownerCmp.getRecord();
+                            if(rec) {
+                                me.store.remove(rec);
+                            }
+                        }
+                    }
+                }
+            });
+        },
+
+        /**
+         * d&d plugin default contenr presenter fn
+         * @param recs
+         */
+        contentPresenterFn: function(recs){
+            return 'TODO - make it lang based - default content drag info!'
+        },
+
+        /**
          * disables or enables grid's dd;
          * @param disable
          */
@@ -154,11 +246,8 @@
 
             //TODO - adjust for modern && the modern dd plugin...
 
-            var me = this,
-                view = this.getView();
-
             //disable dragdrop plugin in standard mode
-            Ext.Array.each(view.getView().getPlugins(), function(p){
+            Ext.Array.each(this.grid.getPlugins(), function(p){
                 if(Ext.getClassName(p) === 'mh.plugin.grid.DragDrop'){
                     if(disable){
                         p.disable(); //<- this seems to be totally ignored...
@@ -190,7 +279,7 @@
         /**
          * Creates a grid store instance
          */
-        createAndSetStore: function(){
+        configureStore: function(){
             this.gridStore = Ext.create('Ext.data.Store', {
                 model: this.model,
                 proxy: {
@@ -201,34 +290,10 @@
                     load: Ext.bind(this.onStoreLoad, this)
                 }
             });
-            this.getView().setStore(this.gridStore);
-        },
 
-        /**
-         * an extension point for adding some default links picker columns. called just before addDeleteColumn
-         * @template
-         */
-        addCustomColumns: Ext.emptyFn,
-
-        /**
-         * Adds a delete column to the view
-         */
-        addDeleteColumn: function(){
-            var vw = this.getView(),
-                hc = vw.getHeaderContainer();
-
-            //     col = Ext.create('Ext.grid.column.Action', {
-            //         reference: 'column_delete',
-            //         handler: 'onLinkDeleteClick',
-            //         width: 30,
-            //         iconCls: 'x-li li-cross-circle',
-            //         menuDisabled: true,
-            //         hidden: true
-            //     });
-            //
-            // //TODO - adjust for modern tkit!
-            //
-            // hc.add(col);
+            this.getViewModel().setStores({
+                gridstore: this.gridStore
+            });
         },
 
 
@@ -236,8 +301,8 @@
          * Sets the grid editable - makes it possible to edit the data
          */
         setEditable: function(){
-            this.lookupReference('column_delete').show();
-            this.lookupReference('edit_tbar').show();
+            this.lookupReference('btnDeleteLink').show();
+            this.lookupReference('gridBtnDelete').show();
 
 
             //make grid reorderable

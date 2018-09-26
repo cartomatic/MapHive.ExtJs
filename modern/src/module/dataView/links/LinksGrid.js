@@ -12,10 +12,14 @@
 
         requires: [
             'mh.module.dataView.links.LinksGridController',
+            'mh.module.dataView.links.LinksGridModel',
             'mh.plugin.grid.DragDrop'
         ],
 
         controller: 'mh-links-grid',
+        viewModel:{
+            type: 'mh-links-grid'
+        },
 
         config: {
             /**
@@ -59,12 +63,28 @@
              * that takes some time. this is a customisation point to let the links picker wait as long as required
              * when true, defers by 1ms, when number defers by the specified number
              */
-            deferLinksPickerRefresh: false
+            deferLinksPickerRefresh: false,
+
+            /**
+             * @cfg selection mode for the grid - either single or multi
+             */
+            selMode: 'single',
+
+            /**
+             * @cfg gridCfg links grid configuration
+             * @cfg gridCfg.columns links grid columns configuration
+             * @cfg gridCfg.contentPresenterFn links grid content presenter
+             */
+            gridCfg: null
         },
 
-        // setContext: function(rec){
-        //     this.getController().setContext(rec);
-        // },
+        /**
+         * context setter - needed here, as the method publishing is done in contructor's init and this seems to be too late
+         * @param rec
+         */
+        setContext: function(rec){
+            this.getController().setContext(rec);
+        },
 
         //Note: dims are required here so when used in components that enforce own sizing, there are no problems with some deep ext render calls; The error thrown is [E] Layout run failed; its important ot use width/height as minWidth / minHeight do not seem to help at all; btw the size controlling parent comps will not give a damn about it and override it anyway ;)
         height: 100,
@@ -73,33 +93,9 @@
 
         items: [
             {
-                //TODO - grid via cfg grid, so can configure externally
-                //TODO - also some sort of defaults, so do not have to always put together a big config
-                xtype: 'grid',
-
-                columns: [
-                    {
-                        text: 'col1',
-                        //bind: {text: '{localisation.name}'},
-                        dataIndex: 'name',
-                        flex: 1
-                    },
-                    {
-                        text: 'col2',
-                        //bind: {text: '{localisation.description}'},
-                        dataIndex: 'description',
-                        flex: 1
-                    }
-                ],
-
-                plugins: [{
-                    type: 'mh-grid-drag-drop'
-                    //TODO - contentPresenterFn: 'dragContentPresenter'
-                }]
-            },
-            {
                 xtype: 'toolbar',
                 docked: 'top',
+                reference: 'editTbar',
                 items: [
                     {
                         xtype: 'button',
