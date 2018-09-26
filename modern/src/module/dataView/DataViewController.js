@@ -25,7 +25,7 @@
         init: function(){
             this.injectLocalizationToViewModel();
 
-            this.publishApi('reloadStore', 'getGridInstance', 'onViewActivate');
+            this.publishApi('reloadStore', 'getGridInstance', 'onViewActivate', 'getSelection', 'resetGrid');
 
             this.configureGrid();
 
@@ -55,7 +55,15 @@
             var vw = this.getView(),
                 gridCfg = vw.getGridCfg(),
                 store = this.getViewModel().getStore('gridstore'),
-                pageSizes = vw.getPageSizes();
+                pageSizes = vw.getPageSizes(),
+                selMode = vw.getSelMode();
+
+            //override selection mode if provided
+            if(selMode){
+                gridCfg.selectable = gridCfg.selectable || {};
+                gridCfg.selectable.mode = selMode;
+            }
+
 
             //add some handy btns to grid
             this.addGridBtns(gridCfg);
@@ -386,7 +394,6 @@
 
             this.initRecordDestroy(records);
         },
-
 
         /**
          * initiates records destroy procedure
@@ -808,6 +815,28 @@
             }
             this.currentFilterSet = filtersToApply;
             store.filter(filtersToApply);
+        },
+
+        /**
+         * gets grid selection
+         * @returns {MediaStream | Response | MediaStreamTrack | Request}
+         */
+        getSelection: function(){
+            return  Ext.Array.clone(this.lookup('dataviewgrid').getSelected().items);
+        },
+
+        /**
+         * resets grid
+         */
+        resetGrid: function(){
+
+            var store = this.getViewModel().get('gridstore');
+
+            //reset the filters
+            this.setFilters(null);
+
+            //and reload the store
+            //store.loadPage(1);
         }
     });
 }());
