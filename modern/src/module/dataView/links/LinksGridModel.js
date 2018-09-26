@@ -9,7 +9,9 @@
         alias: 'viewmodel.mh-links-grid',
     
         stores: {
-            //gridstore set up dynamically
+            gridstore: {
+                model: 'mh.data.model.Base'
+            }
         },
     
         data: {
