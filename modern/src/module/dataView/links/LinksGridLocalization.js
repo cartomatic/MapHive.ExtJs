@@ -25,6 +25,14 @@
                 description: {
                     en: 'Description',
                     pl: 'Name'
+                },
+                title: {
+                    en: 'Links',
+                    pl: 'Linki'
+                },
+                titleSeparator: {
+                    en: ' :: ',
+                    pl: ' :: '
                 }
             }
         }

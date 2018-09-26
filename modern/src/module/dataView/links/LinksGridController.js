@@ -127,8 +127,12 @@
             this.configureStore();
             this.configureGrid();
 
+            this.configureTitle();
+
             //hook up some events, so data reloading works like expected
             vw.on('activate', this.onViewActivate, this);
+
+
 
             //by default disable grid's dd
             this.setDdPluginDisabled(true);
@@ -294,7 +298,7 @@
          * Sets the grid editable - makes it possible to edit the data
          */
         setEditable: function(){
-            this.lookupReference('btnDeleteLink').show();
+            this.lookupReference('btnAddLink').show();
             this.lookupReference('gridBtnDelete').show();
 
 
@@ -513,16 +517,11 @@
             this.gridStore.remove(record);
         },
 
-        /**
-         * btn add link click callback
-         */
-        onBtnAddLinkClick: function(btn){
 
+        getLinksPicker: function(btn){
             //see if the links picker is already present and instantiate it if not
-
             if(!this.linksPicker){
                 this.linksPicker = Ext.create('mh.module.dataView.links.LinksPicker', {
-                    animateTarget: btn,
                     deferLinksPickerRefresh: this.getView().getDeferLinksPickerRefresh()
                 });
 
@@ -531,8 +530,16 @@
                 //need to get the data, huh?
                 this.linksPicker.on('linkspicked', this.onLinksPicked, this);
             }
+            this.linksPicker.animateTarget = btn;
 
-            this.linksPicker.show();
+            return this.linksPicker;
+        },
+
+        /**
+         * btn add link click callback
+         */
+        onBtnAddLinkClick: function(btn){
+            this.getLinksPicker(btn).show();
         },
 
         /**
@@ -592,6 +599,29 @@
             }
 
             return inst;
+        },
+
+        configureTitle: function(){
+            var vw = this.getView(),
+                title = this.getTranslation('title'),
+                dataViewTitle;
+
+            //do not apply title if explicitly provided
+            if(vw.getTitle()){
+                return;
+            }
+
+            //title not explicitly set, so try to obtain it off the links picker
+            dataViewTitle = this.getLinksPicker().getDataViewTitle();
+
+            //trying to obtain title off the dataview - in order to not repeat the code, just talking to links picker directly
+            //this is a bit bad though
+
+            if(dataViewTitle) {
+                title += this.getTranslation('titleSeparator') + dataViewTitle;
+            }
+
+            vw.setTitle(title);
         }
     });
 }());

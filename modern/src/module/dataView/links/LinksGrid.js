@@ -85,24 +85,19 @@
         //Note: dims are required here so when used in components that enforce own sizing, there are no problems with some deep ext render calls; The error thrown is [E] Layout run failed; its important ot use width/height as minWidth / minHeight do not seem to help at all; btw the size controlling parent comps will not give a damn about it and override it anyway ;)
         height: 100,
 
-        layout: 'fit',
+        iconCls: 'x-li li-link',
 
-        items: [
-            {
-                xtype: 'toolbar',
-                docked: 'top',
-                reference: 'editTbar',
-                items: [
-                    {
-                        xtype: 'button',
-                        reference: 'btnAddLink',
-                        iconCls: 'x-li li-plus-circle',
-                        listeners: {
-                            tap: 'onBtnAddLinkClick'
-                        }
-                    }
-                ]
+        tools: {
+            addLink: {
+                xtype: 'button',
+                reference: 'btnAddLink',
+                iconCls: 'x-li li-plus-circle',
+                listeners: {
+                    tap: 'onBtnAddLinkClick'
+                }
             }
-        ]
+        },
+
+        layout: 'fit'
     });
 }());
