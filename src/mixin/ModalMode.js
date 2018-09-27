@@ -9,6 +9,8 @@
         modalModeRouteSnapshot = null,
         modalModeLvl = 0,
 
+        logHdr = '[MODAL MODE],_s::,deeppink,',
+
         startModalMode = function(){
             modalModeRouteSnapshot = window.location.hash.replace('#', '');
             modalModeActive = true;
@@ -30,8 +32,8 @@
                 //WARNING - this may be potentially problematic when working with piped routes. They'd have to be applied prior to entering modal mode 'officially'
 
                 //<debug>
-                console.warn(window.location.href);
-                console.warn(modalModeRouteSnapshot);
+                console.log(logHdr, 'current href:', window.location.href);
+                console.log(logHdr, '', 'modal route snapshot:', modalModeRouteSnapshot);
                 //</debug>
 
                 window.location.hash = modalModeRouteSnapshot;
@@ -58,13 +60,13 @@
             onModalModeStart: function(){
                 startModalMode();
                 //<debug>
-                console.log('[MODAL MODE] - Started at child level. Current lvl: ' + modalModeLvl);
+                console.log(logHdr, 'Started at child level. Current lvl: ' + modalModeLvl);
                 //</debug>
             },
             onModalModeEnd: function(){
                 endModalMode();
                 //<debug>
-                console.log('[MODAL MODE] - Ended at child level. Current lvl: ' + modalModeLvl);
+                console.log(logHdr, 'Ended at child level. Current lvl: ' + modalModeLvl);
                 //</debug>
             }
         },
@@ -91,7 +93,7 @@
         startModalMode: function(){
             startModalMode();
             //<debug>
-            console.log('[MODAL MODE] - started. Current lvl: ' + modalModeLvl);
+            console.log(logHdr, 'started. Current lvl: ' + modalModeLvl);
             //</debug>
 
             //only fire once for xwindow. no point in tracking floating window count in parent
@@ -108,7 +110,7 @@
         endModalMode: function(){
             endModalMode();
             //<debug>
-            console.log('[MODAL MODE] - ended. Current lvl: ' + modalModeLvl);
+            console.log(logHdr, 'ended. Current lvl: ' + modalModeLvl);
             //</debug>
 
             //only fire once for xwindow. no point in tracking floating window count in parent
