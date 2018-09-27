@@ -94,7 +94,8 @@
                 iconCls: 'x-li li-plus-circle',
                 listeners: {
                     tap: 'onBtnAddLinkClick'
-                }
+                },
+                hidden: true
             }
         },
 
