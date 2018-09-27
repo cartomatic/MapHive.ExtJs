@@ -32,10 +32,15 @@
         },
 
         /**
+         * @evt editview::savedismissed
+         * fired when a view is dismissed
+         */
+
+        /**
          * cancel btn tap
          */
         onBtnCancelTap: function() {
-            this.getView().fireEvent('editview::savecancelled');
+            this.getView().fireEvent('editview::savedismissed');
             this.cleanNClose();
         },
 
@@ -192,7 +197,7 @@
         },
 
         /**
-         * @event recordsaved
+         * @event editview::savecompleted
          * fired when record gets saved
          * @param record
          */
@@ -202,7 +207,7 @@
          * @param record
          */
         onSaveSuccess: function(record){
-            this.getView().fireEvent('editview::savecomplete', record);
+            this.getView().fireEvent('editview::savecompleted', record);
             this.afterRecordSave(record);
             this.cleanNClose();
         },
