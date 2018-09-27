@@ -387,7 +387,7 @@
          * View activate callback; used to load the grid records if not loaded previously
          */
         onViewActivate: function(){
-            if(this.boundRec && !this.storeLoaded){
+            if(this.boundRec && this.boundRec.get('uuid') && !this.storeLoaded){
                 this.loadStore();
             }
         },

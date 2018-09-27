@@ -258,7 +258,6 @@
 
             if (id === 'create') {
                 action = 'create-view';
-                id = null;
             }
             else if (args[0] === 'edit') {
                 action = 'edit-view';

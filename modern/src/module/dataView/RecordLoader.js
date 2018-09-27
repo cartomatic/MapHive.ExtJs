@@ -27,7 +27,7 @@
                 cfg, callback, op;
 
             //a new rec, just load an empty rec instance
-            if(!id){
+            if(!id || id === 'create'){
                 this.onRecordLoadSuccess(Ext.create(Ext.getClassName(model)));
                 return;
             }
