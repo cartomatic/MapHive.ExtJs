@@ -5,20 +5,21 @@
     /**
      * Created by info_000 on 12-Jul-16.
      */
-    Ext.define('mh.module.dataView.SingleLinkFieldController', {
+    Ext.define('mh.module.dataView.links.SingleLinkFieldController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-links-single-field',
 
-    requires: [
-        'mh.data.model.Base',
-        'mh.module.dataView.LinksPicker',
-        'mh.module.dataView.SingleLinkFieldLocalization'
-    ],
+        requires: [
+            'mh.data.model.Base',
+            'mh.module.dataView.links.LinksPicker',
+            'mh.module.dataView.links.SingleLinkFieldLocalization'
+        ],
 
-    mixins: [
+        mixins: [
             'mh.mixin.PublishApi',
             'mh.mixin.Localization',
-            'mh.data.Ajax'
+            'mh.data.Ajax',
+            'mh.mixin.ApiMap'
         ],
 
         /**
@@ -38,7 +39,7 @@
          * api endpoint to load the data from; see full description on the view object
          * @private
          */
-        apiUrl: null,
+        apiMapKey: null,
 
         /**
          * token to use when substituting the parent identifier; see full description on the view object
@@ -89,7 +90,7 @@
 
             //extract config
             this.model = vw.getModel();
-            this.apiUrl = vw.getApiUrl() || '';
+            this.apiMapKey = vw.getApiMapKey() || '';
             this.parentIdentifierToken = vw.getParentIdentifierToken();
             this.dataView = vw.getDataView();
         },
@@ -98,8 +99,8 @@
          * Sets the field editable
          */
         setEditable: function(){
-            this.lookupReference('btnSetLink').show();
-            this.lookupReference('btnRemoveLink').show();
+            this.findItem('btnSetLink').show();
+            this.findItem('btnRemoveLink').show();
         },
 
         /**
@@ -124,15 +125,17 @@
 
             var view = this.getView(),
                 token = view.getParentIdentifierToken(),
-                apiUrl = view.getApiUrl().replace(token, rec.get('uuid')),
-                loadMask = view.getUseLoadMask()
+                apiUrl = this.getApiEndPointUrl(view.getApiMapKey()).replace(token, rec.get('uuid')),
+                loadMask = view.getUseLoadMask();
 
             //basically know what model is to be read, so need to get it from the api
             if(loadMask === true){
                 //this.getMaskableElement().mask(this.getTranslation('loadMask'));
-                this.getMaskableElement().mask();
-            }
 
+                // this.getMaskableElement().setMasked({
+                //     xtype: 'loadmask'
+                // });
+            }
 
             //pull link data
             this.doGet({
@@ -148,7 +151,7 @@
          * @returns {*}
          */
         getMaskableElement: function(){
-            return this.getView().getLayout().innerCt;
+            return this.getView();
         },
 
         /**
@@ -163,7 +166,7 @@
 
             this.renderRec(this.currentLink);
 
-            this.getMaskableElement().unmask();
+            //this.getMaskableElement().setMasked(false);
 
             this.getView().fireEvent('change', this.getView(), this.currentLink, oldV);
         },
@@ -177,19 +180,35 @@
             //this will happen when there is no link - so in most cases 404; other errs should be handled by the ajax utils
             this.resetDisplay();
 
-            this.getMaskableElement().unmask()
+            //this.getMaskableElement().setMasked(false)
         },
 
         /**
          * resets the display field
          */
         resetDisplay: function(){
-            this.lookupReference('displayField').setValue('');
+            this.findItem('displayField').setValue('');
 
             //notify change
             this.getView().fireEvent('change', this.getView(), null, this.newLink || this.currentLink);
         },
 
+
+        /**
+         * in modern container field lookup does not seem to work hence a custom getter
+         * @param ref
+         * @returns {*}
+         */
+        findItem: function(ref){
+            var item;
+            Ext.Array.each(this.getView().getItems().items, function(i){
+                if(i.getReference()=== ref){
+                    item = i;
+                    return false;
+                }
+            });
+            return item;
+        },
 
         /**
          * link btn click callback; shows a configured links picker
@@ -201,7 +220,7 @@
                     animateTarget: btn
                 });
 
-                this.linksPicker.setDataView(this.instantiateDataView(), 'SINGLE');
+                this.linksPicker.setDataView(this.instantiateDataView());
 
                 //need to get the data, huh?
                 this.linksPicker.on('linkspicked', this.onLinksPicked, this);
@@ -264,7 +283,7 @@
                 //A default view so the misconfig is obvious
                 inst = {
                     xtype: 'container',
-                    html: 'Looks like you misconfogured the links grid a bit... please configure it with a valid data view.'
+                    html: 'Looks like you misconfigured the links grid a bit... please configure it with a valid data view.'
                 };
             }
 
@@ -321,7 +340,7 @@
          * @param rec
          */
         renderRec: function(rec){
-            this.lookupReference('displayField').setValue(this.renderer(rec));
+            this.findItem('displayField').setValue(this.renderer(rec));
         },
 
         /**
