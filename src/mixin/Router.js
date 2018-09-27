@@ -228,7 +228,7 @@
          * @returns {*|void}
          */
         getDataViewXtypeFromRoute: function(route){
-            var routeParams = this.getNavRouteParamsForRoute(route);
+            var routeParams = this.getDataRouteParamsForRoute(route);
 
             return this.getDataViewXtypeFromRouteParams(
                 routeParams[1],
@@ -255,7 +255,6 @@
             //Note:
             //a bit over the edge, but maybe could make the create, edit, record 'actions' customizable
             //this would be nice but i guess not used too often ;)
-
             if (id === 'create') {
                 action = 'create-view';
             }

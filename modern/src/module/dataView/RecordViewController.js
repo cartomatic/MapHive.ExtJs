@@ -10,14 +10,16 @@
 
         requires: [
             'Ext.History',
-            'mh.module.dataView.DataViewLocalization'
+            'mh.module.dataView.DataViewLocalization',
+            'mh.module.dataView.ModalDataView'
         ],
 
         mixins: [
             'mh.mixin.Localization',
             'mh.mixin.PublishApi',
             'mh.module.dataView.RecordLoader',
-            'mh.communication.MsgBus'
+            'mh.communication.MsgBus',
+            'mh.mixin.ModalMode'
         ],
 
         /**
@@ -105,7 +107,12 @@
          * edit btn tap handler - redirects to an edit url, router will show whatever view is needed
          */
         onBtnEditTap: function() {
-            this.redirectTo(this.getViewModel().get('record').getEditUrl());
+            if(this.getModalModeActive()){
+                mh.module.dataView.ModalDataView.show(this.getViewModel().get('record').getEditUrl());
+            }
+            else {
+                this.redirectTo(this.getViewModel().get('record').getEditUrl());
+            }
         },
 
 
@@ -113,7 +120,12 @@
          * back btn tap - go back in history, router will pick up whatever view is required
          */
         onBtnBackTap: function() {
-            Ext.History.back();
+            if(this.getView().getFloated()){
+                this.getView().close();
+            }
+            else {
+                Ext.History.back();
+            }
         },
 
         /**

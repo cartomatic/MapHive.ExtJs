@@ -13,13 +13,15 @@
 
         requires: [
             'mh.FontIconsDictionary',
-            'mh.module.dataView.DataViewLocalization'
+            'mh.module.dataView.DataViewLocalization',
+            'mh.module.dataView.ModalDataView'
         ],
 
         mixins: [
             'mh.mixin.Localization',
             'mh.data.Ajax',
-            'mh.mixin.PublishApi'
+            'mh.mixin.PublishApi',
+            'mh.mixin.ModalMode'
         ],
 
         init: function(){
@@ -189,10 +191,7 @@
                                 tooltip: this.getTranslation('btnEdit'),
                                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnEdit'),
                                 handler: function(btn){
-                                    var rec = btn.ownerCmp.ownerCmp.getRecord();
-                                    if(rec) {
-                                        me.redirectTo(rec.getEditUrl());
-                                    }
+                                    me.initRecordEdit(btn.ownerCmp.ownerCmp.getRecord());
                                 }
                             }
                         }
@@ -353,7 +352,14 @@
          */
         onGridRowDblTap: function(grid, cell) {
             if(this.getView().getDisableGridDblTap() !== true){
-                this.redirectTo(cell.record.getViewUrl());
+                //check if in modal mode and if so init modal viewer
+                //otherwise simply redirect
+                if(this.getModalModeActive()){
+                    mh.module.dataView.ModalDataView.show(cell.record.getViewUrl());
+                }
+                else {
+                    this.redirectTo(cell.record.getViewUrl());
+                }
             }
         },
 
@@ -376,7 +382,14 @@
          */
         initRecordEdit: function(rec){
             if(rec) {
-                this.redirectTo(rec.getEditUrl());
+                //check if in modal mode and if so init modal editor
+                //otherwise simply redirect
+                if(this.getModalModeActive()){
+                    mh.module.dataView.ModalDataView.show(rec.getEditUrl());
+                }
+                else {
+                    this.redirectTo(rec.getEditUrl());
+                }
             }
         },
 
@@ -498,7 +511,14 @@
                     Ext.getClassName(this.lookup('dataviewgrid').getStore().getModel())
                 );
 
-            this.redirectTo(model.getCreateUrl());
+            //check if in modal mode and if so init modal editor
+            //otherwise simply redirect
+            if(this.getModalModeActive()){
+                mh.module.dataView.ModalDataView.show(model.getCreateUrl());
+            }
+            else {
+                this.redirectTo(model.getCreateUrl());
+            }
         },
 
         /**
