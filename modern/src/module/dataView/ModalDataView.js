@@ -39,8 +39,8 @@
                     : this.getNavViewXTypeFromRoute(route);
 
             //<debug>
-            console.warn(logHdr, 'xtype', xtype);
-            console.warn(logHdr, 'routeParams', routeParams);
+            console.log(logHdr, 'xtype', xtype);
+            console.log(logHdr, 'routeParams', routeParams);
             //</debug>
 
 
@@ -52,7 +52,26 @@
 
             if(isDataRoute){
                 //data view
+                var editor = Ext.create({
+                    xtype: xtype,
+                    width: 800,
+                    maxWidth: '85%',
+                    height: 600,
+                    maxHeight: '85%',
+                    floated: true,
+                    centered: true,
+                    modal: true,
+                    listeners: {
+                        show: mh.mixin.ModalMode.onModalModeStart,
+                        close: mh.mixin.ModalMode.onModalModeEnd
+                    }
+                });
 
+                editor.loadRecord(routeParams[2], route);
+
+                editor.show();
+
+                return editor;
             }
             else {
                 //this is not a data route, so need to init a view in a wrapper with a close btn, as otherwise there would be no chance to dismiss it
