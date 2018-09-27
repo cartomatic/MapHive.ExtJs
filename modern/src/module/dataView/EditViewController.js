@@ -122,6 +122,9 @@
                 this.resetValidationErrs();
             }
 
+            //before testing rec dirty, do custom data collection as it may actually make the rec dirty
+            this.collectComplexData();
+
             //check if record is dirty. if not, nothing's changed
             if (!rec.isDirty()) {
                 this.cleanNClose();
@@ -226,6 +229,13 @@
         afterRecordSave: Ext.emptyFn,
 
         /**
+         * a hook for collecting data that require custom processing
+         * @template
+         */
+        collectComplexData: Ext.emptyFn,
+
+
+        /**
          * Adds a diff with links to the record
          * @param diff1
          * @param diff2
@@ -234,12 +244,10 @@
          * @param {boolean} [reset=false]; whether or not the original links collection should be replaced with the incoming data
          */
         addLinksDiff: function(){
-            var rec = this.getViewModel().get('record'),
-                links, a = 0, alen = arguments.length, diff,
-
+            var links = [], a = 0, alen = arguments.length,
                 reset = false;
 
-            if(!rec || alen === 0){
+            if(alen === 0){
                 return;
             }
 
@@ -249,11 +257,30 @@
                 alen -= 1; //decrease the bounds, as last param is a switch
             }
 
+            for(a; a < alen; a++){
+                links.push(arguments[a]);
+            }
+
+            this.addLinksDiffBulk(links, reset);
+        },
+
+        /**
+         * add links to record in a bulk
+         * @param linkDiffs
+         * @param reset
+         */
+        addLinksDiffBulk: function(linkDiffs, reset){
+            var rec = this.getViewModel().get('record'),
+                links, ld = 0, ldlen = linkDiffs.length, diff;
+
+            if(!rec || ldlen === 0){
+                return;
+            }
 
             links = reset ? {} : rec.get('links') || {};
 
-            for(a; a < alen; a++){
-                diff = arguments[a] || {};
+            for(ld; ld < ldlen; ld++){
+                diff = linkDiffs[ld] || {};
 
                 if(diff.upsert && diff.upsert.length > 0){
                     links.upsert = Ext.Array.merge(links.upsert || [], diff.upsert);
