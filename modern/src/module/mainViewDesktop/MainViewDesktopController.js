@@ -127,7 +127,7 @@
             //projects
             //project/uuid
             //project/uuid/create
-            if(this.isDataRoute()){
+            if(this.currentRouteIsDataRoute()){
                 return;
             }
 
@@ -146,62 +146,24 @@
                 return;
             }
 
-            var menuStore = Ext.getStore(this.lookup('navmenu').getMenuStore()),
-                nonMenuStore = Ext.getStore(this.getView().getNonMenuRoutesStore()),
+            var registeredRouteRec = this.getNavViewRouteRecFromRouteParams(type, args);
 
-                //first check if this is a menu route
-                entry = menuStore.getAt(menuStore.find('navigationRoute', type)) || menuStore.getById(type),
-                xtype = type;
-
-            //not menu but maybe non-menu?
-            if(!entry && nonMenuStore){
-                entry =  nonMenuStore.getAt(nonMenuStore.find('navigationRoute', type)) || nonMenuStore.getById(type);
-            }
-
-            //if not a left menu entry, see if can find a component
-            if(!entry){
-
-                //check in class manager if xtype exists - both with and without dataview suffix
-                var inst = Ext.ClassManager.getByAlias('widget.' + xtype);
-                if(!inst){
-                    xtype = type + '-data-view';
-                    inst = Ext.ClassManager.getByAlias('widget.' + xtype);
-                }
-
-                if(!inst){
-                    xtype = mh.util.AliasMapper.getXtypeFromAlias(type) || type; //so get proper msg on err!
-                    inst = Ext.ClassManager.getByAlias('widget.' + xtype);
-                }
-
-                try{
-                    entry = Ext.create('Ext.data.Model',{
-                        xtype: xtype,
-                        id: type
-                    });
-                }
-                catch (e) {
-                    this.logErr(e, 'Invalid route: no view for xtype: ' + xtype);
-                }
-
-            }
 
             //mark main menu if it contains an entry for the current path
-            this.lookup('navmenu').setSelection(entry);
-            if (!entry) {
+            this.lookup('navmenu').setSelection(registeredRouteRec);
+            if (!registeredRouteRec) {
                 return null;
             }
 
-            var className = Ext.getClassName(Ext.ClassManager.getByAlias('widget.' + entry.get('xtype')));
-
             //<debug>
             console.log(consoleHdr, 'type from route:', type);
-            console.log(consoleHdr, 'xtype:', entry.get('xtype'));
-            console.log(consoleHdr, 'className:', className);
+            console.log(consoleHdr, 'xtype:', registeredRouteRec.get('xtype'));
+            console.log(consoleHdr, 'className:', Ext.getClassName(Ext.ClassManager.getByAlias('widget.' + registeredRouteRec.get('xtype'))));
             //</debug>
 
             this.activate(
                 this.ensureView(type, {
-                    xtype: entry.get('xtype')
+                    xtype: registeredRouteRec.get('xtype')
                 }, args));
         },
 
@@ -286,10 +248,10 @@
          * @param id
          * @param args
          */
-        handleDataRoute: function(type, id, args) {
+        handleDataRoute: function(type, id, routeArgs) {
 
             //<debug>
-            console.warn(consoleHdr, 'handling data route: ', type, args);
+            console.warn(consoleHdr, 'handling data route: ', type, routeArgs);
             //</debug>
 
             //properly handle MODAL MODE!
@@ -303,40 +265,17 @@
                 return;
             }
 
-            var me = this,
-                args = Ext.Array.clean((args || '').split('/')),
-                action, xtype, view;
-
             // determine the requested action for the given "type":
             // - #{type}/create: create a new "type"
             // - #{type}/{id}: show record with "id"
             // - #{type}/{id}/edit: edit record with "id"
-
-            //Note:
-            //a bit over the edge, but maybe could make the create, edit, record 'actions' customizable
-            //this would be nice but i guess not used too often ;)
-
-            if (id === 'create') {
-                action = 'create-view';
-                id = null;
-            }
-            else if (args[0] === 'edit') {
-                action = 'edit-view';
-                args.shift();
-            }
-            else {
-                action = 'record-view';
-            }
-
-            xtype = type + '-' + action;
-
-            //check if xtype exists and if not inspect alias map!
-            if(!Ext.ClassManager.getByAlias('widget.' + xtype)){
-                xtype = mh.util.AliasMapper.getXtypeFromAlias(xtype) || xtype; //so get proper msg on err!
-            }
+            var xtype = this.getDataViewXtypeFromRouteParams(type, id, routeArgs),
+                view;
 
             try{
-                view = me.ensureView(xtype, { xtype: xtype });
+                //using xtype as id, as edit/view/create will have the same type! also, sometimes dataview can have the same type too
+                //a type in this sceario is the main route key, for example 'users', 'applications', etc.
+                view = this.ensureView(xtype, { xtype: xtype });
 
                 //<debug>
                 console.log(consoleHdr, 'type from route:', type);
@@ -344,7 +283,7 @@
                 console.log(consoleHdr, 'className:', Ext.ClassManager.getName(view));
                 //</debug>
 
-                me.activate(view);
+                this.activate(view);
 
                 //wtf this does not kick in even though it is exposed ???
                 //view.loadRecord(id);

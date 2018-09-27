@@ -67,7 +67,7 @@
 
             var appName = Ext.getApplication().getName(),
                 appModels = window[appName]['model'],
-                type = (this.getDataRouteViewType() || '').toLowerCase(),
+                type = (this.getDataRouteViewTypeForCurrentRoute() || '').toLowerCase(),
                 model;
 
             if(modelsCache[type]){

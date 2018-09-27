@@ -86,7 +86,7 @@
 
             var vw = this.getView(),
                 items = vw.items.items,
-                navRoute = this.getNavRouteViewType(); //xtype meant to be same as route
+                navRoute = this.getNavRouteViewTypeForCurrentRoute(); //xtype meant to be same as route
 
             Ext.Array.each(items, function(item){
 
