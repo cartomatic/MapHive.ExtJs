@@ -24,10 +24,10 @@
          * ensures a customised title is applied to this controller's view
          * @param id
          */
-        loadRecord: function(id){
+        loadRecord: function(id, route){
 
             var titleDict = Ext.getClass(this.getView()).titles,
-                routeKey  = (this.getDataRouteViewTypeForCurrentRoute() || '').toLowerCase(),
+                routeKey  = (route ? this. getDataRouteViewTypeForRoute(route) : this.getDataRouteViewTypeForCurrentRoute() || '').toLowerCase(),
                 title = titleDict[routeKey] || this.getTranslation('genericViewName');
 
             //adjust view name based on the route

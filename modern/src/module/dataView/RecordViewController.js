@@ -72,7 +72,7 @@
          * sets a record to be bound on the view model
          * @param id
          */
-        loadRecord: function(id) {
+        loadRecord: function(id, route) {
 
             this.rewindToFirstView();
 
@@ -81,7 +81,7 @@
                 this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewLocalization')
             );
 
-            this.loadRecordInternal(id);
+            this.loadRecordInternal(id, route);
         },
 
 
@@ -108,7 +108,8 @@
          */
         onBtnEditTap: function() {
             if(this.getModalModeActive()){
-                mh.module.dataView.ModalDataView.show(this.getViewModel().get('record').getEditUrl());
+                var editor = mh.module.dataView.ModalDataView.show(this.getViewModel().get('record').getEditUrl());
+                editor.on('editview::savecompleted', function(rec){this.onRecordLoadSuccess(rec);}, this, {single: true});
             }
             else {
                 this.redirectTo(this.getViewModel().get('record').getEditUrl());

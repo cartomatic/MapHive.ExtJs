@@ -20,10 +20,10 @@
          * internal record loader
          * @param id
          */
-        loadRecordInternal: function(id){
+        loadRecordInternal: function(id, route){
 
             //load rec cfg
-            var model = this.getModel(),
+            var model = this.getModel(route),
                 cfg, callback, op;
 
             //a new rec, just load an empty rec instance
@@ -63,11 +63,11 @@
          *
          * Examines window[appName]['model'] namespace (app.model.ModelName) and then, if a model has not been found the mh.data.model namespace
          */
-        getModel: function(){
+        getModel: function(route){
 
             var appName = Ext.getApplication().getName(),
                 appModels = window[appName]['model'],
-                type = (this.getDataRouteViewTypeForCurrentRoute() || '').toLowerCase(),
+                type = (route ? this.getDataRouteViewTypeForRoute(route) : this.getDataRouteViewTypeForCurrentRoute() || '').toLowerCase(),
                 model;
 
             if(modelsCache[type]){

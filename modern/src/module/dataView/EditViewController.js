@@ -19,7 +19,7 @@
         ],
 
         init: function(){
-            this.callMeParent('init', arguments);
+            this.callMeParent(arguments);
         },
 
         /**
@@ -27,7 +27,7 @@
          * @param record
          */
         onRecordLoadSuccess: function(record){
-            this.callMeParent('onRecordLoadSuccess', arguments);
+            this.callMeParent(arguments);
             this.resetValidationErrs();
         },
 

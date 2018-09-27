@@ -355,7 +355,8 @@
                 //check if in modal mode and if so init modal viewer
                 //otherwise simply redirect
                 if(this.getModalModeActive()){
-                    mh.module.dataView.ModalDataView.show(cell.record.getViewUrl());
+                    var viewer = mh.module.dataView.ModalDataView.show(cell.record.getViewUrl());
+                    viewer.on('close', function(rec){this.reloadStore();}, this, {single: true});
                 }
                 else {
                     this.redirectTo(cell.record.getViewUrl());
@@ -385,7 +386,8 @@
                 //check if in modal mode and if so init modal editor
                 //otherwise simply redirect
                 if(this.getModalModeActive()){
-                    mh.module.dataView.ModalDataView.show(rec.getEditUrl());
+                    var editor = mh.module.dataView.ModalDataView.show(rec.getEditUrl());
+                    editor.on('close', function(rec){this.reloadStore();}, this, {single: true});
                 }
                 else {
                     this.redirectTo(rec.getEditUrl());
@@ -514,7 +516,8 @@
             //check if in modal mode and if so init modal editor
             //otherwise simply redirect
             if(this.getModalModeActive()){
-                mh.module.dataView.ModalDataView.show(model.getCreateUrl());
+                var editor = mh.module.dataView.ModalDataView.show(model.getCreateUrl());
+                editor.on('close', function(rec){this.reloadStore();}, this, {single: true});
             }
             else {
                 this.redirectTo(model.getCreateUrl());
