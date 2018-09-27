@@ -133,8 +133,8 @@
             vw.on('activate', this.onViewActivate, this);
 
 
-            //by default disable grid's dd
-            this.setEditable(true);
+            //grid's editable mode as configured
+            this.setEditable(vw.getEditable());
         },
 
         /**
@@ -286,16 +286,21 @@
         /**
          * Sets the grid editable - makes it possible to edit the data
          */
-        setEditable: function(){
-            this.lookupReference('btnAddLink').show();
-            this.lookupReference('gridBtnDelete').show();
+        setEditable: function(editable){
 
+            this.lookupReference('btnAddLink').setVisibility(editable);
+            this.lookupReference('gridBtnDelete').setVisibility(editable);
 
             //make grid reorderable
-            this.setDdPluginDisabled(false);
+            this.setDdPluginDisabled(!editable);
 
             //start monitoring grid change events
-            this.gridStore.on('datachanged', this.onStoreDataChanged, this);
+            if(editable){
+                this.gridStore.on('datachanged', this.onStoreDataChanged, this);
+            }
+            else {
+                this.gridStore.un('datachanged', this.onStoreDataChanged, this);
+            }
         },
 
 

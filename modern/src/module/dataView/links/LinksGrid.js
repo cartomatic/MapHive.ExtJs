@@ -71,7 +71,12 @@
              * @cfg gridCfg.columns links grid columns configuration
              * @cfg gridCfg.contentPresenterFn links grid content presenter
              */
-            gridCfg: null
+            gridCfg: null,
+
+            /**
+             * editable state - by default in display mode
+             */
+            editable: false
         },
 
         /**
