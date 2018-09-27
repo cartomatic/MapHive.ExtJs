@@ -51,10 +51,6 @@
             }
 
             //method not explicitly provided, so assume only args were passed, and the method name is worked out above
-            //<debug>
-            console.log('[CallMeParent] ', 'method ::', method, 'args :: ',  args);
-            //</debug>
-
             if(method.hasOwnProperty('callee')){
                 args = method;
                 method = caller;
@@ -73,18 +69,46 @@
 
                 //Note: when calling from an app instance level it is not the same as the app declaring class because of some reason
                 //need to handle this appropriately by digging one level deeper
-                var appInstance = Ext.getClassName(this).indexOf('$') > -1;
-                if(!appInstance && (!this.calledMapCache || !this.calledMapCache[method])){
+                var appInstance = Ext.getClassName(this).indexOf('$') > -1,
+                    //cacheKey = method;
+                    cacheKey = Ext.getClassName(this) + '_' + method;
+
+                if(!appInstance && (!this.calledMapCache || !this.calledMapCache[cacheKey])){
                     this.calledMapCache = this.calledMapCache || {};
-                    this.calledMapCache[method] = true;
-                    this.resetCalledMapCache(method);
+                    this.calledMapCache[cacheKey] = true;
+                    this.resetCalledMapCache(cacheKey);
                     return this.superclass[method].apply(this, args);
                 }
                 else {
+
+                    //Note: in some scenarios calling up the inheritance stack stucks and keeps on spinning over the same class
                     //try to dig deeper
-                    if(Ext.isFunction(this.superclass.superclass[method])){
-                        return this.superclass.superclass[method].apply(this, args);
+                    // if(Ext.isFunction(this.superclass.superclass[method])){
+                    //     return this.superclass.superclass[method].apply(this, args);
+                    // }
+
+                    //therefore need to cache the calls locally and if such scenario is hit,
+                    //digging a lvl up seem to do the trick
+
+                    //work out the next superclass to call
+                    var nextSuperClass = this.superclass.superclass,
+                        nextKey = Ext.getClassName(nextSuperClass) + '_' + method;
+
+                    this.calledMapCache = this.calledMapCache || {};
+
+                    while(this.calledMapCache && this.calledMapCache[nextKey]){
+                        nextSuperClass = nextSuperClass.superclass;
+                        nextKey = Ext.getClassName(nextSuperClass) + '_' + method;
                     }
+
+                    this.calledMapCache[nextKey] = true;
+                    this.resetCalledMapCache(cacheKey);
+
+                    if(Ext.isFunction(nextSuperClass[method])){
+                        return nextSuperClass[method].apply(this, args);
+                    }
+
+
                 }
             }
             //this is not enough!
