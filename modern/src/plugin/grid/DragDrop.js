@@ -52,7 +52,7 @@
             /**
              * cls for a content proxy
              */
-            proxyCls: 'mh-grid-frag-drop-proxy',
+            proxyCls: 'mh-grid-drag-drop-proxy',
 
             /**
              * cls for a proxy when over an invalid target
@@ -211,9 +211,7 @@
                         }
 
                         me.proxyEl = Ext.getBody().createChild({
-                            //Q: can width be made dynamic???
-                            style: me.getProxyStyle() || 'padding: 5px; max-width: 300px; border: 1px solid gray; color: black;',
-                            cls: me.getProxyCls() || 'mh-grid-frag-drop-proxy'
+                            cls: me.getProxyCls() || 'mh-grid-drag-drop-proxy'
                         });
 
                         if(info.record || info.records){
