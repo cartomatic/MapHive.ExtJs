@@ -27,7 +27,7 @@
         loadRecord: function(id){
 
             var titleDict = Ext.getClass(this.getView()).titles,
-                routeKey  = (this.getDataRouteViewType() || '').toLowerCase(),
+                routeKey  = (this.getDataRouteViewTypeForCurrentRoute() || '').toLowerCase(),
                 title = titleDict[routeKey] || this.getTranslation('genericViewName');
 
             //adjust view name based on the route

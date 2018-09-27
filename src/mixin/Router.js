@@ -79,30 +79,204 @@
         },
 
         /**
-         * gets a view type from a data route
+         * gets a view type from a current data route
          * @returns {string}
          */
-        getDataRouteViewType: function(){
-            var params = window.location.hash.substring(1).match(Ext.route.Router.routes[':type/:id(/:args)?'].matcherRegex);
+        getDataRouteViewTypeForCurrentRoute: function(){
+            return this.getDataRouteViewTypeForRoute(window.location.hash.substring(1));
+        },
+
+        /**
+         * gets a view type for data route
+         * @param route
+         * @returns {any}
+         */
+        getDataRouteViewTypeForRoute: function(route){
+            var params = this.getDataRouteParamsForRoute(route);
             return params ? params[1] : undefined;
         },
 
         /**
-         * gets a view type from a nav route
+         * gets route params for a data route
+         * @param route
+         * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
+         */
+        getDataRouteParamsForRoute: function(route){
+            return route.match(Ext.route.Router.routes[':type/:id(/:args)?'].matcherRegex);
+        },
+
+        /**
+         * gets a view type from a current nav route
          * @returns {string}
          */
-        getNavRouteViewType: function(){
-            var params = window.location.hash.substring(1).match(Ext.route.Router.routes[':type(/:args)?'].matcherRegex);
+        getNavRouteViewTypeForCurrentRoute: function(){
+            return this.getNavRouteViewTypeForRoute(window.location.hash.substring(1));
+        },
+
+        /**
+         * gets a view type for a route
+         * @param route
+         * @returns {any}
+         */
+        getNavRouteViewTypeForRoute: function(route){
+            var params = this.getNavRouteParamsForRoute(route);
             return params ? params[1] : undefined;
+        },
+
+        /**
+         * gets nav route params
+         * @param route
+         * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
+         */
+        getNavRouteParamsForRoute: function(route){
+            return route.match(Ext.route.Router.routes[':type(/:args)?'].matcherRegex);
         },
 
         /**
          * whether or not current route seems to be a data route - matches data route id regex
          */
-        isDataRoute: function(){
-            return Ext.route.Router.routes[':type/:id(/:args)?'].matcherRegex.test(window.location.hash.substring(1));
-        }
+        currentRouteIsDataRoute: function(){
+            return this.routeIsDataRoute(window.location.hash.substring(1));
+        },
 
+        /**
+         * whether or not a route is a data route
+         * @param route
+         * @returns {boolean}
+         */
+        routeIsDataRoute: function(route){
+            return Ext.route.Router.routes[':type/:id(/:args)?'].matcherRegex.test(route);
+        },
+
+        /**
+         *
+         * @param route
+         * @returns {*}
+         */
+        getNavViewRouteRecForRoute: function(route){
+            var routeParams = this.getNavRouteParamsForRoute(route);
+            return this.getNavViewRouteRecFromRouteParams(routeParams[1], routeParams[2]);
+        },
+
+        /**
+         * gets a nav route from route params
+         * @param type
+         * @param args
+         * @returns {*}
+         */
+        getNavViewRouteRecFromRouteParams: function(type, args){
+
+            //Note: route stores must inherit from either mh.data.store.RoutesMainMenu or mh.data.store.RoutesNonMainMenu
+
+            var menuStore = Ext.StoreManager.lookup('routes-main-menu'),
+                nonMenuStore = Ext.StoreManager.lookup('routes-non-main-menu'),
+
+                //first check if this is a menu route
+                registeredRouteRec = menuStore.getAt(menuStore.find('navigationRoute', type)) || menuStore.getById(type),
+                xtype = type;
+
+            //not menu but maybe non-menu?
+            if(!registeredRouteRec && nonMenuStore){
+                registeredRouteRec =  nonMenuStore.getAt(nonMenuStore.find('navigationRoute', type)) || nonMenuStore.getById(type);
+            }
+
+            //if not a main menu registeredRouteRec, see if can find a component
+            if(!registeredRouteRec){
+
+                //check in class manager if xtype exists - both with and without dataview suffix
+                var inst = Ext.ClassManager.getByAlias('widget.' + xtype);
+                if(!inst){
+                    xtype = type + '-data-view';
+                    inst = Ext.ClassManager.getByAlias('widget.' + xtype);
+                }
+
+                if(!inst){
+                    xtype = mh.util.AliasMapper.getXtypeFromAlias(type) || type; //so get proper msg on err!
+                    inst = Ext.ClassManager.getByAlias('widget.' + xtype);
+                }
+
+                try{
+                    registeredRouteRec = Ext.create('Ext.data.Model',{
+                        xtype: xtype,
+                        id: type
+                    });
+                }
+                catch (e) {
+                    this.logErr(e, 'Invalid route: no view for xtype: ' + xtype);
+                }
+            }
+
+            return registeredRouteRec;
+        },
+
+        /**
+         * gets nav view xtype for a route
+         * @param route
+         * @returns {*}
+         */
+        getNavViewXTypeFromRoute: function(route){
+            var registeredRouteRec = this.getNavViewRouteRecForRoute(route);
+            if(registeredRouteRec){
+                return registeredRouteRec.get('xtype');
+            }
+            return;
+        },
+
+        /**
+         * gets data view xtype from route
+         * @param route
+         * @returns {*|void}
+         */
+        getDataViewXtypeFromRoute: function(route){
+            var routeParams = this.getNavRouteParamsForRoute(route);
+
+            return this.getDataViewXtypeFromRouteParams(
+                routeParams[1],
+                routeParams[2],
+                routeParams[3]
+            );
+        },
+
+        /**
+         * gets dataview xtype from route params
+         * @param type
+         * @param args
+         */
+        getDataViewXtypeFromRouteParams: function(type, id, routeArgs){
+
+            var args = Ext.Array.clean((routeArgs || '').split('/')),
+                action, xtype, view;
+
+            // determine the requested action for the given "type":
+            // - #{type}/create: create a new "type"
+            // - #{type}/{id}: show record with "id"
+            // - #{type}/{id}/edit: edit record with "id"
+
+            //Note:
+            //a bit over the edge, but maybe could make the create, edit, record 'actions' customizable
+            //this would be nice but i guess not used too often ;)
+
+            if (id === 'create') {
+                action = 'create-view';
+                id = null;
+            }
+            else if (args[0] === 'edit') {
+                action = 'edit-view';
+                args.shift();
+            }
+            else {
+                action = 'record-view';
+            }
+
+            xtype = type + '-' + action;
+
+            //check if xtype exists and if not inspect alias map!
+            if(!Ext.ClassManager.getByAlias('widget.' + xtype)){
+                xtype = mh.util.AliasMapper.getXtypeFromAlias(xtype) || xtype; //so get proper msg on err!
+            }
+
+            return xtype;
+        }
     });
     
 }());
