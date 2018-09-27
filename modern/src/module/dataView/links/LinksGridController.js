@@ -133,9 +133,8 @@
             vw.on('activate', this.onViewActivate, this);
 
 
-
             //by default disable grid's dd
-            this.setDdPluginDisabled(true);
+            this.setEditable(true);
         },
 
         /**
@@ -223,16 +222,24 @@
                             }
                         }
                     }
-                }
+                },
+                hidden: true
             });
         },
 
         /**
-         * d&d plugin default contenr presenter fn
+         * d&d plugin default proxy content presenter fn - extracts name off a record
          * @param recs
          */
         contentPresenterFn: function(recs){
-            return 'TODO - make it lang based - default content drag info!'
+            var contentHtml = [];
+            for(var r in recs){
+                contentHtml.push(
+                    recs[r].get('name')
+                );
+            }
+
+            return contentHtml.join('<br/>')
         },
 
         /**
@@ -241,32 +248,14 @@
          */
         setDdPluginDisabled: function(disable){
 
-            //TODO - adjust for modern && the modern dd plugin...
-
             //disable dragdrop plugin in standard mode
             Ext.Array.each(this.grid.getPlugins(), function(p){
                 if(Ext.getClassName(p) === 'mh.plugin.grid.DragDrop'){
                     if(disable){
-                        p.disable(); //<- this seems to be totally ignored...
-
-                        // p.enableDrag = false;
-                        // p.enableDrop = false;
+                        p.disable();
                     }
                     else {
                         p.enable();
-
-                        // p.enableDrag = true;
-                        // p.enableDrop = true;
-                        //
-                        // if(view.getDdGroup()){
-                        //     p.ddGroup = view.getDdGroup();
-                        // }
-                        // if(view.getDropGroup()){
-                        //     p.dropGroup = view.getDropGroup();
-                        // }
-                        // if(view.getDragGroup()){
-                        //     p.dragGroup = view.getDragGroup();
-                        // }
                     }
                     return false;
                 }
@@ -306,14 +295,7 @@
             this.setDdPluginDisabled(false);
 
             //start monitoring grid change events
-            //looks like in 6.5.3 datachanged evt listener will go nuts without a buffer
-            //this.gridStore.on('datachanged', this.onStoreDataChanged, this, {buffer: 250});
-            // this.gridStore.on('add', this.onStoreDataChanged, this);
-            // this.gridStore.on('remove', this.onStoreDataChanged, this);
-            //this.gridStore.on('refresh', this.onStoreDataChanged, this);
-            //this.getView().on('drop',this.onStoreDataChanged, this);
-
-            //TODO - fix the events for a new plugin
+            this.gridStore.on('datachanged', this.onStoreDataChanged, this);
         },
 
 
