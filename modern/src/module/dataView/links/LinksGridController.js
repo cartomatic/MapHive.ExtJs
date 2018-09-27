@@ -289,16 +289,20 @@
         setEditable: function(editable){
 
             this.lookupReference('btnAddLink').setVisibility(editable);
-            this.lookupReference('gridBtnDelete').setVisibility(editable);
+
+            //does not seem to work with widget cell, so explicitly calling show / hide
+            //this.lookupReference('gridBtnDelete').setVisibility(editable);
 
             //make grid reorderable
             this.setDdPluginDisabled(!editable);
 
             //start monitoring grid change events
             if(editable){
+                this.lookupReference('gridBtnDelete').show();
                 this.gridStore.on('datachanged', this.onStoreDataChanged, this);
             }
             else {
+                this.lookupReference('gridBtnDelete').hide();
                 this.gridStore.un('datachanged', this.onStoreDataChanged, this);
             }
         },
