@@ -122,7 +122,7 @@
             this.recLimit = vw.getRecLimit();
             this.selMode = vw.getSelMode();
 
-            this.publishApi(['setEditable','getChanges', 'setOrgContext', 'getLinkedObjects']);
+            this.publishApi(['setEditable', 'hasChanges', 'getChanges', 'setOrgContext', 'getLinkedObjects']);
 
             this.configureStore();
             this.configureGrid();
@@ -393,6 +393,14 @@
          */
         getLinkedObjects: function(){
             return this.gridStore.getRange();
+        },
+
+        /**
+         * whether or not there are changes in the handled links collection
+         * @returns {boolean}
+         */
+        hasChanges: function(){
+            return this.linksModified;
         },
 
         /**
