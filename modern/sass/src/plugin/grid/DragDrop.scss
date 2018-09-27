@@ -1,16 +1,27 @@
-.mh-grid-frag-drop-proxy {
+.mh-grid-drag-drop-proxy {
   background-color: rgba(245,245,245,0.7);
+
+  padding: 5px;
+
+  //Q: can width be made dynamic???
+  //note width of proxy seems to be inherited somehow
+  width: auto !important;
+  min-width:0 !important;
+  max-width: 300px;
+
+  border: 1px solid gray;
+  color: black;
 }
 
 .mh-grid-drag-drop-proxy-target-invalid {
-  border-color: rgba(144, 0, 6, 0.71)!important;
+  border-color: rgba(156, 34, 28, 0.81) !important;
 }
 
 .mh-grid-drag-drop-proxy-target-valid {
-  border-color: rgba(0, 127, 8, 0.7)!important;
+  border-color: rgba(78, 156, 78, 0.7) !important;
 }
 
 .mh-grid-drag-drop-row-over {
-  border-bottom-color: rgba(0, 127, 8, 0.7);
+  border-bottom-color: rgba(78, 156, 78, 0.7);
   border-bottom-width: 2px!important;
 }
