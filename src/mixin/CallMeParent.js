@@ -71,7 +71,7 @@
                 //need to handle this appropriately by digging one level deeper
                 var appInstance = Ext.getClassName(this).indexOf('$') > -1,
                     //cacheKey = method;
-                    cacheKey = Ext.getClassName(this) + '_' + method;
+                    cacheKey = Ext.getClassName(this.superclass) + '_' + method;
 
                 if(!appInstance && (!this.calledMapCache || !this.calledMapCache[cacheKey])){
                     this.calledMapCache = this.calledMapCache || {};
@@ -102,7 +102,7 @@
                     }
 
                     this.calledMapCache[nextKey] = true;
-                    this.resetCalledMapCache(cacheKey);
+                    this.resetCalledMapCache(nextKey);
 
                     if(Ext.isFunction(nextSuperClass[method])){
                         return nextSuperClass[method].apply(this, args);
@@ -120,7 +120,15 @@
                 //not entirely sure why, but it looks like it's caused by the way object inheritance works in ExtJs
                 //so need to check if can call deeper
                 if(this.superclass && this.superclass.superclass){
-                    this.superclass.superclass[method].apply(this.superclass, arguments);
+
+                    this.calledMapCache = this.calledMapCache || {};
+                    var cacheKey = Ext.getClassName(this.superclass.superclass) + '_' + method;
+
+                    this.calledMapCache[cacheKey] = true;
+                    this.resetCalledMapCache(cacheKey);
+
+
+                    this.superclass.superclass[method].apply(this, arguments);
                 }
             }
 
