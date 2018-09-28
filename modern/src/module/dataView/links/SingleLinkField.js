@@ -50,7 +50,12 @@
             /**
              * whether or not a load mask should be shown when loading the field's value
              */
-            useLoadMask: true
+            useLoadMask: true,
+
+            /**
+             * whether or not field should start as editable
+             */
+            editable: false
         },
 
         /**
@@ -61,6 +66,8 @@
          */
 
         layout: 'hbox',
+
+        encodeHtml: false,
 
         items: [
            {

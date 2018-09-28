@@ -93,14 +93,22 @@
             this.apiMapKey = vw.getApiMapKey() || '';
             this.parentIdentifierToken = vw.getParentIdentifierToken();
             this.dataView = vw.getDataView();
+
+            this.setEditable(vw.getEditable());
         },
 
         /**
          * Sets the field editable
          */
-        setEditable: function(){
-            this.findItem('btnSetLink').show();
-            this.findItem('btnRemoveLink').show();
+        setEditable: function(editable){
+            if(editable){
+                this.findItem('btnSetLink').show();
+                this.findItem('btnRemoveLink').show();
+            }
+            else {
+                this.findItem('btnSetLink').hide();
+                this.findItem('btnRemoveLink').hide();
+            }
         },
 
         /**
@@ -132,9 +140,10 @@
             if(loadMask === true){
                 //this.getMaskableElement().mask(this.getTranslation('loadMask'));
 
-                // this.getMaskableElement().setMasked({
-                //     xtype: 'loadmask'
-                // });
+                this.getMaskableElement().setMasked({
+                    xtype: 'loadmask',
+                    message: this.getTranslation('loadMask')
+                });
             }
 
             //pull link data
@@ -151,7 +160,7 @@
          * @returns {*}
          */
         getMaskableElement: function(){
-            return this.getView();
+            return this.getView().getContainer();
         },
 
         /**
@@ -166,7 +175,7 @@
 
             this.renderRec(this.currentLink);
 
-            //this.getMaskableElement().setMasked(false);
+           this.getMaskableElement().setMasked(false);
 
             this.getView().fireEvent('change', this.getView(), this.currentLink, oldV);
         },
@@ -180,14 +189,14 @@
             //this will happen when there is no link - so in most cases 404; other errs should be handled by the ajax utils
             this.resetDisplay();
 
-            //this.getMaskableElement().setMasked(false)
+            this.getMaskableElement().setMasked(false)
         },
 
         /**
          * resets the display field
          */
         resetDisplay: function(){
-            this.findItem('displayField').setValue('');
+            this.findItem('displayField').setHtml('&nbsp');
 
             //notify change
             this.getView().fireEvent('change', this.getView(), null, this.newLink || this.currentLink);
@@ -216,7 +225,7 @@
         onBtnSetLinkClick: function(btn){
 
             if(!this.linksPicker){
-                this.linksPicker = Ext.create('mh.module.dataView.LinksPicker', {
+                this.linksPicker = Ext.create('mh.module.dataView.links.LinksPicker', {
                     animateTarget: btn
                 });
 
@@ -340,7 +349,7 @@
          * @param rec
          */
         renderRec: function(rec){
-            this.findItem('displayField').setValue(this.renderer(rec));
+            this.findItem('displayField').setHtml(this.renderer(rec));
         },
 
         /**
