@@ -51,7 +51,7 @@
             }
 
             //method not explicitly provided, so assume only args were passed, and the method name is worked out above
-            if(method.hasOwnProperty('callee')){
+            if(method && method.hasOwnProperty('callee')){
                 args = method;
                 method = caller;
             }
