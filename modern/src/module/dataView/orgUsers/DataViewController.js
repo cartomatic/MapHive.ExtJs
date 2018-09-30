@@ -12,7 +12,6 @@
             'mh.module.dataView.orgUsers.DataViewLocalization',
             'mh.data.dictionaries.OrganizationRoles',
             'mh.module.dataView.orgUsers.Icons',
-            'mh.module.dataView.links.LinksPicker',
             'mh.module.dataView.usersCatalogue.UsersCatalogue'
 
         ],
@@ -45,28 +44,28 @@
         },
 
         /**
-         * @private {mh.module.dataView.links.LinksPicker} userLinksPicker
+         * @private {mh.module.dataView.usersCatalogue.UsersCatalogue} usersCatalogue
          */
-        userLinksPicker: null,
+        usersCatalogue: null,
 
         /**
          * gets an instance of a user links picker
-         * @returns {mh.module.dataView.links.LinksPicker}
+         * @returns {mh.module.dataView.usersCatalogue.UsersCatalogue}
          */
-        getUserLinksPicker: function(btn){
+        getUsersCatalogue: function(btn){
             //need to display a window with a standard users links picker.
-            if(!this.userLinksPicker){
-                this.userLinksPicker = Ext.create('mh.module.dataView.usersCatalogue.UsersCatalogue', {});
+            if(!this.usersCatalogue){
+                this.usersCatalogue = Ext.create('mh.module.dataView.usersCatalogue.UsersCatalogue', {});
 
                 //need to get the data, huh?
-                this.userLinksPicker.on('linkspicked', this.onLinksPicked, this);
+                this.usersCatalogue.on('linkspicked', this.onLinksPicked, this);
             }
 
             if(btn){
-                this.userLinksPicker.animateTarget = btn;
+                this.usersCatalogue.animateTarget = btn;
             }
 
-            return this.userLinksPicker;
+            return this.usersCatalogue;
         },
 
         /**
@@ -74,7 +73,7 @@
          * @param btn
          */
         onAddUserFromCatalogue: function(btn){
-            this.getUserLinksPicker(btn).show();
+            this.getUsersCatalogue(btn).show();
         },
 
         /**
@@ -82,7 +81,7 @@
          * @param records
          */
         onLinksPicked: function(records){
-            this.getUserLinksPicker().hide();
+            this.getUsersCatalogue().hide();
             this.fireGlobal('loadmask::show', this.getTranslation('linkUserMask'));
 
             //note: there should be only one rec for a starter.
