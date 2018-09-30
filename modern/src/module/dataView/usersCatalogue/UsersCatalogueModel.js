@@ -19,30 +19,6 @@
                     }
                 ],
                 filters: [
-                    {
-                        //ignore org users
-                        property: 'isOrgUser',
-                        operator: '==',
-                        value: false,
-                        exactMatch: true,
-                        andJoin: false, //default, will use OR join
-                        nestedFilters: [
-                            //unless they are set to be visible in the users catalogue
-                            {
-                                property: 'isOrgUser',
-                                operator: '==',
-                                value: true,
-                                andJoin: true,
-                                nestedFilters: [
-                                    {
-                                        property: 'visibleInCatalogue',
-                                        operator: '==',
-                                        value: true
-                                    }
-                                ]
-                            }
-                        ]
-                    }
                 ]
             }
         }

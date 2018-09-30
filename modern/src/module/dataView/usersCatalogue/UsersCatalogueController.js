@@ -13,7 +13,8 @@
         ],
 
         mixins: [
-            'mh.mixin.CallMeParent'
+            'mh.mixin.CallMeParent',
+            'mh.mixin.OrganizationUtils'
         ],
 
         /**
@@ -46,6 +47,34 @@
          */
         setTitle: function(){
             this.getView().setTitle(this.getTranslation('title'));
+        },
+
+        onShow: function(){
+            this.callMeParent(arguments);
+
+            this.dataView.getViewModel().getStore('gridstore').setFilters([
+                {
+                    //pick up users marked as visible in catalogue
+                    property: 'visibleInCatalogue',
+                    operator: '==',
+                    value: true,
+                    exactMatch: true,
+                    andJoin: true,
+                    nestedFilters: [
+                        //BUT discard own users
+                        {
+                            property: 'parentOrganizationId',
+                            operator: '!guid',
+                            value: this.getCurrentOrgId()
+                        },
+                        {
+                            property: 'userOrgId',
+                            operator: '!guid',
+                            value: this.getCurrentOrgId()
+                        }
+                    ]
+                }
+            ]);
         }
     });
     
