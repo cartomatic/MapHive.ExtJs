@@ -10,14 +10,14 @@
     /**
      * generator used to obtain unique ids, uuids and shortened uuids
      */
-    Ext.define('mh.utils.Generator', {
+    Ext.define('mh.util.Generator', {
 
         singleton: true,
 
         /**
          * Returns a unique id
          * @returns {*}
-         * @member mh.utils.Generator
+         * @member mh.util.Generator
          */
         getId: function(){
             counter += 1;
@@ -29,7 +29,7 @@
          * @param [a]
          * @param [b]
          * @returns {*}
-         * @member mh.utils.Generator
+         * @member mh.util.Generator
          */
         getUuid: function(a,b){
             //https://gist.github.com/LeverOne/1308368
@@ -79,7 +79,7 @@
          * generates a short version of uuid - either the first or the last part
          * @param [first]
          * @returns {string}
-         * @member mh.utils.Generator
+         * @member mh.util.Generator
          */
         getShortUuid: function(first){
 
