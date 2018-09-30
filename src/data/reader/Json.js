@@ -39,7 +39,7 @@
                     data[this.getRootProperty()] = response.responseJson;
                 }
                 else {
-                    data[this.getRootProperty()] = Ext.decode(response.responseText);
+                    data[this.getRootProperty()] = response.responseText ? Ext.decode(response.responseText) : undefined;
                 }
 
                 //grab the response header and set a total property based on it;

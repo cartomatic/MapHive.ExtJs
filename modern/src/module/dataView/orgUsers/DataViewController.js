@@ -88,7 +88,7 @@
             //note: there should be only one rec for a starter.
 
             var cfg = {
-                    url: this.getApiEndPoint('organizationUsersLink').replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId()),
+                    url: this.getApiEndPointUrl('organizationUsersLink'),
                     params: records[0].getData(),
                     success: this.onLinkUserSuccess,
                     failure: this.onLinkUserFailure,
@@ -111,7 +111,7 @@
          */
         onLinkUserSuccess: function(response){
             this.fireGlobal('loadmask::hide');
-            this.reloadGrid();
+            this.reloadStore();
         },
 
         /**
@@ -121,86 +121,36 @@
             this.fireGlobal('loadmask::hide');
         },
 
-        /**
-         * customises the behavior of delete so can handle both - own and external users
-         * @param btn
-         */
-        onBtnDeleteClick: function(btn){
-            var recs = this.lookupReference('grid').getSelection() || [],
-                rec,
-                me = this;
 
-            if(recs.length === 1){
-                rec = recs[0];
-                if(this.isOrgsOwnUser(rec)){
-                    //own user, so just use the default
-                    this.callMeParent('onBtnDeleteClick', arguments);
-                }
-                else {
-                    //just ask a user to confirm an external user will be removed from an org.
-                    //prompt user if he is sure to delete a record
-                    Ext.Msg.show({
-                        title: this.getTranslation('unlinkExternalUserTitle'),
-                        message: this.getTranslation('unlinkExternalUserMsg'),
-                        width: 300,
-                        buttons: Ext.MessageBox.OKCANCEL,
-                        amimateTarget: btn,
-                        icon: Ext.MessageBox.WARNING,
-                        fn: function(msgBtn){
-                            if(msgBtn === 'ok'){
-                                me.unlinkUser(rec);
-                            }
-                        }
-                    });
-                }
+        destroyRecord: function(record, success, failure){
+            if(this.isOrgsOwnUser(record)){
+                //std delete for own users
+                this.callMeParent(arguments);
+            }
+            else {
+                //external user - need to unlink it rather than destroy...
+                var me = this,
+                    cfg = {
+                        scope: me,
+                        success: success,
+                        failure: failure,
+                        exceptionMsg: me.getTranslation('unlinkUserFailure')
+                    },
+                    callback = me.generateModelRequestCallback(cfg),
+
+                    op = function(){
+                        record.erase({
+                            callback: callback,
+                            url: me.getApiEndPointUrl('organizationUsersLink')
+                        });
+                    };
+
+                cfg.retry = op;
+
+                op();
             }
         },
 
-        /**
-         * unlinks a user from an organization
-         * @param user
-         */
-        unlinkUser: function(user){
-            this.fireGlobal('loadmask::show', this.getTranslation('unlinkUserMask'));
-
-            //note: there should be only one rec for a starter.
-
-            var me = this,
-                cfg = {
-                    scope: me,
-                    success: me.onUnLinkUserSuccess,
-                    failure: me.onUnLinkUserFailure,
-                    exceptionMsg: me.getTranslation('unlinkUserFailure')
-                },
-                callback = me.generateModelRequestCallback(cfg),
-
-                op = function(){
-                    user.erase({
-                        callback: callback,
-                        url: me.getApiEndPoint('organizationUsersLink').replace(me.getApiMapOrgIdentifier(), me.getCurrentOrgId())
-                    });
-                };
-
-            cfg.retry = op;
-
-            op();
-        },
-
-        /**
-         * unlink ext user success handler
-         */
-        onUnLinkUserSuccess: function(){
-            this.fireGlobal('loadmask::hide');
-            this.reloadGrid();
-        },
-
-        /**
-         * unlink ext user failure handler
-         */
-        onUnLinkUserFailure: function(){
-            this.fireGlobal('loadmask::hide');
-            this.reloadGrid();
-        },
 
 
         /**

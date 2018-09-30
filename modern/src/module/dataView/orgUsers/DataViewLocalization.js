@@ -52,18 +52,7 @@
                     en: 'Local user',
                     pl: 'Użytkownik lokalny'
                 },
-                unlinkExternalUserTitle: {
-                    en: 'Remove external user',
-                    pl: 'Usuwanie zewnętrznego użytkownika'
-                },
-                unlinkExternalUserMsg: {
-                    en: 'You are about to remove an external user from your organization. Continue?',
-                    pl: 'Usuwasz zewnętrznego użytkownika ze swojej organizacji. Kontynuować?'
-                },
-                unlinkUserMask: {
-                    en: 'Removing a user...',
-                    pl: 'Usuwanie użytkownika...'
-                },
+
                 unlinkUserFailure: {
                     en: 'Failed to remove external user',
                     pl: 'Usunięcie zewnętrznego użytkownika nie powiodło się'
