@@ -52,7 +52,7 @@
         singleton: true,
 
         requires: [
-            'mh.utils.Generator',
+            'mh.util.Generator',
             'mh.util.console.Formatters'
         ],
 
@@ -89,7 +89,7 @@
         constructor: function(){
 
             //generate own identifier
-            id = mh.utils.Generator.getUuid();
+            id = mh.util.Generator.getUuid();
 
             //set up post msg context, so it is possible to wire the event on / off
             messageContext = Ext.bind(this.onMessage, this);
