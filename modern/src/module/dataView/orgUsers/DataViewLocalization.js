@@ -12,7 +12,11 @@
         statics: {
             inherits: 'mh.module.dataView.users.DataViewLocalization',
             localization: {
-                btnAddUser: {
+                viewName: {
+                    en: 'Organization users',
+                    pl: 'Użytkownicy'
+                },
+                btnCreate: {
                     en: 'Add user',
                     pl: 'Dodaj użytkownika'
                 },
