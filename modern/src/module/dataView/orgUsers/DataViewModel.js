@@ -10,11 +10,7 @@
 
         stores: {
             gridstore: {
-                model: 'mh.data.model.OrganizationUser',
-                proxy: {
-                    type: 'mhrest',
-                    url: 'to-be-set-in-runtime'
-                }
+                model: 'mh.data.model.OrganizationUser'
             }
         }
     });

@@ -21,8 +21,6 @@
 
         init: function(){
             this.callMeParent('init', arguments);
-
-            this.createAddUserUi();
         },
 
         /**
@@ -32,44 +30,6 @@
             //adjust the store url to the currently scoped org.
             this.getViewModel().getStore('gridstore').getProxy().setUrl(this.getApiEndPointUrl('organizationUsers'));
             this.callMeParent(arguments);
-        },
-
-        /**
-         * creates UI for adding users to an organisation
-         */
-        createAddUserUi: function(){
-            this.lookupReference('dataviewtoolbar').insert(3,
-                Ext.create('Ext.Button', {
-                    text: this.getTranslation('btnAddUser'),
-                    iconCls: 'x-li li-user-plus',
-                    menuAlign: 'tr-br?',
-                    arrowVisible: false,
-                    menu: {
-                        items: [
-                            {
-                                text: this.getTranslation('btnAddNewOrgUser'),
-                                iconCls: 'x-li li-user-plus',
-                                listeners: {
-                                    click: 'onAddNewOrgUser'
-                                }
-                            },
-                            {
-                                text: this.getTranslation('btnAddUserFromCatalogue'),
-                                iconCls: 'x-li li-users',
-                                listeners: {
-                                    click: 'onAddUserFromCatalogue'
-                                }
-                            }
-                        ]
-                    },
-                    listeners: {
-                        click: function(btn){
-                            btn.showMenu();
-                        }
-                    }
-                })
-            );
-            this.lookupReference('dataviewtoolbar').insert(4,'-');
         },
 
         /**
@@ -247,33 +207,6 @@
             this.reloadGrid();
         },
 
-        /**
-         * injects custom cols into the base grid
-         */
-        addCustomColumns: function(gridCfg){
-
-            gridCfg.columns.push({
-                cell: {
-                    xtype: 'gridcell',
-                    encodeHtml: false
-                },
-                menuDisabled: true,
-                sortable: false,
-                width: 40,
-                renderer: 'externalUserRenderer'
-            });
-            gridCfg.columns.push({
-                cell: {
-                    xtype: 'gridcell',
-                    encodeHtml: false
-                },
-                menuDisabled: true,
-                sortable: false,
-                width: 40,
-                renderer: 'orgRoleRenderer'
-            });
-
-        },
 
         /**
          * renderer of the external user info

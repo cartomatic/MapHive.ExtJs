@@ -11,7 +11,10 @@
 
         fields: [
         ],
-    
-        proxy: null
+
+        proxy: {
+            type: 'mhrest',
+            url: 'to-be-set-in-runtime'
+        }
     });
 }());
