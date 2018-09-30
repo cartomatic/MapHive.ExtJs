@@ -11,7 +11,7 @@
         requires: [
             'mh.module.dataView.orgUsers.DataViewController',
             'mh.module.dataView.orgUsers.DataViewModel',
-            //'mh.module.dataView.orgUsers.EditView',
+            'mh.module.dataView.orgUsers.EditView',
             'mh.module.dataView.orgUsers.RecordView',
             'mh.FontIconsDictionary',
             'mh.module.dataView.orgUsers.DataViewToolbar',

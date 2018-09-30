@@ -25,17 +25,25 @@
          */
         getOrgRolesStore: function(){
             if(!this.store){
-                this.store = Ext.create('Ext.data.Store',{
-                    fields: [
-                        { name: 'id', type: 'int' },
-                        { name: 'key', type: 'string' },
-                        { name: 'name', type: 'string' },
-                        { name: 'icon', type: 'string' }
-                    ],
-                    data: this.getOrgRolesStoreData()
-                });
+                this.store = Ext.create('Ext.data.Store',this.getOrgRolesStoreCfg());
             }
             return this.store;
+        },
+
+        /**
+         * gets org roles store cfg
+         * @returns {{fields: *[], data: *}}
+         */
+        getOrgRolesStoreCfg: function(){
+            return {
+                fields: [
+                    { name: 'id', type: 'int' },
+                    { name: 'key', type: 'string' },
+                    { name: 'name', type: 'string' },
+                    { name: 'icon', type: 'string' }
+                ],
+                data: this.getOrgRolesStoreData()
+            };
         },
 
         getOrgRolesStoreData: function(){
