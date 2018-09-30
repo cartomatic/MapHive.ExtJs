@@ -4,8 +4,6 @@
     //Make sure strict mode is on
     'use strict';
 
-
-
     Ext.define('mh.module.dataView.orgUsers.DataView', {
         extend: 'mh.module.dataView.users.DataView',
         xtype: 'mh-org-users-data-view',
@@ -27,7 +25,9 @@
 
         viewModel: {
             type: 'mh-org-users-data-view'
-        }
+        },
+
+        preventCreate: true
     });
 
 }());
