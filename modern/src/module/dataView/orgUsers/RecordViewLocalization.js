@@ -7,10 +7,10 @@
     Ext.define('mh.module.dataView.orgUsers.RecordViewLocalization', {
         requires: [
             'mh.localization.Localization',
-            'mh.module.dataView.users.DataViewLocalization'
+            'mh.module.dataView.orgUsers.DataViewLocalization'
         ],
         statics: {
-            inherits: 'mh.module.dataView.users.DataViewLocalization',
+            inherits: 'mh.module.dataView.orgUsers.DataViewLocalization',
             localization: {
                 viewName: {
                     en: 'Organization user',

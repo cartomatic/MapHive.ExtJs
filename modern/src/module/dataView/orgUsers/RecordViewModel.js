@@ -6,7 +6,9 @@
 
     Ext.define('mh.module.dataView.orgUsers.RecordViewModel', {
         extend: 'mh.module.dataView.RecordViewModel',
-        alias: 'viewmodel.mh-users-record-view',
+        alias: 'viewmodel.mh-org-users-record-view',
+
+
 
         formulas: {
             organizationRole:{
@@ -18,6 +20,7 @@
                     if(!rec){
                         return '';
                     }
+                    console.warn('WTF>>>>', rec.getData());
                     return mh.data.dictionaries.OrganizationRoles.getRoleData(rec.get('organizationRole')).name;
                 }
             }

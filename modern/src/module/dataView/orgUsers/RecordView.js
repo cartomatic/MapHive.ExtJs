@@ -30,7 +30,7 @@
             type: 'mh-org-users-record-view'
         },
 
-        //iconCls: mh.FontIconsDictionary.getIcon('mhUsersViewHeader'),
+        //icon bound dynamically based on record data
 
         bind: {
             title: '{localization.viewName} :: {record.username}'
@@ -60,6 +60,12 @@
                                 }
                             },
                             {
+                                xtype: 'label',
+                                bind: {
+                                    html: '<h4>{organizationRole}</h4>'
+                                }
+                            },
+                            {
                                 xtype: 'displayfield',
                                 bind: {
                                     label: '{localization.forename}',
@@ -85,13 +91,6 @@
                                 bind: {
                                     label: '{localization.slug}',
                                     html: '{record.slug}'
-                                }
-                            },
-                            {
-                                xtype: 'displayfield',
-                                bind: {
-                                    label: '{localization.organizationRole}',
-                                    html: '{organizationRole}'
                                 }
                             }
                         ]

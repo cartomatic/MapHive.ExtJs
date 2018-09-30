@@ -210,7 +210,7 @@
 
             var isOwn = this.isOwnUser(record),
                 tip = this.getTranslation(isOwn ? 'orgUser' : 'externalUser'),
-                icon = mh.FontIconsDictionary.getIcon(isOwn ? 'mhOrgUsersOwnUser' : 'mhOrgUsersExternalUser');
+                icon = mh.FontIconsDictionary.getIcon(isOwn ? 'mhOrgUsersOwnUser' : 'mhOrgUsersExtUser');
 
             return '<div class="' + icon + '" data-qtip="' + tip + '"></div>';
         },
