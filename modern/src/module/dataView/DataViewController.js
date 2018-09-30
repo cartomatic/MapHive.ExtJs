@@ -67,6 +67,8 @@
             }
 
 
+            this.addCustomColumns(gridCfg);
+
             //add some handy btns to grid
             this.addGridBtns(gridCfg);
 
@@ -165,6 +167,12 @@
         bumpUpSelectionChangeTimeStamp: function(){
             this.getViewModel().set('selectionchangetimestamp', new Date().getTime());
         },
+
+        /**
+         * Called just before addGridBtns - used as an extension hook for modifying grids
+         * @template
+         */
+        addCustomColumns: Ext.emptyFn,
 
         /**
          * adds some generic buttons to the grid columnset, so grid actions can be triggerred from grid rows too

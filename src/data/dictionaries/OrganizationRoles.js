@@ -9,7 +9,8 @@
         singleton: true,
 
         requires: [
-            'mh.data.dictionaries.OrganizationRolesLocalization'
+            'mh.data.dictionaries.OrganizationRolesLocalization',
+            'mh.data.dictionaries.Icons'
         ],
 
         mixins: [
@@ -21,20 +22,20 @@
          * OrganizationRole enum in MapHive.Server.Core.DataModel.Organization
          */
         getOrgRolesStore: function(){
-
             return {
                 fields: [
                     { name: 'id', type: 'int' },
-                    { name: 'name', type: 'string' }
+                    { name: 'key', type: 'string' },
+                    { name: 'name', type: 'string' },
+                    { name: 'icon', type: 'string' }
                 ],
                 data: [
-                    { id: 0, name: this.getTranslation('orgOwner') },
-                    { id: 1, name: this.getTranslation('orgAdmin') },
-                    { id: 2, name: this.getTranslation('orgMember') }
+                    { id: 0, key: 'org_owner', name: this.getTranslation('orgOwner'), icon: 'dictOrgRoleOwner'},
+                    { id: 1, key: 'org_admin', name: this.getTranslation('orgAdmin'), icon: 'dictOrgRoleAdmin'},
+                    { id: 2, key: 'org_member', name: this.getTranslation('orgMember'), icon: 'dictOrgRoleMember'}
                 ]
             }
         }
-
     });
     
 }());
