@@ -16,7 +16,8 @@
 
         mixins: [
             'mh.mixin.CallMeParent',
-            'mh.mixin.ApiMap'
+            'mh.mixin.ApiMap',
+            'mh.mixin.UserUtils'
         ],
 
         init: function(){
@@ -30,15 +31,6 @@
             //adjust the store url to the currently scoped org.
             this.getViewModel().getStore('gridstore').getProxy().setUrl(this.getApiEndPointUrl('organizationUsers'));
             this.callMeParent(arguments);
-        },
-
-        /**
-         * whether or not user is an own org user
-         * @param rec
-         * @returns {boolean}
-         */
-        isOwnUser: function(rec){
-            return rec.get('isOrgUser') && rec.get('parentOrganisationId') === this.getCurrentOrgId();
         },
 
         /**
@@ -245,7 +237,7 @@
         prepareOrgRoles: function(){
             if(!this.orgRoles){
                 this.orgRoles = {};
-                Ext.Array.each(mh.data.dictionaries.OrganizationRoles.getOrgRolesStore().data, function(r){
+                Ext.Array.each(mh.data.dictionaries.OrganizationRoles.getOrgRolesStoreData(), function(r){
                     this.orgRoles[r.id] = {
                         key: r.key,
                         name: r.name,

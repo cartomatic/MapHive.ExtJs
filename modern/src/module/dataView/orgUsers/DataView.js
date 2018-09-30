@@ -12,9 +12,10 @@
             'mh.module.dataView.orgUsers.DataViewController',
             'mh.module.dataView.orgUsers.DataViewModel',
             //'mh.module.dataView.orgUsers.EditView',
-            //'mh.module.dataView.orgUsers.RecordView',
+            'mh.module.dataView.orgUsers.RecordView',
             'mh.FontIconsDictionary',
-            'mh.module.dataView.orgUsers.DataViewToolbar'
+            'mh.module.dataView.orgUsers.DataViewToolbar',
+            'mh.data.model.OrganizationUser'
         ],
 
         statics: {
@@ -49,7 +50,7 @@
                     },
                     tpl: [
                         //user is a part of record view edit url!!!
-                        '<a class="mh-data-view-link mh-data-view-img" href="#' + mh.data.model.User.getEntityNavigationUrlBase() + '/{uuid}"><span style="background-image: url(\'{profilePicture}\')"></span>{username}</a>'
+                        '<a class="mh-data-view-link mh-data-view-img" href="#' + mh.data.model.OrganizationUser.getEntityNavigationUrlBase() + '/{uuid}"><span style="background-image: url(\'{profilePicture}\')"></span>{username}</a>'
                     ],
                     flex: 1,
                     filter: {

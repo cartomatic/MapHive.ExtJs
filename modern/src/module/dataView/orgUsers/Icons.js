@@ -11,9 +11,9 @@
         ],
         constructor: function(){
             mh.FontIconsDictionary.addIcons({
-                mhOrgUsersAdd: 'x-i54 i54-searching-group',
-                mhOrgUsersAddOwnUser: 'x-li li-user-plus',
-                mhOrgUsersAddExtUser: 'x-li li-users',
+                mhOrgUsersAdd: 'x-li li-user-plus',
+                mhOrgUsersAddOwnUser: 'x-i54 i54-home',
+                mhOrgUsersAddExtUser: 'x-i54 i54-searching-group',
                 mhOrgUsersOwnUser: 'x-i54 i54-home i54-lg',
                 mhOrgUsersExternalUser: 'x-i54 i54-global i54-lg'
             });

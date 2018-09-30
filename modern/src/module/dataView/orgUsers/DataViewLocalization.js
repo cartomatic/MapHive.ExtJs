@@ -67,6 +67,10 @@
                 unlinkUserFailure: {
                     en: 'Failed to remove external user',
                     pl: 'Usunięcie zewnętrznego użytkownika nie powiodło się'
+                },
+                organizationRole: {
+                    en: 'Organization role',
+                    pl: 'Rola w organizacji'
                 }
             }
         }
