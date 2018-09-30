@@ -1,16 +1,15 @@
 //Disable some of the JSLint warnings
-/*global window,console,Ext,mh*/
+/*global window,console,Ext*/
 (function(){
     //Make sure strict mode is on
-    'use strict';
-
-    Ext.define('mh.module.dataView.orgUsers.RecordViewController', {
-        extend: 'mh.module.dataView.RecordViewController',
-        alias: 'controller.mh-org-users-record-view',
+    'use strict'
+    
+    Ext.define('mh.module.dataView.orgUsers.EditViewController', {
+        extend: 'mh.module.dataView.EditViewController',
+        alias: 'controller.mh-org-users-edit-view',
 
         requires: [
-            'mh.data.model.OrganizationUser',
-            'mh.module.dataView.orgUsers.RecordViewLocalization'
+            'mh.module.dataView.orgUsers.EditViewLocalization'
         ],
 
         mixins: [
@@ -20,7 +19,7 @@
         ],
 
         init: function(){
-            this.callMeParent('init', arguments);
+            this.callMeParent(arguments);
 
             this.getView().on('activate', this.onViewActivate, this);
         },
@@ -32,9 +31,12 @@
         onRecordLoadSuccess: function(record){
             this.callMeParent(arguments);
 
-            this.getView().setIconCls(
-                mh.FontIconsDictionary.getIcon(this.isOrgsOwnUser(record) ? 'mhOrgUsersOwnUser' : 'mhOrgUsersExtUser')
-            );
+            if(this.isOrgsOwnUser(record)){
+
+            }
+            else {
+                //not own user, so need to disable all the fields BUT org roles combo
+            }
         }
     });
 }());

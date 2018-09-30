@@ -44,6 +44,7 @@
 
             { name: 'isOrgUser', type: 'boolean', defaultValue: false },
             { name: 'parentOrganizationId', type: 'string', defaultValue: null},
+            { name: 'userOrgId', type: 'string', defaultValue: null},
             { name: 'visibleInCatalogue', type: 'boolean', defaultValue: false },
             { name: 'organizationRole', type: 'int', defaultValue: 2} //org member; see the OrganizationRole enum in MapHive.Server.Core.DataModel.Organization
 

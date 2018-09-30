@@ -158,7 +158,7 @@
             //basically, when arrived here, the app should have auto contexted itself to an organization: either the one specified in the url
             //or the first one from the received user orgs collection
 
-            //so need to check if the currently contexted organisation can use the application and continue with a launch procedure if so
+            //so need to check if the currently contexted organization can use the application and continue with a launch procedure if so
             //if an org does not have the app, the org checkup continues until it finds a very first user org that can actually use the app
             //and silently re-scopes to it
             //

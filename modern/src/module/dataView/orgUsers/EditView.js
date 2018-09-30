@@ -1,36 +1,36 @@
 //Disable some of the JSLint warnings
-/*global window,console,Ext,mh*/
-(function () {
+/*global window,console,Ext*/
+(function(){
     //Make sure strict mode is on
-    'use strict';
-
-    Ext.define('mh.module.dataView.orgUsers.RecordView', {
-        extend: 'mh.module.dataView.RecordView',
+    'use strict'
+    
+    Ext.define('mh.module.dataView.orgUsers.EditView', {
+        extend: 'mh.module.dataView.EditView',
 
         requires: [
+            'Ext.field.Text',
             'Ext.layout.VBox',
             'mh.FontIconsDictionary',
-            'mh.module.dataView.users.Icons',
-            'mh.module.dataView.orgUsers.RecordViewController',
-            'mh.module.dataView.orgUsers.RecordViewModel',
+            'mh.module.dataView.orgUsers.EditViewController',
+            'mh.module.dataView.orgUsers.EditViewModel',
+            'mh.module.dataView.orgUsers.Icons',
             'mh.util.AliasMapper'
         ],
 
-        xtype: 'mh-org-users-record-view',
+        xtype: 'mh-org-users-edit-view',
 
         statics: {
             aliases: [
-                'org-users-record-view'
+                'org-users-edit-view',
+                'org-users-create-view'
             ]
         },
 
-        controller: 'mh-org-users-record-view',
+        controller: 'mh-org-users-edit-view',
 
         viewModel: {
-            type: 'mh-org-users-record-view'
+            type: 'mh-org-users-edit-view'
         },
-
-        //icon bound dynamically based on record data
 
         bind: {
             title: '{localization.viewName} :: {record.username}'
@@ -54,50 +54,57 @@
                         width: 400,
                         items: [
                             {
-                                xtype: 'label',
+                                xtype: 'combobox',
                                 bind: {
-                                    html: '<h3>{record.username}</h3>'
-                                }
+                                    label: '{localization.organizationRole}',
+                                    store: '{organizationRoles}',
+                                    value: '{record.organizationRole}',
+                                    readOnly: '{!canModifyOrgRole}'
+                                },
+                                queryMode: 'local',
+                                editable: false,
+                                displayField: 'name',
+                                valueField: 'id'
                             },
                             {
-                                xtype: 'label',
-                                bind: {
-                                    html: '<h4>{organizationRole}</h4>'
-                                }
-                            },
-                            {
-                                xtype: 'displayfield',
+                                xtype: 'textfield',
                                 bind: {
                                     label: '{localization.forename}',
-                                    html: '{record.forename}'
+                                    value: '{record.forename}',
+                                    readOnly: '{isExtUser}'
                                 }
                             },
                             {
-                                xtype: 'displayfield',
+                                xtype: 'textfield',
                                 bind: {
                                     label: '{localization.surname}',
-                                    html: '{record.surname}'
+                                    value: '{record.surname}',
+                                    readOnly: '{isExtUser}'
                                 }
                             },
                             {
-                                xtype: 'displayfield',
+                                xtype: 'textfield',
                                 bind: {
                                     label: '{localization.email}',
-                                    html: '{record.email}'
-                                }
+                                    value: '{record.email}',
+                                    readOnly: '{isExtUser}'
+                                },
+                                required: true
                             },
                             {
-                                xtype: 'displayfield',
+                                xtype: 'textfield',
                                 bind: {
                                     label: '{localization.slug}',
-                                    html: '{record.slug}'
+                                    value: '{record.slug}',
+                                    readOnly: '{isExtUser}'
                                 }
                             },
                             {
-                                xtype: 'displayfield',
+                                xtype: 'togglefield',
                                 bind: {
                                     label: '{localization.visibleInCatalogue}',
-                                    html: '{record.visibleInCatalogue}'
+                                    value: '{record.visibleInCatalogue}',
+                                    disabled: '{isExtUser}'
                                 }
                             }
                         ]

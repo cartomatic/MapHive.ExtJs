@@ -17,7 +17,7 @@
         mixins: [
             'mh.mixin.CallMeParent',
             'mh.mixin.ApiMap',
-            'mh.mixin.UserUtils'
+            'mh.mixin.OrganizationUtils'
         ],
 
         init: function(){
@@ -34,7 +34,7 @@
         },
 
         /**
-         * initiates a procedure of adding a new organisation user
+         * initiates a procedure of adding a new organization user
          */
         onAddNewOrgUser: function(){
             //new org user - redirect to the standard editor!
@@ -85,7 +85,7 @@
             //note: there should be only one rec for a starter.
 
             var cfg = {
-                    url: this.getApiEndPoint('organisationUsersLink').replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId()),
+                    url: this.getApiEndPoint('organizationUsersLink').replace(this.getApiMapOrgIdentifier(), this.getCurrentOrgId()),
                     params: records[0].getData(),
                     success: this.onLinkUserSuccess,
                     failure: this.onLinkUserFailure,
@@ -129,7 +129,7 @@
 
             if(recs.length === 1){
                 rec = recs[0];
-                if(this.isOwnUser(rec)){
+                if(this.isOrgsOwnUser(rec)){
                     //own user, so just use the default
                     this.callMeParent('onBtnDeleteClick', arguments);
                 }
@@ -154,7 +154,7 @@
         },
 
         /**
-         * unlinks a user from an organisation
+         * unlinks a user from an organization
          * @param user
          */
         unlinkUser: function(user){
@@ -174,7 +174,7 @@
                 op = function(){
                     user.erase({
                         callback: callback,
-                        url: me.getApiEndPoint('organisationUsersLink').replace(me.getApiMapOrgIdentifier(), me.getCurrentOrgId())
+                        url: me.getApiEndPoint('organizationUsersLink').replace(me.getApiMapOrgIdentifier(), me.getCurrentOrgId())
                     });
                 };
 
@@ -208,7 +208,7 @@
          */
         externalUserRenderer: function(value, record) {
 
-            var isOwn = this.isOwnUser(record),
+            var isOwn = this.isOrgsOwnUser(record),
                 tip = this.getTranslation(isOwn ? 'orgUser' : 'externalUser'),
                 icon = mh.FontIconsDictionary.getIcon(isOwn ? 'mhOrgUsersOwnUser' : 'mhOrgUsersExtUser');
 
@@ -216,7 +216,7 @@
         },
 
         /**
-         * renders user role within an organisation
+         * renders user role within an organization
          * @param value
          * @param record
          * @returns {string}

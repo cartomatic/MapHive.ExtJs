@@ -57,7 +57,7 @@
                     pl: 'Usuwanie zewnętrznego użytkownika'
                 },
                 unlinkExternalUserMsg: {
-                    en: 'You are about to remove an external user from your organisation. Continue?',
+                    en: 'You are about to remove an external user from your organization. Continue?',
                     pl: 'Usuwasz zewnętrznego użytkownika ze swojej organizacji. Kontynuować?'
                 },
                 unlinkUserMask: {
@@ -71,6 +71,10 @@
                 organizationRole: {
                     en: 'Organization role',
                     pl: 'Rola w organizacji'
+                },
+                visibleInCatalogue: {
+                    en: 'Visible in catalogue',
+                    pl: 'Widoczny w katalogu'
                 }
             }
         }
