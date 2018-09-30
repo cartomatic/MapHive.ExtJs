@@ -11,7 +11,10 @@
         requires: [
             'mh.module.dataView.orgUsers.DataViewLocalization',
             'mh.data.dictionaries.OrganizationRoles',
-            'mh.module.dataView.orgUsers.Icons'
+            'mh.module.dataView.orgUsers.Icons',
+            'mh.module.dataView.links.LinksPicker',
+            'mh.module.dataView.usersCatalogue.UsersCatalogue'
+
         ],
 
         mixins: [
@@ -42,18 +45,18 @@
         },
 
         /**
-         * @private {mh.module.dataView.LinksPicker} userLinksPicker
+         * @private {mh.module.dataView.links.LinksPicker} userLinksPicker
          */
         userLinksPicker: null,
 
         /**
          * gets an instance of a user links picker
-         * @returns {mh.module.dataView.LinksPicker}
+         * @returns {mh.module.dataView.links.LinksPicker}
          */
         getUserLinksPicker: function(btn){
             //need to display a window with a standard users links picker.
             if(!this.userLinksPicker){
-                this.userLinksPicker = Ext.create('mh.module.dataView.users.Catalogue', {});
+                this.userLinksPicker = Ext.create('mh.module.dataView.usersCatalogue.UsersCatalogue', {});
 
                 //need to get the data, huh?
                 this.userLinksPicker.on('linkspicked', this.onLinksPicked, this);

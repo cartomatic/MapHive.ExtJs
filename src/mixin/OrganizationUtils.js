@@ -28,6 +28,18 @@
          */
         isOrgsMasterOwner: function(rec){
             return rec.get('userOrgId') === _org.get('uuid');
+        },
+
+        /**
+         * gets an identifier of a currently scoped org
+         * @returns {*}
+         */
+        getCurrentOrgId: function(){
+            if(_org){
+                return _org.get('uuid');
+            }
+
+            return null;
         }
 
     }, function(){
