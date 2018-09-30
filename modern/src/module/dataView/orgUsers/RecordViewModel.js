@@ -20,7 +20,6 @@
                     if(!rec){
                         return '';
                     }
-                    console.warn('WTF>>>>', rec.getData());
                     return mh.data.dictionaries.OrganizationRoles.getRoleData(rec.get('organizationRole')).name;
                 }
             }
