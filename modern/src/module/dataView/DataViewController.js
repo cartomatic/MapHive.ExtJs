@@ -459,10 +459,6 @@
         destroyRecords: function(records){
             var grid = this.getGridInstance();
 
-            grid.setMasked({
-                xtype: 'loadmask',
-                message: this.getTranslation(records.length > 1 ? 'deleteLoadmaskMany' : 'deleteLoadmaskSingle')
-            });
 
             //basically going via store delete hooks is tempting but
             //Houston got A PROBLEM... EVENTS GET FIRED TOO FUCKING EARLY
@@ -478,15 +474,36 @@
                 return;
             }
 
+            //redirecting the actual record delete to a separate fn, so it is possible to customise delete procedure where required!
             var me = this,
                 rec = records.pop(),
+                success = function(){
+                    me.destroyRecords(records);
+                },
+                failure = me.destroyRecordsFailure;
+
+            //same with mask msg - this makes it possible to customise feedback
+            grid.setMasked({
+                xtype: 'loadmask',
+                message: this.getDeleteLoadMaskMsg(records, rec)
+            });
+
+            this.destroyRecord(rec, success, failure);
+        },
+
+        /**
+         * destroys a single record and returns the control to callbacks provided
+         * @param record
+         * @param success
+         * @param failure
+         */
+        destroyRecord: function(record, success, failure){
+
+            var me = this,
                 cfg = {
                     scope: me,
-                    success: function(){
-                        //keep on deleting until done
-                        me.destroyRecords(records);
-                    },
-                    failure: me.destroyRecordsFailure,
+                    success: success,
+                    failure: failure,
                     exceptionMsg: me.getTranslation('destroyFailureMsg'),
                     autoIgnore404: false, //this is required to show msg on 404 which will often be the case in dev mode!
                     suppress400: true//so can handle 400 here
@@ -494,7 +511,7 @@
                 callback = me.generateModelRequestCallback(cfg),
 
                 op = function(){
-                    rec.erase({
+                    record.erase({
                         callback: callback
                     });
                 };
@@ -502,6 +519,16 @@
             cfg.retry = op;
 
             op();
+        },
+
+        /**
+         * gets a delete records load mask msg
+         * @param records
+         * @param currentRec
+         * @returns {*}
+         */
+        getDeleteLoadMaskMsg: function(records, currentRec){
+            return this.getTranslation(records.length > 1 ? 'deleteLoadmaskMany' : 'deleteLoadmaskSingle');
         },
 
         /**

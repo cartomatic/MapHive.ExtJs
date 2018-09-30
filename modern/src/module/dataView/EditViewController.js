@@ -142,10 +142,19 @@
             //customised binding (stuff like arrays to grids, custom json data, etc.) can also be done transparently as required;
             //therefore the default functionality is to grab a record and perform a save on it.
 
+            this.saveRecord(rec, this.onSaveSuccess,this.onSaveFailure);
+        },
 
+        /**
+         * saves a single record and returns control to provided callbacks
+         * @param record
+         * @param success
+         * @param failure
+         */
+        saveRecord: function(record, success, failure){
             var me = this,
 
-                exceptionMsg = rec.get('uuid') ?
+                exceptionMsg = record.get('uuid') ?
 
                     //try to obtain the translation from a derived class first, but make the call return null if not found instead of the standard
                     //'translation not found msg', then look at the 'mh.module.dataView.DataViewLocalization' namespace that indeed provides a standard localization
@@ -153,7 +162,7 @@
                     :
                     this.getTranslation('failedUpdate', null, true) || this.getTranslation('failedUpdate', 'mh.module.dataView.DataViewLocalization'),
 
-                loadMaskMsg = rec.get('uuid') ?
+                loadMaskMsg = record.get('uuid') ?
 
                     //try to obtain the translation from a derived class first, but make the call return null if not found instead of the standard
                     //'translation not found msg', then look at the 'mh.module.dataView.DataViewLocalization' namespace that indeed provides a standard localization
@@ -164,8 +173,8 @@
                 //save op cfg
                 cfg = {
                     scope: this,
-                    success: this.onSaveSuccess,
-                    failure: this.onSaveFailure,
+                    success: success,
+                    failure: failure,
                     exceptionMsg: exceptionMsg,
                     autoIgnore404: false, //this is required to show msg on 404 which will often be the case in dev mode!
                     suppress400: true//so can handle 400 here
@@ -186,14 +195,13 @@
                         saveCfg.url = me.getView().getCustomUrl();
                     }
 
-                    rec.save(saveCfg);
+                    record.save(saveCfg);
                 };
 
             //retry fn
             cfg.retry = op;
 
             op();
-
         },
 
         /**
