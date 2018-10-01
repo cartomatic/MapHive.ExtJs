@@ -17,7 +17,10 @@
             'mh.module.mainViewDesktop.MainViewDesktopController',
             'mh.module.mainViewDesktop.MainViewDesktopModel',
             'mh.module.mainViewDesktop.AppSwitcher',
-            'mh.module.mainViewDesktop.OrgContextSwitcher'
+            'mh.module.mainViewDesktop.OrgContextSwitcher',
+            'mh.module.mainViewDesktop.NavMenu',
+            //default user profile view for side nav menu
+            'mh.module.userProfile.UserProfile'
         ],
 
         xtype: 'mh-main-view',
@@ -36,12 +39,16 @@
             /**
              * a cfg for the nav menu to be put as the lbar
              */
-            navMenu: null,
+            navMenu: {
+                xtype: 'mh-main-view-nav-menu',
+                ui: 'dark micro',
+                menuStore: 'routes-main-menu' //registered via application.stores, but id explicitly enforced by a store def
+            },
 
             /**
              * store with non main nav menu routes to be registered; should contain mh.data.model.Route models
              */
-            nonMenuRoutesStore: null,
+            nonMenuRoutesStore: 'routes-non-main-menu', //registered via application.stores, but id explicitly enforced by a store def
 
             /**
              * app switcher module; takes care of handling app switching; defaults to mh.module.mainViewDesktop.AppSwitcher;
