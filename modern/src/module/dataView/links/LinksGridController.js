@@ -520,8 +520,13 @@
         getLinksPicker: function(btn){
             //see if the links picker is already present and instantiate it if not
             if(!this.linksPicker){
+
+                var vw = this.getView();
+
                 this.linksPicker = Ext.create('mh.module.dataView.links.LinksPicker', {
-                    deferLinksPickerRefresh: this.getView().getDeferLinksPickerRefresh()
+                    deferLinksPickerRefresh: this.getView().getDeferLinksPickerRefresh(),
+                    width: vw.getLinksPickerWidth() || 600,
+                    height: vw.getLinksPickerHeight() || 500
                 });
 
                 this.linksPicker.setDataView(this.instantiateDataView());

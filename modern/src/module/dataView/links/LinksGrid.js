@@ -76,7 +76,17 @@
             /**
              * editable state - by default in display mode
              */
-            editable: false
+            editable: false,
+
+            /**
+             * width of a link picker
+             */
+            linksPickerWidth: 600,
+
+            /**
+             * height of a link picker
+             */
+            linksPickerHeight: 500
         },
 
         /**
