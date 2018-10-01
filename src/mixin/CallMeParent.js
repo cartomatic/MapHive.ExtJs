@@ -56,6 +56,14 @@
                 method = caller;
             }
 
+            //WTF is this? some app pack / minify artifact?
+            if(method.startsWith('ctor.')){
+                method = method.replace('ctor.', '');
+                //<debug>
+                console.log('Readjusted method name from "ctor.' + method + '" to "' + method + '"');
+                //</debug>
+            }
+
             //<debug>
             console.log('[CallMeParent] ', 'method ::', method, 'args :: ',  args);
             //</debug>
@@ -79,7 +87,9 @@
                     this.calledMapCache[cacheKey] = true;
                     this.resetCalledMapCache(cacheKey);
 
-                    //console.log(cacheKey, Ext.isFunction(this.superclass[method]));
+                    //<debug>
+                    console.log('aa', cacheKey, Ext.isFunction(this.superclass[method]));
+                    //</debug>
                     return this.superclass[method].apply(this, args);
                 }
                 else {
@@ -107,12 +117,13 @@
                     this.calledMapCache[nextKey] = true;
                     this.resetCalledMapCache(nextKey);
 
-                    //console.log(cacheKey, Ext.isFunction(nextSuperClass[method]));
+                    //<debug>
+                    console.log('xx', cacheKey, Ext.isFunction(nextSuperClass[method]));,
+                    //</debug>
 
                     if(Ext.isFunction(nextSuperClass[method])){
                         return nextSuperClass[method].apply(this, args);
                     }
-
 
                 }
             }
