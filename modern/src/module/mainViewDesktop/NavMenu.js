@@ -142,7 +142,14 @@
         },
 
         updateSelection: function(value) {
-            this.child('#navigator').setSelection(value);
+            try{
+                this.child('#navigator').setSelection(value);
+            }
+            catch (e) {
+                //ignore
+                //console.warn('eee', e);
+            }
+
         }
     });
     
