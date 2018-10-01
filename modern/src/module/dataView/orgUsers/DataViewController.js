@@ -148,55 +148,6 @@
 
                 op();
             }
-        },
-
-
-
-        /**
-         * renderer of the external user info
-         * @param value
-         * @param record
-         * @returns {string}
-         */
-        externalUserRenderer: function(value, record) {
-
-            var isOwn = this.isOrgsOwnUser(record),
-                tip = this.getTranslation(isOwn ? 'orgUser' : 'externalUser'),
-                icon = mh.FontIconsDictionary.getIcon(isOwn ? 'mhOrgUsersOwnUser' : 'mhOrgUsersExtUser');
-
-            return '<div class="' + icon + '" data-qtip="' + tip + '"></div>';
-        },
-
-        /**
-         * renders user role within an organization
-         * @param value
-         * @param record
-         * @returns {string}
-         */
-        orgRoleRenderer: function(value, record) {
-            this.prepareOrgRoles();
-
-            var orgRole = record.get('organizationRole'),
-                tip = this.orgRoles[orgRole].name,
-                icon = this.orgRoles[orgRole].icon;
-
-            return '<div class="' + icon + '" data-qtip="' + tip + '"></div>';
-        },
-
-        /**
-         * prepares org roles map for the renderer
-         */
-        prepareOrgRoles: function(){
-            if(!this.orgRoles){
-                this.orgRoles = {};
-                Ext.Array.each(mh.data.dictionaries.OrganizationRoles.getOrgRolesStoreData(), function(r){
-                    this.orgRoles[r.id] = {
-                        key: r.key,
-                        name: r.name,
-                        icon: mh.FontIconsDictionary.getIcon(r.icon)
-                    };
-                }, this);
-            }
         }
 
     });
