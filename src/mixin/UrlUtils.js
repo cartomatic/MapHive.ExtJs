@@ -173,6 +173,12 @@
                 appToken = this.getUrlAppTokenDelimiter(),
                 orgToken = this.getUrlOrgTokenDelimiter();
 
+            //if'_dev' string in url then treat it as a dev deploy that is not deployed under the main app domain
+            //but rather under something like https://some.url.com/_dev/666-beasty-branch
+            if(baseUrl.indexOf('_dev') > -1){
+                baseUrl = baseUrl.substring(0, baseUrl.indexOf('_dev'));
+            }
+
             //note: need to extract the lang param off the app identifier prior to going on with the comparison.
 
             //note: also params order plays an important role here... this is a future todo though

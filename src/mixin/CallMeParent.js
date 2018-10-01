@@ -70,13 +70,16 @@
                 //Note: when calling from an app instance level it is not the same as the app declaring class because of some reason
                 //need to handle this appropriately by digging one level deeper
                 var appInstance = Ext.getClassName(this).indexOf('$') > -1,
-                    //cacheKey = method;
-                    cacheKey = Ext.getClassName(this.superclass) + '_' + method;
+                    cacheKey = method;
+                    className = Ext.getClassName(this.superclass),
+                    cacheKey = className  + '_' + method;
 
                 if(!appInstance && (!this.calledMapCache || !this.calledMapCache[cacheKey])){
                     this.calledMapCache = this.calledMapCache || {};
                     this.calledMapCache[cacheKey] = true;
                     this.resetCalledMapCache(cacheKey);
+
+                    //console.log(cacheKey, Ext.isFunction(this.superclass[method]));
                     return this.superclass[method].apply(this, args);
                 }
                 else {
@@ -104,6 +107,8 @@
                     this.calledMapCache[nextKey] = true;
                     this.resetCalledMapCache(nextKey);
 
+                    //console.log(cacheKey, Ext.isFunction(nextSuperClass[method]));
+
                     if(Ext.isFunction(nextSuperClass[method])){
                         return nextSuperClass[method].apply(this, args);
                     }
@@ -122,7 +127,8 @@
                 if(this.superclass && this.superclass.superclass){
 
                     this.calledMapCache = this.calledMapCache || {};
-                    var cacheKey = Ext.getClassName(this.superclass.superclass) + '_' + method;
+                    var className = Ext.getClassName(this.superclass),
+                        cacheKey = className  + '_' + method;
 
                     this.calledMapCache[cacheKey] = true;
                     this.resetCalledMapCache(cacheKey);
