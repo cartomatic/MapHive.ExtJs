@@ -44,15 +44,6 @@
                     en: 'Failed to link a user.',
                     pl: 'Dodanie użytkownika nie powiodło się.'
                 },
-                externalUser: {
-                    en: 'Global user',
-                    pl: 'Użytkownik globalny'
-                },
-                orgUser: {
-                    en: 'Local user',
-                    pl: 'Użytkownik lokalny'
-                },
-
                 unlinkUserFailure: {
                     en: 'Failed to remove external user',
                     pl: 'Usunięcie zewnętrznego użytkownika nie powiodło się'

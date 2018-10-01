@@ -15,7 +15,8 @@
             'mh.module.dataView.orgUsers.RecordView',
             'mh.FontIconsDictionary',
             'mh.module.dataView.orgUsers.DataViewToolbar',
-            'mh.data.model.OrganizationUser'
+            'mh.data.model.OrganizationUser',
+            'mh.module.dataView.orgUsers.Renderers'
         ],
 
         statics: {
@@ -66,7 +67,7 @@
                     menuDisabled: true,
                     sortable: false,
                     width: 40,
-                    renderer: 'externalUserRenderer'
+                    renderer: mh.module.dataView.orgUsers.Renderers.externalUserRenderer
                 },
                 {
                     cell: {
@@ -76,7 +77,7 @@
                     menuDisabled: true,
                     sortable: false,
                     width: 40,
-                    renderer: 'orgRoleRenderer'
+                    renderer: mh.module.dataView.orgUsers.Renderers.orgRoleRenderer
                 }
             ]
         }
