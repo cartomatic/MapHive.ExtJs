@@ -180,7 +180,7 @@
                 title: this.getTranslation('logOffTitle'),
                 message: msg,
                 width: 350,
-                buttons: Ext.Msg.YESNO,
+                buttons: Ext.MessageBox.YESNO,
                 icon: Ext.MessageBox.QUESTION,
                 iconCls: 'x-i54c i54c-exit-2',
                 fn: function(btn){

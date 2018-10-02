@@ -279,7 +279,7 @@
                 title: this.getTranslation('authFailureTitle'),
                 message: this.getTranslation('authFailureMsg'),
                 width: 350,
-                buttons: Ext.Msg.OK,
+                buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.ERROR
             });
         },
@@ -312,7 +312,7 @@
                 title: this.getTranslation('passResetRequestConfirmationTitle'),
                 message: this.getTranslation('passResetRequestConfirmationMsg'),
                 width: 350,
-                buttons: Ext.Msg.OK,
+                buttons: (Ext.Msg || Ext.MessageBox).OK,
                 icon: Ext.MessageBox.INFO
             });
         },
@@ -329,7 +329,7 @@
                 title: this.getTranslation('passResetRequestFailureTitle'),
                 message: this.getTranslation('passResetRequestFailureMsg'),
                 width: 350,
-                buttons: Ext.Msg.OK,
+                buttons: (Ext.Msg || Ext.MessageBox).OK,
                 icon: Ext.MessageBox.ERROR
             });
         },
@@ -375,7 +375,7 @@
                     title: this.getTranslation('activateAccountConfirmationTitle'),
                     message: this.getTranslation('activateAccountConfirmationMsg'),
                     width: 350,
-                    buttons: Ext.Msg.OK,
+                    buttons: (Ext.Msg || Ext.MessageBox).OK,
                     icon: Ext.MessageBox.INFO
                 });
             }, 250, this);
@@ -392,7 +392,7 @@
                     title: this.getTranslation('activateAccountVerificationKeyStaleTitle'),
                     message: this.getTranslation('activateAccountVerificationKeyStaleMsg'),
                     width: 350,
-                    buttons: Ext.Msg.OK,
+                    buttons: (Ext.Msg || Ext.MessageBox).OK,
                     icon: Ext.MessageBox.ERROR
                 });
             }
@@ -402,7 +402,7 @@
                     title: this.getTranslation('activateAccountFailureTitle'),
                     message: this.getTranslation('activateAccountFailureMsg'),
                     width: 350,
-                    buttons: Ext.Msg.OK,
+                    buttons: (Ext.Msg || Ext.MessageBox).OK,
                     icon: Ext.MessageBox.ERROR
                 });
             }
@@ -449,7 +449,7 @@
                     title: title,
                     message: msg,
                     width: 350,
-                    buttons: Ext.Msg.OK,
+                    buttons: (Ext.Msg || Ext.MessageBox).OK,
                     icon: Ext.MessageBox.ERROR
                 });
                 return;
@@ -484,7 +484,7 @@
                     title: this.getTranslation('passResetConfirmationTitle'),
                     message: this.getTranslation('passResetConfirmationMsg'),
                     width: 350,
-                    buttons: Ext.Msg.OK,
+                    buttons: (Ext.Msg || Ext.MessageBox).OK,
                     icon: Ext.MessageBox.INFO
                 });
             }, 250, this);
@@ -516,7 +516,7 @@
                 title: title,
                 message: msg,
                 width: 350,
-                buttons: Ext.Msg.OK,
+                buttons: (Ext.Msg || Ext.MessageBox).OK,
                 icon: Ext.MessageBox.ERROR
             });
         },

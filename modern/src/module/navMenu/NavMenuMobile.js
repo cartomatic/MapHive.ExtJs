@@ -35,7 +35,12 @@
             /**
              * @cfg - route to load for user profile edits
              */
-            userProfileRoute: 'mh-user-profile'
+            userProfileRoute: 'mh-user-profile',
+
+            /**
+             * instead of the default redirect to a common app (dashboard or home, etc), app will just force reload
+             */
+            logOffReload: false
         },
 
         items: [

@@ -229,7 +229,7 @@
                     title: msgTitle || this.getErrTranslation('validationErrorTitle'),
                     message: msg,
                     width: 500,
-                    buttons: Ext.Msg.OK,
+                    buttons: Ext.MessageBox.OK,
                     animateTarget: btn ? btn : undefined,
                     icon: Ext.MessageBox.WARNING,
                     fn: Ext.isFunction(callback) ? callback : undefined

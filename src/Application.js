@@ -322,7 +322,7 @@
                 title: this.getTranslation('userCfgFailureTitle'),
                 message: this.getTranslation('userCfgFailureMsg'),
                 width: 500,
-                buttons: Ext.Msg.OK,
+                buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.WARNING,
                 fn: function(){
                     window.location.reload();

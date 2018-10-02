@@ -242,7 +242,7 @@
                 title: this.getTranslation('orgHasNoAppAccessTitle'),
                 message: this.getTranslation('orgHasNoAppAccessMsg'),
                 width: 350,
-                buttons: Ext.Msg.YESNO,
+                buttons: Ext.MessageBox.YESNO,
                 icon: Ext.MessageBox.QUESTION,
                 fn: function(btn){
                     if(btn === 'yes'){
