@@ -25,12 +25,16 @@
          * Called when the view is created
          */
         init: function() {
-            this.injectLocalizationToViewModel();
+            this.callMeParent(arguments);
 
-            this.watchGlobal('mainview::itemcreated', this.onMainViewItemChanged, this);
+            this.watchGlobal('mainview::itemchanged', this.onMainViewItemChanged, this);
 
+            this.updateUserInfo();
         },
 
+        /**
+         * instance of navigation menu drawer
+         */
         navMenu: null,
 
         /**
@@ -45,7 +49,12 @@
             var vw = this.getView(),
                 items = [],
                 cfg = {
-                        items: items
+                    items: items,
+                    width: '75%',
+                    defaults: {
+                        iconAlign: 'left',
+                        textAlign: 'left'
+                    }
                 },
                 menuStore = Ext.StoreManager.lookup(vw.getMenuStore());
 
@@ -60,8 +69,8 @@
 
                 items.push({
                     xtype: 'button',
-                    text: this.getMenuItemText(r),
-                    iconCls: mh.FontIconsDictionary.getIcon(r.get('iconCls')),
+                    text: this.getViewTitle(r),
+                    iconCls: this.getViewIconCls(r),
                     routeRec: r,
                     listeners: {
                         tap: Ext.bind(this.onRouteBtnTap, this)
@@ -88,6 +97,7 @@
             this.navMenu = Ext.create('Ext.ActionSheet', cfg);
 
 
+
             Ext.Viewport.setMenu(this.navMenu, {
                 side: vw.getMenuSide()
                 // omitting the reveal config defaults the animation to 'cover'
@@ -97,54 +107,117 @@
         },
 
         /**
-         * tries to obtain a title for a menu entry
-         * @returns {*}
+         * tries to obtain a title for a view - either from a route record OR from a view instance if provided; if a view instance is not provided it tries to instantiate it for title retrieval
+         * @param routeRec
+         * @param viewInstance
+         * @returns {*|string}
          */
-        getMenuItemText: function(routeRec) {
-            var cls = Ext.ClassManager.getByAlias('widget.' + routeRec.get('xtype')),
-                className = Ext.getClassName(cls),
-                menuItemText = this.getTranslation('viewName', className, true),
-                inst;
+        getViewTitle: function(routeRec, viewInstance) {
 
-            if(!menuItemText){
+            var xtype = routeRec ? routeRec.get('xtype') : viewInstance ? viewInstance.xtype : 'unknown-xtype',
+                cls = Ext.ClassManager.getByAlias('widget.' + xtype),
+                className = Ext.getClassName(cls),
+
+                //first check if there is an explicit viewName localization property for this class
+                title = this.getTranslation('viewName', className, true);
+
+            if(!title){
                 try {
                     //try to init a class
-                    inst = Ext.create(className);
+                    if(!viewInstance){
+                        viewInstance = Ext.create(className);
+                    }
 
                     //does it have a title getter?
-                    if(Ext.isFunction(inst.getTitle)){
-                        menuItemText = inst.getTitle();
+                    if(Ext.isFunction(viewInstance.getTitle)){
+                        title = viewInstance.getTitle();
                     }
 
                     //maybe set explicitly
-                    if(!menuItemText){
-                        if(inst.title){
-                            menuItemText = inst.title;
+                    if(!title){
+                        if(viewInstance.title){
+                            title = viewInstance.title;
                         }
                     }
 
                     //maybe set via bindings
-                    if(!menuItemText){
-                        if(inst._title){
-                            menuItemText = inst._title;
+                    if(!title){
+                        if(viewInstance._title){
+                            title = viewInstance._title;
                         }
                     }
                 }
                 catch(e){
                     //<debug>
-                    console.warn('failed to obtain a title for xtype ' + routeRec.get('xtype'), e);
+                    console.warn('failed to obtain a title for xtype ' + xtype, e);
                     //</debug>
                 }
             }
 
             //<debug>
-            if(!menuItemText){
-                menuItemText = routeRec.get('xtype');
+            if(!title){
+                title = xtype;
             }
             //</debug>
 
-            return menuItemText || '';
+            return title || '';
         },
+
+        /**
+         * gets an icon cls for a view - either from a route record OR from a view instance if provided; if a view instance is not provided it tries to instantiate it for icon cls retrieval
+         * @param routeRec
+         * @param viewInstance
+         * @returns {*|string}
+         */
+        getViewIconCls: function(routeRec, viewInstance) {
+
+            var xtype = routeRec ? routeRec.get('xtype') : viewInstance ? viewInstance.xtype : 'unknown-xtype',
+                cls = Ext.ClassManager.getByAlias('widget.' + xtype),
+                className = Ext.getClassName(cls),
+
+                iconCls;
+
+            if(routeRec && routeRec.get('iconCls')){
+                iconCls = mh.FontIconsDictionary.getIcon(routeRec.get('iconCls'));
+            }
+
+            if(!iconCls){
+                try {
+                    //try to init a class
+                    if(!viewInstance){
+                        viewInstance = Ext.create(className);
+                    }
+
+                    //does it have a title getter?
+                    if(Ext.isFunction(viewInstance.getIconCls)){
+                        iconCls = viewInstance.getIconCls();
+                    }
+
+                    //maybe set explicitly
+                    if(!iconCls){
+                        if(viewInstance.iconCls){
+                            iconCls = viewInstance.iconCls;
+                        }
+                    }
+
+                    //maybe set via bindings
+                    if(!iconCls){
+                        if(viewInstance._iconCls){
+                            iconCls = viewInstance._iconCls;
+                        }
+                    }
+                }
+                catch(e){
+                    //<debug>
+                    console.warn('failed to obtain an iconCls for xtype ' + xtype, e);
+                    //</debug>
+                }
+            }
+
+            return iconCls || '';
+        },
+
+
 
         /**
          * hides navigation menu
@@ -155,12 +228,24 @@
             }
         },
 
+        /**
+         * generic route menu btn handler
+         * @param btn
+         */
         onRouteBtnTap: function(btn){
             this.redirectTo(btn.routeRec.get('navigationRoute'));
             this.hideNavMenu();
         },
 
+        /**
+         * user info display widget instance
+         */
         userProfileDisplay: null,
+
+        /**
+         * gets a user info widget instance
+         * @returns {null}
+         */
         getUserProfileDisplay: function(){
             if(!this.userProfileDisplay){
                 this.userProfileDisplay = Ext.create('Ext.Container',{
@@ -174,7 +259,15 @@
         },
 
 
+        /**
+         * menu login btn instance
+         */
         logInMenuBtn: null,
+
+        /**
+         * gets an instance of menu login btn
+         * @returns {null}
+         */
         getLogInMenuBtn: function(){
             if(!this.logInMenuBtn){
                 this.logInMenuBtn = Ext.create('Ext.Button',{
@@ -189,8 +282,15 @@
         },
 
 
-
+        /**
+         * menu log off btn instance
+         */
         logOffMenuBtn: null,
+
+        /**
+         * gets an instance of a menu log off btn
+         * @returns {null}
+         */
         getLogOffMenuBtn: function(){
             if(!this.logOffMenuBtn){
                 this.logOffMenuBtn = Ext.create('Ext.Button',{
@@ -204,18 +304,28 @@
             return this.logOffMenuBtn;
         },
 
+        /**
+         * log off handler
+         */
         onLogOffBtnTap: function(){
             this.hideNavMenu();
             this.callMeParent(arguments);
         },
 
+        /**
+         * log in handler
+         */
         onLogInBtnTap: function(){
             this.hideNavMenu();
             //just let the global Auth controller know user wants to authenticate
             this.fireGlobal('auth::requestuserauth');
         },
 
+        /**
+         * updates user info
+         */
         updateUserInfo: function(){
+
             if(this.userProfile){
                 this.getLogInMenuBtn().hide();
                 this.getLogOffMenuBtn().show();
@@ -236,14 +346,25 @@
          * @param newItem
          */
         onMainViewItemChanged: function(newView){
-            console.warn('NEW VIEW DUDE!', newView);
+
+            var viewTitle = this.getViewTitle(null, newView),
+                iconCls = this.getViewIconCls(null, newView), //null, as no route rec here
+                html = '';
+
+            if(iconCls){
+                html = '<span style="text-align: center; vertical-align: center; margin-right: 5px;" class="' + iconCls + '"></span>';
+            }
+
+            html += '<span style="text-align: center; vertical-align: center;">' + viewTitle + '</span>';
+
+            this.lookupReference('activeViewTitle').setHtml(html);
         },
 
         /**
          * back btn tap handler
          */
         onBackBtnTap: function(){
-
+            //TODO - just history back BUT with a GENERIC test for 'unsaved changes' in the main view router!!!
         },
 
         /**
