@@ -19,7 +19,10 @@
                 mhNavMenuCollapse: 'x-i54c i54c-left-2',
 
                 mhNavMenuSandwich: 'x-li li-menu-circle',
-                mhNavMenuBack: 'x-li li-chevron-left-circle'
+                mhNavMenuBack: 'x-li li-chevron-left-circle',
+
+                mhNavMenuUserLarge2x: 'x-i54c i54c-bald-male i54c-2x',
+                mhNavMenuUserLarge3x: 'x-i54c i54c-bald-male i54c-3x'
             });
         }
     });
