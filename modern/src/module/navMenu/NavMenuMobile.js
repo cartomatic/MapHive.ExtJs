@@ -47,7 +47,11 @@
                 }
             },
             '->',
-            //TODO - title & icon! flex: 1, so fills up the space
+            {
+                xtype: 'label',
+                reference: 'activeViewTitle',
+                flex: 1
+            },
             '->',
             {
                 xtype: 'button',
