@@ -57,7 +57,7 @@
             }
 
             //WTF is this? some app pack / minify artifact?
-            if(method.startsWith('ctor.')){
+            if(method && method.startsWith('ctor.')){
                 method = method.replace('ctor.', '');
                 //<debug>
                 console.log('Readjusted method name from "ctor.' + method + '" to "' + method + '"');
@@ -67,6 +67,10 @@
             //<debug>
             console.log('[CallMeParent] ', 'method ::', method, 'args :: ',  args);
             //</debug>
+
+            if(!method){
+                console.error('[CallMeParent] could not recognize a method to call', method, args);
+            }
 
 
             //Note:

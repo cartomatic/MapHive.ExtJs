@@ -16,7 +16,10 @@
                 mhNavMenuUser: 'x-i54c i54c-bald-male',
                 mhNavMenuLogOff: 'x-li li-power-switch',
                 mhNavMenuExpand: 'x-i54c i54c-right-2',
-                mhNavMenuCollapse: 'x-i54c i54c-left-2'
+                mhNavMenuCollapse: 'x-i54c i54c-left-2',
+
+                mhNavMenuSandwich: 'x-li li-menu-circle',
+                mhNavMenuBack: 'x-li li-chevron-left-circle'
             });
         }
     });

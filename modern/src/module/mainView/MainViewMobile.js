@@ -13,7 +13,8 @@
         xtype: 'mh-main-view-mobile',
         requires: [
             'mh.module.mainView.MainViewController',
-            'mh.module.mainView.MainViewModel'
+            'mh.module.mainView.MainViewModel',
+            'mh.module.navMenu.NavMenuMobile'
         ],
 
         controller: 'mh-main-view',
@@ -30,13 +31,22 @@
              */
             navMenu: {
                 xtype: 'mh-main-view-mobile-nav-menu',
-                menuStore: 'routes-main-menu' //registered via application.stores, but id explicitly enforced by a store def
+
+                /**
+                 * store to be used as a source for creating menu items; should contain mh.data.model.Route models
+                 */
+                menuStore: 'routes-main-menu' //registered via application.stores, but id explicitly enforced by a store def;
             },
+
+            /**
+             * store with main menu routes to be registered; should contain mh.data.model.Route models
+             */
+            menuRoutesStore: 'routes-main-menu', //registered via application.stores, but id explicitly enforced by a store def
 
             /**
              * store with non main nav menu routes to be registered; should contain mh.data.model.Route models
              */
-            nonMenuRoutesStore: 'routes-non-main-menu', //registered via application.stores, but id explicitly enforced by a store def
+            nonMenuRoutesStore: 'routes-non-main-menu', //registered via application.stores, but id explicitly enforced by a store def;
 
             /**
              * app switcher module; takes care of handling app switching; defaults to mh.module.appSwitcher.AppSwitcherDesktop;
@@ -60,6 +70,13 @@
                 //direction: 'right',
                 duration: 500
             }
-        }
+        },
+
+        items: [
+            {
+                xtype: 'mh-main-view-nav-menu-mobile',
+                docked: 'top'
+            }
+        ]
     });
 }());

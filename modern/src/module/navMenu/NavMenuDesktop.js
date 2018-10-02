@@ -120,7 +120,7 @@
                 textAlign: 'left',
                 //weight: 20,
                 listeners: {
-                    tap: 'onprofileBtnTap'
+                    tap: 'onProfileBtnTap'
                 }
             },
 
