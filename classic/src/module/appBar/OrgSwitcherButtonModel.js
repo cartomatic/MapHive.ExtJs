@@ -8,7 +8,7 @@
      */
     Ext.define('mh.module.appBar.OrgSwitcherButtonModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-org-switcher-button',
+        alias: 'viewmodel.mh-org-switcher-desktop-button',
     
         stores: {
         },

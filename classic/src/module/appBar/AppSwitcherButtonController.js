@@ -12,7 +12,7 @@
      */
     Ext.define('mh.module.appBar.AppSwitcherButtonController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-app-switcher-button',
+        alias: 'controller.mh-app-switcher-desktop-button',
 
     requires: [
         'Ext.button.Button',

@@ -6,14 +6,14 @@
 
     var userAuthenticated = false;
 
-    Ext.define('mh.module.mainViewDesktop.AppSwitcherController', {
+    Ext.define('mh.module.appSwitcher.AppSwitcherDesktopController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-app-switcher',
+        alias: 'controller.mh-app-switcher-desktop',
 
     requires: [
         'mh.FontIconsDictionary',
-        'mh.module.mainViewDesktop.AppSwitcherLocalization',
-        'mh.module.mainViewDesktop.Icons'
+        'mh.module.appSwitcher.AppSwitcherDesktopLocalization',
+        'mh.module.appSwitcher.Icons'
     ],
 
     mixins: [

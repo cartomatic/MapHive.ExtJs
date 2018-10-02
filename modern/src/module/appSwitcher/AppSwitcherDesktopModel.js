@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict'
     
-    Ext.define('mh.module.mainViewDesktop.AppSwitcherModel', {
+    Ext.define('mh.module.appSwitcher.AppSwitcherDesktopModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-app-switcher',
+        alias: 'viewmodel.mh-app-switcher-desktop',
 
         requires: [
             'mh.data.model.Application'

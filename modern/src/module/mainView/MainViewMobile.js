@@ -39,14 +39,14 @@
             nonMenuRoutesStore: 'routes-non-main-menu', //registered via application.stores, but id explicitly enforced by a store def
 
             /**
-             * app switcher module; takes care of handling app switching; defaults to mh.module.mainViewDesktop.AppSwitcher;
+             * app switcher module; takes care of handling app switching; defaults to mh.module.appSwitcher.AppSwitcherDesktop;
              * when not provided, setting is ignored;
              * navMenu is passed to the constructor; expects the navMenu module to expose a 'addAppSwitcherBtn' method in order to pass own UI back
              */
             appSwitcher: 'mh.module.mainViewMobile.AppSwitcher',
 
             /**
-             * org context switcher module; takes care of handling organization context switching; defaults to mh.module.mainViewDesktop.OrgContextSwitcher;
+             * org context switcher module; takes care of handling organization context switching; defaults to mh.module.mainViewDesktop.OrgContextSwitcherDesktop;
              * when not provided, setting gets ignored;
              * navMenu is passed to the constructor; expects the navMenu module to expose a 'addOrgContextSwitcherBtn' method in order to pass own UI back
              */

@@ -39,7 +39,7 @@
 
         items: [
             {
-                xtype: 'mh-app-switcher-button'
+                xtype: 'mh-app-switcher-desktop-button'
             },
             {
                 xtype: 'container',
@@ -74,7 +74,7 @@
                 },
                 items: [
                     {
-                        xtype: 'mh-org-switcher-button'
+                        xtype: 'mh-org-switcher-desktop-button'
                     },
                     {
                         xtype: 'container',

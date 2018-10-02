@@ -7,7 +7,7 @@
      */
     Ext.define('mh.module.appBar.OrgSwitcherButtonController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-org-switcher-button',
+        alias: 'controller.mh-org-switcher-desktop-button',
 
         mixins: [
             'mh.communication.MsgBus',

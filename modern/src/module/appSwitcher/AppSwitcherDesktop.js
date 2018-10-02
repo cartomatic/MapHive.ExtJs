@@ -4,22 +4,22 @@
     //Make sure strict mode is on
     'use strict'
     
-    Ext.define('mh.module.mainViewDesktop.AppSwitcher', {
+    Ext.define('mh.module.appSwitcher.AppSwitcherDesktop', {
         extend: 'Ext.ActionSheet',
 
         requires: [
-            'mh.module.mainViewDesktop.Icons',
+            'mh.module.appSwitcher.Icons',
             'mh.FontIconsDictionary',
             'Ext.dataview.plugin.ItemTip',
-            'mh.module.mainViewDesktop.AppSwitcherController',
-            'mh.module.mainViewDesktop.AppSwitcherModel'
+            'mh.module.appSwitcher.AppSwitcherDesktopController',
+            'mh.module.appSwitcher.AppSwitcherDesktopModel'
         ],
 
-        xtype: 'mh-app-switcher',
+        xtype: 'mh-app-switcher-desktop-desktop',
 
-        controller: 'mh-app-switcher',
+        controller: 'mh-app-switcher-desktop',
         viewModel: {
-            type: 'mh-app-switcher'
+            type: 'mh-app-switcher-desktop'
         },
 
         bind: {

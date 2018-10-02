@@ -7,7 +7,7 @@
     /**
      * Created by domin on 16.07.2018.
      */
-    Ext.define('mh.module.mainViewDesktop.AppSwitcherLocalization', {
+    Ext.define('mh.module.appSwitcher.AppSwitcherDesktopLocalization', {
         requires: [
             'mh.localization.Localization'
         ],

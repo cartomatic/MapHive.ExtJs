@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict'
     
-    Ext.define('mh.module.mainViewDesktop.OrgContextSwitcherModel', {
+    Ext.define('mh.module.orgContextSwitcher.OrgContextSwitcherDesktopModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-org-switcher',
+        alias: 'viewmodel.mh-org-switcher-desktop',
     
         stores: {
         },

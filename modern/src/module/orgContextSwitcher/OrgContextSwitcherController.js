@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict'
     
-    Ext.define('mh.module.mainViewDesktop.OrgContextSwitcherController', {
+    Ext.define('mh.module.orgContextSwitcher.OrgContextSwitcherDesktopController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-org-switcher',
+        alias: 'controller.mh-org-switcher-desktop',
 
         requires: [
-            'mh.module.mainViewDesktop.OrgContextSwitcherLocalization'
+            'mh.module.orgContextSwitcher.OrgContextSwitcherDesktopLocalization'
         ],
 
         mixins: [

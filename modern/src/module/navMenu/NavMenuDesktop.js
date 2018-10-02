@@ -4,17 +4,17 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.mainViewDesktop.NavMenu', {
+    Ext.define('mh.module.navMenu.NavMenuDesktop', {
         extend: 'Ext.Container',
 
-        xtype: 'mh-main-view-desktop-nav-menu',
+        xtype: 'mh-main-view-nav-menu-desktop',
 
         requires: [
             'Ext.dataview.DataView',
             'Ext.layout.VBox',
             'mh.FontIconsDictionary',
-            'mh.module.mainViewDesktop.NavMenuController',
-            'mh.module.mainViewDesktop.NavMenuModel'
+            'mh.module.navMenu.NavMenuDesktopController',
+            'mh.module.navMenu.NavMenuDesktopModel'
         ],
 
         mixins: [
@@ -50,10 +50,10 @@
             hideProfileBtn: false
         },
 
-        controller: 'mh-main-view-desktop-nav-menu',
+        controller: 'mh-main-view-nav-menu-desktop',
 
         viewModel: {
-            type: 'mh-main-view-desktop-nav-menu'
+            type: 'mh-main-view-nav-menu-desktop'
         },
 
         classCls: 'navmenu-sidebar',
