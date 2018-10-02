@@ -1,0 +1,61 @@
+//Disable some of the JSLint warnings
+/*global window,console,Ext*/
+(function(){
+    //Make sure strict mode is on
+    'use strict'
+
+    /**
+     * mobile navigation menu - this is a toolbar docked to top that offers access to the routes main menu items and also to user info, logoff, etc;
+     * it also displays icons / titles, etc.
+     */
+    Ext.define('mh.module.navMenu.NavMenuMobile', {
+
+        extend: 'Ext.Toolbar',
+
+        xtype: 'mh-main-view-nav-menu-mobile',
+
+        requires: [
+            'mh.FontIconsDictionary',
+            'mh.module.navMenu.Icons'
+        ],
+
+        controller: 'mh-main-view-nav-menu-mobile',
+
+        config: {
+            /**
+             * side to expand the menu from
+             */
+            menuSide: 'right',
+
+            /**
+             * id of a store to be used as a source for creating menu items
+             */
+            menuStore: 'routes-main-menu',
+
+            /**
+             * @cfg - route to load for user profile edits
+             */
+            userProfileRoute: 'mh-user-profile'
+        },
+
+        items: [
+            {
+                xtype: 'button',
+                iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuBack'),
+                listeners: {
+                    tap: 'onBackBtnTap'
+                }
+            },
+            '->',
+            //TODO - title & icon! flex: 1, so fills up the space
+            '->',
+            {
+                xtype: 'button',
+                iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuSandwich'),
+                listeners: {
+                    tap: 'onMenuBtnTap'
+                }
+            }
+        ]
+    });
+}());

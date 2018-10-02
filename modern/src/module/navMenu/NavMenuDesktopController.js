@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.navMenu.NavMenuDesktopController', {
-        extend: 'Ext.app.ViewController',
+        extend: 'mh.module.navMenu.NavMenuController',
 
         alias: 'controller.mh-main-view-nav-menu-desktop',
 
@@ -43,13 +43,7 @@
                 this.lookupReference('profileBtn').hide();
             }
 
-            this.updateUserInfo();
-            this.getUserProfile();
-
-            this.watchGlobal('user::profilepicturechanged', this.updateUserInfo, this);
-
-            this.watchGlobal('auth::userauthenticated', this.onUserAuthenticated, this);
-            this.watchGlobal('auth::userloggedoff', this.onUserLoggedOff, this);
+            this.callMeParent(arguments);
         },
 
         /**
@@ -67,43 +61,6 @@
                 tap: 'onMaskTap',
                 scope: this
             });
-        },
-
-        /**
-         * user authenticated callback
-         */
-        onUserAuthenticated: function(){
-            //obtain user info!
-            this.userProfile = null;
-            this.getUserProfile();
-        },
-
-        /**
-         * user logged off callback
-         */
-        onUserLoggedOff: function(){
-            this.userProfile = null;
-            this.updateUserInfo();
-        },
-
-        /**
-         * currently bound user profile
-         */
-        userProfile: null,
-
-        getUserProfile: function(){
-            var tunnel = this.getTunnelId();
-            this.watchGlobal('auth::userprofileretrieved', this.onUserProfileRetrieved, this, {single: true, tunnel: tunnel});
-            this.fireGlobal('auth::getuserprofile', null, {tunnel: tunnel});
-        },
-
-        /**
-         * user profile retrieved callback
-         * @param userProfile
-         */
-        onUserProfileRetrieved: function(userProfile){
-            this.userProfile = userProfile;
-            this.updateUserInfo();
         },
 
         /**
@@ -197,21 +154,6 @@
         },
 
         /**
-         * profile btn tap handler
-         */
-        onprofileBtnTap: function() {
-
-            if(this.userProfile){
-                this.redirectTo(this.getView().getUserProfileRoute() || 'unknown');
-                this.collapse();
-            }
-            else {
-                //just let the global Auth controller know user wants to authenticate
-                this.fireGlobal('auth::requestuserauth');
-            }
-        },
-
-        /**
          * menu initialize - sets up the stores, texts, icons, etc.
          * @param menu
          * @param location
@@ -222,18 +164,12 @@
 
             store.each(function(rec) {
 
-                var cls = Ext.ClassManager.getByAlias('widget.' + rec.get('xtype'))
+                var cls = Ext.ClassManager.getByAlias('widget.' + rec.get('xtype'));
 
                 rec.set('text', this.getTranslation('viewName', Ext.getClassName(cls)));
                 rec.set('icon', rec.get('iconCls'));
 
-                //also fire global to register routes!
-                if(rec.get('navigationRoute')){
-                    this.fireGlobal('route::register', {route: rec.get('navigationRoute'), type: 'nav'});
-                }
-                if(rec.get('dataRoute')){
-                    this.fireGlobal('route::register', {route: rec.get('dataRoute'), type: 'data'});
-                }
+                //menu & non-meu routes registered by the main view!
 
             }, this);
 
@@ -250,58 +186,11 @@
             }
         },
 
-
         /**
          * log off btn tap handler
          */
         onLogOffBtnTap: function() {
-            var currentApp = this.getCurrentApp(),
-                msg = currentApp && currentApp.get('requiresAuth') ?
-                    this.getTranslation('logOffConfirmMsgWithReload') :
-                    this.getTranslation('logOffConfirmMsgNoReload');
-
-            var me = this,
-                dialog = Ext.create({
-                    xtype: 'dialog',
-                    title: me.getTranslation('logOffConfirmTitle'),
-                    html: msg,
-                    bodyPadding: 20,
-                    width: 350,
-                    buttons: {
-                        yes: {
-                            ui: 'base',
-                            text: me.getTranslation('yes'),
-                            handler: function() {
-                                dialog.destroy();
-
-                                me.fireGlobal('loadmask::show', me.getTranslation('logOffMask'));
-
-                                //let the auth controller do the work for us
-                                me.fireGlobal('auth::requestuserlogoff');
-
-                                //wait a bit and finalise
-                                Ext.defer(function(){
-                                    me.fireGlobal('loadmask::hide');
-                                    if(currentApp && currentApp.get('requiresAuth')){
-                                        //need to reload to home as the current app requires auth!
-                                        me.fireGlobal('root::reloadapp', me.getHomeApp());
-                                    }
-                                }, 1000);
-                            }
-                        },
-                        no: {
-                            ui: 'base',
-                            text: me.getTranslation('no'),
-                            handler: function() {
-                                dialog.destroy();
-                            }
-                        }
-                    }
-
-                });
-
-            dialog.show();
-
+            this.callMeParent(arguments);
             this.updateExpanded(false);
         },
 

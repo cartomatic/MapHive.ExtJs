@@ -14,6 +14,10 @@
                     en: 'Log off',
                     pl: 'Wyloguj'
                 },
+                logIn: {
+                    en: 'Log in',
+                    pl: 'Zaloguj'
+                },
                 profile: {
                     en: 'Profile',
                     pl: 'Profil'

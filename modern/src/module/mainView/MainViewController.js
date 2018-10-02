@@ -61,17 +61,18 @@
                 });
             }
 
-            //non menu routes registration
-            this.registerNonMenuRoutes();
+            //menu && non menu routes registration
+            this.registerRoutes(vw.getMenuRoutesStore());
+            this.registerRoutes(vw.getNonMenuRoutesStore());
         },
 
         /**
-         * registers non main menu ui routes
+         * registers menu routes store
+         * @param storeId
          */
-        registerNonMenuRoutes: function(){
-
+        registerRoutes: function(storeId){
             var me = this,
-                store = Ext.getStore(this.getView().getNonMenuRoutesStore());
+                store = Ext.getStore(storeId);
             if(!store){
                 return;
             }
@@ -184,6 +185,8 @@
                 parent.setActiveItem(child);
                 child = parent;
             }
+
+            this.fireGlobal('mainview::itemchanged', view);
 
             return view;
         },

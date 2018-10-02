@@ -42,8 +42,17 @@
             navMenu: {
                 xtype: 'mh-main-view-nav-menu-desktop',
                 ui: 'dark micro',
+
+                /**
+                 * store to be used as a source for creating menu items; should contain mh.data.model.Route models
+                 */
                 menuStore: 'routes-main-menu' //registered via application.stores, but id explicitly enforced by a store def
             },
+
+            /**
+             * store with main menu routes to be registered; should contain mh.data.model.Route models
+             */
+            menuRoutesStore: 'routes-main-menu', //registered via application.stores, but id explicitly enforced by a store def
 
             /**
              * store with non main nav menu routes to be registered; should contain mh.data.model.Route models
