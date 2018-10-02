@@ -61,7 +61,7 @@
                 items.push({
                     xtype: 'button',
                     text: this.getMenuItemText(r),
-                    iconCls: r.get('iconCls'),
+                    iconCls: mh.FontIconsDictionary.getIcon(r.get('iconCls')),
                     routeRec: r,
                     listeners: {
                         tap: Ext.bind(this.onRouteBtnTap, this)
@@ -103,7 +103,39 @@
         getMenuItemText: function(routeRec) {
             var cls = Ext.ClassManager.getByAlias('widget.' + routeRec.get('xtype')),
                 className = Ext.getClassName(cls),
-                menuItemText = this.getTranslation('viewName', className, true);
+                menuItemText = this.getTranslation('viewName', className, true),
+                inst;
+
+            if(!menuItemText){
+                try {
+                    //try to init a class
+                    inst = Ext.create(className);
+
+                    //does it have a title getter?
+                    if(Ext.isFunction(inst.getTitle)){
+                        menuItemText = inst.getTitle();
+                    }
+
+                    //maybe set explicitly
+                    if(!menuItemText){
+                        if(inst.title){
+                            menuItemText = inst.title;
+                        }
+                    }
+
+                    //maybe set via bindings
+                    if(!menuItemText){
+                        if(inst._title){
+                            menuItemText = inst._title;
+                        }
+                    }
+                }
+                catch(e){
+                    //<debug>
+                    console.warn('failed to obtain a title for xtype ' + routeRec.get('xtype'), e);
+                    //</debug>
+                }
+            }
 
             //<debug>
             if(!menuItemText){
