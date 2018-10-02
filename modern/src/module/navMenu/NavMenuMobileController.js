@@ -13,7 +13,8 @@
 
         requires: [
             'mh.module.navMenu.NavMenuMobileLocalization',
-            'Ext.ActionSheet'
+            'Ext.ActionSheet',
+            'Ext.Label'
         ],
 
         mixins: [
@@ -243,13 +244,41 @@
         userProfileDisplay: null,
 
         /**
+         * user picture display
+         */
+        userPictureDisplay: null,
+
+        /**
+         * user name display
+         */
+        userNameDisplay: null,
+
+        /**
          * gets a user info widget instance
          * @returns {null}
          */
         getUserProfileDisplay: function(){
             if(!this.userProfileDisplay){
+
+                this.userPictureDisplay = Ext.create('Ext.Label', {
+                    encodeHtml: false
+                });
+                this.userNameDisplay = Ext.create('Ext.Label', {
+                    encodeHtml: false
+                });
+
                 this.userProfileDisplay = Ext.create('Ext.Container',{
-                    html: 'this is gonna be a fancy user info...'
+                    layout: {
+                        type: 'vbox',
+                        align: 'center'
+                    },
+                    items: [
+                        this.userPictureDisplay,
+                        this.userNameDisplay
+                    ],
+                    style: {
+                        borderBottom: '1px solid gray'
+                    }
                 });
 
                 //register nav route for the user profile view!
@@ -331,7 +360,18 @@
                 this.getLogOffMenuBtn().show();
                 this.getUserProfileDisplay().show();
 
-                //TODO - the actual user info update!!!
+                //TODO - picture - mind this is not yet decided how it's gonna be stored
+                if(this.userProfile.get('profilePicture')){
+                    //FIXME - at this stage will not be there!
+                    //TODO -make it a nice round image!!!!
+                }
+                else {
+                    //no picture, just make it an faceless icon
+                    this.userPictureDisplay.setHtml('<div style="padding-top:10px; height:45px;" class="' + mh.FontIconsDictionary.getIcon('mhNavMenuUserLarge3x') + '"></div>')
+                }
+
+                //user name
+                this.userNameDisplay.setHtml('<strong>' + this.userProfile.get('username') + '</strong>');
             }
             else {
                 this.getLogInMenuBtn().show();
@@ -364,7 +404,8 @@
          * back btn tap handler
          */
         onBackBtnTap: function(){
-            //TODO - just history back BUT with a GENERIC test for 'unsaved changes' in the main view router!!!
+            //simply go back
+            Ext.History.back();
         },
 
         /**
@@ -372,7 +413,14 @@
          */
         onMenuBtnTap: function(){
             this.ensureNavMenu();
-            Ext.Viewport.toggleMenu(this.getView().getMenuSide());
+            //deferring as there seem to be some clashes between the btn / btn animation and the toggle menu. not sure why
+            Ext.defer(
+                function(){
+                    Ext.Viewport.toggleMenu(this.getView().getMenuSide());
+                },
+                10,
+                this
+            );
         }
 
 
