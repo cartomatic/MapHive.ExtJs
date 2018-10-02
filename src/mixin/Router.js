@@ -17,6 +17,11 @@
         registeredNavRoutes: [],
         registeredDataRoutes: [],
 
+
+        navRoutePattern: ':type(/:args)?',
+
+        dataRoutePattern: ':type/:id(/:args)?',
+
         /**
          * registers a navigation route
          * @param route
@@ -27,7 +32,7 @@
             }
 
             this.registeredRoutes = this.registeredRoutes || {};
-            this.registeredRoutes[':type(/:args)?'] = {
+            this.registeredRoutes[this.navRoutePattern] = {
                 action:  'handleNavigationRoute',
                 conditions: {
                     ':type': '(' + this.registeredNavRoutes.join('|') + ')',
@@ -47,7 +52,7 @@
                 this.registeredDataRoutes.push(route);
             }
             this.registeredRoutes = this.registeredRoutes || {};
-            this.registeredRoutes[':type/:id(/:args)?'] = {
+            this.registeredRoutes[this.dataRoutePattern] = {
                 action:  'handleDataRoute',
                 conditions: {
                     ':type': '(' + this.registeredDataRoutes.join('|') + ')',
@@ -102,7 +107,7 @@
          * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
          */
         getDataRouteParamsForRoute: function(route){
-            return route.match(Ext.route.Router.routes[':type/:id(/:args)?'].matcherRegex);
+            return route.match(Ext.route.Router.routes[this.dataRoutePattern].matcherRegex);
         },
 
         /**
@@ -129,7 +134,7 @@
          * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
          */
         getNavRouteParamsForRoute: function(route){
-            return route.match(Ext.route.Router.routes[':type(/:args)?'].matcherRegex);
+            return route.match(Ext.route.Router.routes[this.navRoutePattern].matcherRegex);
         },
 
         /**
@@ -145,7 +150,8 @@
          * @returns {boolean}
          */
         routeIsDataRoute: function(route){
-            return Ext.route.Router.routes[':type/:id(/:args)?'].matcherRegex.test(route);
+            //Note: in some cases there may be no data routes, hence need to check
+            return Ext.route.Router.routes[this.dataRoutePattern] && Ext.route.Router.routes[this.dataRoutePattern].matcherRegex.test(route);
         },
 
         /**

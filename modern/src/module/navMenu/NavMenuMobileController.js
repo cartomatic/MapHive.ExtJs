@@ -156,7 +156,7 @@
         },
 
         onRouteBtnTap: function(btn){
-
+            this.redirectTo(btn.routeRec.get('navigationRoute'));
             this.hideNavMenu();
         },
 
