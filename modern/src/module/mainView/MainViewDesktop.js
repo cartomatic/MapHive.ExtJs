@@ -14,7 +14,7 @@
 
         requires: [
             'Ext.layout.Card',
-            'mh.module.mainView.MainViewController',
+            'mh.module.mainView.MainViewDesktopController',
             'mh.module.mainView.MainViewModel',
             'mh.module.appSwitcher.AppSwitcherDesktop',
             'mh.module.orgContextSwitcher.OrgContextSwitcherDesktop',
@@ -28,7 +28,7 @@
         viewModel: {
             type: 'mh-main-view'
         },
-        controller: 'mh-main-view',
+        controller: 'mh-main-view-desktop',
 
         fullscreen: 'true',
 

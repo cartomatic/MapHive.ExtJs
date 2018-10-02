@@ -35,31 +35,7 @@
             //listen to modules willing to register routes
             this.watchGlobal('route::register', this.onRouteRegister, this);
 
-            var vw = this.getView(),
-                navMenu = vw.getNavMenu(),
-                appSwitcher = vw.getAppSwitcher(),
-                orgSwitcher = vw.getOrgContextSwitcher();
-
-            if(navMenu){
-                navMenu.zIndex = 4;
-                navMenu.reference = 'navmenu';
-
-                vw.setLbar(navMenu);
-            }
-
-            //create app switcher if provided
-            if(appSwitcher){
-                Ext.create(appSwitcher, {
-                    navModule: vw.getLbar()
-                });
-            }
-
-            //create org ctx switcher if provided
-            if(orgSwitcher){
-                Ext.create(orgSwitcher, {
-                    navModule: vw.getLbar()
-                });
-            }
+            var vw = this.getView();
 
             //menu && non menu routes registration
             this.registerRoutes(vw.getMenuRoutesStore());
@@ -71,6 +47,7 @@
          * @param storeId
          */
         registerRoutes: function(storeId){
+
             var me = this,
                 store = Ext.getStore(storeId);
             if(!store){
@@ -115,7 +92,7 @@
 
 
         /**
-         * Called when the view is created
+         * handles navigation route - creates a view for it and displays it. returns a navigation route rec and view
          */
         handleNavigationRoute: function(type, args) {
 
@@ -149,9 +126,7 @@
 
             var registeredRouteRec = this.getNavViewRouteRecFromRouteParams(type, args);
 
-
-            //mark main menu if it contains an entry for the current path
-            this.lookup('navmenu').setSelection(registeredRouteRec);
+            //no route rec, for the hash, so no such route...
             if (!registeredRouteRec) {
                 return null;
             }
@@ -162,10 +137,15 @@
             console.log(consoleHdr, 'className:', Ext.getClassName(Ext.ClassManager.getByAlias('widget.' + registeredRouteRec.get('xtype'))));
             //</debug>
 
-            this.activate(
+            var view = this.activate(
                 this.ensureView(type, {
                     xtype: registeredRouteRec.get('xtype')
                 }, args));
+
+            return {
+                registeredRouteRec: registeredRouteRec,
+                view: view
+            };
         },
 
         /**
