@@ -7,7 +7,7 @@
     Ext.define('mh.module.mainViewDesktop.NavMenu', {
         extend: 'Ext.Container',
 
-        xtype: 'mh-main-view-nav-menu',
+        xtype: 'mh-main-view-desktop-nav-menu',
 
         requires: [
             'Ext.dataview.DataView',
@@ -50,10 +50,10 @@
             hideProfileBtn: false
         },
 
-        controller: 'mh-main-view-nav-menu',
+        controller: 'mh-main-view-desktop-nav-menu',
 
         viewModel: {
-            type: 'mh-main-view-nav-menu'
+            type: 'mh-main-view-desktop-nav-menu'
         },
 
         classCls: 'navmenu-sidebar',

@@ -9,13 +9,13 @@
      * abstracts a generic app view with a left hand side menu - based on the ExtJs's admin-dashboard template;
      * allows for generic view switching and routing
      */
-    Ext.define('mh.module.mainViewDesktop.MainViewDesktop', {
+    Ext.define('mh.module.mainView.MainViewDesktop', {
         extend: 'Ext.Panel',
 
         requires: [
             'Ext.layout.Card',
-            'mh.module.mainViewDesktop.MainViewDesktopController',
-            'mh.module.mainViewDesktop.MainViewDesktopModel',
+            'mh.module.mainView.MainViewController',
+            'mh.module.mainView.MainViewModel',
             'mh.module.mainViewDesktop.AppSwitcher',
             'mh.module.mainViewDesktop.OrgContextSwitcher',
             'mh.module.mainViewDesktop.NavMenu',
@@ -23,7 +23,7 @@
             'mh.module.userProfile.UserProfile'
         ],
 
-        xtype: 'mh-main-view',
+        xtype: 'mh-main-view-desktop',
 
         viewModel: {
             type: 'mh-main-view'
@@ -40,7 +40,7 @@
              * a cfg for the nav menu to be put as the lbar
              */
             navMenu: {
-                xtype: 'mh-main-view-nav-menu',
+                xtype: 'mh-main-view-desktop-nav-menu',
                 ui: 'dark micro',
                 menuStore: 'routes-main-menu' //registered via application.stores, but id explicitly enforced by a store def
             },
