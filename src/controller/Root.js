@@ -771,7 +771,7 @@
                     title: 'BOOOM!!!',
                     message: 'Uuuups, it looks like the environment is somewhat misconfigured - there must at least be one app marked as common in order to use the HOST application',
                     width: 350,
-                    buttons: Ext.Msg.OK,
+                    buttons: Ext.MessageBox.OK,
                     icon: Ext.MessageBox.ERROR
                 });
 

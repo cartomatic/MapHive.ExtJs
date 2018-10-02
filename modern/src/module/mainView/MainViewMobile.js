@@ -12,12 +12,12 @@
 
         xtype: 'mh-main-view-mobile',
         requires: [
-            'mh.module.mainView.MainViewController',
+            'mh.module.mainView.MainViewMobileController',
             'mh.module.mainView.MainViewModel',
             'mh.module.navMenu.NavMenuMobile'
         ],
 
-        controller: 'mh-main-view',
+        controller: 'mh-main-view-mobile',
         viewModel: {
             type: 'mh-main-view'
         },
@@ -30,7 +30,9 @@
              * a cfg for the nav menu to be put as the lbar
              */
             navMenu: {
-                xtype: 'mh-main-view-mobile-nav-menu',
+                xtype: 'mh-main-view-nav-menu-mobile',
+
+                docked: 'top',
 
                 /**
                  * store to be used as a source for creating menu items; should contain mh.data.model.Route models
@@ -73,10 +75,6 @@
         },
 
         items: [
-            {
-                xtype: 'mh-main-view-nav-menu-mobile',
-                docked: 'top'
-            }
         ]
     });
 }());

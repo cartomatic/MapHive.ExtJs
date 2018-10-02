@@ -98,12 +98,13 @@
          * log off btn tap handler
          */
         onLogOffBtnTap: function() {
-            var currentApp = this.getCurrentApp(),
-                msg = currentApp && currentApp.get('requiresAuth') ?
-                    this.getTranslation('logOffConfirmMsgWithReload') :
-                    this.getTranslation('logOffConfirmMsgNoReload');
-
             var me = this,
+                currentApp = me.getCurrentApp(),
+                logOffReload = me.getView().getLogOffReload(),
+                msg = currentApp && currentApp.get('requiresAuth') && logOffReload ?
+                    me.getTranslation('logOffConfirmMsgWithReload') :
+                    me.getTranslation('logOffConfirmMsgNoReload'),
+
                 dialog = Ext.create({
                     xtype: 'dialog',
                     title: me.getTranslation('logOffConfirmTitle'),
@@ -125,10 +126,20 @@
                                 //wait a bit and finalise
                                 Ext.defer(function(){
                                     me.fireGlobal('loadmask::hide');
-                                    if(currentApp && currentApp.get('requiresAuth')){
+
+                                    //TODO - log off reload should really be the default behavior when app is wrapped into cordova; otherwise should redirect i think. USsrs should be able to go back anyway
+                                    //<debug>
+                                    console.log('Nav menu logOffReload', logOffReload);
+                                    //</debug>
+
+                                    if(logOffReload){
+                                        window.location.reload();
+                                    }
+                                    else if(currentApp && currentApp.get('requiresAuth')){
                                         //need to reload to home as the current app requires auth!
                                         me.fireGlobal('root::reloadapp', me.getHomeApp());
                                     }
+                                    //else - just cleans up the auth details so the next request that requires auth will enforce re-logon
                                 }, 1000);
                             }
                         },

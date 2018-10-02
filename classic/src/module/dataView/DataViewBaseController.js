@@ -817,7 +817,7 @@
                         title: this.getTranslation('editorCfgErrTitle'),
                         message: this.getTranslation('editorCfgErrMsg') + e.message,
                         width: 300,
-                        buttons: Ext.Msg.OK,
+                        buttons: Ext.MessageBox.OK,
                         animateTarget: btn ? btn : undefined,
                         icon: Ext.MessageBox.ERROR
                     });
@@ -917,9 +917,9 @@
                 title: confirmTitle,
                 message: confirmMsg,
                 width: 300,
-                buttons: Ext.Msg.OKCANCEL,
+                buttons: Ext.MessageBox.OKCANCEL,
                 amimateTarget: btn,
-                icon: Ext.Msg.WARNING,
+                icon: Ext.MessageBox.WARNING,
                 fn: function(msgBtn){
                     if(msgBtn === 'ok'){
                         me.deleteRecords(recs);

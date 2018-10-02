@@ -64,7 +64,7 @@
                     title: title,
                     message: msg,
                     width: 350,
-                    buttons: Ext.Msg.OK,
+                    buttons: Ext.MessageBox.OK,
                     icon: Ext.MessageBox.ERROR
                 });
                 return;
@@ -137,7 +137,7 @@
                 title: this.getTranslation('passChangeConfirmationTitle'),
                 message: this.getTranslation('passChangeConfirmationMsg'),
                 width: 350,
-                buttons: Ext.Msg.OK,
+                buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.INFO
             });
         },
@@ -172,7 +172,7 @@
                 message: msg,
                 width: 350,
                 styleHtmlContent: true,
-                buttons: Ext.Msg.OK,
+                buttons: Ext.MessageBox.OK,
                 icon: Ext.MessageBox.ERROR
             });
         }

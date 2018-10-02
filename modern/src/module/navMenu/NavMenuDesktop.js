@@ -47,7 +47,12 @@
             /**
              * whether or not profile btn should be hidden
              */
-            hideProfileBtn: false
+            hideProfileBtn: false,
+
+            /**
+             * instead of the default redirect to a common app (dashboard or home, etc), app will just force reload
+             */
+            logOffReload: false
         },
 
         controller: 'mh-main-view-nav-menu-desktop',
