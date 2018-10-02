@@ -16,6 +16,7 @@
             'mh.data.Ajax',
             'mh.mixin.Router',
             'mh.mixin.ModalMode',
+            'mh.mixin.DirtyMode',
             'mh.util.console.Formatters'
         ],
 
@@ -90,7 +91,6 @@
             }
         },
 
-
         /**
          * handles navigation route - creates a view for it and displays it. returns a navigation route rec and view
          */
@@ -117,13 +117,52 @@
             if (this.getModalModeActive()) {
 
                 //<debug>
-                console.log(consoleHdr, 'prevented route adjustment - modal mode active!');
+                console.log(consoleHdr, 'prevented route adjustment - MODAL mode active!');
                 //</debug>
 
                 window.location.hash = this.getModalModeRouteSnapshot();
                 return;
             }
 
+            //properly handle DIRTY MODE
+            if (this.getDirtyModeActive()) {
+                //<debug>
+                console.log(consoleHdr, 'prevented route adjustment - DIRTY mode active!');
+                //</debug>
+
+                var me = this;
+
+                //show msg!
+                Ext.Msg.show({
+                    title: me.getDirtyModeTitle(),
+                    message: me.getDirtyModeMsg(),
+                    width: 300,
+                    buttons: Ext.MessageBox.OKCANCEL,
+                    icon: Ext.MessageBox.WARNING,
+                    fn: function(msgBtn){
+                        if(msgBtn === 'ok'){
+                            me.endDirtyMode(true); //waive off dirty mode, as a user decided a view is about to change; true to suppress the default route restore
+                            me.handleNavigationRouteInternal(type, args);
+                        }
+                        else {
+                            window.location.hash = me.getDirtyModeRouteSnapshot();
+                        }
+                    }
+                });
+
+                return;
+            }
+
+            this.handleNavigationRouteInternal(type, args);
+        },
+
+        /**
+         * handles nav route
+         * @param type
+         * @param args
+         * @returns {*}
+         */
+        handleNavigationRouteInternal: function(type, args){
             var registeredRouteRec = this.getNavViewRouteRecFromRouteParams(type, args);
 
             //no route rec, for the hash, so no such route...
@@ -248,6 +287,42 @@
                 return;
             }
 
+            //properly handle DIRTY MODE
+            if (this.getDirtyModeActive()) {
+                //<debug>
+                console.log(consoleHdr, 'prevented route adjustment - DIRTY mode active!');
+                //</debug>
+
+                var me = this;
+
+                //show msg!
+                Ext.Msg.show({
+                    title: me.getDirtyModeTitle(),
+                    message: me.getDirtyModeMsg(),
+                    width: 300,
+                    buttons: Ext.MessageBox.OKCANCEL,
+                    icon: Ext.MessageBox.WARNING,
+                    fn: function(msgBtn){
+                        if(msgBtn === 'ok'){
+                            me.endDirtyMode(true); //waive off dirty mode, as a user decided a view is about to change; true to suppress the default route restore
+                            me.handleDataRouteInternal(type, id, routeArgs);
+                        }
+                        else {
+                            window.location.hash = me.getDirtyModeRouteSnapshot();
+                        }
+                    }
+                });
+
+                return;
+            }
+
+            this.handleDataRouteInternal(type, id, routeArgs);
+        },
+
+        /**
+         * handles data route
+         */
+        handleDataRouteInternal: function(){
             // determine the requested action for the given "type":
             // - #{type}/create: create a new "type"
             // - #{type}/{id}: show record with "id"
