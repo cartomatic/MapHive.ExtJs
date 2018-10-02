@@ -7,7 +7,7 @@
     Ext.define('mh.module.mainViewDesktop.NavMenuController', {
         extend: 'Ext.app.ViewController',
 
-        alias: 'controller.mh-main-view-nav-menu',
+        alias: 'controller.mh-main-view-desktop-nav-menu',
 
         requires: [
             'Ext.data.StoreManager',

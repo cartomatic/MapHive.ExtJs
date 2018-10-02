@@ -6,7 +6,7 @@
 
     var consoleHdr = '[ROUTER@Main]_s::,orange,';
 
-    Ext.define('mh.module.mainViewDesktop.MainViewDesktopController', {
+    Ext.define('mh.module.mainView.MainViewController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-main-view',
 

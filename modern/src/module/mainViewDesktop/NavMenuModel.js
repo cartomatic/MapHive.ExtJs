@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.mainViewDesktop.NavMenuModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-main-view-nav-menu'
+        alias: 'viewmodel.mh-main-view-desktop-nav-menu'
     });
     
 }());
