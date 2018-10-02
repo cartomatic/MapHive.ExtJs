@@ -118,7 +118,7 @@
                     this.resetCalledMapCache(nextKey);
 
                     //<debug>
-                    console.log('xx', cacheKey, Ext.isFunction(nextSuperClass[method]));,
+                    console.log('xx', cacheKey, Ext.isFunction(nextSuperClass[method]));
                     //</debug>
 
                     if(Ext.isFunction(nextSuperClass[method])){
