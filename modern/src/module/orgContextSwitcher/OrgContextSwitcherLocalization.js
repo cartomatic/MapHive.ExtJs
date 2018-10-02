@@ -7,7 +7,7 @@
     /**
      * Created by domin on 18.07.2018.
      */
-    Ext.define('mh.module.mainViewDesktop.OrgContextSwitcherLocalization', {
+    Ext.define('mh.module.orgContextSwitcher.OrgContextSwitcherDesktopLocalization', {
         requires: [
             'mh.localization.Localization'
         ],

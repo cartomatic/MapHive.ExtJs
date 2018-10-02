@@ -16,9 +16,9 @@
             'Ext.layout.Card',
             'mh.module.mainView.MainViewController',
             'mh.module.mainView.MainViewModel',
-            'mh.module.mainViewDesktop.AppSwitcher',
-            'mh.module.mainViewDesktop.OrgContextSwitcher',
-            'mh.module.mainViewDesktop.NavMenu',
+            'mh.module.appSwitcher.AppSwitcherDesktop',
+            'mh.module.orgContextSwitcher.OrgContextSwitcherDesktop',
+            'mh.module.navMenu.NavMenuDesktop',
             //default user profile view for side nav menu
             'mh.module.userProfile.UserProfile'
         ],
@@ -40,7 +40,7 @@
              * a cfg for the nav menu to be put as the lbar
              */
             navMenu: {
-                xtype: 'mh-main-view-desktop-nav-menu',
+                xtype: 'mh-main-view-nav-menu-desktop',
                 ui: 'dark micro',
                 menuStore: 'routes-main-menu' //registered via application.stores, but id explicitly enforced by a store def
             },
@@ -51,18 +51,18 @@
             nonMenuRoutesStore: 'routes-non-main-menu', //registered via application.stores, but id explicitly enforced by a store def
 
             /**
-             * app switcher module; takes care of handling app switching; defaults to mh.module.mainViewDesktop.AppSwitcher;
+             * app switcher module; takes care of handling app switching; defaults to mh.module.appSwitcher.AppSwitcherDesktop;
              * when not provided, setting is ignored;
              * navMenu is passed to the constructor; expects the navMenu module to expose a 'addAppSwitcherBtn' method in order to pass own UI back
              */
-            appSwitcher: 'mh.module.mainViewDesktop.AppSwitcher',
+            appSwitcher: 'mh.module.appSwitcher.AppSwitcherDesktop',
 
             /**
-             * org context switcher module; takes care of handling organization context switching; defaults to mh.module.mainViewDesktop.OrgContextSwitcher;
+             * org context switcher module; takes care of handling organization context switching; defaults to mh.module.mainViewDesktop.OrgContextSwitcherDesktop;
              * when not provided, setting gets ignored;
              * navMenu is passed to the constructor; expects the navMenu module to expose a 'addOrgContextSwitcherBtn' method in order to pass own UI back
              */
-            orgContextSwitcher: 'mh.module.mainViewDesktop.OrgContextSwitcher'
+            orgContextSwitcher: 'mh.module.orgContextSwitcher.OrgContextSwitcherDesktop'
         },
 
         layout: {

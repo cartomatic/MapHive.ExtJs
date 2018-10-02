@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.mainViewDesktop.NavMenuLocalization', {
+    Ext.define('mh.module.navMenu.NavMenuLocalization', {
         requires: [
             'mh.localization.Localization'
         ],

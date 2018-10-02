@@ -4,21 +4,21 @@
     //Make sure strict mode is on
     'use strict'
     
-    Ext.define('mh.module.mainViewDesktop.OrgContextSwitcher', {
+    Ext.define('mh.module.orgContextSwitcher.OrgContextSwitcherDesktop', {
 
         extend: 'Ext.Button',
 
-        xtype: 'mh-org-switcher',
+        xtype: 'mh-org-switcher-desktop',
 
         requires: [
-            'mh.module.mainViewDesktop.OrgContextSwitcherController',
-            'mh.module.mainViewDesktop.OrgContextSwitcherModel',
-            'mh.module.mainViewDesktop.Icons'
+            'mh.module.orgContextSwitcher.OrgContextSwitcherDesktopController',
+            'mh.module.orgContextSwitcher.OrgContextSwitcherDesktopModel',
+            'mh.module.orgContextSwitcher.Icons'
         ],
 
-        controller: 'mh-org-switcher',
+        controller: 'mh-org-switcher-desktop',
         viewModel: {
-            type: 'mh-org-switcher'
+            type: 'mh-org-switcher-desktop'
         },
 
         arrowAlign: 'right',

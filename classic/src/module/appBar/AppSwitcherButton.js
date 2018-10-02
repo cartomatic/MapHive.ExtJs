@@ -7,13 +7,13 @@
     Ext.define('mh.module.appBar.AppSwitcherButton', {
         extend: 'Ext.button.Button',
     
-        xtype: 'mh-app-switcher-button',
+        xtype: 'mh-app-switcher-desktop-button',
 
         requires: [
             'mh.module.appBar.AppSwitcherButtonController'
         ],
 
-        controller: 'mh-app-switcher-button',
+        controller: 'mh-app-switcher-desktop-button',
 
         config: {
             /**
@@ -23,10 +23,10 @@
             appBtnUi: 'default',
 
             /**
-             * @cfg {string} [appActiveBtnUi='mh-app-switcher-active-app-button']
+             * @cfg {string} [appActiveBtnUi='mh-app-switcher-desktop-active-app-button']
              * The default MapHive app switcher active app btn - use whatever ui your theme provides
              */
-            appActiveBtnUi: 'mh-app-switcher-active-app-button'
+            appActiveBtnUi: 'mh-app-switcher-desktop-active-app-button'
         },
 
         /**

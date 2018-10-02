@@ -8,17 +8,17 @@
     Ext.define('mh.module.appBar.OrgSwitcherButton', {
         extend: 'Ext.button.Split',
     
-        xtype: 'mh-org-switcher-button',
+        xtype: 'mh-org-switcher-desktop-button',
 
         requires: [
             'mh.module.appBar.OrgSwitcherButtonController',
             'mh.module.appBar.OrgSwitcherButtonModel'
         ],
 
-        controller: 'mh-org-switcher-button',
+        controller: 'mh-org-switcher-desktop-button',
 
         viewModel: {
-            type: 'mh-org-switcher-button'
+            type: 'mh-org-switcher-desktop-button'
         },
 
         ui: 'default-toolbar',
