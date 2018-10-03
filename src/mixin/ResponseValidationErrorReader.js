@@ -27,7 +27,9 @@
 
                 feedback = [];
 
-                errData = Ext.JSON.decode(validationFeedback);
+                errData = Ext.isString(validationFeedback)
+                    ? Ext.JSON.decode(validationFeedback)
+                    : validationFeedback;
 
                 //this should be an arr
                 if(!Ext.isArray(errData)){
