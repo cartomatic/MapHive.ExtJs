@@ -321,8 +321,11 @@
 
         /**
          * handles data route
+         * @param type
+         * @param id
+         * @param routeArgs
          */
-        handleDataRouteInternal: function(){
+        handleDataRouteInternal: function(type, id, routeArgs){
             // determine the requested action for the given "type":
             // - #{type}/create: create a new "type"
             // - #{type}/{id}: show record with "id"
