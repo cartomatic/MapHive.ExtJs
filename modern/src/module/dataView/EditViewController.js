@@ -230,7 +230,7 @@
             this.showValidationMsgServerErr(
                 validationOutput.handled
                     ? null
-                    : this.getFriendlyServerValidationFeedback(response.responseText)
+                    : this.getFriendlyServerValidationFeedback(response.responseText || response.responseJson)
             );
         },
 
