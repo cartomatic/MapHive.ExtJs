@@ -75,9 +75,17 @@
                     en: 'Provided email has already been reserved',
                     pl: 'Podany email jest już zarezerwowany'
                 },
-                slug_taken: {
-                    en: 'Provided Profile identifier (slug) has already been reserved by another user.',
-                    pl: 'Podany identyfikator profilu (slug) został już zarezerwowany przez innego użytkownika'
+                user_slug_taken: {
+                    en: 'Provided Profile identifier (slug) has already been reserved by another user or organization.',
+                    pl: 'Podany identyfikator profilu (slug) został już zarezerwowany przez innego użytkownika lub organizację'
+                },
+                org_slug_taken: {
+                    en: 'Provided Organization identifier (slug) has already been reserved by another organization or user.',
+                    pl: 'Podany identyfikator profilu (slug) został już zarezerwowany przez inną organizację lub użytkownika'
+                },
+                user_org_slug_duplicate: {
+                    en: 'An organization slug cannot be the same as its owner\'s slug',
+                    pl: 'Identyfikator organizacji musi być inny niż identyfokator użytkownika'
                 }
             }
         }
