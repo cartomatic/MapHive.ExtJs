@@ -17,8 +17,9 @@
          * @returns {*|boolean}
          */
         isOrgsOwnUser: function(rec){
-            return rec.get('isOrgUser') && rec.get('parentOrganizationId') === _org.get('uuid')
-                    || rec.get('userOrgId') === _org.get('uuid');
+            return rec.get('uuid') === null || //no id, so own user as it is being created
+                rec.get('isOrgUser') && rec.get('parentOrganizationId') === _org.get('uuid') ||
+                rec.get('userOrgId') === _org.get('uuid');
         },
 
         /**
