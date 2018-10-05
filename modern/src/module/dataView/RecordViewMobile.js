@@ -21,6 +21,13 @@
             type: 'mh-record-view'
         },
 
+        config: {
+            /**
+             * whether or not edit btn should be enabled for this view
+             */
+            enableEdit: true
+        },
+
         bind: {
             title: '{record.name}'
         },
@@ -28,21 +35,11 @@
         layout: 'fit',
 
         items: [
-            {
-                xtype: 'container',
-                reference: 'content'
-            },
-            {
-                xtype: 'button',
-                reference: 'editBtn',
-                disabled: false,
-                floated: true,
-                ui: 'confirm round',
-                displayed: true,
-                right: 10,
-                top: 50,
-                iconCls: mh.FontIconsDictionary.getIcon('mhDataViewEdit')
-            }
-        ]
+        ],
+
+        listeners: {
+            activate: 'onViewActivate',
+            deactivate: 'onViewDeactivate'
+        }
     });
 }());

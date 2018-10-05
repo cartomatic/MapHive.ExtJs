@@ -31,6 +31,36 @@
             this.injectLocalizationToViewModel();
 
             this.publishApi('loadRecord');
+
+            this.setUpActionBtns();
+        },
+
+        /**
+         * edit btn instance
+         */
+        btnEdit: null,
+
+        /**
+         * sets up action btns for this view
+         */
+        setUpActionBtns: function(){
+            var vw = this.getView(),
+                enableEdit = vw.getEnableEdit();
+
+            if(enableEdit){
+                this.btnEdit = vw.add({
+                    xtype: 'button',
+                    floated: true,
+                    ui: 'confirm round',
+                    right: 15,
+                    bottom: 15,
+                    hidden: true,
+                    iconCls: mh.FontIconsDictionary.getIcon('mhDataViewEdit'),
+                    listeners: {
+                        tap: 'onBtnEditTap'
+                    }
+                });
+            }
         },
 
         /**
@@ -53,6 +83,7 @@
          */
         onRecordLoadSuccess: function(rec){
             this.getViewModel().set('record', rec);
+            this.handleFloatingBtnsVisibility(true);
             this.hideLoadMask();
         },
 
@@ -84,6 +115,32 @@
          */
         hideLoadMask: function(){
             this.fireGlobal('loadmask::hide');
+        },
+
+        /**
+         * handles floating btns visibility
+         * @param show
+         */
+        handleFloatingBtnsVisibility: function(show){
+            var vw = this.getView(),
+                rec = vw.get('record'),
+                enableEdit = vw.getEnableCreate();
+
+            if(this.btnEdit && show && enableEdit === true && rec && rec.get('uuid')){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
+                this.btnEdit.show();
+            }
+            else if(this.btnEdit) {
+                this.lookupReference('btnEdit').hide();
+            }
+        },
+
+        onViewActivate: function() {
+            this.handleFloatingBtnsVisibility(true);
+        },
+
+        onViewDeactivate: function(){
+            this.handleFloatingBtnsVisibility(false);
         }
+
     });
 }());

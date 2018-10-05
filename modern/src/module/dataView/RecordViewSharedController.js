@@ -39,9 +39,6 @@
          * @param id
          */
         loadRecord: function(id, route) {
-
-            this.rewindToFirstView();
-
             this.showLoadMask(
                 //try to grab customized translation first and fallback for default
                 this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewLocalization')
@@ -81,15 +78,7 @@
          * @param msg
          */
         showLoadMask: function(msg){
-            if(this.getView().getFloated()){
-                this.getView().setMasked({
-                    xtype: 'loadmask',
-                    message: msg
-                });
-            }
-            else {
-                this.fireGlobal('loadmask::show', msg);
-            }
+            this.fireGlobal('loadmask::show', msg);
         },
 
         /**

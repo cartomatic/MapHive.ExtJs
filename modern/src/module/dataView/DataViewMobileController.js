@@ -94,22 +94,40 @@
 
         configureActionBtns: function(){
             var vw = this.getView(),
-                enableCreate = vw.getEnableCreate(),
                 enableEdit = vw.getEnableEdit(),
                 enableDestroy = vw.getEnableDestroy();
 
-            if(enableCreate === false){
-                this.lookupReference('btnCreate').hide();
-            }
-
             //TODO - swipe edit / delete
+
+            //Note: floating btns handled on view activate / deactivate
         },
 
         /**
          * view activate callback - reloads store, so when user enters this view data is always fresh
          */
         onViewActivate: function() {
+            this.handleFloatingBtnsVisibility(true);
             this.reloadStore();
+        },
+
+        onViewDeactivate: function(){
+            this.handleFloatingBtnsVisibility(false);
+        },
+
+        /**
+         * handles floating btns visibility
+         * @param show
+         */
+        handleFloatingBtnsVisibility: function(show){
+            var vw = this.getView(),
+                enableCreate = vw.getEnableCreate();
+
+            if(show && enableCreate === true){
+                this.lookupReference('btnCreate').show();
+            }
+            else {
+                this.lookupReference('btnCreate').hide();
+            }
         },
 
         /**
