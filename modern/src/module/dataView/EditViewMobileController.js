@@ -20,8 +20,36 @@
 
         init: function(){
             this.callMeParent(arguments);
+
+            this.setUpActionBtns();
         },
 
+        /**
+         * save btn instance
+         */
+        btnSave: null,
+
+        /**
+         * sets up action btns for this view
+         */
+        setUpActionBtns: function(){
+            var vw = this.getView(),
+                enableSave = vw.getEnableSave();
+
+            if(enableSave){
+                this.btnSave = vw.add({
+                    xtype: 'button',
+                    floated: true,
+                    ui: 'confirm round',
+                    right: 15,
+                    bottom: 15,
+                    iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnSave'),
+                    listeners: {
+                        tap: 'onBtnSaveTap'
+                    }
+                });
+            }
+        },
         /**
          * Provides a hook into a validation logic for the handled form; by default always returns true.
          * When invalid either a msg or a collection of msgs should be returned; alternatively can return false, so an editor displays its default msg
@@ -74,6 +102,31 @@
                     }
                 });
             });
+        },
+
+        /**
+         * handles floating btns visibility
+         * @param show
+         */
+        handleFloatingBtnsVisibility: function(show){
+            var vw = this.getView(),
+                rec = this.getViewModel().get('record'),
+                enableSave = vw.getEnableSave();
+
+            //FIXME - not showing for the first time
+            if(this.btnSave && show && enableSave === true && rec){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
+                this.btnSave.show();
+            }
+            else if(this.btnSave) {
+                this.btnSave.hide();
+            }
+        },
+        onViewActivate: function() {
+            this.handleFloatingBtnsVisibility(true);
+        },
+
+        onViewDeactivate: function(){
+            this.handleFloatingBtnsVisibility(false);
         }
     });
 }());

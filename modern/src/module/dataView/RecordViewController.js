@@ -33,6 +33,15 @@
         },
 
         /**
+         * sets a record to be bound on the view model
+         * @param id
+         */
+        loadRecord: function(id, route) {
+            this.rewindToFirstView();
+            this.callMeParent(arguments);
+        },
+
+        /**
          * handles view initialization setup - this is where the screens cfg gets processed
          * @param vw
          * @param eOpts

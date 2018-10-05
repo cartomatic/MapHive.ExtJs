@@ -63,10 +63,9 @@
             {
                 xtype: 'button',
                 reference: 'btnCreate',
-                disabled: false,
+                hidden: true,
                 floated: true,
                 ui: 'confirm round',
-                displayed: true,
                 right: 15,
                 bottom: 15,
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewNew'),
@@ -77,7 +76,8 @@
         ],
 
         listeners: {
-            activate: 'onViewActivate'
+            activate: 'onViewActivate',
+            deactivate: 'onViewDeactivate'
         }
     });
 }());

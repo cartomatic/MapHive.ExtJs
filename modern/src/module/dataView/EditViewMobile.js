@@ -25,12 +25,23 @@
              * by default models use whatever url is defined on their proxies.
              * This enables customising urls but only for the needed save operation (either create or update)
              */
-            customUrl: null
+            customUrl: null,
+
+            /**
+             * whether or not the default edit view save btn should be visible
+             */
+            enableSave: true
         },
 
         bind: {
             iconCls: '{viewIcon}'
-        }
+        },
+
+        header: false,
+
+        items: [
+
+        ]
 
     });
 }());
