@@ -33,9 +33,9 @@
 
             { name: 'uuid', type: 'string', allowNull: true, defaultValue: null, persist: false},
 
-            { name: 'createDateUtc', type: 'mhdatetime', useNull: true, persist: false},
+            { name: 'createDateUtc', type: 'mh-date-time', useNull: true, persist: false},
 
-            { name: 'modifyDateUtc', type: 'mhdatetime', useNull: true, persist: false},
+            { name: 'modifyDateUtc', type: 'mh-date-time', useNull: true, persist: false},
 
             //TODO - at some point add createdBy, modifiedBy and such to match the serverside
 

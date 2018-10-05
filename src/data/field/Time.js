@@ -8,7 +8,7 @@
     Ext.define('mh.data.field.Time', {
         extend: 'Ext.data.field.Date',
 
-        alias: 'data.field.mhtime',
+        alias: 'data.field.mh-time',
 
         convert: function(v, rec){
             if(Ext.isNumber(v)){
