@@ -3,9 +3,9 @@
 (function(){
     //Make sure strict mode is on
     'use strict';
-    Ext.define('mh.module.dataView.EditViewController', {
+    Ext.define('mh.module.dataView.EditViewMobileController', {
         extend: 'mh.module.dataView.EditViewSharedController',
-        alias: 'controller.mh-edit-view',
+        alias: 'controller.mh-edit-view-mobile',
 
         requires: [
             'Ext.History',
@@ -20,19 +20,6 @@
 
         init: function(){
             this.callMeParent(arguments);
-        },
-
-        /**
-         * cleans up view and closes it; special handling for floating / windowed editors
-         */
-        cleanNClose: function(){
-            this.hideLoadMask();
-            if(this.getView().getFloated()){
-                this.getView().close();
-            }
-            else{
-                Ext.History.back();
-            }
         },
 
         /**
@@ -52,7 +39,7 @@
         isValid: function(){
             var invalidFields = [];
 
-            Ext.Array.each(this.getView().down('panel'), function(panel){
+            Ext.Array.each(this.getView().down('container'), function(panel){
                 Ext.Array.each(panel.items.items, function(fld){
                     if(Ext.isFunction(fld.validate)){
                         fld.validate(); //aka clearInvalid
@@ -80,7 +67,7 @@
             //with default maphive's data handling approach, form panel is not used, as the data is bound to a record
             //and then posted directly to the server.
 
-            Ext.Array.each(this.getView().down('panel'), function(panel){
+            Ext.Array.each(this.getView().down('container'), function(panel){
                 Ext.Array.each(panel.items.items, function(fld){
                     if(Ext.isFunction(fld.setError)){
                         fld.setError(null); //aka clearInvalid

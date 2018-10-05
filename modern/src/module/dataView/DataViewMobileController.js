@@ -18,6 +18,7 @@
         mixins: [
             'mh.mixin.CallMeParent',
             'mh.mixin.Localization',
+            'mh.data.Ajax'
         ],
 
         /**
@@ -28,7 +29,7 @@
 
             this.configureListView();
 
-            //this.configureActionBtns();
+            this.configureActionBtns();
         },
 
         /**
@@ -36,6 +37,9 @@
          */
         listView: null,
 
+        /**
+         * configures list view
+         */
         configureListView: function(){
             var vw = this.getView(),
                 viewCfg = vw.getViewCfg(),
@@ -88,6 +92,19 @@
             }
         },
 
+        configureActionBtns: function(){
+            var vw = this.getView(),
+                enableCreate = vw.getEnableCreate(),
+                enableEdit = vw.getEnableEdit(),
+                enableDestroy = vw.getEnableDestroy();
+
+            if(enableCreate === false){
+                this.lookupReference('btnCreate').hide();
+            }
+
+            //TODO - swipe edit / delete
+        },
+
         /**
          * view activate callback - reloads store, so when user enters this view data is always fresh
          */
@@ -107,6 +124,17 @@
             } else {
                 store.load();
             }
+        },
+
+        /**
+         * create btn tap handler - redirects to a 'create' view
+         */
+        onBtnCreateTap: function(){
+            var model = Ext.create(
+                Ext.getClassName(this.getViewModel().getStore('listviewstore').getModel())
+            );
+
+            this.redirectTo(model.getCreateUrl());
         }
     });
 }());
