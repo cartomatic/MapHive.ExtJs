@@ -10,7 +10,7 @@
     Ext.define('mh.data.field.UtcDateTime', {
         extend: 'Ext.data.field.Date',
 
-        alias: 'data.field.mhdatetime',
+        alias: 'data.field.mh-date-time',
 
         convert: function(v, record){
             if(Ext.isDate(v)){
