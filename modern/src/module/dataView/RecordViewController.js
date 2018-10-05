@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.RecordViewController', {
-        extend: 'Ext.app.ViewController',
+        extend: 'mh.module.dataView.RecordViewSharedController',
         alias: 'controller.mh-record-view',
 
         requires: [
@@ -26,15 +26,10 @@
          * controllers init
          */
         init: function(){
+            this.callMeParent(arguments);
+
             //when view kicks in, make sure to add its items
             this.getView().on('initialize', this.onViewInitialize, this);
-
-            //Note: in most cases injected localizations will inherit from specific data views and in consequence from mh.module.dataView.DataViewLocalization
-            //this is why translations for this module are not placed in its own file but in mh.module.dataView.DataViewLocalization instead
-            this.injectLocalizationToViewModel();
-
-            this.publishApi('loadRecord');
-
         },
 
         /**
@@ -67,42 +62,6 @@
                 this.lookupReference('btnBack').setUi(vw.getBtnBackUi() || 'mh-record-view-btn-back');
             }
         },
-
-        /**
-         * sets a record to be bound on the view model
-         * @param id
-         */
-        loadRecord: function(id, route) {
-
-            this.rewindToFirstView();
-
-            this.showLoadMask(
-                //try to grab customized translation first and fallback for default
-                this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewLocalization')
-            );
-
-            this.loadRecordInternal(id, route);
-        },
-
-
-
-        /**
-         * record load success callback
-         * @param rec
-         */
-        onRecordLoadSuccess: function(rec){
-            this.getViewModel().set('record', rec);
-            this.hideLoadMask();
-        },
-
-        /**
-         * record load failure callback
-         */
-        onRecordLoadFailure: function(){
-            this.getViewModel().set('record', null);
-            this.hideLoadMask();
-        },
-
         /**
          * edit btn tap handler - redirects to an edit url, router will show whatever view is needed
          */

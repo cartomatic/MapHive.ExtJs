@@ -27,6 +27,13 @@
          * @param route
          */
         registerNavRoute: function(route){
+
+            //TODO - support at least one more lvl of nesting: type1/id1/type2/id2|edit|create
+            // if(route.indexOf('{id}') > -1){
+            //     this.registerComplexNavRoute(route);
+            //     return;
+            // }
+
             if(!Ext.Array.contains(this.registeredNavRoutes, route)){
                 this.registeredNavRoutes.push(route);
             }
@@ -41,6 +48,11 @@
             }
 
             this.reconfigureRoutes();
+        },
+
+
+        registerComplexNavRoute: function(route){
+
         },
 
         /**
