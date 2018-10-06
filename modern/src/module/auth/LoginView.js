@@ -40,7 +40,10 @@
                             placeholder: '{localization.emailEmptyText}'
                         },
                         cls: 'mh-auth-text-border',
-                        margin: '5 0 0 0' //trbl
+                        margin: '5 0 0 0', //trbl
+                        listeners: {
+                            keydown: 'trapLoginEnter'
+                        }
                     },
                     {
                         xtype: 'passwordfield',
@@ -50,7 +53,10 @@
                             placeholder: '{localization.passEmptyText}'
                         },
                         cls: 'mh-auth-text-border',
-                        margin: '5 0 5 0' //trbl
+                        margin: '5 0 5 0', //trbl
+                        listeners: {
+                            keydown: 'trapLoginEnter'
+                        }
                     },
                     {
                         layout: 'hbox',
