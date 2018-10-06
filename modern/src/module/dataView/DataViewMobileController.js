@@ -103,26 +103,33 @@
         },
 
         /**
+         * whether or not a view is currently active
+         */
+        isActive: false,
+
+        /**
          * view activate callback - reloads store, so when user enters this view data is always fresh
          */
         onViewActivate: function() {
-            this.handleFloatingBtnsVisibility(true);
+            this.isActive = true;
+            this.handleFloatingBtnsVisibility();
             this.reloadStore();
         },
 
         onViewDeactivate: function(){
-            this.handleFloatingBtnsVisibility(false);
+            this.isActive = false;
+            this.handleFloatingBtnsVisibility();
         },
 
         /**
          * handles floating btns visibility
          * @param show
          */
-        handleFloatingBtnsVisibility: function(show){
+        handleFloatingBtnsVisibility: function(){
             var vw = this.getView(),
                 enableCreate = vw.getEnableCreate();
 
-            if(show && enableCreate === true){
+            if(this.isActive && enableCreate === true){
                 this.lookupReference('btnCreate').show();
             }
             else {

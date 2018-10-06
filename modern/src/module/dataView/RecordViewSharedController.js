@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.RecordViewSharedController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-record-view',
+
 
         requires: [
             'Ext.History',
