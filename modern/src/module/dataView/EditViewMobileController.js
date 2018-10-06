@@ -24,6 +24,11 @@
             this.setUpActionBtns();
         },
 
+        onRecordLoadSuccess: function(record){
+            this.callMeParent(arguments);
+            this.handleFloatingBtnsVisibility();
+        },
+
         /**
          * save btn instance
          */
@@ -108,25 +113,32 @@
          * handles floating btns visibility
          * @param show
          */
-        handleFloatingBtnsVisibility: function(show){
+        handleFloatingBtnsVisibility: function(){
             var vw = this.getView(),
                 rec = this.getViewModel().get('record'),
                 enableSave = vw.getEnableSave();
 
-            //FIXME - not showing for the first time
-            if(this.btnSave && show && enableSave === true && rec){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
+            if(this.isActive && enableSave === true && rec && this.btnSave){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
                 this.btnSave.show();
             }
             else if(this.btnSave) {
                 this.btnSave.hide();
             }
         },
+
+        /**
+         * whether or not the view is currently active
+         */
+        isActive: false,
+
         onViewActivate: function() {
-            this.handleFloatingBtnsVisibility(true);
+            this.isActive = true;
+            this.handleFloatingBtnsVisibility();
         },
 
         onViewDeactivate: function(){
-            this.handleFloatingBtnsVisibility(false);
+            this.isActive = false;
+            this.handleFloatingBtnsVisibility();
         }
     });
 }());

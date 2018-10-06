@@ -83,7 +83,7 @@
          */
         onRecordLoadSuccess: function(rec){
             this.getViewModel().set('record', rec);
-            this.handleFloatingBtnsVisibility(true);
+            this.handleFloatingBtnsVisibility();
             this.hideLoadMask();
         },
 
@@ -121,12 +121,12 @@
          * handles floating btns visibility
          * @param show
          */
-        handleFloatingBtnsVisibility: function(show){
+        handleFloatingBtnsVisibility: function(){
             var vw = this.getView(),
                 rec = vw.get('record'),
                 enableEdit = vw.getEnableCreate();
 
-            if(this.btnEdit && show && enableEdit === true && rec && rec.get('uuid')){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
+            if(this.isActive  && enableEdit === true && this.btnEdit && rec && rec.get('uuid')){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
                 this.btnEdit.show();
             }
             else if(this.btnEdit) {
@@ -134,12 +134,19 @@
             }
         },
 
+        /**
+         * whether or not the view is currently active
+         */
+        isActive: false,
+
         onViewActivate: function() {
-            this.handleFloatingBtnsVisibility(true);
+            this.isActive = true;
+            this.handleFloatingBtnsVisibility();
         },
 
         onViewDeactivate: function(){
-            this.handleFloatingBtnsVisibility(false);
+            this.isActive = false;
+            this.handleFloatingBtnsVisibility();
         }
 
     });
