@@ -29,9 +29,7 @@
             //Note: in most cases injected localizations will inherit from specific data views and in consequence from mh.module.dataView.DataViewLocalization
             //this is why translations for this module are not placed in its own file but in mh.module.dataView.DataViewLocalization instead
             this.injectLocalizationToViewModel();
-
             this.publishApi('loadRecord');
-
         },
 
         /**
@@ -43,11 +41,8 @@
                 //try to grab customized translation first and fallback for default
                 this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewLocalization')
             );
-
             this.loadRecordInternal(id, route);
         },
-
-
 
         /**
          * record load success callback
@@ -64,28 +59,6 @@
         onRecordLoadFailure: function(){
             this.getViewModel().set('record', null);
             this.hideLoadMask();
-        },
-
-        /**
-         * edit btn tap handler - redirects to an edit url, router will show whatever view is needed
-         */
-        onBtnEditTap: function() {
-            this.redirectTo(this.getViewModel().get('record').getEditUrl());
-        },
-
-        /**
-         * shows loadmask for this module
-         * @param msg
-         */
-        showLoadMask: function(msg){
-            this.fireGlobal('loadmask::show', msg);
-        },
-
-        /**
-         * hides loadmask for this module
-         */
-        hideLoadMask: function(){
-            this.fireGlobal('loadmask::hide');
         }
     });
 }());

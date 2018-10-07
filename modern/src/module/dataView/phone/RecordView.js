@@ -3,19 +3,19 @@
 (function(){
     //Make sure strict mode is on
     'use strict';
-    Ext.define('mh.module.dataView.RecordViewMobile', {
+    Ext.define('mh.module.dataView.phone.RecordView', {
         extend: 'Ext.Panel',
 
         requires: [
             'Ext.tab.Panel',
             'mh.FontIconsDictionary',
-            'mh.module.dataView.RecordViewMobileController',
+            'mh.module.dataView.phone.RecordViewController',
             'mh.module.dataView.RecordViewModel',
             'mh.module.dataView.Icons',
             'mh.FontIconsDictionary'
         ],
 
-        controller: 'mh-record-view-mobile',
+        controller: 'mh-mobile-record-view',
 
         viewModel: {
             type: 'mh-record-view'

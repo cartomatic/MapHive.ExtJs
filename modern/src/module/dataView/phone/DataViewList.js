@@ -7,7 +7,7 @@
     /**
      * Created by domin on 05.10.2018.
      */
-    Ext.define('mh.module.dataView.DataViewList', {
+    Ext.define('mh.module.dataView.phone.DataViewList', {
         extend: 'Ext.dataview.List',
 
         requires: [
