@@ -10,17 +10,9 @@
         ],
         statics: {
             localization: {
-                btnCreate:{
-                    pl: 'Nowy',
-                    en: 'New'
-                },
-                btnEdit: {
-                    pl: 'Edytuj',
-                    en: 'Edit'
-                },
-                btnDestroy: {
-                    pl: 'Usuń',
-                    en: 'Delete'
+                listEmptyText: {
+                    en: 'No data',
+                    pl: 'Brak danych'
                 }
             }
         }

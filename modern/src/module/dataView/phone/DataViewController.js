@@ -53,6 +53,8 @@
             this.listView.setStore(store);
             this.listView.setViewModel(this.getViewModel()); //so localization and such is propagated down the stack
 
+            this.listView.setEmptyText(this.getTranslation('listEmptyText'));
+
             vw.add(this.listView);
 
             //observe store load, so can handle errors properly!
