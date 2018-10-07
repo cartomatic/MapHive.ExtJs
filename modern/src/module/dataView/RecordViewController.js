@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.RecordViewSharedController', {
+    Ext.define('mh.module.dataView.RecordViewController', {
         extend: 'Ext.app.ViewController',
 
 

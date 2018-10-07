@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.phone.RecordViewController', {
-        extend: 'mh.module.dataView.RecordViewSharedController',
+        extend: 'mh.module.dataView.RecordViewController',
         alias: 'controller.mh-mobile-record-view',
 
         requires: [
