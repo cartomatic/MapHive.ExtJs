@@ -12,15 +12,50 @@
         /**
          * routes registered with this controller
          */
-        registeredRoutes: null,
+        registeredRoutes: {},
 
-        registeredNavRoutes: [],
-        registeredDataRoutes: [],
+        registeredNavRoutesTypes: {},
+        registeredDataRoutesTypes: {},
 
+        /**
+         * gets a pattern of a nav route
+         * @param lvl
+         * @returns {string}
+         */
+        getNavRoutePattern: function(lvl){
+            var pattern;
 
-        navRoutePattern: ':type(/:args)?',
+            for(var l = 1; l <= lvl; l++){
+                if(!pattern){
+                    pattern = ':type' + l;
+                }
+                else {
+                    pattern += '/:id' + (l - 1) + '/:type' + l;
+                }
+            }
 
-        dataRoutePattern: ':type/:id(/:args)?',
+            return pattern += '(/:args)?';
+        },
+
+        /**
+         * gets a pattern of a data route
+         * @param lvl
+         * @returns {string}
+         */
+        getDataRoutePattern: function(lvl){
+            var pattern;
+
+            for(var l = 1; l <= lvl; l++){
+                if(!pattern){
+                    pattern = ':type' + l + '/:id' + l;
+                }
+                else {
+                    pattern += '/:type' + l + '/:id' + l;
+                }
+            }
+
+            return pattern += '(/:args)?';
+        },
 
         /**
          * registers a navigation route
@@ -28,31 +63,44 @@
          */
         registerNavRoute: function(route){
 
-            //TODO - support at least one more lvl of nesting: type1/id1/type2/id2|edit|create
-            // if(route.indexOf('{id}') > -1){
-            //     this.registerComplexNavRoute(route);
-            //     return;
-            // }
+            //assume the nav routes may look like this:
+            //type1(/args)
+            //type1/id1/type2(/args)
+            //type1/id1/type2/id2/type3(/args)
+            //....
 
-            if(!Ext.Array.contains(this.registeredNavRoutes, route)){
-                this.registeredNavRoutes.push(route);
-            }
+            //Note: when a complex route is registered, it is assumed tha ids are represented by a '{id}' token
 
-            this.registeredRoutes = this.registeredRoutes || {};
-            this.registeredRoutes[this.navRoutePattern] = {
-                action:  'handleNavigationRoute',
-                conditions: {
-                    ':type': '(' + this.registeredNavRoutes.join('|') + ')',
-                    ':args': '(.*)'
+            var routeParts = route.split('{id}'),
+                routePatternLvls;
+
+            Ext.Array.each(routeParts, function(rp, idx){
+                var lvl = idx + 1,
+                    key = 'type' + lvl;
+                this.registeredNavRoutesTypes[key] = this.registeredNavRoutesTypes[key] || [];
+
+                if(!Ext.Array.contains(this.registeredNavRoutesTypes[key], rp)){
+                    this.registeredNavRoutesTypes[key].push(rp);
                 }
+            }, this);
+
+            routePatternLvls = Ext.Object.getKeys(this.registeredNavRoutesTypes).length;
+
+            for (var lvl = routePatternLvls; lvl >= 1; lvl --){
+
+                var conditions = {};
+                for(var l = 1; l <= lvl; l ++){
+                    conditions[':type' + l] = '(' + this.registeredNavRoutesTypes['type' +l].join('|')  +')';
+                }
+                conditions[ ':args'] = '(.*)';
+
+                this.registeredRoutes[this.getNavRoutePattern(lvl)] = {
+                    action:  'handleRoute',
+                    conditions: conditions
+                };
             }
 
             this.reconfigureRoutes();
-        },
-
-
-        registerComplexNavRoute: function(route){
-
         },
 
         /**
@@ -60,20 +108,94 @@
          * @param route
          */
         registerDataRoute: function(route){
-            if(!Ext.Array.contains(this.registeredDataRoutes, route)){
-                this.registeredDataRoutes.push(route);
-            }
-            this.registeredRoutes = this.registeredRoutes || {};
-            this.registeredRoutes[this.dataRoutePattern] = {
-                action:  'handleDataRoute',
-                conditions: {
-                    ':type': '(' + this.registeredDataRoutes.join('|') + ')',
-                    ':id': '([A-Za-z0-9-]{36}|create|edit)',
-                    ':args': '(.*)'
+
+            //assume the data routes may look like this:
+            //type1/id1(/args)
+            //type1/id1/type2/id2(/args)
+            //type1/id1/type2/id2/type3/id3(/args)
+            //....
+
+            //Note: when a complex route is registered, it is assumed tha ids are represented by a '{id}' token
+
+            var routeParts = route.split('{id}'),
+                routePatternLvls;
+
+            Ext.Array.each(routeParts, function(rp, idx){
+                var lvl = idx + 1,
+                    key = 'type' + lvl;
+                this.registeredDataRoutesTypes[key] = this.registeredDataRoutesTypes[key] || [];
+
+                if(!Ext.Array.contains(this.registeredDataRoutesTypes[key], rp)){
+                    this.registeredDataRoutesTypes[key].push(rp);
                 }
+            }, this);
+
+            routePatternLvls = Ext.Object.getKeys(this.registeredDataRoutesTypes).length;
+
+
+            for (var lvl = routePatternLvls; lvl >= 1; lvl --){
+
+                var conditions = {};
+                for(var l = 1; l <= lvl; l ++){
+                    conditions[':type' + l] = '(' + this.registeredDataRoutesTypes['type' +l].join('|')  +')';
+                    conditions[':id' + l] = '([A-Za-z0-9-]{36}|create)' //'([A-Za-z0-9-]{36}|create|edit)'
+                }
+                conditions[ ':args'] = '(.*)';
+
+                this.registeredRoutes[this.getDataRoutePattern(lvl)] = {
+                    action:  'handleRoute',
+                    conditions: conditions
+                };
             }
 
             this.reconfigureRoutes();
+        },
+
+
+        /**
+         * route handler scheduler
+         */
+        handleRouteScheduler: null,
+
+        /**
+         * generic route handler
+         */
+        handleRoute: function(){
+            clearTimeout(this.handleRouteScheduler);
+            this.handleRouteScheduler = Ext.defer(function(){
+                this.handleRouteInternal();
+            },50, this);
+        },
+
+        /**
+         * internal route handler
+         */
+        handleRouteInternal: function(){
+
+            console.warn('WHOAAAAAA - is data route', this.currentRouteIsDataRoute());
+
+            if(this.currentRouteIsDataRoute()){
+                this.handleDataRoute(this.getDataRouteParamsForCurrentRoute());
+            }
+            else {
+                this.handleNavigationRoute(this.getNavRouteParamsForCurrentRoute());
+            }
+        },
+
+        /**
+         * @template
+         * @param routeParams
+         */
+        handleNavigationRoute: function(routeParams){
+
+        },
+
+        /**
+         * @template
+         * @param routeParams
+         */
+        handleDataRoute: function(routeParams){
+
         },
 
         /**
@@ -96,6 +218,54 @@
         },
 
         /**
+         * gets data route params for current route
+         * @returns {*}
+         */
+        getDataRouteParamsForCurrentRoute: function(){
+            return this.getDataRouteParamsForRoute(window.location.hash.substring(1));
+        },
+
+        /**
+         * gets route params for a data route
+         * @param route
+         * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
+         */
+        getDataRouteParamsForRoute: function(route){
+            var lvl = Ext.Object.getKeys(this.registeredDataRoutesTypes).length,
+                regex;
+            for(lvl; lvl >= 1; lvl --){
+                regex = Ext.route.Router.routes[this.getDataRoutePattern(lvl)].matcherRegex;
+                if(regex.test(route)){
+                    return route.match(regex);
+                }
+            }
+        },
+
+        /**
+         * gets nav route params for current route
+         * @returns {*}
+         */
+        getNavRouteParamsForCurrentRoute: function(){
+            return this.getNavRouteParamsForRoute(window.location.hash.substring(1));
+        },
+
+        /**
+         * gets nav route params
+         * @param route
+         * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
+         */
+        getNavRouteParamsForRoute: function(route){
+            var lvl = Ext.Object.getKeys(this.registeredNavRoutesTypes).length,
+                regex;
+            for(lvl; lvl >= 1; lvl --){
+                regex = Ext.route.Router.routes[this.getNavRoutePattern(lvl)].matcherRegex;
+                if(regex.test(route)){
+                    return route.match(regex);
+                }
+            }
+        },
+
+        /**
          * gets a view type from a current data route
          * @returns {string}
          */
@@ -109,17 +279,27 @@
          * @returns {any}
          */
         getDataRouteViewTypeForRoute: function(route){
-            var params = this.getDataRouteParamsForRoute(route);
-            return params ? params[1] : undefined;
+            return this.getDataRouteViewTypeFromRouteParams(
+                this.getDataRouteParamsForRoute(route)
+            );
         },
 
         /**
-         * gets route params for a data route
-         * @param route
-         * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
+         * gets data route view type from route params
+         * @param routeParams
+         * @returns {undefined}
          */
-        getDataRouteParamsForRoute: function(route){
-            return route.match(Ext.route.Router.routes[this.dataRoutePattern].matcherRegex);
+        getDataRouteViewTypeFromRouteParams: function(routeParams){
+            return routeParams ? routeParams[routeParams.length - 3] : undefined;
+        },
+
+        /**
+         * gets a record id off a data route params collection
+         * @param routeParams
+         * @returns {undefined}
+         */
+        getDataRouteRecordIdFromRouteParams: function(routeParams){
+            return routeParams ? routeParams[routeParams.length - 2] : undefined;
         },
 
         /**
@@ -136,17 +316,18 @@
          * @returns {any}
          */
         getNavRouteViewTypeForRoute: function(route){
-            var params = this.getNavRouteParamsForRoute(route);
-            return params ? params[1] : undefined;
+            return this.getNavRouteViewTypeFromRouteParams(
+                this.getNavRouteParamsForRoute(route)
+            );
         },
 
         /**
-         * gets nav route params
-         * @param route
-         * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
+         * gets a nav route view type from route params
+         * @param routeParams
+         * @returns {undefined}
          */
-        getNavRouteParamsForRoute: function(route){
-            return route.match(Ext.route.Router.routes[this.navRoutePattern].matcherRegex);
+        getNavRouteViewTypeFromRouteParams: function(routeParams){
+            return routeParams ? routeParams[routeParams.length - 2] : undefined;
         },
 
         /**
@@ -162,8 +343,21 @@
          * @returns {boolean}
          */
         routeIsDataRoute: function(route){
-            //Note: in some cases there may be no data routes, hence need to check
-            return Ext.route.Router.routes[this.dataRoutePattern] && Ext.route.Router.routes[this.dataRoutePattern].matcherRegex.test(route);
+            var lvl = Ext.Object.getKeys(this.registeredDataRoutesTypes).length,
+                regex;
+
+            for(lvl; lvl >= 1; lvl --){
+                regex = (Ext.route.Router.routes[this.getDataRoutePattern(lvl)] || {}).matcherRegex;
+                if(!regex){
+                    continue;
+                }
+
+                if(regex.test(route)){
+                    return true;
+                }
+            }
+
+            return false;
         },
 
         /**
@@ -172,21 +366,20 @@
          * @returns {*}
          */
         getNavViewRouteRecForRoute: function(route){
-            var routeParams = this.getNavRouteParamsForRoute(route);
-            return this.getNavViewRouteRecFromRouteParams(routeParams[1], routeParams[2]);
+             return this.getNavViewRouteRecFromRouteParams(this.getNavRouteParamsForRoute(route));
         },
 
         /**
          * gets a nav route from route params
-         * @param type
-         * @param args
+         * @param routeParams
          * @returns {*}
          */
-        getNavViewRouteRecFromRouteParams: function(type, args){
+        getNavViewRouteRecFromRouteParams: function(routeParams){
 
             //Note: route stores must inherit from either mh.data.store.RoutesMainMenu or mh.data.store.RoutesNonMainMenu
 
-            var menuStore = Ext.StoreManager.lookup('routes-main-menu'),
+            var type = this.getNavRouteViewTypeFromRouteParams(routeParams),
+                menuStore = Ext.StoreManager.lookup('routes-main-menu'),
                 nonMenuStore = Ext.StoreManager.lookup('routes-non-main-menu'),
 
                 //first check if this is a menu route
@@ -246,24 +439,20 @@
          * @returns {*|void}
          */
         getDataViewXtypeFromRoute: function(route){
-            var routeParams = this.getDataRouteParamsForRoute(route);
-
-            return this.getDataViewXtypeFromRouteParams(
-                routeParams[1],
-                routeParams[2],
-                routeParams[3]
-            );
+            return this.getDataViewXtypeFromRouteParams(this.getDataRouteParamsForRoute(route));
         },
 
         /**
          * gets dataview xtype from route params
-         * @param type
-         * @param args
+         * @param routeParams
+         * @returns {*}
          */
-        getDataViewXtypeFromRouteParams: function(type, id, routeArgs){
+        getDataViewXtypeFromRouteParams: function(routeParams){
 
-            var args = Ext.Array.clean((routeArgs || '').split('/')),
-                action, xtype, view;
+            var type = this.getDataRouteViewTypeFromRouteParams(routeParams),
+                id = this.getDataRouteRecordIdFromRouteParams(routeParams),
+                args = Ext.Array.clean((routeParams[routeParams.length - 1] || '').split('/')),
+                action, xtype;
 
             // determine the requested action for the given "type":
             // - #{type}/create: create a new "type"
