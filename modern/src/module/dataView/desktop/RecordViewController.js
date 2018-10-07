@@ -46,13 +46,24 @@
          * edit btn tap handler - redirects to an edit url, router will show whatever view is needed
          */
         onBtnEditTap: function() {
+            var rec = this.getViewModel().get('record'),
+                editor;
             if(this.getModalModeActive()){
-                var editor = mh.module.dataView.ModalDataView.show(this.getViewModel().get('record').getEditUrl());
+                editor = mh.module.dataView.ModalDataView.show(this.getRecEditUrl(rec));
                 editor.on('editview::savecompleted', function(rec){this.onRecordLoadSuccess(rec);}, this, {single: true});
             }
             else {
-                this.redirectTo(this.getViewModel().get('record').getEditUrl());
+                this.redirectTo(this.getRecEditUrl(rec));
             }
+        },
+
+        /**
+         * gets an edit url for a record
+         * @template
+         * @param rec
+         */
+        getRecEditUrl: function(rec){
+            return rec.getEditUrl();
         },
 
         /**

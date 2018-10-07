@@ -363,13 +363,22 @@
                 //check if in modal mode and if so init modal viewer
                 //otherwise simply redirect
                 if(this.getModalModeActive()){
-                    var viewer = mh.module.dataView.ModalDataView.show(cell.record.getViewUrl());
+                    var viewer = mh.module.dataView.ModalDataView.show(this.getRecViewUrl(cell.record));
                     viewer.on('close', function(rec){this.reloadStore();}, this, {single: true});
                 }
                 else {
-                    this.redirectTo(cell.record.getViewUrl());
+                    this.redirectTo(this.getRecViewUrl(cell.record));
                 }
             }
+        },
+
+        /**
+         * gets a view url for a record
+         * @template
+         * @param rec
+         */
+        getRecViewUrl: function(rec){
+            return rec.getViewUrl();
         },
 
         /**
@@ -394,13 +403,23 @@
                 //check if in modal mode and if so init modal editor
                 //otherwise simply redirect
                 if(this.getModalModeActive()){
-                    var editor = mh.module.dataView.ModalDataView.show(rec.getEditUrl());
+                    var editor = mh.module.dataView.ModalDataView.show(this.getRecEditUrl(rec));
                     editor.on('close', function(rec){this.reloadStore();}, this, {single: true});
                 }
                 else {
-                    this.redirectTo(rec.getEditUrl());
+                    this.redirectTo(this.getRecEditUrl(rec));
                 }
             }
+        },
+
+        /**
+         * returns edit url for a rec
+         * @template
+         * @param rec
+         * @returns {*|string}
+         */
+        getRecEditUrl: function(rec){
+            return rec.getEditUrl();
         },
 
         /**
@@ -551,12 +570,21 @@
             //check if in modal mode and if so init modal editor
             //otherwise simply redirect
             if(this.getModalModeActive()){
-                var editor = mh.module.dataView.ModalDataView.show(model.getCreateUrl());
+                var editor = mh.module.dataView.ModalDataView.show(this.getRecCreateUrl(model));
                 editor.on('close', function(rec){this.reloadStore();}, this, {single: true});
             }
             else {
-                this.redirectTo(model.getCreateUrl());
+                this.redirectTo(this.getRecCreateUrl(model));
             }
+        },
+
+        /**
+         * returns a create url for a rec
+         * @param rec
+         * @template
+         */
+        getRecCreateUrl: function(rec){
+            return rec.getCreateUrl();
         },
 
         /**
