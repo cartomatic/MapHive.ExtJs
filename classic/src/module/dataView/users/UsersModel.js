@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.UsersModel', {
+    Ext.define('mh.module.dataView.desktop.users.UsersModel', {
         extend: 'mh.module.dataView.DataViewBaseModel',
         alias: 'viewmodel.mh-users',
 

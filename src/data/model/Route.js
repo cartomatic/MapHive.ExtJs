@@ -33,8 +33,8 @@
              * it is therefore important to match navigation route with a proper xtype on an appropriate view
              *
              * view.statics.navigationRoute is often used in order to limit the places routes are defined
-             * see mh.module.dataView.users.DataView#statics.navigationRoute for implementation details:
-             *  navigationRoute: mh.module.dataView.users.DataView.navigationRoute
+             * see mh.module.dataView.desktop.users.DataView#statics.navigationRoute for implementation details:
+             *  navigationRoute: mh.module.dataView.desktop.users.DataView.navigationRoute
              *
              *
              */
@@ -66,7 +66,7 @@
              *
              * quite often the same views can be used in two modes, for example create / edit. in order to enable this, they use internal aliasing mechanism
              * that is implemented via view.statics.aliases array - it specifies aliases that should point to a single xtype;
-             * see mh.module.dataView.users.EditView#statics.aliases for implementation details:
+             * see mh.module.dataView.desktop.users.EditView#statics.aliases for implementation details:
              *
              */
             { name: 'dataRoute', type: 'string' },

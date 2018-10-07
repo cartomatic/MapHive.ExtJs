@@ -5,13 +5,13 @@
     /**
      * Created by domin on 28.02.2017.
      */
-    Ext.define('mh.module.dataView.users.Catalogue', {
-        extend: 'mh.module.dataView.LinksPicker',
+    Ext.define('mh.module.dataView.desktop.users.Catalogue', {
+        extend: 'mh.module.dataView.desktop.linksPicker',
     
         xtype: 'mh-userscatalogue',
 
         requires: [
-            'mh.module.dataView.users.CatalogueController'
+            'mh.module.dataView.desktop.users.CatalogueController'
         ],
 
         controller: 'mh-userscatalogue',

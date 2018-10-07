@@ -1,0 +1,23 @@
+//Disable some of the JSLint warnings
+/*global window,console,Ext*/
+(function(){
+    //Make sure strict mode is on
+    'use strict';
+
+    Ext.define('mh.module.dataView.desktop.orgUsers.Icons', {
+        singleton: true,
+        requires: [
+            'mh.FontIconsDictionary'
+        ],
+        constructor: function(){
+            mh.FontIconsDictionary.addIcons({
+                mhOrgUsersAdd: 'x-li li-user-plus',
+                mhOrgUsersAddOwnUser: 'x-i54 i54-home',
+                mhOrgUsersAddExtUser: 'x-i54 i54-searching-group',
+                mhOrgUsersOwnUser: 'x-i54 i54-home i54-lg',
+                mhOrgUsersExtUser: 'x-i54 i54-global i54-lg'
+            });
+        }
+    });
+    
+}());

@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.UsersController', {
+    Ext.define('mh.module.dataView.desktop.users.UsersController', {
         extend: 'mh.module.dataView.DataViewBaseController',
         alias: 'controller.mh-users',
 
         requires: [
-            'mh.module.dataView.users.UsersLocalization'
+            'mh.module.dataView.desktop.users.UsersLocalization'
         ],
 
         mixins: [

@@ -7,20 +7,20 @@
     /**
      * Very similar to bindable grid, but provides some common functionality for managing object links
      */
-    Ext.define('mh.module.dataView.LinksGrid', {
+    Ext.define('mh.module.dataView.desktop.linksGrid', {
 
         extend: 'Ext.grid.Panel',
 
-        xtype: 'mh-links-grid',
+        xtype: 'mh-desktop-links-grid',
 
     requires: [
         'Ext.button.Button',
         'Ext.grid.plugin.DragDrop',
         'mh.mixin.ApiMap',
-        'mh.module.dataView.LinksGridController'
+        'mh.module.dataView.desktop.linksGridController'
     ],
 
-    controller: 'mh-links-grid',
+    controller: 'mh-desktop-links-grid',
 
         viewConfig: {
             plugins: {

@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.LinksPickerLocalization', {
+    Ext.define('mh.module.dataView.desktop.linksPickerLocalization', {
         requires: [
             'mh.localization.Localization'
         ],

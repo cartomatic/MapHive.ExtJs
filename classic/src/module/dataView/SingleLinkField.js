@@ -8,9 +8,9 @@
     Ext.define('mh.module.dataView.SingleLinkField', {
         extend: 'Ext.form.FieldContainer',
     
-        xtype: 'mh-links-single-field',
+        xtype: 'mh-desktop-links-single-field',
 
-        controller: 'mh-links-single-field',
+        controller: 'mh-desktop-links-single-field',
 
     requires: [
         'mh.mixin.ApiMap',
