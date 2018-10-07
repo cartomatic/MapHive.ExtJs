@@ -15,7 +15,8 @@
         mixins: [
             'mh.mixin.CallMeParent',
             'mh.module.dataView.RecordLoader',
-            'mh.mixin.ResponseValidationErrorReader'
+            'mh.mixin.ResponseValidationErrorReader',
+            'mh.module.dataView.desktop.RecordViewSharedController'
         ],
 
         init: function(){
@@ -25,14 +26,12 @@
         },
 
         /**
-         * handles view initialization setup - this is where the screens cfg gets processed
-         * @param vw
-         * @param eOpts
+         * sets a record to be bound on the view model
+         * @param id
          */
-        onViewInitialize: function(vw, eOpts){
-            vw.lookup('tabPanel').add(vw.getScreens());
-
-            this.configureActionBtns();
+        loadRecord: function(id, route) {
+            this.rewindToFirstView();
+            this.callMeParent(arguments);
         },
 
         /**
