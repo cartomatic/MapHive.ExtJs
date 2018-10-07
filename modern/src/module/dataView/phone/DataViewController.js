@@ -161,7 +161,35 @@
                 Ext.getClassName(this.getViewModel().getStore('listviewstore').getModel())
             );
 
-            this.redirectTo(model.getCreateUrl());
+            this.redirectTo(this.getRecCreateUrl(model));
+        },
+
+        /**
+         * gets a view url for a record
+         * @template
+         * @param rec
+         */
+        getRecViewUrl: function(rec){
+            return rec.getViewUrl();
+        },
+
+        /**
+         * returns edit url for a rec
+         * @template
+         * @param rec
+         * @returns {*|string}
+         */
+        getRecEditUrl: function(rec){
+            return rec.getEditUrl();
+        },
+
+        /**
+         * returns a create url for a rec
+         * @param rec
+         * @template
+         */
+        getRecCreateUrl: function(rec){
+            return rec.getCreateUrl();
         }
     });
 }());

@@ -75,7 +75,17 @@
          * edit btn tap handler - redirects to an edit url, router will show whatever view is needed
          */
         onBtnEditTap: function() {
-            this.redirectTo(this.getViewModel().get('record').getEditUrl());
+            this.redirectTo(this.getRecEditUrl(this.getViewModel().get('record')));
+        },
+
+        /**
+         * returns edit url for a rec
+         * @template
+         * @param rec
+         * @returns {*|string}
+         */
+        getRecEditUrl: function(rec){
+            return rec.getEditUrl();
         },
 
         /**
