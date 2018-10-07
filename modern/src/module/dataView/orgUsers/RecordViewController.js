@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.orgUsers.RecordViewController', {
-        extend: 'mh.module.dataView.RecordViewController',
+        extend: 'mh.module.dataView.RecordViewDesktopController',
         alias: 'controller.mh-org-users-record-view',
 
         requires: [

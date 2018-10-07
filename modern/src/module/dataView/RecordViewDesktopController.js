@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.RecordViewController', {
+    Ext.define('mh.module.dataView.RecordViewDesktopController', {
         extend: 'mh.module.dataView.RecordViewSharedController',
-        alias: 'controller.mh-record-view',
+        alias: 'controller.mh-record-view-desktop',
 
         requires: [
             'Ext.History',
@@ -26,10 +26,10 @@
          * controllers init
          */
         init: function(){
-            this.callMeParent(arguments);
-
             //when view kicks in, make sure to add its items
             this.getView().on('initialize', this.onViewInitialize, this);
+
+            this.callMeParent(arguments);
         },
 
         /**

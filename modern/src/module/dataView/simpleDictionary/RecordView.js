@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.simpleDictionary.RecordView', {
-        extend: 'mh.module.dataView.RecordView',
+        extend: 'mh.module.dataView.RecordViewDesktop',
 
         requires: [
             'Ext.layout.VBox',

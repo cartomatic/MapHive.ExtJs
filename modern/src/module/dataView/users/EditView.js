@@ -5,7 +5,7 @@
     'use strict'
     
     Ext.define('mh.module.dataView.users.EditView', {
-        extend: 'mh.module.dataView.EditView',
+        extend: 'mh.module.dataView.EditViewDesktop',
 
     requires: [
         'Ext.field.Text',

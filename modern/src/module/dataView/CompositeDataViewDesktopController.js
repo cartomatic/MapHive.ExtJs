@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict'
     
-    Ext.define('mh.module.dataView.CompositeDataViewController', {
+    Ext.define('mh.module.dataView.CompositeDataViewDesktopController', {
         extend: 'Ext.app.ViewController',
 
         alias: 'controller.mh-composite-dataview',

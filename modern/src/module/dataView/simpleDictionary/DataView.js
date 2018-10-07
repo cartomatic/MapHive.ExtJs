@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.simpleDictionary.DataView', {
-        extend: 'mh.module.dataView.DataView',
+        extend: 'mh.module.dataView.DataViewDesktop',
 
         requires: [
             'mh.module.dataView.simpleDictionary.Icons',
@@ -50,7 +50,7 @@
         },
 
         gridCfg: {
-            xtype: 'mh-data-view-grid',
+            xtype:'mh-data-view-grid-desktop',
             columns: [
                 {
                     bind: {

@@ -5,7 +5,7 @@
     'use strict'
     
     Ext.define('mh.module.dataView.users.EditViewController', {
-        extend: 'mh.module.dataView.EditViewController',
+        extend: 'mh.module.dataView.EditViewDesktopController',
         alias: 'controller.mh-users-edit-view',
 
         requires: [

@@ -39,7 +39,7 @@
             title: '{localization.viewName}'
         },
         gridCfg: {
-            xtype: 'mh-data-view-grid',
+            xtype:'mh-data-view-grid-desktop',
             columns: [
                 {
                     bind: {
