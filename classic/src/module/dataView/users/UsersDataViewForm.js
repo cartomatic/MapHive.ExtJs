@@ -4,10 +4,10 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.UsersDataViewForm', {
+    Ext.define('mh.module.dataView.desktop.users.UsersDataViewForm', {
         extend: 'Ext.container.Container',
     
-        xtype: 'mh-users-data-view-form',
+        xtype: 'mh-desktop-users-data-view-form',
 
     requires: [
         'Ext.form.field.Checkbox',
@@ -16,7 +16,7 @@
         'Ext.layout.container.Form',
         'Ext.layout.container.VBox',
         'mh.mixin.ApiMap',
-        'mh.module.dataView.LinksGrid'
+        'mh.module.dataView.desktop.linksGrid'
     ],
 
     layout: {

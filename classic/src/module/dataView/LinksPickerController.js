@@ -4,13 +4,13 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.LinksPickerController', {
+    Ext.define('mh.module.dataView.desktop.linksPickerController', {
 
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-links-picker',
+        alias: 'controller.mh-desktop-links-picker',
 
         requires: [
-            'mh.module.dataView.LinksPickerLocalization'
+            'mh.module.dataView.desktop.linksPickerLocalization'
         ],
 
         mixins: [

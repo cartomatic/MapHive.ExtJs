@@ -7,11 +7,11 @@
      */
     Ext.define('mh.module.dataView.SingleLinkFieldController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-links-single-field',
+        alias: 'controller.mh-desktop-links-single-field',
 
     requires: [
         'mh.data.model.Base',
-        'mh.module.dataView.LinksPicker',
+        'mh.module.dataView.desktop.linksPicker',
         'mh.module.dataView.SingleLinkFieldLocalization'
     ],
 
@@ -197,7 +197,7 @@
         onBtnSetLinkClick: function(btn){
 
             if(!this.linksPicker){
-                this.linksPicker = Ext.create('mh.module.dataView.LinksPicker', {
+                this.linksPicker = Ext.create('mh.module.dataView.desktop.linksPicker', {
                     animateTarget: btn
                 });
 

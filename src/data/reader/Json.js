@@ -44,7 +44,7 @@
 
                 //grab the response header and set a total property based on it;
                 //this sets a property on the actual output object though!
-                var total = response.getResponseHeader(this.getMhCfgProperty('headerTotal'));
+                var total = response.getResponseHeader(this.getmhCfgProperty('headerTotal'));
                 if(total !== undefined){
                     total = parseInt(total);
                     if(!isNaN(total)){

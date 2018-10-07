@@ -32,8 +32,8 @@
          */
         constructor: function(){
             //suck in server supplied translations
-            this.defaultLangCode = this.getMhCfgProperty('defaultLangCode') || this.defaultLangCode;
-            this.langCode = this.getMhCfgProperty('langCode') || this.defaultLangCode;
+            this.defaultLangCode = this.getmhCfgProperty('defaultLangCode') || this.defaultLangCode;
+            this.langCode = this.getmhCfgProperty('langCode') || this.defaultLangCode;
 
             //translations are injected via separate script
             if(typeof __mhcfg__ === 'undefined'){

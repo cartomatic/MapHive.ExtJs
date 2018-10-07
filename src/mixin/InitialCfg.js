@@ -17,9 +17,9 @@
          * @param pName
          * @returns {*|null}
          */
-        getMhCfgProperty: function(pName){
+        getmhCfgProperty: function(pName){
             if(!initialCfg){
-                this.extractInitialMhCfg();
+                this.extractInitialmhCfg();
             }
 
             return initialCfg[pName] || null;
@@ -28,7 +28,7 @@
         /**
          * Extracts the initial MH cfg of the global scope
          */
-        extractInitialMhCfg: function () {
+        extractInitialmhCfg: function () {
             if(typeof __mhcfg__ !== 'undefined'){
                 initialCfg = Ext.clone(__mhcfg__);
             }

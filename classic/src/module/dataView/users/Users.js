@@ -4,16 +4,16 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.Users', {
+    Ext.define('mh.module.dataView.desktop.users.Users', {
         extend: 'mh.module.dataView.DataViewBase',
 
         requires: [
             'Ext.grid.Panel',
             'Ext.grid.filters.Filters',
-            'mh.module.dataView.users.UsersDataViewForm',
-            'mh.module.dataView.users.UsersDataEditForm',
-            'mh.module.dataView.users.UsersController',
-            'mh.module.dataView.users.UsersModel'
+            'mh.module.dataView.desktop.users.UsersDataViewForm',
+            'mh.module.dataView.desktop.users.UsersDataEditForm',
+            'mh.module.dataView.desktop.users.UsersController',
+            'mh.module.dataView.desktop.users.UsersModel'
         ],
 
         xtype: 'mh-users',
@@ -62,9 +62,9 @@
             }
         },
         gridIconCls: 'x-li li-users2',
-        form: 'mh.module.dataView.users.UsersDataViewForm',
+        form: 'mh.module.dataView.desktop.users.UsersDataViewForm',
         //formWidth: 300,
-        editForm: 'mh.module.dataView.users.UsersDataEditForm'
+        editForm: 'mh.module.dataView.desktop.users.UsersDataEditForm'
     });
 
 }());

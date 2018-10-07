@@ -15,7 +15,7 @@
             if(!regex) {
 
                 //Note: creating Ext class instance as we're outside of a class instance here!
-                allowedOrigins = Ext.create('mh.mixin.InitialCfg').getMhCfgProperty('allowedXWindowMsgBusOrigins') || [];
+                allowedOrigins = Ext.create('mh.mixin.InitialCfg').getmhCfgProperty('allowedXWindowMsgBusOrigins') || [];
 
                 //original regex comes from here: http://stackoverflow.com/questions/17236901/regex-to-validate-a-url-using-a-wildcard, http://www.debuggex.com/r/xOD3eBBPYnQq8Rb9
                 //^((\*|[\w\d]+(-[\w\d]+)*)\.)*(example|test)(\.com)$

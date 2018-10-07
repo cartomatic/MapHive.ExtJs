@@ -6,8 +6,8 @@
     /**
      * Created by domin on 02.03.2017.
      */
-    Ext.define('mh.module.dataView.users.CatalogueUsersModel', {
-        extend: 'mh.module.dataView.users.UsersModel',
+    Ext.define('mh.module.dataView.desktop.users.CatalogueUsersModel', {
+        extend: 'mh.module.dataView.desktop.users.UsersModel',
         alias: 'viewmodel.mh-catalogueusers',
     
         stores: {

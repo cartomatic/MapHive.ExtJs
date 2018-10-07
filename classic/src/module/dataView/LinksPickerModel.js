@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.LinksPickerModel', {
+    Ext.define('mh.module.dataView.desktop.linksPickerModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-links-picker'
+        alias: 'viewmodel.mh-desktop-links-picker'
     });
 
 }());

@@ -5,14 +5,14 @@
     /**
      * Created by domin on 28.02.2017.
      */
-    Ext.define('mh.module.dataView.users.CatalogueController', {
-        extend: 'mh.module.dataView.LinksPickerController',
+    Ext.define('mh.module.dataView.desktop.users.CatalogueController', {
+        extend: 'mh.module.dataView.desktop.linksPickerController',
         alias: 'controller.mh-userscatalogue',
 
     requires: [
-        'mh.module.dataView.users.CatalogueLocalization',
-        'mh.module.dataView.users.CatalogueUsersModel',
-        'mh.module.dataView.users.Users'
+        'mh.module.dataView.desktop.users.CatalogueLocalization',
+        'mh.module.dataView.desktop.users.CatalogueUsersModel',
+        'mh.module.dataView.desktop.users.Users'
     ],
 
     mixins: [
@@ -25,7 +25,7 @@
         init: function() {
             this.callMeParent('init', arguments);
 
-            var usersView = Ext.create('mh.module.dataView.users.Users', {
+            var usersView = Ext.create('mh.module.dataView.desktop.users.Users', {
                 selMode: 'SINGLE', //<- just one user at a time
                 hideGridHeader: true,
                 hideFormHeader: true,

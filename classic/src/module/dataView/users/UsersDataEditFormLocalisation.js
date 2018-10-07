@@ -4,14 +4,14 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.users.UsersDataEditFormLocalization', {
+    Ext.define('mh.module.dataView.desktop.users.UsersDataEditFormLocalization', {
 
         requires: [
             'mh.localization.Localization',
-            'mh.module.dataView.users.UsersLocalization'
+            'mh.module.dataView.desktop.users.UsersLocalization'
         ],
         statics: {
-            inherits: 'mh.module.dataView.users.UsersLocalization',
+            inherits: 'mh.module.dataView.desktop.users.UsersLocalization',
             localization: {}
         }
 

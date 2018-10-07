@@ -4,12 +4,12 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.UsersDataEditFormController', {
+    Ext.define('mh.module.dataView.desktop.users.UsersDataEditFormController', {
         extend: 'mh.module.dataView.GenericEditFormController',
-        alias: 'controller.mh-users-data-edit-form',
+        alias: 'controller.mh-desktop-users-data-edit-form',
 
         requires: [
-            'mh.module.dataView.users.UsersDataEditFormLocalization'
+            'mh.module.dataView.desktop.users.UsersDataEditFormLocalization'
         ],
 
         mixins: [

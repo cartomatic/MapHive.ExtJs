@@ -150,8 +150,8 @@
                 'Accept': 'application/json,text/html,application/xhtml+xml,application/xml;*/*'
             };
             //some custom headers
-            headers[this.getMhCfgProperty('headerLang')] = mh.localization.Localization.langCode;
-            headers[this.getMhCfgProperty('headerSource')] = window.location.href;
+            headers[this.getmhCfgProperty('headerLang')] = mh.localization.Localization.langCode;
+            headers[this.getmhCfgProperty('headerSource')] = window.location.href;
 
             //only add the auth header if present, skip it otherwise
             if (authorizationHeader !== null) {

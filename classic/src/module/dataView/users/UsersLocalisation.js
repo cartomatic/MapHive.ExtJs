@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.UsersLocalization', {
+    Ext.define('mh.module.dataView.desktop.users.UsersLocalization', {
 
         requires: [
             'mh.localization.Localization',

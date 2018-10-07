@@ -226,9 +226,9 @@
          * Sets up hash param names, based on the initial config output by the app entry point (aspx, etc)
          */
         setUpHashParams: function(){
-            var appHashProperties = this.getMhCfgProperty('appHashProperties'),
-                hashPropertyDelimiter = this.getMhCfgProperty('hashPropertyDelimiter'),
-                hashPropertyValueDelimiter = this.getMhCfgProperty('hashPropertyValueDelimiter');
+            var appHashProperties = this.getmhCfgProperty('appHashProperties'),
+                hashPropertyDelimiter = this.getmhCfgProperty('hashPropertyDelimiter'),
+                hashPropertyValueDelimiter = this.getmhCfgProperty('hashPropertyValueDelimiter');
 
             if(appHashProperties){
                 //Not used anymore - app ends up in the url as !appNameOrUuid and the actual route does not have the prefix anymore
@@ -385,7 +385,7 @@
         appRequiresAuth: function(){
 
             var requiresAuth = false,
-                appIdentifiers = this.getMhCfgProperty('authRequiredAppIdentifiers') || [],
+                appIdentifiers = this.getmhCfgProperty('authRequiredAppIdentifiers') || [],
                 ai = 0, ailen = appIdentifiers.length,
 
                 //initially assume HOST mode, so the app should be specified in the url

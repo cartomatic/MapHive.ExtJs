@@ -4,9 +4,9 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.users.UsersDataEditFormModel', {
+    Ext.define('mh.module.dataView.desktop.users.UsersDataEditFormModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-users-data-edit-form',
+        alias: 'viewmodel.mh-desktop-users-data-edit-form',
 
     requires: [
         'mh.data.dictionaries.OrganizationRoles'
