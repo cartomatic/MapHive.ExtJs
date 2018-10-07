@@ -28,7 +28,7 @@
         loadRecord: function(id, route){
 
             var titleDict = Ext.getClass(this.getView()).titles,
-                routeKey  = (route ? this. getDataRouteViewTypeForRoute(route) : this.getDataRouteViewTypeForCurrentRoute() || '').toLowerCase(),
+                routeKey  = (route ? this.getDataRouteViewTypeForRoute(route) : this.getDataRouteViewTypeForCurrentRoute() || '').toLowerCase(),
                 title = titleDict[routeKey] || this.getTranslation('genericViewName'),
                 iconsDict = Ext.getClass(this.getView()).icons,
                 iconCls = iconsDict[routeKey] || mh.FontIconsDictionary.getIcon('mhDictionariesViewHeader');

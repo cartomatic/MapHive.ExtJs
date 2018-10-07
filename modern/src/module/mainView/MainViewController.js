@@ -69,8 +69,13 @@
          * global 'route::register' evt handler
          * @param route
          */
-        onRouteRegister: function(route){
-            this.registerRoute(route.route, route.type);
+        onRouteRegister: function(routes){
+            if(!Ext.isArray(routes)){
+                routes = [routes];
+            }
+            Ext.Array.each(routes, function(route){
+                this.registerRoute(route.route, route.type);
+            }, this);
         },
 
         /**
@@ -93,25 +98,9 @@
 
         /**
          * handles navigation route - creates a view for it and displays it. returns a navigation route rec and view
+         * @param routeParams
          */
-        handleNavigationRoute: function(type, args) {
-
-            //make sure to ignore routes that are also matched by the data routes.
-            //this is to catter for scenarios, where both - nav route and data route have the same core:
-            //projects
-            //projects/uuid
-            //projects/uuid/create
-            //such routes look more rest like and in some scenarios may be preferred over singular / plural differentiation
-            //projects
-            //project/uuid
-            //project/uuid/create
-            if(this.currentRouteIsDataRoute()){
-                return;
-            }
-
-            //<debug>
-            console.warn(consoleHdr, 'handling nav route: ', type, args);
-            //</debug>
+        handleNavigationRoute: function(routeParams) {
 
             //properly handle MODAL MODE!
             if (this.getModalModeActive()) {
@@ -142,7 +131,7 @@
                     fn: function(msgBtn){
                         if(msgBtn === 'ok'){
                             me.endDirtyMode(true); //waive off dirty mode, as a user decided a view is about to change; true to suppress the default route restore
-                            me.handleNavigationRouteInternal(type, args);
+                            me.handleNavigationRouteInternal(routeParams);
                         }
                         else {
                             window.location.hash = me.getDirtyModeRouteSnapshot();
@@ -153,38 +142,118 @@
                 return;
             }
 
-            this.handleNavigationRouteInternal(type, args);
+            this.handleNavigationRouteInternal(routeParams);
         },
 
         /**
          * handles nav route
-         * @param type
-         * @param args
+         * @param routeParams
          * @returns {*}
          */
-        handleNavigationRouteInternal: function(type, args){
-            var registeredRouteRec = this.getNavViewRouteRecFromRouteParams(type, args);
+        handleNavigationRouteInternal: function(routeParams){
+            var registeredRouteRec = this.getNavViewRouteRecFromRouteParams(routeParams),
+                xtype;
 
             //no route rec, for the hash, so no such route...
             if (!registeredRouteRec) {
                 return null;
             }
 
+            xtype = registeredRouteRec.get('xtype');
+
             //<debug>
-            console.log(consoleHdr, 'type from route:', type);
-            console.log(consoleHdr, 'xtype:', registeredRouteRec.get('xtype'));
-            console.log(consoleHdr, 'className:', Ext.getClassName(Ext.ClassManager.getByAlias('widget.' + registeredRouteRec.get('xtype'))));
+            console.log(consoleHdr, 'xtype:', xtype);
+            console.log(consoleHdr, 'className:', Ext.getClassName(Ext.ClassManager.getByAlias('widget.' + xtype)));
             //</debug>
 
             var view = this.activate(
-                this.ensureView(type, {
-                    xtype: registeredRouteRec.get('xtype')
-                }, args));
+                this.ensureView(xtype, {
+                    xtype: xtype
+                }));
 
             return {
                 registeredRouteRec: registeredRouteRec,
                 view: view
             };
+        },
+
+        /**
+         * handles data route - route that handles a record by id
+         * @param routeParams
+         */
+        handleDataRoute: function(routeParams) {
+
+            //properly handle MODAL MODE!
+            if (this.getModalModeActive()) {
+
+                //<debug>
+                console.log(consoleHdr, 'prevented route adjustment - modal mode active!');
+                //</debug>
+
+                window.location.hash = this.getModalModeRouteSnapshot();
+                return;
+            }
+
+            //properly handle DIRTY MODE
+            if (this.getDirtyModeActive()) {
+                //<debug>
+                console.log(consoleHdr, 'prevented route adjustment - DIRTY mode active!');
+                //</debug>
+
+                var me = this;
+
+                //show msg!
+                Ext.Msg.show({
+                    title: me.getDirtyModeTitle(),
+                    message: me.getDirtyModeMsg(),
+                    width: 300,
+                    buttons: Ext.MessageBox.OKCANCEL,
+                    icon: Ext.MessageBox.WARNING,
+                    fn: function(msgBtn){
+                        if(msgBtn === 'ok'){
+                            me.endDirtyMode(true); //waive off dirty mode, as a user decided a view is about to change; true to suppress the default route restore
+                            me.handleDataRouteInternal(routeParams);
+                        }
+                        else {
+                            window.location.hash = me.getDirtyModeRouteSnapshot();
+                        }
+                    }
+                });
+
+                return;
+            }
+
+            this.handleDataRouteInternal(routeParams);
+        },
+
+        /**
+         * handles data route
+         * @param routeParams
+         */
+        handleDataRouteInternal: function(routeParams){
+
+            var xtype = this.getDataViewXtypeFromRouteParams(routeParams),
+                view;
+
+            try{
+                //using xtype as id, as edit/view/create will have the same type! also, sometimes dataview can have the same type too
+                //a type in this sceario is the main route key, for example 'users', 'applications', etc.
+                view = this.ensureView(xtype, { xtype: xtype });
+
+                //<debug>
+                console.log(consoleHdr, 'xtype:', xtype);
+                console.log(consoleHdr, 'className:', Ext.ClassManager.getName(view));
+                //</debug>
+
+                this.activate(view);
+
+                //wtf this does not kick in even though it is exposed ???
+                //view.loadRecord(id);
+                view.getController().loadRecord(this.getDataRouteRecordIdFromRouteParams(routeParams));
+            }
+            catch (e) {
+                this.logErr(e, 'Invalid route: no view for xtype: ' + xtype);
+            }
         },
 
         /**
@@ -222,10 +291,9 @@
          * ensures a view is instantiated
          * @param id
          * @param config
-         * @param route
          * @returns {*}
          */
-        ensureView: function(id, config, route) {
+        ensureView: function(id, config) {
 
             var container = this.getView(),
                 //search items by xtype or id; when found, item will be reused as it has already been instantiated
@@ -262,97 +330,6 @@
             console.error(e.message, e);
             console.log('-----------------------------------------------------------------------------');
             //</debug>
-        },
-
-        /**
-         * handles data route - route that handles a record by id
-         * @param type
-         * @param id
-         * @param args
-         */
-        handleDataRoute: function(type, id, routeArgs) {
-
-            //<debug>
-            console.warn(consoleHdr, 'handling data route: ', type, routeArgs);
-            //</debug>
-
-            //properly handle MODAL MODE!
-            if (this.getModalModeActive()) {
-
-                //<debug>
-                console.log(consoleHdr, 'prevented route adjustment - modal mode active!');
-                //</debug>
-
-                window.location.hash = this.getModalModeRouteSnapshot();
-                return;
-            }
-
-            //properly handle DIRTY MODE
-            if (this.getDirtyModeActive()) {
-                //<debug>
-                console.log(consoleHdr, 'prevented route adjustment - DIRTY mode active!');
-                //</debug>
-
-                var me = this;
-
-                //show msg!
-                Ext.Msg.show({
-                    title: me.getDirtyModeTitle(),
-                    message: me.getDirtyModeMsg(),
-                    width: 300,
-                    buttons: Ext.MessageBox.OKCANCEL,
-                    icon: Ext.MessageBox.WARNING,
-                    fn: function(msgBtn){
-                        if(msgBtn === 'ok'){
-                            me.endDirtyMode(true); //waive off dirty mode, as a user decided a view is about to change; true to suppress the default route restore
-                            me.handleDataRouteInternal(type, id, routeArgs);
-                        }
-                        else {
-                            window.location.hash = me.getDirtyModeRouteSnapshot();
-                        }
-                    }
-                });
-
-                return;
-            }
-
-            this.handleDataRouteInternal(type, id, routeArgs);
-        },
-
-        /**
-         * handles data route
-         * @param type
-         * @param id
-         * @param routeArgs
-         */
-        handleDataRouteInternal: function(type, id, routeArgs){
-            // determine the requested action for the given "type":
-            // - #{type}/create: create a new "type"
-            // - #{type}/{id}: show record with "id"
-            // - #{type}/{id}/edit: edit record with "id"
-            var xtype = this.getDataViewXtypeFromRouteParams(type, id, routeArgs),
-                view;
-
-            try{
-                //using xtype as id, as edit/view/create will have the same type! also, sometimes dataview can have the same type too
-                //a type in this sceario is the main route key, for example 'users', 'applications', etc.
-                view = this.ensureView(xtype, { xtype: xtype });
-
-                //<debug>
-                console.log(consoleHdr, 'type from route:', type);
-                console.log(consoleHdr, 'xtype:', xtype);
-                console.log(consoleHdr, 'className:', Ext.ClassManager.getName(view));
-                //</debug>
-
-                this.activate(view);
-
-                //wtf this does not kick in even though it is exposed ???
-                //view.loadRecord(id);
-                view.getController().loadRecord(id);
-            }
-            catch (e) {
-                this.logErr(e, 'Invalid route: no view for xtype: ' + xtype);
-            }
         }
 
     });
