@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.users.DataViewController', {
-        extend: 'mh.module.dataView.DataViewController',
+        extend: 'mh.module.dataView.DataViewDesktopController',
         alias: 'controller.mh-users-data-view',
 
         requires: [

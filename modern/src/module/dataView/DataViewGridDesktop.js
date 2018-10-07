@@ -7,10 +7,10 @@
     /**
      * base configuration for a dataview grid
      */
-    Ext.define('mh.module.dataView.DataViewGrid', {
+    Ext.define('mh.module.dataView.DataViewGridDesktop', {
         extend: 'Ext.grid.Grid',
 
-        xtype: 'mh-data-view-grid',
+        xtype:'mh-data-view-grid-desktop',
 
         reference: 'dataviewgrid',
 

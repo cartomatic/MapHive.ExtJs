@@ -4,19 +4,19 @@
     //Make sure strict mode is on
 
     'use strict';
-    Ext.define('mh.module.dataView.EditView', {
-        extend: 'mh.module.dataView.RecordView',
+    Ext.define('mh.module.dataView.EditViewDesktop', {
+        extend: 'mh.module.dataView.RecordViewDesktop',
 
         requires: [
             'Ext.layout.Fit',
             'Ext.tab.Panel',
             'mh.FontIconsDictionary',
             'mh.module.dataView.EditViewModel',
-            'mh.module.dataView.EditViewController',
+            'mh.module.dataView.EditViewDesktopController',
             'mh.module.dataView.Icons'
         ],
 
-        controller: 'mh-edit-view',
+        controller: 'mh-edit-view-desktop',
 
         viewModel: {
             type: 'mh-edit-view'

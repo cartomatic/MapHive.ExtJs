@@ -5,7 +5,7 @@
     'use strict';
 
     Ext.define('mh.module.dataView.simpleDictionary.DataViewController', {
-        extend: 'mh.module.dataView.DataViewController',
+        extend: 'mh.module.dataView.DataViewDesktopController',
         alias: 'controller.mh-simple-dictionary-data-view',
 
         requires: [

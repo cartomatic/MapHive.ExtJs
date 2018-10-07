@@ -7,14 +7,14 @@
     /**
      * composite data view for showing more than one view in one screen
      */
-    Ext.define('mh.module.dataView.CompositeDataView', {
+    Ext.define('mh.module.dataView.CompositeDataViewDesktop', {
 
         extend: 'Ext.TabPanel',
 
-        xtype: 'mh-composite-dataview',
+        xtype: 'mh-composite-data-view-desktop',
 
         requires: [
-            'mh.module.dataView.CompositeDataViewController'
+            'mh.module.dataView.CompositeDataViewDesktopController'
         ],
 
         controller: 'mh-composite-dataview',

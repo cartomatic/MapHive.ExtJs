@@ -7,11 +7,11 @@
     /**
      * a generic toolbar for data views
      */
-    Ext.define('mh.module.dataView.DataViewToolbar', {
+    Ext.define('mh.module.dataView.DataViewToolbarDesktop', {
 
         extend: 'Ext.Toolbar',
 
-        xtype: 'mh-data-view-toolbar',
+        xtype: 'mh-data-view-toolbar-desktop',
 
         requires: [
             'mh.FontIconsDictionary',

@@ -3,9 +3,9 @@
 (function(){
     //Make sure strict mode is on
     'use strict';
-    Ext.define('mh.module.dataView.EditViewController', {
+    Ext.define('mh.module.dataView.EditViewDesktopController', {
         extend: 'mh.module.dataView.EditViewSharedController',
-        alias: 'controller.mh-edit-view',
+        alias: 'controller.mh-edit-view-desktop',
 
         requires: [
             'Ext.History',
@@ -19,7 +19,20 @@
         ],
 
         init: function(){
+            //when view kicks in, make sure to add its items
+            this.getView().on('initialize', this.onViewInitialize, this);
             this.callMeParent(arguments);
+        },
+
+        /**
+         * handles view initialization setup - this is where the screens cfg gets processed
+         * @param vw
+         * @param eOpts
+         */
+        onViewInitialize: function(vw, eOpts){
+            vw.lookup('tabPanel').add(vw.getScreens());
+
+            this.configureActionBtns();
         },
 
         /**

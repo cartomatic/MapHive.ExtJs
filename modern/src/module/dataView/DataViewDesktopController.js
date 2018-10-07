@@ -7,7 +7,7 @@
     /**
      * controls the generic data view behavior - filtering, sorting, reloading and such
      */
-    Ext.define('mh.module.dataView.DataViewController', {
+    Ext.define('mh.module.dataView.DataViewDesktopController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-data-view',
 

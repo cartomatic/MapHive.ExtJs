@@ -7,21 +7,21 @@
     /**
      * generic data view skeleton
      */
-    Ext.define('mh.module.dataView.DataView', {
+    Ext.define('mh.module.dataView.DataViewDesktop', {
 
         extend: 'Ext.Panel',
-        xtype: 'mh-data-view',
+        xtype: 'mh-data-view-desktop',
 
         requires: [
             'Ext.layout.Fit',
-            'mh.module.dataView.DataViewController',
-            'mh.module.dataView.DataViewGrid',
+            'mh.module.dataView.DataViewDesktopController',
+            'mh.module.dataView.DataViewGridDesktop',
             'mh.module.dataView.DataViewModel',
-            'mh.module.dataView.DataViewToolbar',
+            'mh.module.dataView.DataViewToolbarDesktop',
             'mh.module.dataView.Icons'
         ],
 
-        controller: 'mh-data-view',
+        controller: 'mh-data-view-desktop',
 
         viewModel: {
             type: 'mh-data-view'
@@ -92,7 +92,7 @@
         layout: 'fit',
 
         tbar: {
-            xtype: 'mh-data-view-toolbar'
+            xtype: 'mh-data-view-toolbar-desktop'
         },
 
         listeners: {
