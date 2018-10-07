@@ -3,8 +3,8 @@
 (function(){
     //Make sure strict mode is on
     'use strict';
-    Ext.define('mh.module.dataView.EditViewSharedController', {
-        extend: 'mh.module.dataView.RecordViewSharedController',
+    Ext.define('mh.module.dataView.EditViewController', {
+        extend: 'mh.module.dataView.RecordViewController',
 
         requires: [
             'Ext.History',

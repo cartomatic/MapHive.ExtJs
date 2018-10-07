@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
     Ext.define('mh.module.dataView.phone.EditViewController', {
-        extend: 'mh.module.dataView.EditViewSharedController',
+        extend: 'mh.module.dataView.EditViewController',
         alias: 'controller.mh-mobile-edit-view',
 
         requires: [
