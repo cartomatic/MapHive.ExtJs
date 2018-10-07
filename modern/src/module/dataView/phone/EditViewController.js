@@ -3,9 +3,9 @@
 (function(){
     //Make sure strict mode is on
     'use strict';
-    Ext.define('mh.module.dataView.EditViewMobileController', {
+    Ext.define('mh.module.dataView.phone.EditViewController', {
         extend: 'mh.module.dataView.EditViewSharedController',
-        alias: 'controller.mh-edit-view-mobile',
+        alias: 'controller.mh-mobile-edit-view',
 
         requires: [
             'Ext.History',
@@ -15,7 +15,8 @@
         mixins: [
             'mh.mixin.CallMeParent',
             'mh.module.dataView.RecordLoader',
-            'mh.mixin.ResponseValidationErrorReader'
+            'mh.mixin.ResponseValidationErrorReader',
+            'mh.module.dataView.phone.RecordViewSharedController'
         ],
 
         init: function(){
@@ -55,6 +56,7 @@
                 });
             }
         },
+
         /**
          * Provides a hook into a validation logic for the handled form; by default always returns true.
          * When invalid either a msg or a collection of msgs should be returned; alternatively can return false, so an editor displays its default msg
@@ -124,21 +126,6 @@
             else if(this.btnSave) {
                 this.btnSave.hide();
             }
-        },
-
-        /**
-         * whether or not the view is currently active
-         */
-        isActive: false,
-
-        onViewActivate: function() {
-            this.isActive = true;
-            this.handleFloatingBtnsVisibility();
-        },
-
-        onViewDeactivate: function(){
-            this.isActive = false;
-            this.handleFloatingBtnsVisibility();
         }
     });
 }());

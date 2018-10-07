@@ -7,12 +7,12 @@
     /**
      * Created by domin on 05.10.2018.
      */
-    Ext.define('mh.module.dataView.DataViewMobileController', {
+    Ext.define('mh.module.dataView.phone.DataViewController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-data-view-mobile',
+        alias: 'controller.mh-mobile-data-view',
 
         requires: [
-            'mh.module.dataView.DataViewMobileLocalization'
+            'mh.module.dataView.phone.DataViewLocalization'
         ],
 
         mixins: [

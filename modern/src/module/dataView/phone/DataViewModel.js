@@ -7,9 +7,9 @@
     /**
      * Created by domin on 05.10.2018.
      */
-    Ext.define('mh.module.dataView.DataViewMobileModel', {
+    Ext.define('mh.module.dataView.phone.DataViewModel', {
         extend: 'Ext.app.ViewModel',
-        alias: 'viewmodel.mh-data-view-mobile',
+        alias: 'viewmodel.mh-mobile-data-view',
     
         stores: {
             //need an empty store here, so it will not get published up the view model stack! also this cannot be null as store would fail to init

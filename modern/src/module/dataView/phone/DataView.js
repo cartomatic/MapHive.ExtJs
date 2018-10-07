@@ -7,19 +7,19 @@
     /**
      * basic list view cfg for mobile views
      */
-    Ext.define('mh.module.dataView.DataViewMobile', {
+    Ext.define('mh.module.dataView.phone.DataView', {
         extend: 'Ext.Panel',
 
-        xtype: 'mh-data-view-mobile',
+        xtype: 'mh-mobile-data-view',
 
         requires: [
-            'mh.module.dataView.DataViewMobileController',
-            'mh.module.dataView.DataViewMobileModel'
+            'mh.module.dataView.phone.DataViewController',
+            'mh.module.dataView.phone.DataViewModel'
         ],
 
-        controller: 'mh-data-view-mobile',
+        controller: 'mh-mobile-data-view',
         viewModel: {
-            type: 'mh-data-view-mobile'
+            type: 'mh-mobile-data-view'
         },
 
         header: false,

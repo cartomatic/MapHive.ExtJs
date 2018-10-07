@@ -4,17 +4,17 @@
     //Make sure strict mode is on
 
     'use strict';
-    Ext.define('mh.module.dataView.EditViewMobile', {
-        extend: 'mh.module.dataView.RecordViewMobile',
+    Ext.define('mh.module.dataView.phone.EditView', {
+        extend: 'mh.module.dataView.phone.RecordView',
 
         requires: [
             'mh.FontIconsDictionary',
             'mh.module.dataView.EditViewModel',
-            'mh.module.dataView.EditViewMobileController',
+            'mh.module.dataView.phone.EditViewController',
             'mh.module.dataView.Icons'
         ],
 
-        controller: 'mh-edit-view-mobile',
+        controller: 'mh-mobile-edit-view',
 
         viewModel: {
             type: 'mh-edit-view'

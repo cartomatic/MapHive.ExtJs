@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
     
-    Ext.define('mh.module.dataView.DataViewMobileLocalization', {
+    Ext.define('mh.module.dataView.phone.DataViewLocalization', {
         requires: [
             'mh.localization.Localization'
         ],
