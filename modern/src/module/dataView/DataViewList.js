@@ -9,7 +9,10 @@
      */
     Ext.define('mh.module.dataView.DataViewList', {
         extend: 'Ext.dataview.List',
-    
+
+        requires: [
+            'Ext.dataview.pullrefresh.PullRefresh'
+        ],
 
         xtype: 'mh-data-view-list',
 
