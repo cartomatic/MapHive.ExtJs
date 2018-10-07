@@ -16,18 +16,20 @@
             'mh.mixin.CallMeParent',
             'mh.module.dataView.RecordLoader',
             'mh.mixin.ResponseValidationErrorReader',
-            'mh.module.dataView.phone.RecordViewSharedController'
+            'mh.module.dataView.phone.RecordViewSharedController',
+            'mh.mixin.DirtyMode'
         ],
 
         init: function(){
             this.callMeParent(arguments);
-
             this.setUpActionBtns();
         },
 
         onRecordLoadSuccess: function(record){
             this.callMeParent(arguments);
             this.handleFloatingBtnsVisibility();
+            //mark self as clean
+            this.endDirtyMode();
         },
 
         /**
@@ -126,6 +128,13 @@
             else if(this.btnSave) {
                 this.btnSave.hide();
             }
+        },
+
+        cleanNClose: function(){
+            //mark self as clean
+            this.endDirtyMode();
+
+            this.callMeParent(arguments)
         }
     });
 }());
