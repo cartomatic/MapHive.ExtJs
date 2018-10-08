@@ -63,10 +63,18 @@
          */
         registerNavRoute: function(route){
 
+            //multiple routes supplied as an arr
             if(Ext.isArray(route)){
                 Ext.Array.each(route, function(r){
                     this.registerNavRoute(r);
                 },this);
+                return;
+            }
+            //routes supplied as an object
+            if(Ext.isObject(route)){
+                Ext.Array.each(Ext.Object.getKeys(route), function(k){
+                    this.registerNavRoute(route[k]);
+                }, this);
                 return;
             }
 
@@ -116,10 +124,18 @@
          */
         registerDataRoute: function(route){
 
+            //multiple routes supplied as an arr
             if(Ext.isArray(route)){
                 Ext.Array.each(route, function(r){
                     this.registerDataRoute(r);
                 },this);
+                return;
+            }
+            //routes supplied as an object
+            if(Ext.isObject(route)){
+                Ext.Array.each(Ext.Object.getKeys(route), function(k){
+                    this.registerDataRoute(route[k]);
+                }, this);
                 return;
             }
 
@@ -133,6 +149,8 @@
 
             var routeParts = route.split('/{id}/'),
                 routePatternLvls;
+
+            //FIXME: currently the nested types also use the same sub types as the less nested paths. this leads to false positive route recognitions - router does complain about not found routes where it should. This is ok for standard app nav, no so much when one starts tampering routes by hand
 
             Ext.Array.each(routeParts, function(rp, idx){
                 var lvl = idx + 1,
@@ -152,7 +170,7 @@
                 var conditions = {};
                 for(var l = 1; l <= lvl; l ++){
                     conditions[':type' + l] = '(' + this.registeredDataRoutesTypes['type' +l].join('|')  +')';
-                    conditions[':id' + l] = '([A-Za-z0-9-]{36}|create)' //'([A-Za-z0-9-]{36}|create|edit)'
+                    conditions[':id' + l] = '([A-Za-z0-9-]{36}' + (l < routePatternLvls ? '' : '|create') + ')' //'([A-Za-z0-9-]{36}|create|edit)'
                 }
                 conditions[ ':args'] = '(.*)';
 
@@ -356,16 +374,20 @@
          */
         routeIsDataRoute: function(route){
             var lvl = Ext.Object.getKeys(this.registeredDataRoutesTypes).length,
-                regex;
+                dataRouteRegex,
+                navRouteRegex;
 
+            //need to start testing from the deepest lvl - lower levels are more greed and would test positive for deeper routes
             for(lvl; lvl >= 1; lvl --){
-                regex = (Ext.route.Router.routes[this.getDataRoutePattern(lvl)] || {}).matcherRegex;
-                if(!regex){
-                    continue;
-                }
+                dataRouteRegex = (Ext.route.Router.routes[this.getDataRoutePattern(lvl)] || {}).matcherRegex;
+                navRouteRegex = (Ext.route.Router.routes[this.getNavRoutePattern(lvl)] || {}).matcherRegex;
 
-                if(regex.test(route)){
+                //first check data route - nav route for the same lvl i more greedy and would test positive for a data route
+                if(dataRouteRegex && dataRouteRegex.test(route)){
                     return true;
+                }
+                if(navRouteRegex && navRouteRegex.test(route)){
+                    return false;
                 }
             }
 
