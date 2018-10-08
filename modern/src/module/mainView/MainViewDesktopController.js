@@ -61,7 +61,7 @@
             }
         },
 
-        handleNavigationRoute: function(){
+        handleNavigationRoute: function(routeParams){
 
             var navRouteHandleOut = this.callMeParent(arguments);
 

@@ -190,6 +190,17 @@
          */
         getRecCreateUrl: function(rec){
             return rec.getCreateUrl();
+        },
+
+        /**
+         * default record view action handler
+         * @param rec
+         * @param listItem
+         * @param idx
+         * @param eOpts
+         */
+        onItemDisclosure: function(rec, listItem, idx, eOpts){
+            this.redirectTo(this.getRecViewUrl(rec));
         }
     });
 }());
