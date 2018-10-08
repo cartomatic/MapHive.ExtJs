@@ -15,10 +15,18 @@
         inheritableStatics: {
             /**
              * gets entity base url name
-             * @returns {*|String}
+             * @param indexOrKey index or key to extract a custom route if navigation routes for this model were defined as either arr or object
+             * @returns {*|string}
              */
-            getEntityNavigationUrlBase: function(){
-                return new this().getEntityNavigationUrlBase();
+            getEntityNavigationUrlBase: function(indexOrKey){
+                return new this().getEntityNavigationUrlBase(indexOrKey);
+            },
+
+            /**
+             * returns a raw cfg for entity nav url base. useful for defining multiple data routes for a model
+             */
+            getEntityNavigationUrlBaseCfg: function(){
+                return new this().customEntityNavigationUrl;
             }
         },
 
@@ -80,35 +88,55 @@
         },
 
         /**
-         * gets base entity name
-         * @returns {string}
+         * gets base entity navigation url
+         * @param indexOrKey index or key to extract a custom route if navigation routes for this model were defined as either arr or object
+         * @returns {null|*|string}
          */
-        getEntityNavigationUrlBase: function(){
-            return this.customEntityNavigationUrl || this.getEntityName();
+        getEntityNavigationUrlBase: function(indexOrKey){
+            var customEntityNavigationUrl;
+
+            if(Ext.isArray(this.customEntityNavigationUrl)){
+                customEntityNavigationUrl = this.customEntityNavigationUrl[
+                    indexOrKey || 0 //use supplied index OR the first item
+                ];
+            }
+            else if(Ext.isObject(this.customEntityNavigationUrl)){
+                customEntityNavigationUrl = this.customEntityNavigationUrl[
+                    indexOrKey || Ext.Object.getKeys(this.customEntityNavigationUrl)[0] //use supplied key OR the first defined
+                ]
+            }
+            else {
+                customEntityNavigationUrl = this.customEntityNavigationUrl;
+            }
+
+            return customEntityNavigationUrl || this.getEntityName();
         },
 
         /**
          * gets a view url for a record
-         * @returns {String}
+         * @param indexOrKey index or key to extract a custom route if navigation routes for this model were defined as either arr or object
+         * @returns {*|string}
          */
-        getViewUrl: function() {
-            return Ext.String.format('{0}/{1}', this.getEntityNavigationUrlBase(), this.get('uuid'));
+        getViewUrl: function(indexOrKey) {
+            return Ext.String.format('{0}/{1}', this.getEntityNavigationUrlBase(indexOrKey), this.get('uuid'));
         },
 
         /**
          * gets an edit url
+         * @param indexOrKey index or key to extract a custom route if navigation routes for this model were defined as either arr or object
          * @returns {string}
          */
-        getEditUrl: function() {
-            return this.getViewUrl() + '/edit';
+        getEditUrl: function(indexOrKey) {
+            return this.getViewUrl(indexOrKey) + '/edit';
         },
 
         /**
          * gets a create url
-         * @returns {String}
+         * @param indexOrKey index or key to extract a custom route if navigation routes for this model were defined as either arr or object
+         * @returns {*|string}
          */
-        getCreateUrl: function() {
-            return Ext.String.format('{0}/{1}', this.getEntityNavigationUrlBase(), 'create');
+        getCreateUrl: function(indexOrKey) {
+            return Ext.String.format('{0}/{1}', this.getEntityNavigationUrlBase(indexOrKey), 'create');
         }
     });
 
