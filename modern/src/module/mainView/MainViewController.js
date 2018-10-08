@@ -102,6 +102,10 @@
          */
         handleNavigationRoute: function(routeParams) {
 
+            //<debug>
+            console.warn(consoleHdr, 'Handling NAV route', routeParams[0]);
+            //</debug>
+
             //properly handle MODAL MODE!
             if (this.getModalModeActive()) {
 
@@ -182,6 +186,10 @@
          * @param routeParams
          */
         handleDataRoute: function(routeParams) {
+
+            //<debug>
+            console.warn(consoleHdr, 'Handling DATA route', routeParams[0]);
+            //</debug>
 
             //properly handle MODAL MODE!
             if (this.getModalModeActive()) {

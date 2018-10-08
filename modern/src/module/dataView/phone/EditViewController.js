@@ -29,7 +29,7 @@
             this.callMeParent(arguments);
             this.handleFloatingBtnsVisibility();
             //mark self as clean
-            this.endDirtyMode();
+            this.endDirtyMode(true); //silent end - do not restore route!!!
         },
 
         /**
@@ -132,7 +132,7 @@
 
         cleanNClose: function(){
             //mark self as clean
-            this.endDirtyMode();
+            this.endDirtyMode(true); //silent end - do not restore route!!!;
 
             this.callMeParent(arguments)
         }

@@ -29,7 +29,8 @@
              * the actual view configuration for mh-data-view-list
              */
             viewCfg: {
-                xtype: 'mh-data-view-list'
+                xtype: 'mh-data-view-list',
+                onItemDisclosure: 'onItemDisclosure'
             },
 
             // /**
