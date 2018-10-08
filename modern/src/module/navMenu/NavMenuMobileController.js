@@ -119,40 +119,45 @@
                 cls = Ext.ClassManager.getByAlias('widget.' + xtype),
                 className = Ext.getClassName(cls),
 
-                //first check if there is an explicit viewName localization property for this class
-                title = this.getTranslation('viewName', className, true);
+                title;
 
-            if(!title){
-                try {
-                    //try to init a class
-                    if(!viewInstance){
-                        viewInstance = Ext.create(className);
-                    }
+            try {
+                //try to init a class
+                if(!viewInstance){
+                    viewInstance = Ext.create(className);
+                }
 
-                    //does it have a title getter?
-                    if(Ext.isFunction(viewInstance.getTitle)){
-                        title = viewInstance.getTitle();
-                    }
+                //try to grab a title from the 'conventional places'
+                //this should account for the dynamic titles too
 
-                    //maybe set explicitly
-                    if(!title){
-                        if(viewInstance.title){
-                            title = viewInstance.title;
-                        }
-                    }
+                //does it have a title getter?
+                if(Ext.isFunction(viewInstance.getTitle)){
+                    title = viewInstance.getTitle();
+                }
 
-                    //maybe set via bindings
-                    if(!title){
-                        if(viewInstance._title){
-                            title = viewInstance._title;
-                        }
+                //maybe set explicitly
+                if(!title){
+                    if(viewInstance.title){
+                        title = viewInstance.title;
                     }
                 }
-                catch(e){
-                    //<debug>
-                    console.warn('failed to obtain a title for xtype ' + xtype, e);
-                    //</debug>
+
+                //maybe set via bindings
+                if(!title){
+                    if(viewInstance._title){
+                        title = viewInstance._title;
+                    }
                 }
+
+                //finally check if there is an explicit viewName localization property for this class
+                if(!title){
+                    title = this.getTranslation('viewName', className, true);
+                }
+            }
+            catch(e){
+                //<debug>
+                console.warn('failed to obtain a title for xtype ' + xtype, e);
+                //</debug>
             }
 
             //<debug>
@@ -363,7 +368,7 @@
                 //TODO - picture - mind this is not yet decided how it's gonna be stored
                 if(this.userProfile.get('profilePicture')){
                     //FIXME - at this stage will not be there!
-                    //TODO -make it a nice round image!!!!
+                    //TODO - make it a nice round image!!!!
                 }
                 else {
                     //no picture, just make it an faceless icon
