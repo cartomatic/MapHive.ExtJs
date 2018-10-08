@@ -63,6 +63,13 @@
          */
         registerNavRoute: function(route){
 
+            if(Ext.isArray(route)){
+                Ext.Array.each(route, function(r){
+                    this.registerNavRoute(r);
+                },this);
+                return;
+            }
+
             //assume the nav routes may look like this:
             //type1(/args)
             //type1/id1/type2(/args)
@@ -71,7 +78,7 @@
 
             //Note: when a complex route is registered, it is assumed tha ids are represented by a '{id}' token
 
-            var routeParts = route.split('{id}'),
+            var routeParts = route.split('/{id}/'),
                 routePatternLvls;
 
             Ext.Array.each(routeParts, function(rp, idx){
@@ -109,6 +116,13 @@
          */
         registerDataRoute: function(route){
 
+            if(Ext.isArray(route)){
+                Ext.Array.each(route, function(r){
+                    this.registerDataRoute(r);
+                },this);
+                return;
+            }
+
             //assume the data routes may look like this:
             //type1/id1(/args)
             //type1/id1/type2/id2(/args)
@@ -117,7 +131,7 @@
 
             //Note: when a complex route is registered, it is assumed tha ids are represented by a '{id}' token
 
-            var routeParts = route.split('{id}'),
+            var routeParts = route.split('/{id}/'),
                 routePatternLvls;
 
             Ext.Array.each(routeParts, function(rp, idx){
@@ -171,8 +185,6 @@
          * internal route handler
          */
         handleRouteInternal: function(){
-
-            console.warn('WHOAAAAAA - is data route', this.currentRouteIsDataRoute());
 
             if(this.currentRouteIsDataRoute()){
                 this.handleDataRoute(this.getDataRouteParamsForCurrentRoute());

@@ -38,7 +38,7 @@
              *
              *
              */
-            { name: 'navigationRoute', type: 'string' },
+            { name: 'navigationRoute', type: 'auto' },
 
             /**
              * mh.data.model.Route#dataRoute is used as a base for working out an appropriate xtype for a record-view, edit or create views
@@ -69,7 +69,7 @@
              * see mh.module.dataView.desktop.users.EditView#statics.aliases for implementation details:
              *
              */
-            { name: 'dataRoute', type: 'string' },
+            { name: 'dataRoute', type: 'auto' },
 
             /**
              * icon to use in nav menus
