@@ -54,6 +54,10 @@
         setDictionary: function(dictValues, value){
             this.resetDictionary();
 
+            if(!dictValues || dictValues.length === 0){
+                return;
+            }
+
             var items = [];
 
             Ext.Array.each(dictValues, function(dictV){
@@ -69,6 +73,9 @@
 
                 if(!value && dictV.isDefaultValue){
                     value = dictV.uuid;
+                }
+                if(!value && dictValues.length === 1){
+                    value = dictValues[0].uuid;
                 }
             });
 

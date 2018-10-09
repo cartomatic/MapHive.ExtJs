@@ -28,6 +28,7 @@
         onRecordLoadSuccess: function(record){
             this.callMeParent(arguments);
             this.handleFloatingBtnsVisibility();
+
             //mark self as clean
             this.endDirtyMode(true); //silent end - do not restore route!!!
         },
@@ -130,11 +131,16 @@
             }
         },
 
-        cleanNClose: function(){
-            //mark self as clean
+
+        /**
+         * marks self as clean prior to finalising save
+         * @param record
+         */
+        onSaveSuccess: function(record){
+            //waive off dirty mode
             this.endDirtyMode(true); //silent end - do not restore route!!!;
 
-            this.callMeParent(arguments)
+            this.callMeParent(arguments);
         }
     });
 }());

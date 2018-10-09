@@ -118,7 +118,7 @@
             }
 
             //properly handle DIRTY MODE
-            if (this.getDirtyModeActive()) {
+            if (this.getDirtyModeShouldPreventForCurrentRoute()) {
                 //<debug>
                 console.log(consoleHdr, 'prevented route adjustment - DIRTY mode active!');
                 //</debug>
@@ -203,7 +203,7 @@
             }
 
             //properly handle DIRTY MODE
-            if (this.getDirtyModeActive()) {
+            if (this.getDirtyModeShouldPreventForCurrentRoute()) {
                 //<debug>
                 console.log(consoleHdr, 'prevented route adjustment - DIRTY mode active!');
                 //</debug>

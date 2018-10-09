@@ -7,7 +7,7 @@
     //Make sure strict mode is on
     'use strict';
     Ext.define('mh.module.dataView.phone.EditViewWizardController', {
-        extend: 'mh.module.dataView.EditViewController',
+        extend: 'mh.module.dataView.phone.EditViewController',
         alias: 'controller.mh-phone-edit-view-wizard',
 
         requires: [
@@ -38,12 +38,12 @@
             );
 
             this.setUpSubViews();
-
-            //hide the orig floating edit btn
-            if(this.btnSave){
-                this.btnSave.hide();
-            }
         },
+
+        /**
+         * avoid setting up the default edit btns!
+         */
+        setUpActionBtns: Ext.emptyFn,
 
         /**
          * gets a view title
@@ -95,6 +95,13 @@
                 this.viewMap[ref] = viewSwitcher.add(view);
 
             }, this);
+        },
+
+        /**
+         * rewinds to the first view
+         */
+        rewindToFirstView: function(){
+            this.displayView(this.viewSubRoutes[0]);
         },
 
         /**
@@ -187,9 +194,17 @@
         },
 
         //TODO
-        //on hash change - redirect to appropriate view.
+        //on hash change - redirect to appropriate view. this will conflict with the dirty mode!!!
 
-        //onview activate
+        /**
+         * view activate handler
+         */
+        onViewActivate: function() {
+            //this method is mixed in, not inherited, hence cannot call parent directly
+            this.mixins['mh.module.dataView.phone.RecordViewSharedController'].onViewActivate.apply(this, arguments);
+
+            this.rewindToFirstView();
+        }
 
     });
 }());

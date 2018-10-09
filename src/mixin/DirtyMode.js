@@ -91,10 +91,18 @@
         },
 
         /**
+         * whether or not dirty mode is active
+         * @returns {boolean}
+         */
+        isDirtyModeActive: function(){
+            return dirtyModeActive;
+        },
+
+        /**
          * whether or not dirty mode is active for a route that is being set
          * @returns {boolean}
          */
-        getDirtyModeActive: function(){
+        getDirtyModeShouldPreventForCurrentRoute: function(){
             return dirtyModeActive && window.location.hash.replace('#', '') !== dirtyModeRouteSnapshot;
         },
 
