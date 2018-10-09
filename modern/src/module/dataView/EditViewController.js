@@ -38,6 +38,9 @@
 
             //avoid reloading record as it will reset the form and we do want to avoid that!
             if(rec && (rec.get('uuid') === id || (rec.get('uuid') === null && id === 'create'))){
+                //<debug>
+                console.log('[EDIT VIEW] - skipping a rec load - reocrd already loaded');
+                //</debug>
                 return;
             }
 
@@ -185,9 +188,9 @@
 
                     //try to obtain the translation from a derived class first, but make the call return null if not found instead of the standard
                     //'translation not found msg', then look at the 'mh.module.dataView.DataViewLocalization' namespace that indeed provides a standard localization
-                    this.getTranslation('createLoadMask', null, true) || this.getTranslation('createLoadMask', 'mh.module.dataView.DataViewLocalization')
+                    this.getTranslation('updateLoadMask', null, true) || this.getTranslation('updateLoadMask', 'mh.module.dataView.DataViewLocalization')
                     :
-                    this.getTranslation('updateLoadMask', null, true) || this.getTranslation('updateLoadMask', 'mh.module.dataView.DataViewLocalization'),
+                    this.getTranslation('createLoadMask', null, true) || this.getTranslation('createLoadMask', 'mh.module.dataView.DataViewLocalization'),
 
                 //save op cfg
                 cfg = {
@@ -236,6 +239,7 @@
         onSaveSuccess: function(record){
             this.getView().fireEvent('editview::savecompleted', record);
             this.afterRecordSave(record);
+            this.hideLoadMask();
             this.cleanNClose();
         },
 
