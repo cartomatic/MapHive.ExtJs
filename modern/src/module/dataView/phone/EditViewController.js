@@ -5,7 +5,7 @@
     'use strict';
     Ext.define('mh.module.dataView.phone.EditViewController', {
         extend: 'mh.module.dataView.EditViewController',
-        alias: 'controller.mh-mobile-edit-view',
+        alias: 'controller.mh-phone-edit-view',
 
         requires: [
             'Ext.History',

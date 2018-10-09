@@ -14,7 +14,7 @@
             'mh.module.dataView.Icons'
         ],
 
-        controller: 'mh-mobile-edit-view',
+        controller: 'mh-phone-edit-view',
 
         viewModel: {
             type: 'mh-edit-view'
