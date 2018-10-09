@@ -52,28 +52,12 @@
              * whether or not delete btn should be visible
              */
             enableDestroy: false
-
-            // gridBtnEditUi: 'mh-data-view-grid-btn-edit',
-            // gridBtnDestroyUi: 'mh-data-view-grid-btn-destroy',
-
         },
 
         layout: 'fit',
 
         items: [
-            {
-                xtype: 'button',
-                reference: 'btnCreate',
-                hidden: true,
-                floated: true,
-                ui: 'confirm round',
-                right: 15,
-                bottom: 15,
-                iconCls: mh.FontIconsDictionary.getIcon('mhDataViewNew'),
-                listeners: {
-                    tap: 'onBtnCreateTap'
-                }
-            }
+
         ],
 
         listeners: {

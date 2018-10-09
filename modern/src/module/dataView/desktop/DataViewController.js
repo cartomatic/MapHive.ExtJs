@@ -591,8 +591,7 @@
          * After delete callback - custom after delete logic can be hooked in here
          * @template
          */
-        afterRecordDestroy: function () {
-        },
+        afterRecordDestroy: Ext.emptyFn,
 
 
         /**

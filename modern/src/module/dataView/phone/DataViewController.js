@@ -12,7 +12,9 @@
         alias: 'controller.mh-phone-data-view',
 
         requires: [
-            'mh.module.dataView.phone.DataViewLocalization'
+            'mh.module.dataView.phone.DataViewLocalization',
+            'Ext.dataview.listswiper.ListSwiper',
+            'Ext.dataview.listswiper.Stepper'
         ],
 
         mixins: [
@@ -94,14 +96,139 @@
             }
         },
 
+        btnCreate: null,
+
         configureActionBtns: function(){
             var vw = this.getView(),
+                enableCreate = vw.getEnableCreate(),
                 enableEdit = vw.getEnableEdit(),
-                enableDestroy = vw.getEnableDestroy();
+                enableDestroy = vw.getEnableDestroy(),
+                swipeActions = [];
 
-            //TODO - swipe edit / delete
+            if(enableCreate){
+                //Note: floating btn visibility handled on view activate / deactivate
+                this.btnEdit = vw.add({
+                    xtype: 'button',
+                    hidden: true,
+                    floated: true,
+                    ui: 'confirm round',
+                    right: 15,
+                    bottom: 15,
+                    iconCls: mh.FontIconsDictionary.getIcon('mhDataViewNew'),
+                    listeners: {
+                        tap: 'onBtnCreateTap'
+                    }
+                });
+            }
 
-            //Note: floating btns handled on view activate / deactivate
+            if(enableEdit){
+                swipeActions.push({
+                    iconCls: mh.FontIconsDictionary.getIcon('mhListBtnEdit'),
+                    text: this.getTranslation('btnEdit'),
+                    ui: 'action',
+                    commit: 'onSwipeEdit'
+                });
+            }
+
+            if(enableDestroy){
+                swipeActions.push({
+                    iconCls: mh.FontIconsDictionary.getIcon('mhListBtnDestroy'),
+                    text: this.getTranslation('btnDestroy'),
+                    ui: 'decline',
+                    commit: 'onSwipeDelete',
+                    undoable: true
+                    //with undoable: true can also use the following handlers:
+                    //precommit: 'onDeleteItem',
+                    //commit: 'onCommitDeleteItem',
+                    //revert: 'onUndoDeleteItem',
+                });
+            }
+
+            if(swipeActions.length > 0){
+                this.listView.addPlugin({
+                    type: 'listswiper',
+                    widget: {
+                        xtype: 'listswiperstepper'
+                    },
+                    right: swipeActions
+                });
+            }
+
+        },
+
+        /**
+         * swipe edit handler
+         * @param list
+         * @param info
+         */
+        onSwipeEdit: function(list, info){
+            this.redirectTo(this.getRecEditUrl(info.record));
+        },
+
+        /**
+         * swipe delete handler
+         * @param list
+         * @param info
+         */
+        onSwipeDelete: function(list, info){
+            this.destroyRecord(info.record, this.destroyRecordSuccess, this.destroyRecordFailure);
+        },
+
+        /**
+         * destroys a single record and returns the control to callbacks provided
+         * @param record
+         * @param success
+         * @param failure
+         */
+        destroyRecord: function(record, success, failure){
+            var me = this,
+                cfg = {
+                    scope: me,
+                    success: success,
+                    failure: failure,
+                    exceptionMsg: me.getTranslation('destroyFailureMsg'),
+                    autoIgnore404: false, //this is required to show msg on 404 which will often be the case in dev mode!
+                    suppress400: true//so can handle 400 here
+                },
+                callback = me.generateModelRequestCallback(cfg),
+
+                op = function(){
+                    record.erase({
+                        callback: callback
+                    });
+                };
+
+            this.getView().setMasked({
+                xtype: 'loadmask',
+                message: this.getTranslation('destroyRecordLoadMask')
+            });
+
+            cfg.retry = op;
+
+            op();
+        },
+
+        /**
+         * destroy record success handler
+         */
+        destroyRecordSuccess: function(){
+            this.getView().setMasked(false);
+            this.afterRecordDestroy();
+            this.reloadStore();
+        },
+
+        /**
+         * after rec destroy extension hook
+         */
+        afterRecordDestroy: Ext.emptyFn,
+
+
+        /**
+         * rec delete failure handler; unmasks and reloads grid
+         */
+        destroyRecordFailure: function(){
+            this.getView().setMasked(false);
+            this.reloadStore();
         },
 
         /**
@@ -131,11 +258,13 @@
             var vw = this.getView(),
                 enableCreate = vw.getEnableCreate();
 
-            if(this.isActive && enableCreate === true){
-                this.lookupReference('btnCreate').show();
-            }
-            else {
-                this.lookupReference('btnCreate').hide();
+            if(this.btnEdit){
+                if(this.isActive && enableCreate === true){
+                    this.btnEdit.show();
+                }
+                else {
+                    this.btnEdit.hide();
+                }
             }
         },
 
