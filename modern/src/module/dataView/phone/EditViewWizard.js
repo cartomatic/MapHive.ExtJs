@@ -14,7 +14,8 @@
 
         requires: [
             'mh.FontIconsDictionary',
-            'mh.module.dataView.phone.Icons'
+            'mh.module.dataView.phone.Icons',
+            'Ext.carousel.Carousel'
         ],
 
         viewModel: {
@@ -33,10 +34,33 @@
         items: [
             {
                 xtype: 'container',
+                docked: 'top',
+                style: {
+                    marginTop: '10px',
+                    padding: '5px'
+                },
+                layout: {
+                    type: 'hbox',
+                    align: 'stretch'
+                },
+                items: [
+                    { xtype: 'container', flex: 1},
+                    {
+                        xtype: 'label',
+                        reference: 'titleBarLabel',
+                        html: '&nbsp'
+                    },
+                    { xtype: 'container', flex: 1}
+                ]
+            },
+
+            {
+                xtype: 'carousel',
+                indicator: false,
                 reference: 'viewSwitcher',
                 layout: {
-                    type: 'card',
-                    animation: 'fade'
+                    type: 'card'
+                    //,animation: 'fade'
                 }
             }
         ],

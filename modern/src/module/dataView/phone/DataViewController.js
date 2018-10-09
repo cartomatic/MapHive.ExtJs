@@ -146,7 +146,7 @@
 
             var store = this.getViewModel().getStore('listviewstore');
 
-            if(store.type === 'chained'){
+            if(store.isChainedStore){
                 store.source.load();
             } else {
                 store.load();

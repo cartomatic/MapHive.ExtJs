@@ -44,6 +44,8 @@
          */
         valueSetCounterBtnUi: 'mh-phone-dict-pick-list-blue',
 
+        valueUnSetCounterBtnUi: 'mh-phone-dict-pick-list-pale-gray',
+
         /**
          * sets dictionary - creates btn value pickers. selects a btn with a value provided
          * @param dictValues
@@ -95,8 +97,8 @@
                     item.setUi(this.valueSetCounterBtnUi);
                 }
                 else {
-                    item.setIconCls(undefined);
-                    item.setUi(undefined);
+                    item.setIconCls('');
+                    item.setUi(this.valueUnSetCounterBtnUi);
                 }
             }, this);
         },
@@ -123,7 +125,7 @@
             //spin over all items and set the cls / ui properly
             this.setValue(btn.v);
 
-            this.getView().fireEvent('valuechanged', this.getView(), btn.v, oldV);
+            this.getView().fireEvent('valuepicked', this.getView(), btn.v, oldV);
         }
     });
 }());
