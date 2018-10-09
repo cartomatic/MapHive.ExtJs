@@ -8,7 +8,7 @@
     'use strict';
     Ext.define('mh.module.dataView.phone.EditViewWizardController', {
         extend: 'mh.module.dataView.EditViewController',
-        alias: 'controller.mh-mobile-edit-view-wizard',
+        alias: 'controller.mh-phone-edit-view-wizard',
 
         requires: [
             'Ext.History',
@@ -25,8 +25,12 @@
 
         init: function(){
             this.callMeParent(arguments);
+            this.setUpSubViews();
 
-            this.workOutViewSubRoutes();
+            //hide the orig floating edit btn
+            if(this.btnSave){
+                this.btnSave.hide();
+            }
         },
 
         /**
@@ -42,14 +46,22 @@
         /**
          * work outs view sub routes based on the configured items
          */
-        workOutViewSubRoutes: function(){
+        setUpSubViews: function(){
             this.viewSubRoutes = this.viewSubRoutes || [];
             this.viewMap = this.viewMap || {};
 
-            Ext.Array.each(this.getView().items.items, function(view, idx){
-                var ref = view.route || 'item' + (idx + 1);
+            var vw = this.getView(),
+                viewSwitcher = this.lookupReference('viewSwitcher'),
+                subViews = vw.getViews() || [];
+
+            this.viewSwitcher = viewSwitcher;
+
+            Ext.Array.each(subViews, function(view, idx){
+                var ref = view.route || 'view' + (idx + 1);
+                view.route = ref;
                 this.viewSubRoutes.push(ref);
-                this.viewMap[ref] = view;
+                this.viewMap[ref] = viewSwitcher.add(view);
+
             }, this);
         },
 
@@ -57,8 +69,8 @@
          * displays next view if any
          */
         displayNextView: function(){
-            var curentViewIdx = this.viewSubRoutes.indexOf(this.getView().getActiveItem().getReference()),
-                nextView = this.viewSubRoutes[curentViewIdx + 1];
+            var currentViewIdx = this.viewSubRoutes.indexOf(this.viewSwitcher.getActiveItem().route),
+                nextView = this.viewSubRoutes[currentViewIdx + 1];
 
             if(nextView){
                 this.displayView(nextView);
@@ -69,8 +81,8 @@
          * displays previous view if any
          */
         displayPreviousView: function(){
-            var curentViewIdx = this.viewSubRoutes.indexOf(this.getView().getActiveItem().getReference()),
-                prevView = this.viewSubRoutes[curentViewIdx - 1];
+            var currentViewIdx = this.viewSubRoutes.indexOf(this.viewSwitcher.getActiveItem().route),
+                prevView = this.viewSubRoutes[currentViewIdx - 1];
 
             if(prevView){
                 this.displayView(prevView, true); //true to indicate the direction is backwards
@@ -83,6 +95,21 @@
          */
         displayView: function(view, movingBackwards){
 
+            //FIXME - need to know if cannot move further and simply not move OR move back
+            //if incoming view is undefined, bounds have been exceeded.
+            //so when moving forward, need to reverse and start from the last view and exactly the other way round when moving backwards
+            if(!view){
+                movingBackwards = !!movingBackwards;
+                var newV = this.viewSubRoutes[movingBackwards ? 0 : this.viewSubRoutes.length - 1];
+
+                //<debug>
+                console.log(cnslHdr, 'Exceeded bounds! Turning view:', newV, 'moving backwards:', !movingBackwards);
+                //</debug>
+
+                this.displayView(newV, !movingBackwards);
+                return;
+            }
+
             var vwIdx = this.viewSubRoutes.indexOf(view),
                 vw = this.viewMap[view],
 
@@ -91,18 +118,21 @@
             movingBackwards = movingBackwards || false;
 
             //<debug>
-            console.warn(cnslHdr, 'Turning on view:', view, 'moving back?', movingBackwards);
+            console.log(cnslHdr, 'Turning on view:', view, 'moving back?', movingBackwards);
             //</debug>
 
 
             //check the count of dict values for a view and if less than 2 move next
             if(vw.xtype === 'mh-phone-dictionary-pick-list' && vw.getDictValuesCount() < 2){
+                //<debug>
+                console.log(cnslHdr, 'Found mh-phone-dictionary-pick-list with a single or no values. skipping view. View skipped is: ', view);
+                //</debug>
                 moveNext = true;
             }
 
             if(moveNext){
                 //<debug>
-                console.warn(cnslHdr, 'Moving next view!', vwIdx, view, '->', vwIdx + (movingBackwards ? -1 : 1), this.viewSubRoutes[vwIdx + (movingBackwards ? -1 : 1)]);
+                console.log(cnslHdr, 'Moving next view!', vwIdx, view, '->', vwIdx + (movingBackwards ? -1 : 1), this.viewSubRoutes[vwIdx + (movingBackwards ? -1 : 1)]);
                 //</debug>
                 this.displayView(this.viewSubRoutes[vwIdx + (movingBackwards ? -1 : 1)], movingBackwards);
                 return;
@@ -110,14 +140,25 @@
 
             //turning on a new view...
             if(vw){
-                this.lookupReference('btnPrev').setDisabled(vwIdx === 0);
-                this.lookupReference('btnNext').setDisabled(vwIdx === this.viewSubRoutes.length - 1);
-                this.getView().setActiveItem(vw);
+                //bollocks - this does not seem to work ok anymore...
+                // this.lookupReference('btnPrev').setDisabled(vwIdx === 0);
+                // this.lookupReference('btnNext').setDisabled(vwIdx === this.viewSubRoutes.length - 1);
+                //this neither???
+                this.lookupReference('btnPrev')[vwIdx === 0 ? 'disable' : 'enable']();
+                this.lookupReference('btnNext')[vwIdx === this.viewSubRoutes.length - 1 ? 'disable' : 'enable']();
+
+
+                //TODO - control sub views via router???
+                this.viewSwitcher.setActiveItem(vw);
+
+                //TODO - also router???
             }
         },
 
         //TODO
         //on hash change - redirect to appropriate view.
+
+        //onview activate
 
     });
 }());

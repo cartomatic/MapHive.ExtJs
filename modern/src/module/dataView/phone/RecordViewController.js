@@ -6,7 +6,7 @@
 
     Ext.define('mh.module.dataView.phone.RecordViewController', {
         extend: 'mh.module.dataView.RecordViewController',
-        alias: 'controller.mh-mobile-record-view',
+        alias: 'controller.mh-phone-record-view',
 
         requires: [
             'Ext.History',

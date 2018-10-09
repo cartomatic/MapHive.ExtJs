@@ -15,7 +15,7 @@
             'mh.FontIconsDictionary'
         ],
 
-        controller: 'mh-mobile-record-view',
+        controller: 'mh-phone-record-view',
 
         viewModel: {
             type: 'mh-record-view'

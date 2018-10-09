@@ -10,16 +10,16 @@
     Ext.define('mh.module.dataView.phone.DataView', {
         extend: 'Ext.Panel',
 
-        xtype: 'mh-mobile-data-view',
+        xtype: 'mh-phone-data-view',
 
         requires: [
             'mh.module.dataView.phone.DataViewController',
             'mh.module.dataView.phone.DataViewModel'
         ],
 
-        controller: 'mh-mobile-data-view',
+        controller: 'mh-phone-data-view',
         viewModel: {
-            type: 'mh-mobile-data-view'
+            type: 'mh-phone-data-view'
         },
 
         header: false,

@@ -9,7 +9,7 @@
      */
     Ext.define('mh.module.dataView.phone.DataViewController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-mobile-data-view',
+        alias: 'controller.mh-phone-data-view',
 
         requires: [
             'mh.module.dataView.phone.DataViewLocalization'
