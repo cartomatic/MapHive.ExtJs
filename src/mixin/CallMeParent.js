@@ -82,7 +82,6 @@
                 //Note: when calling from an app instance level it is not the same as the app declaring class because of some reason
                 //need to handle this appropriately by digging one level deeper
                 var appInstance = Ext.getClassName(this).indexOf('$') > -1,
-                    cacheKey = method;
                     className = Ext.getClassName(this.superclass),
                     cacheKey = className  + '_' + method;
 
@@ -106,6 +105,7 @@
 
                     //therefore need to cache the calls locally and if such scenario is hit,
                     //digging a lvl up seem to do the trick
+
 
                     //work out the next superclass to call
                     var nextSuperClass = this.superclass.superclass,
@@ -142,12 +142,19 @@
                 if(this.superclass && this.superclass.superclass){
 
                     this.calledMapCache = this.calledMapCache || {};
-                    var className = Ext.getClassName(this.superclass),
-                        cacheKey = className  + '_' + method;
+                    // var className = Ext.getClassName(this.superclass),
+                    //     cacheKey = className  + '_' + method;
+                    //
+                    // this.calledMapCache[cacheKey] = true;
+                    // this.resetCalledMapCache(cacheKey);
+
+                    var cacheKey = Ext.getClassName(this.superclass)  + '_' + method,
+                        superCacheKey = Ext.getClassName(this.superclass.superclass)  + '_' + method;
 
                     this.calledMapCache[cacheKey] = true;
+                    this.calledMapCache[superCacheKey] = true;
                     this.resetCalledMapCache(cacheKey);
-
+                    this.resetCalledMapCache(superCacheKey);
 
                     this.superclass.superclass[method].apply(this, arguments);
                 }
