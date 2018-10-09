@@ -1,7 +1,19 @@
 @include button-ui(
-        $ui: 'mh-phone-dict-pick-list-blue',
-        $color: #fff,
-        $icon-color: #fff,
-        $background-color: #167abc,
-        $border-width: 0
+  $ui: 'mh-phone-dict-pick-list-blue',
+  $color: #fff,
+  $icon-color: #fff,
+  $background-color: #167abc,
+  $border-width: 0
 );
+
+@include button-ui(
+  $ui: 'mh-phone-dict-pick-list-pale-gray',
+  $background-color: #aeaeae,
+  $border-width: 0
+);
+
+@include panel-ui(
+  $ui: 'mh-phone-dict-pick-list-panel',
+  $header-background-color: #b2d0da,
+  $header-color: #000
+)

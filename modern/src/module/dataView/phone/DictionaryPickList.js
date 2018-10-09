@@ -8,7 +8,7 @@
      * Created by domin on 09.10.2018.
      */
     Ext.define('mh.module.dataView.phone.DictionaryPickList', {
-        extend: 'Ext.Container',
+        extend: 'Ext.Panel',
     
         xtype: 'mh-phone-dictionary-pick-list',
 
@@ -16,6 +16,20 @@
             'mh.module.dataView.phone.DictionaryPickListController'
         ],
 
-        controller: 'mh-phone-dictionary-pick-list'
+        controller: 'mh-phone-dictionary-pick-list',
+
+        header: {
+            titleAlign: 'center'
+        },
+
+        ui: 'mh-phone-dict-pick-list-panel',
+
+        scrollable: 'y',
+        bodyPadding: 10,
+        reference: 'payingRights',
+        layout: {
+            type: 'vbox',
+            align: 'stretch'
+        }
     });
 }());

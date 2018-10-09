@@ -25,12 +25,44 @@
 
         init: function(){
             this.callMeParent(arguments);
+
+            this.lookupReference('viewSwitcher').on(
+                'activeItemchange',
+                function(viewSwitcher, newItem){
+                    //need to wait for the binding to kick in
+                    Ext.defer(function(){
+                        this.lookupReference('titleBarLabel').setHtml(this.getAciveItemViewTitle())
+                    }, 50, this);
+                },
+                this
+            );
+
             this.setUpSubViews();
 
             //hide the orig floating edit btn
             if(this.btnSave){
                 this.btnSave.hide();
             }
+        },
+
+        /**
+         * gets a view title
+         * @returns {string}
+         */
+        getAciveItemViewTitle: function() {
+            var dataView = this.viewSwitcher.getActiveItem(),
+                dataViewTitle = '&nbsp';
+
+            //check if can obtain a title of the view title
+            if(Ext.isFunction(dataView.getTitle) && dataView.getTitle()){
+                dataViewTitle = dataView.getTitle();
+            }
+            //maybe set via view model bindings, so should be at a _title property
+            else if(dataView._title){
+                dataViewTitle = dataView._title;
+            }
+
+            return '<strong>' + dataViewTitle  + '</strong>';
         },
 
         /**
@@ -95,8 +127,7 @@
          */
         displayView: function(view, movingBackwards){
 
-            //FIXME - need to know if cannot move further and simply not move OR move back
-            //if incoming view is undefined, bounds have been exceeded.
+            //if incoming view is undefined, bounds have been exceeded or this ias a wrong view...
             //so when moving forward, need to reverse and start from the last view and exactly the other way round when moving backwards
             if(!view){
                 movingBackwards = !!movingBackwards;
