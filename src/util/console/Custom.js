@@ -328,7 +328,7 @@
             try { throw new Error(); }
             catch (e) {
                 var stack = e.stack.split('\n');
-                if(Ext.isChrome) {
+                if(Ext.isChrome || Ext.isChromeMobile) {
                     caller = (stack[4] || stack[3] || stack[2] || stack[1] || stack[0]).replace('    at constructor.', '');
                 }
                 //if(Ext.isFirefox){
@@ -336,6 +336,7 @@
                     caller = stack[3] || stack[2] || stack[1] || stack[0];
                 }
             }
+
             return '\nsource: ' + caller+ '\n';
         }
     });
