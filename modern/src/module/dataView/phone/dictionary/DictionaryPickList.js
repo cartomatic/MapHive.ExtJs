@@ -7,13 +7,13 @@
     /**
      * Created by domin on 09.10.2018.
      */
-    Ext.define('mh.module.dataView.phone.DictionaryPickList', {
+    Ext.define('mh.module.dataView.phone.dictionary.DictionaryPickList', {
         extend: 'Ext.Panel',
     
         xtype: 'mh-phone-dictionary-pick-list',
 
         requires: [
-            'mh.module.dataView.phone.DictionaryPickListController'
+            'mh.module.dataView.phone.dictionary.DictionaryPickListController'
         ],
 
         controller: 'mh-phone-dictionary-pick-list',

@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict';
 
-    Ext.define('mh.module.dataView.phone.DictionaryPickListIcons', {
+    Ext.define('mh.module.dataView.phone.dictionary.DictionaryPickListIcons', {
         singleton: true,
         requires: [
             'mh.FontIconsDictionary'
