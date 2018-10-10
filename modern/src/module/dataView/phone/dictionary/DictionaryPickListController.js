@@ -7,13 +7,13 @@
     /**
      * Created by domin on 09.10.2018.
      */
-    Ext.define('mh.module.dataView.phone.DictionaryPickListController', {
+    Ext.define('mh.module.dataView.phone.dictionary.DictionaryPickListController', {
         extend: 'Ext.app.ViewController',
         alias: 'controller.mh-phone-dictionary-pick-list',
 
         requires: [
             'mh.FontIconsDictionary',
-            'mh.module.dataView.phone.DictionaryPickListIcons'
+            'mh.module.dataView.phone.dictionary.DictionaryPickListIcons'
         ],
 
         mixins: [
