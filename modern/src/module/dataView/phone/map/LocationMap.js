@@ -105,6 +105,10 @@
 
         setLatitude: function(lat){
             this.getController().setLatitude(lat);
+        },
+
+        setAccuracy: function(accuracy){
+            this.getController().setAccuracy(accuracy);
         }
     });
 }());

@@ -17,7 +17,8 @@
 
         mixins: [
             'mh.mixin.Localization',
-            'mh.communication.MsgBus'
+            'mh.communication.MsgBus',
+            'mh.mixin.PublishApi'
         ],
 
         /**
@@ -25,6 +26,8 @@
          */
         init: function() {
             this.injectLocalizationToViewModel();
+
+            this.publishApi('getLocationData');
 
             var commChannel = 'locationmap_' + new Date().getTime();
             //this.getView().down('mh-ol3-map-container').registerChannel(commChannel);
@@ -44,6 +47,8 @@
 
             this.map = map;
 
+            //create an accuracy layer
+
             //add a div that will display in the center of the map
             Ext.dom.Helper.append(
                 this.lookupReference('mapContainer').el,
@@ -56,14 +61,104 @@
             );
             //</debug>
 
-
             map.on('moveend', Ext.bind(this.onMapMoveEnd, this));
+
+            this.setUpGeoLocation(map);
 
             this.updateMap();
         },
 
-        onGpsBtnTap: function(){
+        /**
+         * ol geolocation object
+         */
+        geolocation: null,
 
+        /**
+         * gps readout layer
+         */
+        olVectorLayerGps: null,
+
+        /**
+         * sets up geolocation
+         * @param map
+         */
+        setUpGeoLocation: function(map){
+
+            //gps stuf
+            this.geolocation = new ol.Geolocation({
+                trackingOptions: {
+                    enableHighAccuracy: true,
+                    timeout: 180000,
+                    maximumAge: 0
+                },
+                projection: map.getView().getProjection()
+            });
+            this.geolocation.on('change', Ext.bind(this.onGeolocationChange, this));
+            this.geolocation.on('error', Ext.bind(this.onGeolocationError, this));
+
+            this.olVectorLayerGps = new ol.layer.Vector({
+                source: new ol.source.Vector(),
+                style: new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: [0,52,153,0.8]
+                    }),
+                    fill: new ol.style.Fill({
+                        color: [0,51,153,0.2]
+                    })
+                    //no image, using a pin!,
+                    // image: new ol.style.Icon({
+                    //     src: 'resources/images/gps.png',
+                    //     size: [20,20]
+                    // })
+                })
+            });
+
+            map.addLayer(this.olVectorLayerGps);
+
+        },
+
+        /**
+         * geolocation change evt listener
+         * @param evt
+         */
+        onGeolocationChange: function(evt){
+            var accuracy = new ol.Feature({
+                    geometry: this.geolocation.getAccuracyGeometry()
+                }),
+                lonLat = ol.proj.transform(this.geolocation.getPosition(), 'EPSG:3857', 'EPSG:4326');
+
+            // this.olVectorLayerGps.getSource().clear();
+            // this.olVectorLayerGps.getSource().addFeatures([accuracy]);
+
+            this.longitude = lonLat[0];
+            this.latitude = lonLat[1];
+            this.accuracy = this.geolocation.getAccuracy();
+
+            this.geolocation.setTracking(false);
+
+            this.updateMapInternal();
+        },
+
+        /**
+         * geolocation err
+         */
+        onGeolocationError: function(){
+            this.resetAccuracy();
+        },
+
+        /**
+         * resets accuracy
+         */
+        resetAccuracy: function(){
+            this.setAccuracy(null);
+            this.olVectorLayerGps.getSource().clear();
+        },
+
+        /**
+         * gps tap btn handler
+         */
+        onGpsBtnTap: function(){
+            this.geolocation.setTracking(true);
         },
 
         /**
@@ -96,6 +191,28 @@
          */
         prevAccuracy: null,
 
+        /**
+         * accuracy setter
+         * @param accuracy
+         * @param silent
+         */
+        setAccuracy: function(accuracy, silent){
+            this.accuracy = accuracy;
+
+            if(!this.map){
+                return;
+            }
+
+            if(silent !== true){
+                this.updateMap();
+            }
+        },
+
+        /**
+         * lon settere
+         * @param lon
+         * @param silent
+         */
         setLongitude: function(lon, silent){
             if(!Ext.isNumber(lon) || lon > 180 || lon < -180){
                 lon = this.getView().getInitialLongitude() || 0;
@@ -111,6 +228,11 @@
             }
         },
 
+        /**
+         * lat setter
+         * @param lat
+         * @param silent
+         */
         setLatitude: function(lat, silent){
             if(!Ext.isNumber(lat) || lat > 90 || lat < -90){
                 lat = this.getView().getInitialLatitude() || 0;
@@ -126,16 +248,34 @@
             }
         },
 
+        /**
+         * lon input change listener
+         * @param numfld
+         * @param newV
+         * @param oldV
+         */
         onLonChange: function(numfld, newV, oldV){
             this.setLongitude(newV);
         },
 
+        /**
+         * lat input change listener
+         * @param numfld
+         * @param newV
+         * @param oldV
+         */
         onLatChange: function(numfld, newV, oldV){
             this.setLatitude(newV);
         },
 
+        /**
+         * map update scheduler
+         */
         mapUpdateScheduler: null,
 
+        /**
+         * triggers map update
+         */
         updateMap: function(){
             clearTimeout(this.mapUpdateScheduler);
             this.mapUpdateScheduler = Ext.defer(function(){
@@ -143,6 +283,9 @@
             }, 100, this);
         },
 
+        /**
+         * internal map update procedure
+         */
         updateMapInternal: function(){
             if(!this.map){
                 return;
@@ -150,22 +293,38 @@
 
             var mapV = this.map.getView(),
                 currentCenter = ol.proj.transform(mapV.getCenter(), 'EPSG:3857','EPSG:4326'),
-                current = {longitude: this.longitude, latitude: this.latitude, accuracy: this.accuracy},
-                prev = {longitude: this.prevLongitude, latitude: this.prevLatitude, accuracy: this.prevAccuracy};
+                newCenter,
+                accuracy;
 
             if(currentCenter[0] === this.longitude && currentCenter[1] === this.latitude){
                 return;
             }
 
-            mapV.setCenter(ol.proj.transform([this.longitude,this.latitude], 'EPSG:4326', 'EPSG:3857'));
+            newCenter = ol.proj.transform([this.longitude,this.latitude], 'EPSG:4326', 'EPSG:3857');
+
+            mapV.setCenter(newCenter);
             mapV.setZoom(17);
+
+
+            //draw accuracy marker if accuracy present!
+            if(this.accuracy){
+                accuracy = new ol.Feature(new ol.geom.Circle(newCenter, this.accuracy));
+                this.olVectorLayerGps.getSource().clear();
+                this.olVectorLayerGps.getSource().addFeatures([accuracy])
+            }
+
+        },
+
+        reportChange: function(){
+
+            var current = {longitude: this.longitude, latitude: this.latitude, accuracy: this.accuracy},
+                prev = {longitude: this.prevLongitude, latitude: this.prevLatitude, accuracy: this.prevAccuracy};
 
             this.prevLongitude = this.longitude;
             this.prevLatitude = this.latitude;
             this.prevAccuracy = this.accuracy;
 
-            this.fireEvent('positionchanged', this.getView(), current, prev);
-
+            this.getView().fireEvent('locationchanged', this.getView(), current, prev);
         },
 
         /**
@@ -176,10 +335,27 @@
             var coords = e.map.getView().getCenter(),
                 lonLat = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
 
+            //reset accuracy when map has changed and this is not GPS position
+            //gps sets position directly and triggers map update internal, so this will be move end callback
+            if(this.longitude !== lonLat[0] || this.latitude !== lonLat[1]){
+                this.resetAccuracy();
+            }
+
             this.setLongitude(lonLat[0], true);
             this.setLatitude(lonLat[1], true);
-        }
 
-        //get data - in one step an object??? or an evt...
+            this.reportChange();
+        },
+
+        /**
+         * returns a complete set of handled location data
+         */
+        getLocationData: function(){
+            return {
+                longitude: this.longitude,
+                latitude: this.latitude,
+                accuracy: this.accuracy
+            }
+        }
     });
 }());
