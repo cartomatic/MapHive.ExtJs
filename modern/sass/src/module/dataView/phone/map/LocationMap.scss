@@ -1,0 +1,10 @@
+@include button-ui(
+        $ui: 'mh-phone-location-map-soft-green-btn',
+        $color: #fff,
+        $icon-color: #fff,
+        $pressed-color: #fff,
+        $background-color: $color-soft-green,
+        $border-color: darken($color-soft-green, 5%),
+        $border-radius: 50%,
+        $border-radius-big: 50%
+);
