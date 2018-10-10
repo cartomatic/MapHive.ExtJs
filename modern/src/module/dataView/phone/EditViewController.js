@@ -30,10 +30,7 @@
             this.handleFloatingBtnsVisibility();
 
             //mark self as clean
-            //use a little timeout, so all the bindings kick in
-            Ext.defer(function(){
-                this.endDirtyMode(true); //silent end - do not restore route!!!
-            }, 500, this);
+            this.endDirtyMode(true);
         },
 
         /**
