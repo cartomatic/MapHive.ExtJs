@@ -22,11 +22,6 @@
         },
 
         /**
-         * currenlty loaded record id
-         */
-        currentlyLoadedId: null,
-
-        /**
          * intercepts the rec load in order to waive off loads of records that are already being edited.
          * this is necessary for the dirty mode - by default rec gets re-fetched and rebound
          * @param id
@@ -34,12 +29,10 @@
          */
         loadRecord: function(id, route){
 
-            var rec = this.getViewModel().get('record');
-
             //avoid reloading record as it will reset the form and we do want to avoid that!
-            if(rec && (rec.get('uuid') === id || (rec.get('uuid') === null && id === 'create'))){
+            if(this.isDirtyModeActive()){
                 //<debug>
-                console.log('[EDIT VIEW] - skipping a rec load - reocrd already loaded');
+                console.log('[EDIT VIEW] - skipping a rec load - likely a dirty mode stop reload');
                 //</debug>
                 return;
             }
@@ -52,8 +45,6 @@
          * @param record
          */
         onRecordLoadSuccess: function(record){
-            this.currentlyLoadedId = record.get('uuid');
-
             this.callMeParent(arguments);
             this.resetValidationErrs();
         },
@@ -75,7 +66,7 @@
          * cleans up view and closes it; special handling for floating / windowed editors
          */
         cleanNClose: function(){
-            this.currentlyLoadedId = null;
+            this.getViewModel().set('record', null);
             Ext.History.back();
         },
 
