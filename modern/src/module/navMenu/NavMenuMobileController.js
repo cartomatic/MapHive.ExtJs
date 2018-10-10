@@ -33,6 +33,7 @@
             this.updateUserInfo();
         },
 
+
         /**
          * instance of navigation menu drawer
          */
@@ -97,14 +98,39 @@
 
             this.navMenu = Ext.create('Ext.ActionSheet', cfg);
 
+            this.navMenu.on('hide', this.onMenuHide, this);
+        },
 
+
+        /**
+         * hides navigation menu
+         */
+        hideNavMenu: function(){
+            if(this.navMenu){
+                this.navMenu.hide();
+            }
+        },
+
+        /**
+         * menu hide - cleans up menu so it does not react to swipes
+         */
+        onMenuHide: function(){
+            Ext.Viewport.removeMenu(this.getView().getMenuSide());
+        },
+
+        /**
+         * menu btn tap handler
+         */
+        onMenuBtnTap: function(){
+            this.ensureNavMenu();
 
             Ext.Viewport.setMenu(this.navMenu, {
-                side: vw.getMenuSide()
+                side: this.getView().getMenuSide()
                 // omitting the reveal config defaults the animation to 'cover'
                 //reveal: true
             });
 
+            Ext.Viewport.toggleMenu(this.getView().getMenuSide());
         },
 
         /**
@@ -225,14 +251,7 @@
 
 
 
-        /**
-         * hides navigation menu
-         */
-        hideNavMenu: function(){
-            if(this.navMenu){
-                this.navMenu.hide();
-            }
-        },
+
 
         /**
          * generic route menu btn handler
@@ -411,21 +430,6 @@
         onBackBtnTap: function(){
             //simply go back
             Ext.History.back();
-        },
-
-        /**
-         * menu btn tap handler
-         */
-        onMenuBtnTap: function(){
-            this.ensureNavMenu();
-            //deferring as there seem to be some clashes between the btn / btn animation and the toggle menu. not sure why
-            Ext.defer(
-                function(){
-                    Ext.Viewport.toggleMenu(this.getView().getMenuSide());
-                },
-                10,
-                this
-            );
         }
 
 
