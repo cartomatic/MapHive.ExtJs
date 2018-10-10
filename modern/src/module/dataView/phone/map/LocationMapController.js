@@ -317,8 +317,8 @@
 
         reportChange: function(){
 
-            var current = {longitude: this.longitude, latitude: this.latitude, accuracy: this.accuracy},
-                prev = {longitude: this.prevLongitude, latitude: this.prevLatitude, accuracy: this.prevAccuracy};
+            var current = {lon: this.longitude, lat: this.latitude, accuracy: this.accuracy},
+                prev = {lon: this.prevLongitude, lat: this.prevLatitude, accuracy: this.prevAccuracy};
 
             this.prevLongitude = this.longitude;
             this.prevLatitude = this.latitude;
@@ -352,8 +352,8 @@
          */
         getLocationData: function(){
             return {
-                longitude: this.longitude,
-                latitude: this.latitude,
+                lon: this.longitude,
+                lat: this.latitude,
                 accuracy: this.accuracy
             }
         }
