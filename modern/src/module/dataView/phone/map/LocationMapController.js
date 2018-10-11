@@ -130,12 +130,13 @@
             // this.olVectorLayerGps.getSource().clear();
             // this.olVectorLayerGps.getSource().addFeatures([accuracy]);
 
-            this.longitude = lonLat[0];
-            this.latitude = lonLat[1];
-            this.accuracy = this.geolocation.getAccuracy();
+            this.setLongitude(lonLat[0]);
+            this.setLatitude(lonLat[1]);
+            this.setAccuracy(this.geolocation.getAccuracy());
 
             this.geolocation.setTracking(false);
 
+            //when using the std setters, they should reposition the map
             this.updateMapInternal();
         },
 
