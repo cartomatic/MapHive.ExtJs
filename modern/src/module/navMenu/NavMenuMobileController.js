@@ -130,7 +130,10 @@
                 //reveal: true
             });
 
-            Ext.Viewport.toggleMenu(this.getView().getMenuSide());
+            //defer a bit so tap ends before action dialog mask pops out. this is to avoid tapping on the dialog mask as it will hide otherwise
+            Ext.defer(function(){
+                Ext.Viewport.toggleMenu(this.getView().getMenuSide());
+            }, 250, this);
         },
 
         /**
