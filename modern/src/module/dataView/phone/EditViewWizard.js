@@ -55,12 +55,14 @@
             },
 
             {
-                xtype: 'carousel',
-                indicator: false,
+                //Note: perhaps could make this dynamic?? so can choose the way layout works.
+                //xtype: 'carousel',
+                //indicator: false,
+                xtype: 'contsiner',
                 reference: 'viewSwitcher',
                 layout: {
                     type: 'card'
-                    //,animation: 'fade'
+                    ,animation: 'fade'
                 }
             }
         ],
