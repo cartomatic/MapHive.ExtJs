@@ -41,17 +41,19 @@
          * @param snappers
          */
         setSnappers: function(snappers){
-            this.getView().removeAll(true);
             this.refs = [];
 
-            var items = [];
+            var tabPanel = this.lookupReference('tabPanel'),
+                items = [];
+
+            tabPanel.removeAll(true);
 
             Ext.Array.each(snappers, function(s){
                 items.push(this.prepareSnapper(s));
             }, this);
 
             if(items.length > 0){
-                this.getView().add(items);
+                tabPanel.add(items);
             }
         },
 
@@ -64,53 +66,43 @@
          * @param snapper.title title to set for a tab
          */
         prepareSnapper: function(snapper){
-            var me = this;
-
             this.refs.push(snapper.reference);
 
-            return {
-                xtype: 'panel',
-                layout: {
-                    type: 'vbox',
-                    align: 'text'
-                },
+            return  {
+                xtype: 'image',
+                reference: snapper.reference + '-img',
                 iconCls: snapper.iconCls || mh.FontIconsDictionary.getIcon('mhPhotoIconDefault'),
                 title: snapper.title || undefined,
-                reference: snapper.reference + '-snapper',
-                items: [
-                    {
-                        xtype: 'toolbar',
-                        docked: 'bottom',
-                        items: [
-                            '->',
-                            {
-                                xtype: 'button',
-                                iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSnap'),
-                                handler: function(){
-                                    me.showSnapperDialog(snapper.reference);
-                                }
-                            },
-                            {
-                                xtype: 'button',
-                                iconCls: mh.FontIconsDictionary.getIcon('mhPhotoDelete'),
-                                handler: function(){
-                                    var img = me.lookupReference(snapper.reference + '-img'),
-                                        oldSrc = img.getSrc();
-                                    img.setSrc(null);
-                                    me.reportChange(snapper.reference, null, oldSrc);
-                                }
-                            },
-                            '->'
-                        ]
-                    },
-                    {
-                        xtype: 'image',
-                        reference: snapper.reference + '-img',
-                        flex: 1
-                    }
-                ]
-            }
+                flex: 1
+            };
         },
+
+        getActiveImgRef: function(){
+            return this.lookupReference('tabPanel').getActiveItem().reference;
+        },
+
+        /**
+         * delete photo btn tap listener
+         */
+        onDeletePhoto: function(){
+
+            console.warn('this.getActiveImgRef()', this.getActiveImgRef());
+
+            var ref = this.getActiveImgRef(),
+                img = this.lookupReference(ref),
+                oldSrc = img.getSrc();
+            img.setSrc(null);
+
+            this.reportChange(ref, null, oldSrc);
+        },
+
+        /**
+         * show snap dialog btn tap listener
+         */
+        onShowSnapPhotoDialog: function(){
+            this.showSnapperDialog(this.getActiveImgRef());
+        },
+
 
         /**
          * @event snapchanged
@@ -132,11 +124,11 @@
 
         /**
          * sets photos data in bulk
-         * @param {object[]} photos
+         * @param {object} photos
          */
         setPhotos: function(photos){
-            Ext.Array.each(photos, function(p){
-                this.setPhoto(p.reference, p.data);
+            Ext.Array.each(Ext.Object.getKeys(photos || {}), function(p){
+                this.setPhoto(p, photos[p]);
             }, this);
         },
 
@@ -160,7 +152,7 @@
         getPhoto: function(ref){
             var img = this.lookupReference(ref + '-img');
             if(img){
-                return img.getSrc();
+                return img.getSrc() || img.hiddenSrc || null; //looks like data is kept elsewhere when hidden
             }
             return null;
         },
@@ -170,9 +162,11 @@
          */
         getPhotos: function(){
             var data = {};
+
             Ext.Array.each(this.refs, function(r){
                 data[r] = this.getPhoto(r);
             }, this);
+
             return data;
         },
 
@@ -270,9 +264,12 @@
          */
         snapCanvas: null,
 
+        /**
+         * reads photo off the canvas
+         */
         snapPhoto: function(){
 
-            //take care of older shitty devices
+            //take care of older shitty devices - this uses the std upload img approach. should not be a common scenario!
             if(this.useShittyDeviceInput){
 
                 var me = this,
@@ -325,7 +322,7 @@
         applySnappedPhoto: function(data){
 
             var ref = this.snapperDialog.imgRef,
-                img = this.lookupReference(ref + '-img'),
+                img = this.lookupReference(ref),
                 oldSrc = img.getSrc();
 
             img.setSrc(data);
@@ -558,6 +555,10 @@
 
             this.currentVideoDevice = this.videoDevices[this.videoDevices.length - 1]; //this should be the main rear camera
             this.currentVideoDeviceIdx = this.videoDevices.length - 1;
+
+            if(this.videoDevices.length != 2){
+                this.lookupReference('swapCamerasBtn').hide();
+            }
         },
 
         /**
@@ -568,7 +569,7 @@
         /**
          * swaps cameras
          */
-        onSwapCamera: function(){
+        onSwapCameras: function(){
             var newIdx = 0;
             if(this.currentVideoDeviceIdx === 0){
                 newIdx = 1;
@@ -578,6 +579,12 @@
 
             this.resetVideoFeed();
             this.startVideoFeed();
+        },
+
+        onViewActivate: function(){
+            if(this.refs && this.refs.length > 0){
+                this.lookupReference('tabPanel').setActiveItem(0);
+            }
         }
     });
 }());
