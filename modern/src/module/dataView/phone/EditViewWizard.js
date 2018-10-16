@@ -58,7 +58,7 @@
                 //Note: perhaps could make this dynamic?? so can choose the way layout works.
                 //xtype: 'carousel',
                 //indicator: false,
-                xtype: 'contsiner',
+                xtype: 'container',
                 reference: 'viewSwitcher',
                 layout: {
                     type: 'card'

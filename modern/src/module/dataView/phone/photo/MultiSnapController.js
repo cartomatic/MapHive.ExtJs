@@ -86,8 +86,6 @@
          */
         onDeletePhoto: function(){
 
-            console.warn('this.getActiveImgRef()', this.getActiveImgRef());
-
             var ref = this.getActiveImgRef(),
                 img = this.lookupReference(ref),
                 oldSrc = img.getSrc();
@@ -225,9 +223,20 @@
                         },
                         {
                             xtype: 'button',
+                            iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSwap'),
+                            ui: 'raised action round',
+                            right: 20,
+                            top: 20,
+                            hidden: this.noCamerasDetected, // || !this.canSwapCameras,
+                            handler: function(){
+                                me.swapCameras()
+                            }
+                        },
+                        {
+                            xtype: 'button',
                             //floated: true,
                             iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSnap'),
-                            ui: 'confirm round',
+                            ui: 'raised confirm round',
                             right: 20,
                             bottom: 20,
                             hidden: this.noCamerasDetected,
@@ -240,7 +249,7 @@
                             xtype: 'button',
                             //floated: true,
                             iconCls: mh.FontIconsDictionary.getIcon('mhPhotoCancel'),
-                            ui: 'decline round',
+                            ui: 'raised decline round',
                             left: 20,
                             bottom: 20,
                             handler: function(){
@@ -348,19 +357,6 @@
 
             //snapper video feed off
             this.stopVideoFeed();
-        },
-
-        /**
-         * a really simplistic and naive way of testing if this is a mobile device;
-         * needed really for sensibly testing the mobile app in desktop chrome and then working out the sizing of camera feed;
-         * mobile have portrait camera, while desktop / notebooks seem to have a landscape camera orientation
-         * @returns {boolean}
-         */
-        isMobile: function(){
-            //<debug>
-            return false;
-            //</debug>
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
         },
 
         /**
@@ -544,6 +540,8 @@
          */
         noCamerasDetected: false,
 
+        canSwapCameras: false,
+
         /**
          * finalizes camera setup
          */
@@ -556,9 +554,7 @@
             this.currentVideoDevice = this.videoDevices[this.videoDevices.length - 1]; //this should be the main rear camera
             this.currentVideoDeviceIdx = this.videoDevices.length - 1;
 
-            if(this.videoDevices.length != 2){
-                this.lookupReference('swapCamerasBtn').hide();
-            }
+            this.canSwapCameras = this.videoDevices.length === 2;
         },
 
         /**
@@ -569,7 +565,7 @@
         /**
          * swaps cameras
          */
-        onSwapCameras: function(){
+        swapCameras: function(){
             var newIdx = 0;
             if(this.currentVideoDeviceIdx === 0){
                 newIdx = 1;
