@@ -19,7 +19,8 @@
 
         mixins: [
             'mh.mixin.PublishApi',
-            'mh.mixin.Localization'
+            'mh.mixin.Localization',
+            'mh.mixin.ModalMode'
         ],
 
         /**
@@ -253,7 +254,7 @@
                             left: 20,
                             bottom: 20,
                             handler: function(){
-                                me.snapperDialog.hide();
+                                me.hideSnapperDialog();
                             }
                         }
                     ],
@@ -266,6 +267,32 @@
 
             this.snapperDialog.imgRef = ref;
             this.snapperDialog.show();
+            //wire up history change listener so can hide dialog on back btn press
+            Ext.util.History.on('change', this.hideSnapperDialog, this);
+            this.startModalMode();
+            this.getView().fireEvent('snappershow', this.getView());
+        },
+
+        /**
+         * @event snappershow
+         * fired when snapper floating panel gets shown
+         */
+
+        /**
+         * @event snapperhide
+         * fired when snapper floating panel gets hidden
+         */
+
+        hideSnapperDialog: function(){
+            Ext.util.History.un('change', this.hideSnapperDialog, this);
+            this.snapperDialog.hide();
+            this.endModalMode();
+
+            //wait with the event so there is some time before all gets cleaned up in a case this has been a snapper hide triggerred by history back btn
+            Ext.defer(function(){
+                this.getView().fireEvent('snapperhide', this.getView());
+            }, 500, this);
+
         },
 
         /**
