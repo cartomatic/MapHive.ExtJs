@@ -111,6 +111,28 @@
             //var regexGuid = /^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$/gi;
             var regexGuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
             return regexGuid.test(wouldBeGuid);
+        },
+
+        regexGuid: /([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})/g,
+
+        /**
+         * whether or not txt contains a uuid
+         * @param txt
+         * @returns {boolean}
+         */
+        containsGuid: function(txt){
+            return this.regexGuid.test(txt);
+        },
+
+        /**
+         * extracts uuids from txt
+         * @param txt
+         * @returns {RegExpMatchArray | Promise<Response | undefined> | *}
+         */
+        extractGuids: function(txt){
+            return txt.match(this.regexGuid);
         }
+
+
     });
 }());
