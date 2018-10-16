@@ -84,6 +84,10 @@
                 return orgContextUuid;
             },
 
+            getResourceIdentifier: function(){
+                return mh.ApiMap.getResourceIdentifier();
+            },
+
             watchOrgContextChanges: function(model){
                 getStaticInstance().watchOrgContextChanges(model);
             }
@@ -299,12 +303,21 @@
             return outV;
         },
 
+
+        /**
+         *
+         * @returns {*|string}
+         */
+        getApiMapResourceIdentifier: function(){
+            return mh.ApiMap.getResourceIdentifier();
+        },
+
         /**
          * gets a parent identifier token
          * @returns {string}
          */
         getApiMapParentIdentifier: function(){
-            return mh.ApiMap.getParentIdentifier();;
+            return mh.ApiMap.getParentIdentifier();
         },
 
         /**
@@ -312,7 +325,7 @@
          * @returns {string}
          */
         getApiMapOrgIdentifier: function(){
-            return mh.ApiMap.getOrgIdentifier();;
+            return mh.ApiMap.getOrgIdentifier();
         },
 
         /**

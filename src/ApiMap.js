@@ -6,7 +6,8 @@
 
     var parentIdentifier = '{parent_uuid}',
         orgIdentifier = '{org_uuid}',
-        appShortNameIdentifier = '{app_short_name}';
+        appShortNameIdentifier = '{app_short_name}',
+        resourceIdentifier = '{resource_uuid}';
 
 
     /**
@@ -25,6 +26,10 @@
 
         getAppShortNameIdentifier: function(){
             return appShortNameIdentifier;
+        },
+
+        getResourceIdentifier: function(){
+            return resourceIdentifier;
         },
 
         /**
