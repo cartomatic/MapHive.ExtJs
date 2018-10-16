@@ -14,6 +14,7 @@
                 mhPhotoSnap: 'x-li li-camera2',
                 mhPhotoDelete: 'x-li li-cross-circle',
                 mhPhotoCancel: 'x-li li-circle-minus',
+                mhPhotoSwap: 'x-li li-camera-flip',
                 mhPhotoIconDefault: 'x-li li-picture'
             });
         }

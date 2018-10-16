@@ -22,40 +22,28 @@
 
         items: [
             {
-                xtype: 'toolbar',
-                docked: 'top',
-                items: [
-                    '->',
-                    {
-                        xtype: 'button',
-                        iconCls: mh.FontIconsDictionary.getIcon('mhPhotoDelete'),
-                        ui: 'decline round',
-                        listeners: {
-                            tap: 'onDeletePhoto'
-                        }
-                    },
-                    {
-                        reference: 'swapCamerasBtn',
-                        iconCls: mh.FontIconsDictionary.getIcon('mhPhotoDelete'),
-                        ui: 'action round',
-                        listeners: {
-                            tap: 'onSwapCameras'
-                        }
-                    },
-                    {
-                        xtype: 'button',
-                        iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSnap'),
-                        ui: 'confirm round',
-                        listeners: {
-                            tap: 'onShowSnapPhotoDialog'
-                        }
-                    },
-                    '->'
-                ]
+                xtype: 'button',
+                iconCls: mh.FontIconsDictionary.getIcon('mhPhotoDelete'),
+                ui: 'raised decline round',
+                left: 20,
+                bottom: 20,
+                listeners: {
+                    tap: 'onDeletePhoto'
+                }
+            },
+            {
+                xtype: 'button',
+                iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSnap'),
+                ui: 'raised confirm round',
+                right: 20,
+                bottom: 20,
+                listeners: {
+                    tap: 'onShowSnapPhotoDialog'
+                }
             },
             {
                 xtype: 'tabpanel',
-                tabBarPosition: 'bottom',
+                tabBarPosition: 'top',
                 reference: 'tabPanel'
             }
         ],
