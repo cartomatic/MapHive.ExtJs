@@ -97,7 +97,7 @@
                 rec = this.getViewModel().get('record'),
                 enableEdit = vw.getEnableEdit();
 
-            if(this.isActive  && enableEdit === true && this.btnEdit && rec && rec.get('uuid')){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
+            if(this.isActive && enableEdit === true && this.btnEdit && rec && rec.get('uuid')){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
                 this.btnEdit.show();
             }
             else if(this.btnEdit) {
