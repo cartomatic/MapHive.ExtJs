@@ -14,7 +14,8 @@
         mixins: [
             'mh.mixin.CallMeParent',
             'mh.module.dataView.RecordLoader',
-            'mh.mixin.ResponseValidationErrorReader'
+            'mh.mixin.ResponseValidationErrorReader',
+            'mh.mixin.DirtyMode'
         ],
 
         init: function(){
@@ -30,14 +31,22 @@
         loadRecord: function(id, route){
 
             //avoid reloading record as it will reset the form and we do want to avoid that!
-            if(this.isDirtyModeActive()){
+            if(this.shouldPreventReload()){
                 //<debug>
-                console.log('[EDIT VIEW] - skipping a rec load - likely a dirty mode stop reload');
+                console.log('[EDIT VIEW] - skipping a rec load - likely rec dirty or something...');
                 //</debug>
                 return;
             }
 
             this.callMeParent(arguments);
+        },
+
+        /**
+         * whether or not record reload should be prevented
+         * @returns {*|boolean}
+         */
+        shouldPreventReload: function(){
+            return this.isDirtyModeActive();
         },
 
         /**
