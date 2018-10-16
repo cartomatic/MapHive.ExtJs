@@ -31,14 +31,14 @@
          */
         Ext.define('mh.data.Ajax', {
 
-    requires: [
-        'mh.communication.MsgBus',
-        'mh.data.AjaxLocalization',
-        'mh.data.AjaxRequestCfg',
-        'mh.localization.Localization'
-    ],
+        requires: [
+            'mh.communication.MsgBus',
+            'mh.data.AjaxLocalization',
+            'mh.data.AjaxRequestCfg',
+            'mh.localization.Localization'
+        ],
 
-    mixins: [
+        mixins: [
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
             'mh.mixin.Localization',
@@ -76,6 +76,13 @@
              */
             getStandardHeaders: function(){
                 return getStaticInstance().getStandardHeaders();
+            },
+
+            /**
+             * gets an access token url param, so it can be used for resource GET requests such as images, files etc.
+             */
+            getAccessTokenUrlParam: function(){
+                return getStaticInstance().getAccessTokenUrlParam();
             }
 
             //<debug>
@@ -161,6 +168,9 @@
             return headers;
         },
 
+        getAccessTokenUrlParam: function(){
+            return 'access_token=' + (accessToken || '');
+        },
 
         /**
          * Generic AJAX request helper; starts with underscore so naming does not interfere when mixed into
