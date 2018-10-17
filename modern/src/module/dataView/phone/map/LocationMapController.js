@@ -35,9 +35,119 @@
 
             this.watchGlobal('mapcontainer::mapcreated', this.onMapCreated, this, { channel: commChannel });
 
+            var vw = this.getView();
+
+            this.editAllowed = vw.getEditAllowed();
         },
 
+        editAllowed: false,
+
+        /**
+         * start position edit
+         */
+        onEnablePositionEditBtnTap: function(){
+            //first enforce orig position
+            this.updateMapInternal(true);
+            //next make editable
+            this.setEditable(true);
+        },
+
+        /**
+         * save position edit
+         */
+        onSavePositionEditBtnTap: function(){
+            this.reportChange();
+            this.setEditable(false);
+            this.updateMapInternal(true);
+        },
+
+        /**
+         * discard position edit
+         */
+        onDiscardPositionEditBtnTap: function(){
+            this.setEditable(false);
+            this.setLon(this.snapLon);
+            this.setLat(this.snapLat);
+            this.setAccuracy(this.snapAccuracy);
+        },
+
+        /**
+         * sets the module editability
+         * @param editable
+         */
+        setEditable: function(editable){
+            this.editable = editable;
+
+            if(!this.mapMoveEndCallback){
+                this.mapMoveEndCallback = Ext.bind(this.onMapMoveEnd, this);
+            }
+
+
+            this.lookupReference('enablePositionEditBtn').setVisibility(!editable && this.editAllowed);
+            this.lookupReference('gpsBtn').setVisibility(editable);
+            this.lookupReference('discardPositionEditBtn').setVisibility(editable);
+            this.lookupReference('savePositionEditBtn').setVisibility(editable);
+
+            this.lookupReference('numFldLat').setReadOnly(!editable);
+            this.lookupReference('numFldLon').setReadOnly(!editable);
+
+            if(editable){
+                this.map.on('moveend', this.mapMoveEndCallback);
+
+                document.getElementById(this.mapCenterMarkerId).style.display = 'block';
+                //<debug>
+                document.getElementById(this.mapCenterDebugMarkerId).style.display = 'block';
+                //</debug>
+
+                this.markerLayer.setVisible(false);
+
+                //take a snapshot of the current values
+                this.snapLon = this.lon;
+                this.snapLat = this.lat;
+                this.snapAccuracy = this.accuracy;
+
+            }
+            else {
+                this.map.un('moveend', this.mapMoveEndCallback);
+
+                document.getElementById(this.mapCenterMarkerId).style.display = 'none';
+                //<debug>
+                document.getElementById(this.mapCenterDebugMarkerId).style.display = 'none';
+                //</debug>
+
+                this.markerLayer.setVisible(true);
+
+                //reset gps just in a case
+                this.geolocation.setTracking(false);
+            }
+        },
+
+        /**
+         * map instance
+         */
         map: null,
+
+        /**
+         * edit mode marker div id
+         */
+        mapCenterMarkerId: null,
+
+        //<debug>
+        /**
+         * edit mode debug marker id
+         */
+        mapCenterDebugMarkerId: null,
+        //</debug>
+
+        /**
+         * marker layer
+         */
+        markerLayer: null,
+
+        /**
+         * @private
+         */
+        mapMoveEndCallback: null,
 
         /**
          * map created callback
@@ -47,25 +157,60 @@
 
             this.map = map;
 
-            //create an accuracy layer
+            this.mapCenterMarkerId = this.getId() + '-marker';
+            this.mapCenterDebugMarkerId = this.getId() + '-debug-marker';
 
             //add a div that will display in the center of the map
             Ext.dom.Helper.append(
                 this.lookupReference('mapContainer').el,
-                '<div class="' + mh.FontIconsDictionary.getIcon('mhMapPositionPin') + '" style="position: absolute; left: 50%; top: 50%; width: 2px; height:2px; margin-left:-21px; margin-top:-27px;" />');
+                '<div id="' + this.mapCenterMarkerId + '" class="' + mh.FontIconsDictionary.getIcon('mhMapPositionPin') + '" style="position: absolute; left: 50%; top: 50%; width: 2px; height:2px; margin-left:-21px; margin-top:-27px; display: none;" />');
             //<debug>
             //debug red dot, so can ensure positioning is ok
             Ext.dom.Helper.append(
                 this.lookupReference('mapContainer').el,
-                '<div style="position: absolute; left: 50%; top: 50%; width: 2px; height:2px; margin-left:-1px; margin-top:-1px; background-color: red;" />'
+                '<div id="' + this.mapCenterDebugMarkerId + '" style="position: absolute; left: 50%; top: 50%; width: 2px; height:2px; margin-left:-1px; margin-top:-1px; background-color: red; display: none;" />'
             );
             //</debug>
 
-            map.on('moveend', Ext.bind(this.onMapMoveEnd, this));
 
             this.setUpGeoLocation(map);
 
-            this.updateMap();
+            //this sucks a bit as the first call does not return the char because of some reason...
+
+            while(!mh.FontIconsDictionary.getFontChar('.i54c-location-4::before')){
+                //bleh
+                //<debug>
+                console.warn('Waiting for the bloody font icon...');
+                //</debug>
+            }
+
+            var fontIcon = String.fromCharCode(mh.FontIconsDictionary.getFontChar('.i54c-location-4::before'));
+
+            //set up center layer
+            this.markerLayer = new ol.layer.Vector({
+                source: new ol.source.Vector(),
+                style: new ol.style.Style({
+                    text: new ol.style.Text({
+                        text: fontIcon,
+                        font: 'normal 41px icon54com',
+                        textBaseline: 'bottom',
+                        fill: new ol.style.Fill({
+                            color: '#000000'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: '#c1c1c1',
+                            width: 2
+                        })
+                    })
+                })
+            });
+            map.addLayer(this.markerLayer);
+
+            //after setup. initially set the editability off!
+            this.setEditable(false);
+
+            //force redraw on init
+            this.updateMap(true);
         },
 
         /**
@@ -130,8 +275,8 @@
             // this.olVectorLayerGps.getSource().clear();
             // this.olVectorLayerGps.getSource().addFeatures([accuracy]);
 
-            this.setLongitude(lonLat[0]);
-            this.setLatitude(lonLat[1]);
+            this.setLon(lonLat[0]);
+            this.setLat(lonLat[1]);
             this.setAccuracy(this.geolocation.getAccuracy());
 
             this.geolocation.setTracking(false);
@@ -162,30 +307,37 @@
             this.geolocation.setTracking(true);
         },
 
+
         /**
          * current lon
          */
-        longitude: null,
+        lon: null,
+
+        snapLon: null,
 
         /**
          * previous lon
          */
-        prevLongitude: null,
+        prevLon: null,
 
         /**
          * current lat
          */
-        latitude: null,
+        lat: null,
+
+        snapLat: null,
 
         /**
          * previous lat
          */
-        prevLatitude: null,
+        prevLat: null,
 
         /**
          * curent gps accuracy; present only when position set via gps
          */
         accuracy: null,
+
+        snapAccuracy: null,
 
         /**
          * previous gps accuracy
@@ -214,14 +366,14 @@
          * @param lon
          * @param silent
          */
-        setLongitude: function(lon, silent){
+        setLon: function(lon, silent){
             if(!Ext.isNumber(lon) || lon > 180 || lon < -180){
                 lon = this.getView().getInitialLongitude() || 0;
             }
 
-            if(this.longitude !== lon){
+            if(this.lon !== lon){
                 this.lookupReference('numFldLon').setValue(lon);
-                this.longitude = lon;
+                this.lon = lon;
 
                 if(silent !== true){
                     this.updateMap();
@@ -234,14 +386,14 @@
          * @param lat
          * @param silent
          */
-        setLatitude: function(lat, silent){
+        setLat: function(lat, silent){
             if(!Ext.isNumber(lat) || lat > 90 || lat < -90){
                 lat = this.getView().getInitialLatitude() || 0;
             }
 
-            if(this.latitude !== lat){
+            if(this.lat !== lat){
                 this.lookupReference('numFldLat').setValue(lat);
-                this.latitude = lat;
+                this.lat = lat;
 
                 if(silent !== true){
                     this.updateMap();
@@ -256,7 +408,7 @@
          * @param oldV
          */
         onLonChange: function(numfld, newV, oldV){
-            this.setLongitude(newV);
+            this.setLon(newV);
         },
 
         /**
@@ -266,7 +418,7 @@
          * @param oldV
          */
         onLatChange: function(numfld, newV, oldV){
-            this.setLatitude(newV);
+            this.setLat(newV);
         },
 
         /**
@@ -276,18 +428,20 @@
 
         /**
          * triggers map update
+         * @param force
          */
-        updateMap: function(){
+        updateMap: function(force){
             clearTimeout(this.mapUpdateScheduler);
             this.mapUpdateScheduler = Ext.defer(function(){
-                this.updateMapInternal();
+                this.updateMapInternal(force);
             }, 100, this);
         },
 
         /**
          * internal map update procedure
+         * @param force
          */
-        updateMapInternal: function(){
+        updateMapInternal: function(force){
             if(!this.map){
                 return;
             }
@@ -297,11 +451,11 @@
                 newCenter,
                 accuracy;
 
-            if(currentCenter[0] === this.longitude && currentCenter[1] === this.latitude){
+            if(!force && currentCenter[0] === this.lon && currentCenter[1] === this.lat){
                 return;
             }
 
-            newCenter = ol.proj.transform([this.longitude,this.latitude], 'EPSG:4326', 'EPSG:3857');
+            newCenter = ol.proj.transform([this.lon,this.lat], 'EPSG:4326', 'EPSG:3857');
 
             mapV.setCenter(newCenter);
             mapV.setZoom(17);
@@ -314,18 +468,30 @@
                 this.olVectorLayerGps.getSource().addFeatures([accuracy])
             }
 
+            this.markerLayer.getSource().clear();
+            if(!this.editable){
+                this.markerLayer.getSource().addFeatures([
+                    new ol.Feature(new ol.geom.Point(newCenter))
+                ]);
+            }
         },
 
+        /**
+         * reports state change
+         */
         reportChange: function(){
 
-            var current = {lon: this.longitude, lat: this.latitude, accuracy: this.accuracy},
-                prev = {lon: this.prevLongitude, lat: this.prevLatitude, accuracy: this.prevAccuracy};
+            var vw = this.getView(),
+                current, prev;
 
-            this.prevLongitude = this.longitude;
-            this.prevLatitude = this.latitude;
+            current = {lon: this.lon, lat: this.lat, accuracy: this.accuracy};
+            prev = {lon: this.prevLon, lat: this.prevLat, accuracy: this.prevAccuracy};
+
+            this.prevLon = this.lon;
+            this.prevLat = this.lat;
             this.prevAccuracy = this.accuracy;
 
-            this.getView().fireEvent('locationchanged', this.getView(), current, prev);
+            vw.fireEvent('locationchanged', this.getView(), current, prev);
         },
 
         /**
@@ -333,6 +499,7 @@
          * @param e
          */
         onMapMoveEnd: function(e){
+
             var coords = e.map.getView().getCenter(),
                 lonLat = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
 
@@ -342,10 +509,8 @@
                 this.resetAccuracy();
             }
 
-            this.setLongitude(lonLat[0], true);
-            this.setLatitude(lonLat[1], true);
-
-            this.reportChange();
+            this.setLon(lonLat[0], true);
+            this.setLat(lonLat[1], true);
         },
 
         /**
@@ -353,8 +518,8 @@
          */
         getLocationData: function(){
             return {
-                lon: this.longitude,
-                lat: this.latitude,
+                lon: this.lon,
+                lat: this.lat,
                 accuracy: this.accuracy
             }
         }

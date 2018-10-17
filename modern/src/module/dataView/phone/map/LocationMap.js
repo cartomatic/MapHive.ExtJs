@@ -37,6 +37,7 @@
         },
 
         config: {
+            editAllowed: true,
             initialLongitude: null,
             initialLatitude: null
         },
@@ -61,7 +62,8 @@
                         flex: 1,
                         listeners: {
                             change: 'onLonChange'
-                        }
+                        },
+                        readOnly: true
                     },
                     {
                         xtype: 'numberfield',
@@ -76,35 +78,88 @@
                         margin: '0 5 0 5',
                         listeners: {
                             change: 'onLatChange'
-                        }
-                    },
-                    {
-                        xtype: 'button',
-                        iconCls: mh.FontIconsDictionary.getIcon('mhMapGps'),
-                        listeners: {
-                            tap: 'onGpsBtnTap'
                         },
-                        ui: 'mh-phone-location-map-soft-green-btn',
-                        width: 50,
-                        height: 50
+                        readOnly: true
                     }
                 ]
             },
             {
-                xtype: 'mh-ol3-map-container',
-                reference: 'mapContainer',
-                flex: 1
+                xtype: 'panel',
+                layout: 'fit',
+                flex: 1,
+                items: [
+                    {
+                        xtype: 'mh-ol3-map-container',
+                        reference: 'mapContainer'
+                    },
+                    {
+                        xtype: 'button',
+                        reference: 'savePositionEditBtn',
+                        iconCls: mh.FontIconsDictionary.getIcon('mhMapPositionConfirm'),
+                        listeners: {
+                            tap: 'onSavePositionEditBtnTap'
+                        },
+                        ui: 'mh-phone-location-map-save-green-btn',
+                        width: 50,
+                        height: 50,
+                        top: 10,
+                        right: 120,
+                        hidden: true
+                    },
+                    {
+                        xtype: 'button',
+                        reference: 'discardPositionEditBtn',
+                        iconCls: mh.FontIconsDictionary.getIcon('mhMapPositionCancel'),
+                        listeners: {
+                            tap: 'onDiscardPositionEditBtnTap'
+                        },
+                        ui: 'mh-phone-location-map-close-red-btn',
+                        width: 50,
+                        height: 50,
+                        top: 10,
+                        right: 65,
+                        hidden: true
+                    },
+                    {
+                        xtype: 'button',
+                        reference: 'gpsBtn',
+                        iconCls: mh.FontIconsDictionary.getIcon('mhMapGps'),
+                        listeners: {
+                            tap: 'onGpsBtnTap'
+                        },
+                        ui: 'mh-phone-location-map-purple-btn',
+                        width: 50,
+                        height: 50,
+                        top: 10,
+                        right: 10,
+                        hidden: true
+                    },
+                    {
+                        xtype: 'button',
+                        reference: 'enablePositionEditBtn',
+                        iconCls: mh.FontIconsDictionary.getIcon('mhMapPositionEdit'),
+                        listeners: {
+                            tap: 'onEnablePositionEditBtnTap'
+                        },
+                        ui: 'mh-phone-location-map-action-blue-btn',
+                        width: 50,
+                        height: 50,
+                        top: 10,
+                        right: 10,
+                        hidden: true
+                    }
+                ]
             }
         ],
 
         //because this component is data bound from a form it requires setters to be defined at a definition time, not when controller kicks in
 
-        setLongitude: function(lon){
-            this.getController().setLongitude(lon);
+        setLon: function(lon){
+            this.getController().setLon(lon);
         },
 
-        setLatitude: function(lat){
-            this.getController().setLatitude(lat);
+        setLat: function(lat){
+            this.getController().setLat(lat);
         },
 
         setAccuracy: function(accuracy){
