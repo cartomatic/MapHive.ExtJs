@@ -12,7 +12,10 @@
         constructor: function(){
             mh.FontIconsDictionary.addIcons({
                 mhMapGps: 'x-i54c i54c-map-pin4',
-                mhMapPositionPin: 'x-i54c i54c-location-4 i54c-3x'
+                mhMapPositionPin: 'x-i54c i54c-location-4 i54c-3x',
+                mhMapPositionConfirm: 'x-i54c i54c-done-location',
+                mhMapPositionCancel: 'x-i54c i54c-clear-location',
+                mhMapPositionEdit: 'x-i54c i54c-add-location'
             });
         }
     });
