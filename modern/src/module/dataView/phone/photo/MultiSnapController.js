@@ -243,7 +243,7 @@
                             hidden: this.noCamerasDetected,
                             handler: function(){
                                 me.snapPhoto();
-                                me.snapperDialog.hide();
+                                me.hideSnapperDialog();
                             }
                         },
                         {
@@ -284,9 +284,9 @@
          */
 
         hideSnapperDialog: function(){
+            this.endModalMode();
             Ext.util.History.un('change', this.hideSnapperDialog, this);
             this.snapperDialog.hide();
-            this.endModalMode();
 
             //wait with the event so there is some time before all gets cleaned up in a case this has been a snapper hide triggerred by history back btn
             Ext.defer(function(){
