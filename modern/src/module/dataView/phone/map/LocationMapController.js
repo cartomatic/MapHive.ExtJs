@@ -192,7 +192,7 @@
                 style: new ol.style.Style({
                     text: new ol.style.Text({
                         text: fontIcon,
-                        font: 'normal 41px icon54com',
+                        font: 'normal 31pt icon54com',
                         textBaseline: 'bottom',
                         fill: new ol.style.Fill({
                             color: '#000000'
@@ -200,7 +200,8 @@
                         stroke: new ol.style.Stroke({
                             color: '#c1c1c1',
                             width: 2
-                        })
+                        }),
+                        offsetY: 3
                     })
                 })
             });
@@ -267,22 +268,25 @@
          * @param evt
          */
         onGeolocationChange: function(evt){
-            var accuracy = new ol.Feature({
-                    geometry: this.geolocation.getAccuracyGeometry()
-                }),
+            var
+                //not using accuracy geom, as need to save the value and render it independently
+                // accuracy = new ol.Feature({
+                //     geometry: this.geolocation.getAccuracyGeometry()
+                // }),
                 lonLat = ol.proj.transform(this.geolocation.getPosition(), 'EPSG:3857', 'EPSG:4326');
 
+            //see comments above
             // this.olVectorLayerGps.getSource().clear();
             // this.olVectorLayerGps.getSource().addFeatures([accuracy]);
 
-            this.setLon(lonLat[0]);
-            this.setLat(lonLat[1]);
-            this.setAccuracy(this.geolocation.getAccuracy());
+            this.setLon(lonLat[0], true);
+            this.setLat(lonLat[1], true);
+            this.setAccuracy(this.geolocation.getAccuracy(), true);
 
             this.geolocation.setTracking(false);
 
             //when using the std setters, they should reposition the map
-            this.updateMapInternal();
+            this.updateMapInternal(true); //true to force update
         },
 
         /**
@@ -313,6 +317,9 @@
          */
         lon: null,
 
+        /**
+         * lon snapshot so can be restored on dismiss
+         */
         snapLon: null,
 
         /**
@@ -325,6 +332,9 @@
          */
         lat: null,
 
+        /**
+         * lar snapshot so can be restored on dismiss
+         */
         snapLat: null,
 
         /**
@@ -337,6 +347,9 @@
          */
         accuracy: null,
 
+        /**
+         * accuracy snapshot so can be restored on dismiss
+         */
         snapAccuracy: null,
 
         /**
@@ -372,8 +385,14 @@
             }
 
             if(this.lon !== lon){
-                this.lookupReference('numFldLon').setValue(lon);
                 this.lon = lon;
+
+                //avoid triggering multiple map updates
+                //after all an update call is trigerred below based on the silent flag
+                var fld = this.lookupReference('numFldLon');
+                fld.suspendEvent('change');
+                fld.setValue(lon);
+                fld.resumeEvent('change');
 
                 if(silent !== true){
                     this.updateMap();
@@ -392,8 +411,14 @@
             }
 
             if(this.lat !== lat){
-                this.lookupReference('numFldLat').setValue(lat);
                 this.lat = lat;
+
+                //avoid triggering multiple map updates
+                //after all an update call is trigerred below based on the silent flag
+                var fld = this.lookupReference('numFldLat');
+                fld.suspendEvent('change');
+                fld.setValue(lat);
+                fld.resumeEvent('change');
 
                 if(silent !== true){
                     this.updateMap();
@@ -446,6 +471,10 @@
                 return;
             }
 
+            //<debug>
+            console.warn('update map internal');
+            //</debug>
+
             var mapV = this.map.getView(),
                 currentCenter = ol.proj.transform(mapV.getCenter(), 'EPSG:3857','EPSG:4326'),
                 newCenter,
@@ -462,14 +491,14 @@
 
 
             //draw accuracy marker if accuracy present!
+            this.olVectorLayerGps.getSource().clear();
             if(this.accuracy){
                 accuracy = new ol.Feature(new ol.geom.Circle(newCenter, this.accuracy));
-                this.olVectorLayerGps.getSource().clear();
                 this.olVectorLayerGps.getSource().addFeatures([accuracy])
             }
 
-            this.markerLayer.getSource().clear();
             if(!this.editable){
+                this.markerLayer.getSource().clear();
                 this.markerLayer.getSource().addFeatures([
                     new ol.Feature(new ol.geom.Point(newCenter))
                 ]);
@@ -504,8 +533,8 @@
                 lonLat = ol.proj.transform(coords, 'EPSG:3857', 'EPSG:4326');
 
             //reset accuracy when map has changed and this is not GPS position
-            //gps sets position directly and triggers map update internal, so this will be move end callback
-            if(this.longitude !== lonLat[0] || this.latitude !== lonLat[1]){
+            //gps sets position directly and triggers map update internal, so this will be 'moveend' callback
+            if(this.lon !== lonLat[0] || this.lat !== lonLat[1]){
                 this.resetAccuracy();
             }
 
