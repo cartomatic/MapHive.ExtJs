@@ -106,12 +106,9 @@
                 swipeActions = [];
 
             if(enableCreate){
-                //Note: floating btn visibility handled on view activate / deactivate
                 this.btnEdit = vw.add({
                     xtype: 'button',
-                    hidden: true,
-                    floated: true,
-                    ui: 'confirm round',
+                    ui: 'confirm round raised',
                     right: 15,
                     bottom: 15,
                     iconCls: mh.FontIconsDictionary.getIcon('mhDataViewNew'),
@@ -241,31 +238,11 @@
          */
         onViewActivate: function() {
             this.isActive = true;
-            this.handleFloatingBtnsVisibility();
             this.reloadStore();
         },
 
         onViewDeactivate: function(){
             this.isActive = false;
-            this.handleFloatingBtnsVisibility();
-        },
-
-        /**
-         * handles floating btns visibility
-         * @param show
-         */
-        handleFloatingBtnsVisibility: function(){
-            var vw = this.getView(),
-                enableCreate = vw.getEnableCreate();
-
-            if(this.btnEdit){
-                if(this.isActive && enableCreate === true){
-                    this.btnEdit.show();
-                }
-                else {
-                    this.btnEdit.hide();
-                }
-            }
         },
 
         /**
