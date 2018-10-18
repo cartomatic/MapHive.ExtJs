@@ -15,7 +15,8 @@
         requires: [
             'mh.FontIconsDictionary',
             'mh.module.dataView.phone.Icons',
-            'Ext.carousel.Carousel'
+            'Ext.carousel.Carousel',
+            'mh.module.dataView.phone.EditViewWizardPagingToolbar'
         ],
 
         viewModel: {
@@ -64,52 +65,11 @@
                     type: 'card'
                     ,animation: 'fade'
                 }
+            },
+            {
+                xtype: 'mh-phone-edit-view-wizard-paging-toolbar'
             }
-        ],
-
-        bbar: {
-            xtype: 'toolbar',
-            docked: 'bottom',
-            items: [
-                {
-                    xtype: 'button',
-                    reference: 'btnPrev',
-                    ui: 'mh-phone-edit-view-wizard-soft-purple',
-                    iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnPrev'),
-                    listeners: {
-                        tap: 'displayPreviousView'
-                    }
-                },
-                '->',
-                {
-                    xtype: 'button',
-                    ui: 'mh-phone-edit-view-wizard-gray-button',
-                    listeners: {
-                        tap: 'onBtnCancelTap'
-                    },
-                    iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnCancel'),
-                    margin: '0 15 0 0' //trbl
-                },
-                {
-                    xtype: 'button',
-                    ui: 'mh-phone-edit-view-wizard-soft-green',
-                    listeners: {
-                        tap: 'onBtnSaveTap'
-                    },
-                    iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnSave')
-                },
-                '->',
-                {
-                    xtype: 'button',
-                    reference: 'btnNext',
-                    ui: 'mh-phone-edit-view-wizard-soft-purple',
-                    iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnNext'),
-                    listeners: {
-                        tap: 'displayNextView'
-                    }
-                }
-            ]
-        }
+        ]
 
     });
 }());
