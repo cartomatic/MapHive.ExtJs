@@ -15,6 +15,7 @@
                 mhDataViewFilter: 'x-i54c i54c-filter',
                 mhDataViewNew: 'x-li li-plus-circle',
                 mhDataViewEdit: 'x-li li-pencil5',
+                mhDataViewBtnDismiss: 'x-li li-cross-circle',
                 mhDataViewBtnPrev: 'x-li li-chevron-left-circle',
                 mhDataViewBtnNext: 'x-li li-chevron-right-circle',
                 mhDataViewBtnEdit: 'x-li li-pencil5',
