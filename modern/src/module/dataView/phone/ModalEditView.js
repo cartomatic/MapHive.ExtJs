@@ -4,23 +4,20 @@
     //Make sure strict mode is on
     'use strict'
     
-    /**
-     * Created by domin on 18.10.2018.
-     */
-    Ext.define('mh.module.dataView.phone.ModalRecordView', {
-        extend: 'Ext.Panel',
-
-        xtype: 'mh-phone-modal-record-view',
+    Ext.define('mh.module.dataView.phone.ModalEditView', {
+        extend: 'Ext.Container',
+    
+        xtype: 'mh-phone-modal-edit-view',
 
         requires: [
-            'mh.module.dataView.phone.ModalRecordViewController',
-            'mh.module.dataView.phone.ModalRecordViewModel',
+            'mh.module.dataView.phone.ModalEditViewController',
+            'mh.module.dataView.phone.ModalEditViewModel',
             'mh.module.dataView.phone.ModalNavigationToolbar'
         ],
 
-        controller: 'mh-phone-modal-record-view',
+        controller: 'mh-phone-modal-edit-view',
         viewModel: {
-            type: 'mh-phone-modal-record-view'
+            type: 'mh-phone-modal-edit-view'
         },
 
         config: {
@@ -31,17 +28,12 @@
             viewItems: null,
 
             /**
-             * edit view lookupKey to be used to find an edit view via the mh.module.dataView.phone.ModalRecordViewSharedController apis
+             * whether or not the default edit view save btn should be visible
              */
-            editViewLookupKey: null,
+            enableSave: true,
 
             /**
-             * whether or not edit btn should be enabled for this view
-             */
-            enableEdit: true,
-
-            /**
-             * whether or not a dismiss btn should be enabled
+             * whether or not dismiss btn should be enabled
              */
             enableDismiss: true
         },
@@ -58,24 +50,24 @@
             },
             {
                 xtype: 'button',
-                reference: 'editBtn',
-                right: 15,
-                bottom: 15,
+                reference: 'saveBtn',
                 hidden: true,
-                iconCls: mh.FontIconsDictionary.getIcon('mhDataViewEdit'),
-                ui: 'mh-phone-modal-record-view-edit-btn raised',
+                bottom: 15,
+                right: 15,
+                iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnSave'),
+                ui: 'mh-phone-modal-edit-view-edit-btn raised',
                 listeners: {
-                    tap: 'onEditBtnTap'
+                    tap: 'onSaveBtnTap'
                 }
             },
             {
                 xtype: 'button',
                 reference: 'dismissBtn',
-                left: 15,
-                bottom: 15,
                 hidden: true,
+                bottom: 15,
+                left: 15,
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDismiss'),
-                ui: 'mh-phone-modal-record-view-dismiss-btn raised',
+                ui: 'mh-phone-modal-edit-view-dismiss-btn raised',
                 listeners: {
                     tap: 'onDismissTap'
                 }

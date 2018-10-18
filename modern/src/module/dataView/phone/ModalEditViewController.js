@@ -4,20 +4,10 @@
     //Make sure strict mode is on
     'use strict'
     
-    /**
-     * Created by domin on 18.10.2018.
-     */
-    Ext.define('mh.module.dataView.phone.ModalRecordViewController', {
+    Ext.define('mh.module.dataView.phone.ModalEditViewController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-phone-modal-record-view',
-
-        requires: [
-        ],
-
-        mixins: [
-            'mh.module.dataView.phone.ModalRecordViewSharedController'
-        ],
-
+        alias: 'controller.mh-phone-modal-edit-view',
+    
         /**
          * Called when the view is created
          */
@@ -39,12 +29,11 @@
          */
         setUpActionBtns: function(){
             var vw = this.getView(),
-                editViewLookupKey = vw.getEditViewLookupKey(),
-                enableEdit = vw.getEnableEdit(),
+                enableSave = vw.getEnableSave(),
                 enableDismiss = vw.getEnableDismiss();
 
-            if(enableEdit && editViewLookupKey) {
-                this.lookupReference('editBtn').show();
+            if(enableSave){
+                this.lookupReference('saveBtn').show();
             }
 
             if(enableDismiss){
@@ -55,7 +44,7 @@
         /**
          * template
          */
-        onEditBtnTap: function(){
+        onSaveBtnTap: function(){
             console.log('It looks like you are not overriding the onEditBtnTap of ', Ext.getClassName(this));
         },
 
