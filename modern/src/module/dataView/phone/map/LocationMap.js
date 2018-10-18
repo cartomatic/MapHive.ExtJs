@@ -99,9 +99,7 @@
                         listeners: {
                             tap: 'onSavePositionEditBtnTap'
                         },
-                        ui: 'mh-phone-location-map-save-green-btn',
-                        width: 50,
-                        height: 50,
+                        ui: 'mh-phone-location-map-save-green-btn raised',
                         top: 10,
                         right: 120,
                         hidden: true
@@ -113,9 +111,7 @@
                         listeners: {
                             tap: 'onDiscardPositionEditBtnTap'
                         },
-                        ui: 'mh-phone-location-map-close-red-btn',
-                        width: 50,
-                        height: 50,
+                        ui: 'mh-phone-location-map-close-red-btn raised',
                         top: 10,
                         right: 65,
                         hidden: true
@@ -127,9 +123,7 @@
                         listeners: {
                             tap: 'onGpsBtnTap'
                         },
-                        ui: 'mh-phone-location-map-purple-btn',
-                        width: 50,
-                        height: 50,
+                        ui: 'mh-phone-location-map-purple-btn raised',
                         top: 10,
                         right: 10,
                         hidden: true
@@ -141,9 +135,7 @@
                         listeners: {
                             tap: 'onEnablePositionEditBtnTap'
                         },
-                        ui: 'mh-phone-location-map-action-blue-btn',
-                        width: 50,
-                        height: 50,
+                        ui: 'mh-phone-location-map-action-blue-btn raised',
                         top: 10,
                         right: 10,
                         hidden: true

@@ -14,7 +14,7 @@
             {
                 xtype: 'button',
                 reference: 'btnPrev',
-                ui: 'mh-phone-edit-view-wizard-soft-purple',
+                ui: 'mh-phone-edit-view-wizard-soft-purple-button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnPrev'),
                 listeners: {
                     tap: 'displayPreviousView'
@@ -32,7 +32,7 @@
             },
             {
                 xtype: 'button',
-                ui: 'mh-phone-edit-view-wizard-soft-green',
+                ui: 'mh-phone-edit-view-wizard-soft-green-button',
                 listeners: {
                     tap: 'onBtnSaveTap'
                 },
@@ -42,7 +42,7 @@
             {
                 xtype: 'button',
                 reference: 'btnNext',
-                ui: 'mh-phone-edit-view-wizard-soft-purple',
+                ui: 'mh-phone-edit-view-wizard-soft-purple-button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnNext'),
                 listeners: {
                     tap: 'displayNextView'
