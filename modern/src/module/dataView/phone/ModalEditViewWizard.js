@@ -4,24 +4,21 @@
     //Make sure strict mode is on
     'use strict'
     
-    /**
-     * Created by domin on 09.10.2018.
-     */
-    Ext.define('mh.module.dataView.phone.EditViewWizard', {
-        extend: 'mh.module.dataView.phone.EditView',
-        xtype: 'mh-phone-edit-view-wizard',
-        controller: 'mh-phone-edit-view-wizard',
+    Ext.define('mh.module.dataView.phone.ModalEditViewWizard', {
+        extend: 'Ext.Panel',
+    
+        xtype: 'mh-phone-modal-edit-view-wizard',
 
         requires: [
-            'mh.FontIconsDictionary',
-            'mh.module.dataView.phone.Icons',
-            'Ext.carousel.Carousel',
+            'mh.module.dataView.phone.ModalEditViewWizardController',
+            'mh.module.dataView.phone.ModalEditViewWizardModel',
             'mh.module.dataView.phone.EditViewWizardPagingToolbar',
             'mh.module.dataView.phone.EditViewWizardTitleToolbar'
         ],
 
+        controller: 'mh-phone-modal-edit-view-wizard',
         viewModel: {
-            type: 'mh-edit-view'
+            type: 'mh-phone-modal-edit-view-wizard'
         },
 
         config: {
@@ -38,20 +35,20 @@
                 xtype: 'mh-phone-edit-view-wizard-title-toolbar'
             },
             {
-                //Note: perhaps could make this dynamic?? so can choose the way layout works.
-                //xtype: 'carousel',
-                //indicator: false,
                 xtype: 'container',
                 reference: 'viewSwitcher',
                 layout: {
-                    type: 'card'
-                    ,animation: 'fade'
+                    type: 'card',
+                    animation: 'fade'
                 }
             },
             {
                 xtype: 'mh-phone-edit-view-wizard-paging-toolbar'
             }
-        ]
+        ],
 
+        listeners: {
+            activate: 'onViewActivate'
+        }
     });
 }());
