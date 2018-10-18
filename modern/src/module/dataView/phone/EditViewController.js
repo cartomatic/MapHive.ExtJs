@@ -40,11 +40,6 @@
         },
 
         /**
-         * save btn instance
-         */
-        btnSave: null,
-
-        /**
          * sets up action btns for this view
          */
         setUpActionBtns: function(){
