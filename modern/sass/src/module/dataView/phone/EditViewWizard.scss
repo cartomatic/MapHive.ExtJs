@@ -1,38 +1,4 @@
 @include button-ui(
-        $ui: 'mh-phone-edit-view-wizard-bright-blue',
-        $color: #fff,
-        $icon-color: #fff,
-        $background-color: #03a9f5,
-        $border-width: 0,
-        $border-radius: 50%,
-        $border-radius-big: 50%
-);
-
-//@include button-ui(
-//        $ui: 'round',
-//        $border-radius: 50%,
-//        $border-radius-big: 50%
-//);
-//
-//@include button-ui(
-//        $ui: 'header',
-//        $color: #999,
-//        $icon-color: #999,
-//        $background-color: transparent,
-//        $border-width: 0
-//);
-
-@include button-ui(
-        $ui: 'mh-phone-edit-view-wizard-blue',
-        $color: #fff,
-        $icon-color: #fff,
-        $background-color: #167abc,
-        $border-width: 0,
-        $border-radius: 50%,
-        $border-radius-big: 50%
-);
-
-@include button-ui(
         $ui: 'mh-phone-edit-view-wizard-gray-button',
         $color: #fff,
         $icon-color: #fff,
@@ -42,27 +8,7 @@
 );
 
 @include button-ui(
-        $ui: 'mh-phone-edit-view-wizard-soft-blue',
-        $color: #fff,
-        $icon-color: #fff,
-        $background-color: $color-soft-blue,
-        $border-color: darken($color-soft-blue, 5%),
-        $border-radius: 50%,
-        $border-radius-big: 50%
-);
-
-@include button-ui(
-        $ui: 'mh-phone-edit-view-wizard-soft-cyan',
-        $color: #fff,
-        $icon-color: #fff,
-        $background-color: $color-soft-cyan,
-        $border-color: darken($color-soft-cyan, 5%),
-        $border-radius: 50%,
-        $border-radius-big: 50%
-);
-
-@include button-ui(
-        $ui: 'mh-phone-edit-view-wizard-soft-green',
+        $ui: 'mh-phone-edit-view-wizard-soft-green-button',
         $color: #fff,
         $icon-color: #fff,
         $pressed-color: #fff,
@@ -73,21 +19,11 @@
 );
 
 @include button-ui(
-        $ui: 'mh-phone-edit-view-wizard-soft-purple',
+        $ui: 'mh-phone-edit-view-wizard-soft-purple-button',
         $color: #fff,
         $icon-color: #fff,
         $background-color: $color-soft-purple,
         $border-color: darken($color-soft-purple, 5%),
-        $border-radius: 50%,
-        $border-radius-big: 50%
-);
-
-@include button-ui(
-        $ui: 'mh-phone-edit-view-wizard-soft-red',
-        $color: #fff,
-        $icon-color: #fff,
-        $background-color: $color-soft-red,
-        $border-color: darken($color-soft-red, 5%),
         $border-radius: 50%,
         $border-radius-big: 50%
 );

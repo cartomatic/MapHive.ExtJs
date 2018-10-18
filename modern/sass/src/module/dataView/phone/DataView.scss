@@ -1,0 +1,9 @@
+@include button-ui(
+        $ui: 'mh-phone-data-view-create-btn',
+        $color: #fff,
+        $icon-color: #fff,
+        $background-color: $color-save-green,
+        $border-color: darken($color-save-green, 5%),
+        $border-radius: 50%,
+        $border-radius-big: 50%
+);

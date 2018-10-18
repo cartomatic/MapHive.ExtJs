@@ -56,7 +56,7 @@
             {
                 xtype: 'button',
                 reference: 'editBtn',
-                ui: 'confirm round raised', //todo - use own styles!
+                ui: 'mh-phone-record-view-edit-btn raised',
                 right: 15,
                 bottom: 15,
                 hidden: true,
@@ -68,7 +68,7 @@
             {
                 xtype: 'button',
                 reference: 'dismissBtn',
-                ui: 'decline round raised', //TODO - use own styles!
+                ui: 'mh-phone-record-view-dismiss-btn raised',
                 left: 15,
                 bottom: 15,
                 hidden: true,

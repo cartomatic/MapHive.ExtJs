@@ -225,7 +225,7 @@
                         {
                             xtype: 'button',
                             iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSwap'),
-                            ui: 'raised action round',
+                            ui: 'mh-phone-photo-swap-btn raised',
                             right: 20,
                             top: 20,
                             hidden: this.noCamerasDetected, // || !this.canSwapCameras,
@@ -237,7 +237,7 @@
                             xtype: 'button',
                             //floated: true,
                             iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSnap'),
-                            ui: 'raised confirm round',
+                            ui: 'mh-phone-photo-snap-btn raised',
                             right: 20,
                             bottom: 20,
                             hidden: this.noCamerasDetected,
@@ -250,7 +250,7 @@
                             xtype: 'button',
                             //floated: true,
                             iconCls: mh.FontIconsDictionary.getIcon('mhPhotoCancel'),
-                            ui: 'raised decline round',
+                            ui: 'mh-phone-photo-dismiss-btn round',
                             left: 20,
                             bottom: 20,
                             handler: function(){

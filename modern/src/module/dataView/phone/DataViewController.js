@@ -108,7 +108,7 @@
             if(enableCreate){
                 this.btnEdit = vw.add({
                     xtype: 'button',
-                    ui: 'confirm round raised',
+                    ui: 'mh-phone-data-view-create-btn raised',
                     right: 15,
                     bottom: 15,
                     iconCls: mh.FontIconsDictionary.getIcon('mhDataViewNew'),
