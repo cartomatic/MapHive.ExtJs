@@ -17,7 +17,6 @@
             'mh.mixin.CallMeParent',
             //'mh.module.dataView.RecordLoader',
             //'mh.mixin.ResponseValidationErrorReader',
-            'mh.module.dataView.phone.RecordViewSharedController',
             //'mh.mixin.DirtyMode',
             'mh.module.dataView.phone.EditViewWizardSharedController'
         ],
@@ -37,7 +36,7 @@
          */
         onViewActivate: function() {
             //this method is mixed in, not inherited, hence cannot call parent directly
-            this.mixins['mh.module.dataView.phone.RecordViewSharedController'].onViewActivate.apply(this, arguments);
+            this.callMeParent(arguments);
 
             //Note: this is buggy, when the first view or all the views are dict list pickers and they have no entries set up yet
             //in such scenario automated jump to next view kicks in and the vies start spinning back and forth.

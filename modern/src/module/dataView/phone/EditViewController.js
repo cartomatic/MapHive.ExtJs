@@ -16,18 +16,24 @@
             'mh.mixin.CallMeParent',
             'mh.module.dataView.RecordLoader',
             'mh.mixin.ResponseValidationErrorReader',
-            'mh.module.dataView.phone.RecordViewSharedController',
             'mh.mixin.DirtyMode'
         ],
 
         init: function(){
             this.callMeParent(arguments);
+
             this.setUpActionBtns();
+
+            var vw = this.getView(),
+                viewItems = vw.getViewItems();
+
+            if(viewItems && viewItems.length > 0){
+                this.lookupReference('viewItemsHolder').add(viewItems);
+            }
         },
 
         onRecordLoadSuccess: function(record){
             this.callMeParent(arguments);
-            this.handleFloatingBtnsVisibility();
 
             //mark self as clean
             this.endDirtyMode(true);
@@ -43,21 +49,24 @@
          */
         setUpActionBtns: function(){
             var vw = this.getView(),
-                enableSave = vw.getEnableSave();
+                enableSave = vw.getEnableSave(),
+                enableDismiss = vw.getEnableDismiss();
 
             if(enableSave){
-                this.btnSave = vw.add({
-                    xtype: 'button',
-                    floated: true,
-                    ui: 'confirm round',
-                    right: 15,
-                    bottom: 15,
-                    iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnSave'),
-                    listeners: {
-                        tap: 'onBtnSaveTap'
-                    }
-                });
+                this.lookupReference('saveBtn').show();
             }
+
+            if(enableDismiss){
+                this.lookupReference('dismissBtn').show();
+            }
+        },
+
+        /**
+         * btn dismiss tap handler
+         */
+        onBtnDismissTap: function(){
+            //simply navigate back from this view
+            Ext.History.back();
         },
 
         /**
@@ -115,24 +124,6 @@
         },
 
         /**
-         * handles floating btns visibility
-         * @param show
-         */
-        handleFloatingBtnsVisibility: function(){
-            var vw = this.getView(),
-                rec = this.getViewModel().get('record'),
-                enableSave = vw.getEnableSave();
-
-            if(this.isActive && enableSave === true && rec && this.btnSave){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
-                this.btnSave.show();
-            }
-            else if(this.btnSave) {
-                this.btnSave.hide();
-            }
-        },
-
-
-        /**
          * marks self as clean prior to finalising save
          * @param record
          */
@@ -141,6 +132,34 @@
             this.endDirtyMode(true); //silent end - do not restore route!!!;
 
             this.callMeParent(arguments);
+        },
+
+        /**
+         * shows loadmask for this module
+         * @param msg
+         */
+        showLoadMask: function(msg){
+            this.fireGlobal('loadmask::show', msg);
+        },
+
+        /**
+         * hides loadmask for this module
+         */
+        hideLoadMask: function(){
+            this.fireGlobal('loadmask::hide');
+        },
+
+        /**
+         * whether or not the view is currently active
+         */
+        isActive: false,
+
+        onViewActivate: function() {
+            this.isActive = true;
+        },
+
+        onViewDeactivate: function(){
+            this.isActive = false;
         }
     });
 }());

@@ -19,8 +19,7 @@
             'mh.module.dataView.RecordLoader',
             'mh.communication.MsgBus',
             'mh.mixin.ModalMode',
-            'mh.mixin.CallMeParent',
-            'mh.module.dataView.phone.RecordViewSharedController'
+            'mh.mixin.CallMeParent'
         ],
 
         /**
@@ -31,33 +30,29 @@
 
             this.publishApi('loadRecord');
             this.setUpActionBtns();
-        },
 
-        /**
-         * edit btn instance
-         */
-        btnEdit: null,
+            var vw = this.getView(),
+                viewItems = vw.getViewItems();
+
+            if(viewItems && viewItems.length > 0){
+                this.lookupReference('viewItemsHolder').add(viewItems);
+            }
+        },
 
         /**
          * sets up action btns for this view
          */
         setUpActionBtns: function(){
             var vw = this.getView(),
-                enableEdit = vw.getEnableEdit();
+                enableEdit = vw.getEnableEdit(),
+                enableDismiss = vw.getEnableDismiss();
 
-            if(enableEdit){
-                this.btnEdit = vw.add({
-                    xtype: 'button',
-                    floated: true,
-                    ui: 'confirm round',
-                    right: 15,
-                    bottom: 15,
-                    hidden: true,
-                    iconCls: mh.FontIconsDictionary.getIcon('mhDataViewEdit'),
-                    listeners: {
-                        tap: 'onBtnEditTap'
-                    }
-                });
+            if(enableEdit) {
+                this.lookupReference('editBtn').show();
+            }
+
+            if(enableDismiss){
+                this.lookupReference('dismissBtn').show();
             }
         },
 
@@ -67,7 +62,6 @@
          */
         onRecordLoadSuccess: function(rec){
             this.callMeParent(arguments);
-            this.handleFloatingBtnsVisibility();
         },
 
 
@@ -76,6 +70,14 @@
          */
         onBtnEditTap: function() {
             this.redirectTo(this.getRecEditUrl(this.getViewModel().get('record')));
+        },
+
+        /**
+         * btn dismiss tap handler
+         */
+        onBtnDismissTap: function(){
+            //simply navigate back from this view
+            Ext.History.back();
         },
 
         /**
@@ -89,20 +91,34 @@
         },
 
         /**
-         * handles floating btns visibility
-         * @param show
+         * shows loadmask for this module
+         * @param msg
          */
-        handleFloatingBtnsVisibility: function(){
-            var vw = this.getView(),
-                rec = this.getViewModel().get('record'),
-                enableEdit = vw.getEnableEdit();
+        showLoadMask: function(msg){
+            this.fireGlobal('loadmask::show', msg);
+        },
 
-            if(this.isActive && enableEdit === true && this.btnEdit && rec && rec.get('uuid')){ //show edit rec btn only for recs with uuids! no point in showing ot for create mode
-                this.btnEdit.show();
-            }
-            else if(this.btnEdit) {
-                this.btnEdit.hide();
-            }
+        /**
+         * hides loadmask for this module
+         */
+        hideLoadMask: function(){
+            this.fireGlobal('loadmask::hide');
+        },
+
+        /**
+         * whether or not the view is currently active
+         */
+        isActive: false,
+
+        onViewActivate: function() {
+            this.isActive = true;
+
+            //scroll to top on show
+            this.lookupReference('viewItemsHolder').getScrollable().scrollTo(0, 0, true);
+        },
+
+        onViewDeactivate: function(){
+            this.isActive = false;
         }
 
     });
