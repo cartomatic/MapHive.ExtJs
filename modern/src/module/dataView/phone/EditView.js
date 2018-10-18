@@ -5,7 +5,7 @@
 
     'use strict';
     Ext.define('mh.module.dataView.phone.EditView', {
-        extend: 'mh.module.dataView.phone.RecordView',
+        extend: 'Ext.Panel',
 
         requires: [
             'mh.FontIconsDictionary',
@@ -30,7 +30,17 @@
             /**
              * whether or not the default edit view save btn should be visible
              */
-            enableSave: true
+            enableSave: true,
+
+            /**
+             * whether or not dismiss btn should be enabled
+             */
+            enableDismiss: true,
+
+            /**
+             * view items to be added to this view
+             */
+            viewItems: null
         },
 
         bind: {
@@ -39,9 +49,45 @@
 
         header: false,
 
-        items: [
+        layout: 'fit',
 
-        ]
+        items: [
+            {
+                xtype: 'panel',
+                bodyPadding: 10,
+                reference: 'viewItemsHolder',
+                scrollable: 'y'
+            },
+            {
+                xtype: 'button',
+                reference: 'saveBtn',
+                ui: 'confirm round raised', //todo - use own styles!
+                right: 15,
+                bottom: 15,
+                hidden: true,
+                iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnSave'),
+                listeners: {
+                    tap: 'onBtnSaveTap'
+                }
+            },
+            {
+                xtype: 'button',
+                reference: 'dismissBtn',
+                ui: 'decline round raised', //TODO - use own styles!
+                left: 15,
+                bottom: 15,
+                hidden: true,
+                iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDismiss'),
+                listeners: {
+                    tap: 'onBtnDismissTap'
+                }
+            }
+        ],
+
+        listeners: {
+            activate: 'onViewActivate',
+            deactivate: 'onViewDeactivate'
+        }
 
     });
 }());
