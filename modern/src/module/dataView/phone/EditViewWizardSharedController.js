@@ -65,7 +65,7 @@
 
             var vw = this.getView(),
                 viewSwitcher = this.lookupReference('viewSwitcher'),
-                subViews = vw.getViews() || [];
+                subViews = vw.getViewItems() || [];
 
             this.viewSwitcher = viewSwitcher;
 

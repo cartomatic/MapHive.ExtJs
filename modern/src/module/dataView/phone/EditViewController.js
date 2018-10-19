@@ -25,10 +25,11 @@
             this.setUpActionBtns();
 
             var vw = this.getView(),
-                viewItems = vw.getViewItems();
+                viewItems = vw.getViewItems(),
+                viewItemsHolder = this.lookupReference('viewItemsHolder');
 
-            if(viewItems && viewItems.length > 0){
-                this.lookupReference('viewItemsHolder').add(viewItems);
+            if(viewItemsHolder && viewItems && viewItems.length > 0){
+                viewItemsHolder.add(viewItems);
             }
         },
 

@@ -28,7 +28,7 @@
             /**
              * an array of views to be used by the wizard
              */
-            views: null
+            viewItems: null
         },
 
         layout: 'fit',
