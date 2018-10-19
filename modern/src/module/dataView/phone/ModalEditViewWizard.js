@@ -32,6 +32,9 @@
 
         items: [
             {
+                xtype: 'mh-phone-modal-navigation-toolbar'
+            },
+            {
                 xtype: 'mh-phone-edit-view-wizard-title-toolbar'
             },
             {

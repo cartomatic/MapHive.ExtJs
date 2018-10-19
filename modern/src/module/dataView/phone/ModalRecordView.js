@@ -77,7 +77,7 @@
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDismiss'),
                 ui: 'mh-phone-modal-record-view-dismiss-btn raised',
                 listeners: {
-                    tap: 'onDismissTap'
+                    tap: 'onDismissBtnTap'
                 }
             }
         ]

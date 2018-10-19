@@ -5,7 +5,7 @@
     'use strict'
     
     Ext.define('mh.module.dataView.phone.ModalEditViewWizardModel', {
-        extend: 'Ext.app.ViewModel',
+        extend: 'mh.module.dataView.phone.ModalEditViewModel',
         alias: 'viewmodel.mh-phone-modal-edit-view-wizard',
     
         stores: {

@@ -42,16 +42,34 @@
         },
 
         /**
+         * @event modaleditviewsave fired when a view gets dismissed with a save btn
+         */
+
+        /**
          * template
          */
         onSaveBtnTap: function(){
-            console.log('It looks like you are not overriding the onEditBtnTap of ', Ext.getClassName(this));
+            var formData = this.collectFormData();
+
+            this.getView().fireEvent('modaleditviewsave', this.getView(), formData);
+
+            this.getView().hide();
+        },
+
+        /**
+         * provide own functionality to collect the form data
+         * @template
+         */
+        collectFormData: function(){
+            var msg = Ext.getClassName(this) + ' does not provide a collectFormData implementation';
+            console.warn(msg);
+            return msg;
         },
 
         /**
          * dismiss view handler
          */
-        onDismissTap: function(){
+        onDismissBtnTap: function(){
             this.getView().hide();
         }
     });

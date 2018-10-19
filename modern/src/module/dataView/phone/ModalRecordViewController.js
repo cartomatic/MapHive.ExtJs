@@ -53,16 +53,33 @@
         },
 
         /**
-         * template
+         * shows modal edit view
          */
         onEditBtnTap: function(){
-            console.log('It looks like you are not overriding the onEditBtnTap of ', Ext.getClassName(this));
+            var vw = this.getView(),
+                editViewLookupKey = vw.getEditViewLookupKey(),
+                editor = this.isModalViewRegistered(editViewLookupKey) ? this.getModalView(editViewLookupKey) : null;
+
+            this.dataBindEditView(editor);
+
+            if(editor){
+                this.showModalView(editor);
+            }
+        },
+
+        /**
+         * data binds edit view just before it gets shown
+         * @param view
+         * @template
+         */
+        dataBindEditView: function(view){
+
         },
 
         /**
          * dismiss view handler
          */
-        onDismissTap: function(){
+        onDismissBtnTap: function(){
             this.getView().hide();
         }
     });
