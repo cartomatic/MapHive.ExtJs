@@ -64,9 +64,9 @@
         },
 
         /**
-         * view activate handler
+         * view show handler
          */
-        onViewActivate: function() {
+        onViewShow: function() {
             //Note: this is buggy, when the first view or all the views are dict list pickers and they have no entries set up yet
             //in such scenario automated jump to next view kicks in and the vies start spinning back and forth.
             //adding a first non-auto-skip view is a temporary solution
