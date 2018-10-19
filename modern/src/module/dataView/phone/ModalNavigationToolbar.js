@@ -20,7 +20,7 @@
                 xtype: 'button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuBack'),
                 listeners: {
-                    tap: 'onDismissTap'
+                    tap: 'onDismissBtnTap'
                 }
             },
             '->',
@@ -28,7 +28,7 @@
                 xtype: 'label',
                 flex: 1,
                 bind: {
-                    html: '{localization.title}'
+                    html: '{viewTitle}'
                 }
             },
             '->',

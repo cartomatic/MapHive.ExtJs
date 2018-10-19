@@ -12,6 +12,19 @@
         },
     
         data: {
+            record: null
+        },
+
+        formulas: {
+            viewTitle: {
+                bind: {
+                    bindTo: '{record}',
+                    deep: true
+                },
+                get: function (rec) {
+                    return this.get('localization.' + (rec && !rec.phantom ? 'recordEditTitle' : 'recordNewTitle'));
+                }
+            }
         }
     });
 }());

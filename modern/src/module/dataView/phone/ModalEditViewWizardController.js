@@ -24,6 +24,46 @@
         },
 
         /**
+         * cancel btn handler - hides the view
+         */
+        onBtnCancelTap: function(){
+            this.onDismissBtnTap();
+        },
+
+        /**
+         * dismiss view handler
+         */
+        onDismissBtnTap: function(){
+            this.getView().hide();
+        },
+
+        /**
+         * @event modaleditviewsave fired when a view gets dismissed with a save btn
+         */
+
+        /**
+         * save btn handler - collects the form data, fires evt, hides the view
+         */
+        onBtnSaveTap: function(){
+
+            var formData = this.collectFormData();
+
+            this.getView().fireEvent('modaleditviewsave', this.getView(), formData);
+
+            this.getView().hide();
+        },
+
+        /**
+         * provide own functionality to collect the form data
+         * @template
+         */
+        collectFormData: function(){
+            var msg = Ext.getClassName(this) + ' does not provide a collectFormData implementation';
+            console.warn(msg);
+            return msg;
+        },
+
+        /**
          * view activate handler
          */
         onViewActivate: function() {
