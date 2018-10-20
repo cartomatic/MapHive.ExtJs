@@ -34,6 +34,7 @@
          * dismiss view handler
          */
         onDismissBtnTap: function(){
+            this.getView().fireEvent('modaleditviewcancel', this.getView());
             this.getView().hide();
         },
 
