@@ -46,6 +46,8 @@
             enableDismiss: true
         },
 
+        layout: 'fit',
+
         items: [
             {
                 xtype: 'mh-phone-modal-navigation-toolbar'
