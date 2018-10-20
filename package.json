@@ -36,6 +36,8 @@
                 "${package.dir}/examples"
             ]
         },
-        "requires": []
+        "requires": [
+            "d3"
+        ]
     }
 }
