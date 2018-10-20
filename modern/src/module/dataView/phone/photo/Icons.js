@@ -13,7 +13,7 @@
             mh.FontIconsDictionary.addIcons({
                 mhPhotoSnap: 'x-li li-camera2',
                 mhPhotoDelete: 'x-li li-cross-circle',
-                mhPhotoCancel: 'x-li li-circle-minus',
+                mhPhotoCancel: 'x-li li-chevron-left-circle',
                 mhPhotoSwap: 'x-li li-camera-flip',
                 mhPhotoIconDefault: 'x-li li-picture'
             });
