@@ -51,7 +51,8 @@
         ],
 
         listeners: {
-            show: 'onViewShow'
+            show: 'onViewShow',
+            hide: 'onViewHide'
         }
     });
 }());
