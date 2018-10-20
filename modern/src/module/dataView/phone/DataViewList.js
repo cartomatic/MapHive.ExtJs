@@ -26,7 +26,10 @@
             },
             itemTpl: '<strong>{name}</strong><br/>{description}',
 
-            onItemDisclosure: undefined
+            striped: true,
+            ui: 'basic', //todo - own ui?
+
+            onItemDisclosure: 'onItemDisclosure'
         }
 
     });
