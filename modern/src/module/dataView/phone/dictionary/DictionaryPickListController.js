@@ -71,7 +71,7 @@
                     }
                 });
 
-                if(!value && dictV.isDefault){
+                if(!value && dictV && dictV.linkData && dictV.linkData.mhi && dictV.linkData.mhi.isDefault){
                     value = dictV.uuid;
                 }
                 if(!value && dictValues.length === 1){
