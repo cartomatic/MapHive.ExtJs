@@ -9,8 +9,7 @@
 
         fields: [
             { name: 'name', type: 'string', defaultValue: null },
-            { name: 'description', type: 'string', defaultValue: null },
-            { name: 'isCommon', type: 'bool', defaultValue: null }
+            { name: 'description', type: 'string', defaultValue: null }
         ]
     });
 }());
