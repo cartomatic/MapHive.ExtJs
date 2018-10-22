@@ -71,7 +71,7 @@
                     }
                 });
 
-                if(!value && dictV.isDefaultValue){
+                if(!value && dictV.isDefault){
                     value = dictV.uuid;
                 }
                 if(!value && dictValues.length === 1){
