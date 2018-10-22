@@ -116,9 +116,6 @@
                 //and reset the 0,0 again
                 ctx.translate(-size.width/2, -size.height/2);
 
-                //<debug>
-                window.ctx = this.ctx;
-                //</debug>
             }
             else {
                 Ext.defer(function(){
@@ -126,8 +123,6 @@
                 }, 100, this);
             }
         },
-
-        ctx: null,
 
         canDraw: function(){
             return !!this.d3Canvas && !!this.d3Canvas.canvas;
