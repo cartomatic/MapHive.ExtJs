@@ -124,16 +124,17 @@
         onMenuBtnTap: function(){
             this.ensureNavMenu();
 
-            Ext.Viewport.setMenu(this.navMenu, {
-                side: this.getView().getMenuSide()
-                // omitting the reveal config defaults the animation to 'cover'
-                //reveal: true
-            });
-
             //defer a bit so tap ends before action dialog mask pops out. this is to avoid tapping on the dialog mask as it will hide otherwise
             Ext.defer(function(){
+
+                Ext.Viewport.setMenu(this.navMenu, {
+                    side: this.getView().getMenuSide()
+                    // omitting the reveal config defaults the animation to 'cover'
+                    //reveal: true
+                });
+
                 Ext.Viewport.toggleMenu(this.getView().getMenuSide());
-            }, 350, this);
+            }, 250, this);
         },
 
         /**
