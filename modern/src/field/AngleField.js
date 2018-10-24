@@ -18,7 +18,6 @@
         ],
 
         requires: [
-            'Ext.d3.canvas.Canvas'
         ],
 
         config: {
@@ -43,9 +42,11 @@
                 decimals: 0
             },
             {
-                xtype: 'd3-canvas',
+                xtype: 'container',
+                reference: 'canvasHolder',
                 width: 100,
-                height: 100
+                height: 100,
+                cls: 'edit-wizard-swipe-ignore'
             }
         ],
 
@@ -57,7 +58,35 @@
 
         initialize: function(){
             this.callMeParent(arguments);
-            this.d3Canvas = this.getContainer().items.items[1];
+
+            var canvasId = this.getId() + '-canvas';
+
+            this.getContainer().items.items[1].setHtml(
+                '<canvas id="' + canvasId + '" style="width:100%; height:100%;" ></canvas>'
+            );
+
+            this.on('painted', function(){
+                this.canvas = Ext.get(canvasId);
+
+                var canvas = this.canvas.dom,
+
+                    // Get the size of the canvas in CSS pixels.
+                    rect = canvas.getBoundingClientRect(),
+
+                    // Get the device pixel ratio, falling back to 1.
+                    dpr = window.devicePixelRatio || 1;
+
+                // Give the canvas pixel dimensions of their CSS
+                // size * the device pixel ratio.
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                //
+                //
+                // Scale all drawing operations by the dpr, so you
+                // don't have to worry about the difference.
+                canvas.getContext('2d').scale(dpr, dpr);
+
+            }, this, {single: true})
         },
 
         /**
@@ -87,8 +116,8 @@
 
                 this.setUpDrawingStuff();
 
-                var ctx = this.d3Canvas.canvas.getContext("2d"),
-                    size = this.d3Canvas.size,
+                var ctx = this.canvas.dom.getContext("2d"),
+                    size = this.canvas.dom.getBoundingClientRect(),
                     angleRad = Math.PI / 180 * value;
 
                 //first wipeout
@@ -125,7 +154,7 @@
         },
 
         canDraw: function(){
-            return !!this.d3Canvas && !!this.d3Canvas.canvas;
+            return !!this.canvas && !!this.canvas.dom;
         },
 
         drawingStuffSetUp: false,
@@ -149,9 +178,9 @@
             }
             this.angleTxt = String.fromCharCode(mh.FontIconsDictionary.getFontChar('.i54c-navigation-1::before'));
 
-            var ctx = this.d3Canvas.canvas.getContext("2d");
+            var ctx = this.canvas.dom.getContext("2d");
 
-            ctx.font = "normal 100pt icon54com";
+            ctx.font = "normal 50pt icon54com";
 
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -161,6 +190,8 @@
             this.drawingStuffSetUp = true;
         },
 
+
+        rotateRegion: null,
 
         /**
          * applies editable
@@ -173,9 +204,14 @@
             }
 
             var me = this,
-                roatateTarget = this.d3Canvas.canvas,
+                roatateTarget = this.canvas.dom,
                 //https://github.com/zingchart/zingtouch
                 rotateRegion = new ZingTouch.Region(roatateTarget);
+
+            if(this.rotateRegion){
+                this.rotateRegion.unbind(roatateTarget, 'rotate');
+            }
+            this.rotateRegion = rotateRegion;
 
             if(editable) {
                 rotateRegion.bind(roatateTarget, 'rotate', function(e){
@@ -186,9 +222,6 @@
                     }
                     me.setValue(newV);
                 });
-            }
-            else {
-                rotateRegion.unbind(roatateTarget, 'rotate');
             }
 
             //todo - maybe should also handle the input field...
