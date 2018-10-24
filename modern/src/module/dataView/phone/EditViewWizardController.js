@@ -24,6 +24,8 @@
         init: function(){
             this.callMeParent(arguments);
             this.setUpWizardMode();
+
+            this.setUpSwipe();
         },
 
         /**

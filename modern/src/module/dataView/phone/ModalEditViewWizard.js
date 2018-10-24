@@ -25,7 +25,25 @@
             /**
              * an array of views to be used by the wizard
              */
-            viewItems: null
+            viewItems: null,
+
+            swipeCfg: {
+                /**
+                 * whether or not swipe should be recognized and the wizard should switch cards on swipe
+                 */
+                enableSwipe: true,
+                /**
+                 * swiped distance before the swipe gets approved as a change card gesture
+                 */
+                swipeRecognitionDistance: 100
+
+                //<debug>
+                /**
+                 * whether or not should log swipe events
+                 */
+                , logSwipeEvents: true
+                //</debug>
+            }
         },
 
         layout: 'fit',

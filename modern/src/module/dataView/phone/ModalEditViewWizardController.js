@@ -21,6 +21,7 @@
          */
         init: function() {
             this.setUpWizardMode();
+            this.setUpSwipe();
         },
 
         /**
