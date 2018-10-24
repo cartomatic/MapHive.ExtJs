@@ -45,7 +45,7 @@
                 xtype: 'container',
                 reference: 'canvasHolder',
                 width: 100,
-                height: 100,
+                height: 125,
                 cls: 'edit-wizard-swipe-ignore'
             }
         ],
@@ -80,8 +80,7 @@
                 // size * the device pixel ratio.
                 canvas.width = rect.width * dpr;
                 canvas.height = rect.height * dpr;
-                //
-                //
+
                 // Scale all drawing operations by the dpr, so you
                 // don't have to worry about the difference.
                 canvas.getContext('2d').scale(dpr, dpr);
@@ -145,6 +144,11 @@
                 //and reset the 0,0 again
                 ctx.translate(-size.width/2, -size.height/2);
 
+                ctx.strokeStyle = '#696969';
+                ctx.lineWidth = 1;
+                ctx.rect(0,0,size.width,size.height);
+                ctx.stroke();
+
             }
             else {
                 Ext.defer(function(){
@@ -204,17 +208,17 @@
             }
 
             var me = this,
-                roatateTarget = this.canvas.dom,
+                rotateTarget = this.canvas.dom,
                 //https://github.com/zingchart/zingtouch
-                rotateRegion = new ZingTouch.Region(roatateTarget);
+                rotateRegion = new ZingTouch.Region(rotateTarget);
 
             if(this.rotateRegion){
-                this.rotateRegion.unbind(roatateTarget, 'rotate');
+                this.rotateRegion.unbind(rotateTarget, 'rotate');
             }
             this.rotateRegion = rotateRegion;
 
             if(editable) {
-                rotateRegion.bind(roatateTarget, 'rotate', function(e){
+                rotateRegion.bind(rotateTarget, 'rotate', function(e){
                     var newV = me.getValue() + e.detail.distanceFromLast;
                     //make sure we're always operating in 0-360 range;
                     if(newV < 0){
