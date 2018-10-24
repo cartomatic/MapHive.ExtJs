@@ -172,6 +172,73 @@
 
                 //TODO - also router???
             }
+        },
+
+        setUpSwipe: function(){
+            var me = this,
+                vw = this.getView(),
+                swipeCfg = vw.getSwipeCfg(),
+                swipeIgnore = (swipeCfg || {}).swipeIgnore || {};
+
+            if(swipeCfg && swipeCfg.enableSwipe){
+                this.lookupReference('viewSwitcher').el.on('swipe', function(e){
+
+                    //<debug>
+                    if(swipeCfg.logSwipeEvents){
+                        console.log(cnslHdr, 'swipe evt', e);
+                    }
+                    //</debug>
+
+                    if(e.distance < (swipeCfg.swipeRecognitionDistance || 100)){
+                        //<debug>
+                        if(swipeCfg.logSwipeEvents){
+                            console.log(cnslHdr, 'swipe discarded - not lng enough', e.distance + '<' + (swipeCfg.swipeRecognitionDistance || 100));
+                        }
+                        //</debug>
+                        return;
+                    }
+
+                    if(
+                        me.hasSwipeIgnoreCls(e.target)
+                    ){
+                        //<debug>
+                        if(swipeCfg.logSwipeEvents){
+                            console.log(cnslHdr, 'swipe discarded - has swipe ignore cls');
+                        }
+                        //</debug>
+
+                        return;
+                    }
+
+                    if(e.direction === 'right'){
+                        me.displayPreviousView();
+                    }
+                    else if(e.direction === 'left'){
+                        me.displayNextView();
+                    }
+                });
+            }
+        },
+
+        /**
+         * whether
+         * @param el
+         * @param ignoreCls
+         * @returns {boolean}
+         */
+        hasSwipeIgnoreCls: function(el, ignoreCls){
+            var parent = el.parentElement;
+            while(parent){
+                console.warn(parent.className);
+
+                if(parent.className.indexOf('edit-wizard-swipe-ignore') >= 0){
+                    return true;
+                }
+
+                parent = parent.parentElement;
+            }
+
+            return false;
         }
 
         //TODO
