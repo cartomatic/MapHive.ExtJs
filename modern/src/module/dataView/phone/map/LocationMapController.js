@@ -29,15 +29,33 @@
 
             this.publishApi('getLocationData');
 
-            var commChannel = 'locationmap_' + new Date().getTime();
+            var vw = this.getView(),
+                commChannel = 'locationmap_' + new Date().getTime(),
+                mapContainer = this.lookupReference('mapContainer'),
+                mapOuterContainer = this.lookupReference('mapOuterContainer');
+
             //this.getView().down('mh-ol3-map-container').registerChannel(commChannel);
-            this.lookupReference('mapContainer').registerChannel(commChannel);
+            mapContainer.registerChannel(commChannel);
 
             this.watchGlobal('mapcontainer::mapcreated', this.onMapCreated, this, { channel: commChannel });
 
-            var vw = this.getView();
+
 
             this.editAllowed = vw.getEditAllowed();
+
+            vw.on('painted', function(){
+                mapOuterContainer.setBodyPadding(1);
+                setTimeout(function(){
+                    //<debug>
+                    console.warn('Resizing map viewport... Should make the map re-appear in a brut force way...');
+                    console.warn('mapOuterContainer padding', mapOuterContainer.getBodyPadding());
+                    //</debug>
+                    mapOuterContainer.setBodyPadding(0);
+                    //<debug>
+                    console.warn('mapOuterContainer padding', mapOuterContainer.getBodyPadding());
+                    //</debug>
+                })
+            });
         },
 
         editAllowed: false,
