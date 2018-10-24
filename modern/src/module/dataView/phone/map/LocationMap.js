@@ -87,10 +87,12 @@
                 xtype: 'panel',
                 layout: 'fit',
                 flex: 1,
+                reference: 'mapOuterContainer',
                 items: [
                     {
                         xtype: 'mh-ol3-map-container',
-                        reference: 'mapContainer'
+                        reference: 'mapContainer',
+                        cls: 'edit-wizard-swipe-ignore'
                     },
                     {
                         xtype: 'button',
