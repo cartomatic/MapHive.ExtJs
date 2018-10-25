@@ -42,7 +42,7 @@
                         cls: 'mh-auth-text-border',
                         margin: '5 0 0 0', //trbl
                         listeners: {
-                            keydown: 'trapLoginEnter'
+                            keyup: 'trapLoginEnter'
                         }
                     },
                     {
@@ -55,7 +55,7 @@
                         cls: 'mh-auth-text-border',
                         margin: '5 0 5 0', //trbl
                         listeners: {
-                            keydown: 'trapLoginEnter'
+                            keyup: 'trapLoginEnter'
                         }
                     },
                     {
@@ -83,7 +83,7 @@
                                 },
                                 iconAlign: 'left',
                                 iconCls: 'x-i54c i54c-key-22', //FIXME - icon from dict
-                                ui: 'action',
+                                //ui: 'action',
                                 margin: '0 0 0 0', //trbl
                                 listeners: {
                                     tap: 'onForgotPassBtnClick'
@@ -102,7 +102,7 @@
                                 },
                                 iconAlign: 'right',
                                 iconCls: 'x-li li-chevron-right-circle', //FIXME - icon from dict
-                                ui: 'confirm',
+                                ui: 'action',
                                 flex: 1,
                                 listeners: {
                                     tap: 'onLoginBtnClick'
