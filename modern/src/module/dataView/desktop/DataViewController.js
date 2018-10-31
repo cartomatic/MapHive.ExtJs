@@ -57,6 +57,9 @@
             var vw = this.getView(),
                 gridCfg = vw.getGridCfg(),
                 store = this.getViewModel().getStore('gridstore'),
+                autoLoad = vw.getAutoLoad(),
+                remoteSort = vw.getRemoteSort(),
+                remoteFilter = vw.getRemoteFilter(),
                 pageSizes = vw.getPageSizes(),
                 selMode = vw.getSelMode();
 
@@ -65,6 +68,10 @@
                 gridCfg.selectable = gridCfg.selectable || {};
                 gridCfg.selectable.mode = selMode;
             }
+
+            store.setAutoLoad(autoLoad);
+            store.setRemoteSort(remoteSort);
+            store.setRemoteFilter(remoteFilter);
 
 
             this.addCustomColumns(gridCfg);
@@ -335,7 +342,9 @@
          * view activate callback - reloads store, so when user enters this view data is always fresh
          */
         onViewActivate: function() {
-            this.reloadStore();
+            if(this.getView().getAutoReloadOnViewActivate() === true){
+                this.reloadStore();
+            }
         },
 
         /**

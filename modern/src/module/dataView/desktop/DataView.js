@@ -39,20 +39,25 @@
              */
             useAutoFilter: true,
 
-            // /**
-            //  * whether or the grid should automatically load; overrides whatever may have been configured on the store
-            //  */
-            // autoLoad: true,
+            /**
+             * whether or the grid should automatically load; overrides whatever may have been configured on the store
+             */
+            autoLoad: true,
 
-            // /**
-            //  * Whether or not filtering should be done on the serverside; overrides whatever may have been configured on the store
-            //  */
-            // remoteSort: true,
-            //
-            // /**
-            //  * whether or not filtering should happen on the serverside; overrides whatever may have been configured on the store
-            //  */
-            // remoteFilter: true,
+            /**
+             * Whether or not filtering should be done on the serverside; overrides whatever may have been configured on the store
+             */
+            remoteSort: true,
+
+            /**
+             * whether or not filtering should happen on the serverside; overrides whatever may have been configured on the store
+             */
+            remoteFilter: true,
+
+            /**
+             * whether or not grid should be auto reloaded on view being activated
+             */
+            autoReloadOnViewActivate: true,
 
             /**
              * whether or not create btn should be visible
