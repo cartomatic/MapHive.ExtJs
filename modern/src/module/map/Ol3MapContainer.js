@@ -20,7 +20,11 @@
 
         items: [
 
-        ]
+        ],
+
+        listeners: {
+            resize: 'onViewResizeM'
+        }
     });
 
 }());
