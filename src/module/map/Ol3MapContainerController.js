@@ -102,7 +102,7 @@
          * view painted callback
          * @param e
          */
-        onViewPainted: function(e){
+        onViewPainted: function(e) {
 
             var mapContainerId = this.generateMapContainerId();
 
@@ -113,6 +113,8 @@
 
             this.createMap(mapContainerId);
 
+            //DM: 20181031 - does not seem to bind anymore in 6.6???
+            //binds via view.listeners declaration though...
             this.getView().on('resize', this.onViewResizeM, this);
         },
 
