@@ -24,6 +24,10 @@
 }
 
 @include button-ui(
+  $ui: 'mh-data-view-grid-btn'
+);
+
+@include button-ui(
   $ui: 'mh-data-view-grid-btn-edit'
 );
 

@@ -931,6 +931,119 @@
 
             //and reload the store
             //store.loadPage(1);
+        },
+
+        /**
+         * toolbar resize handler
+         * @param toolbar
+         * @param newW
+         * @param newH
+         * @param oldW
+         * @param oldH
+         * @param info
+         * @param eOpts
+         */
+        onToolbarResize: function(toolbar, newW, newH, oldW, oldH, info, eOpts){
+            Ext.defer(function(){
+                if(this.shouldCollapseButtons()){
+                    this.collapseButtons();
+                }
+                else {
+                    this.expandButtons();
+                }
+            }, 100, this);
+        },
+
+        /**
+         * whether or not should collapse btns
+         */
+        shouldCollapseButtons: function(){
+            var btnsTotalWidth = this.getTotalBtnWidth(),
+                spaceAvailable = this.lookupReference('dataviewtoolbar').el.getWidth() - this.lookupReference('spacer').el.getLeft();
+
+            return spaceAvailable < btnsTotalWidth;
+        },
+
+        /**
+         * @private
+         */
+        btnWidths: null,
+
+        /**
+         * gets total width of expanded btns
+         * @returns {PaymentItem | number | *}
+         */
+        getTotalBtnWidth: function(){
+            if(!this.btnWidths){
+                this.btnWidths = {
+                    btnDestroy: this.lookupReference('btnDestroy') ? this.lookupReference('btnDestroy').el.getWidth() : 0,
+                    btnEdit: this.lookupReference('btnEdit') ? this.lookupReference('btnEdit').el.getWidth() : 0,
+                    btnCreate: this.lookupReference('btnCreate') ? this.lookupReference('btnCreate').el.getWidth() : 0
+                }
+                this.btnWidths.total = this.btnWidths.btnDestroy + this.btnWidths.btnEdit + this.btnWidths.btnCreate;
+            }
+            return this.btnWidths.total;
+        },
+
+        /**
+         * collapses btns
+         */
+        collapseButtons: function(){
+            Ext.Array.each(['btnDestroy', 'btnEdit', 'btnCreate'], function(btnRef){
+                var btn = this.lookupReference(btnRef);
+                if(btn && !btn.collapsed){
+                    btn.collapsed = true;
+                    btn.origText = this.getBtnText(btn);
+                    btn.setText(null);
+                }
+            }, this);
+        },
+
+        /**
+         * expands btns
+         */
+        expandButtons: function(){
+            Ext.Array.each(['btnDestroy', 'btnEdit', 'btnCreate'], function(btnRef){
+                var btn = this.lookupReference(btnRef);
+                if(btn && btn.collapsed){
+                    btn.collapsed = false;
+                    btn.setText(btn.origText);
+                }
+            }, this);
+        },
+
+        /**
+         * gets a btn Text
+         * @param btn
+         * @returns {*|string}
+         */
+        getBtnText: function(btn){
+
+            var title;
+
+            //try to grab a title from the 'conventional places'
+            //this should account for the dynamic titles too
+
+            //does it have a title getter?
+            if(Ext.isFunction(btn.getText)){
+                title = btn.getText();
+            }
+
+            //maybe set explicitly
+            if(!title){
+                if(btn.text){
+                    title = btn.text;
+                }
+            }
+
+            //maybe set via bindings
+            if(!title){
+                if(btn._text){
+                    title = btn._text;
+                }
+            }
+
+            return title || '';
         }
     });
 }());
