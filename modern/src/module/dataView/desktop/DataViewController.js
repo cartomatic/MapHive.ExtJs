@@ -951,7 +951,7 @@
                 else {
                     this.expandButtons();
                 }
-            }, 100, this);
+            }, 250, this);
         },
 
         /**
@@ -986,10 +986,18 @@
         },
 
         /**
+         * gets a collaction of btn refs that should be collapsible
+         * @returns {string[]}
+         */
+        getCollapsibleBtns: function(){
+            return ['btnDestroy', 'btnEdit', 'btnCreate'];
+        },
+
+        /**
          * collapses btns
          */
         collapseButtons: function(){
-            Ext.Array.each(['btnDestroy', 'btnEdit', 'btnCreate'], function(btnRef){
+            Ext.Array.each(this.getCollapsibleBtns(), function(btnRef){
                 var btn = this.lookupReference(btnRef);
                 if(btn && !btn.collapsed){
                     btn.collapsed = true;
@@ -1003,7 +1011,7 @@
          * expands btns
          */
         expandButtons: function(){
-            Ext.Array.each(['btnDestroy', 'btnEdit', 'btnCreate'], function(btnRef){
+            Ext.Array.each(this.getCollapsibleBtns(), function(btnRef){
                 var btn = this.lookupReference(btnRef);
                 if(btn && btn.collapsed){
                     btn.collapsed = false;
