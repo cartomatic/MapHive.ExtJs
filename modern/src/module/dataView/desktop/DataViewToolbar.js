@@ -27,7 +27,8 @@
 
         items: [
             {
-                xtype: 'spacer'
+                xtype: 'spacer',
+                reference: 'spacer'
             },
             {
                 xtype: 'button',
@@ -56,6 +57,9 @@
                     disabled: '{!deletable}'
                 }
             }
-        ]
+        ],
+        listeners: {
+            resize: 'onToolbarResize'
+        }
     });
 }());
