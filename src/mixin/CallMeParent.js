@@ -60,12 +60,12 @@
             if(method && method.startsWith('ctor.')){
                 method = method.replace('ctor.', '');
                 //<debug>
-                console.log('Readjusted method name from "ctor.' + method + '" to "' + method + '"');
+                //console.log('Readjusted method name from "ctor.' + method + '" to "' + method + '"');
                 //</debug>
             }
 
             //<debug>
-            console.log('[CallMeParent] ', 'method ::', method, 'args :: ',  args);
+            //console.log('[CallMeParent] ', 'method ::', method, 'args :: ',  args);
             //</debug>
 
             if(!method){
@@ -91,7 +91,7 @@
                     this.resetCalledMapCache(cacheKey);
 
                     //<debug>
-                    console.log('aa', cacheKey, Ext.isFunction(this.superclass[method]));
+                    //console.log('aa', cacheKey, Ext.isFunction(this.superclass[method]));
                     //</debug>
                     return this.superclass[method].apply(this, args);
                 }
@@ -122,7 +122,7 @@
                     this.resetCalledMapCache(nextKey);
 
                     //<debug>
-                    console.log('xx', cacheKey, nextSuperClass && Ext.isFunction(nextSuperClass[method]));
+                    //console.log('xx', cacheKey, nextSuperClass && Ext.isFunction(nextSuperClass[method]));
                     //</debug>
 
                     if(nextSuperClass && Ext.isFunction(nextSuperClass[method])){
