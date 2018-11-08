@@ -490,7 +490,7 @@
             }
 
             //<debug>
-            console.warn('update map internal');
+            console.log('update map internal');
             //</debug>
 
             var mapV = this.map.getView(),
