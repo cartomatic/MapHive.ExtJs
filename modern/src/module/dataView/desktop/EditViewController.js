@@ -31,7 +31,10 @@
          */
         loadRecord: function(id, route) {
             var rp = this.getDataRouteParamsForCurrentRoute() || [],
-                viewHash = rp[rp.length - 1].split('/')[1];
+                viewHash = id === 'create' ?
+                    rp[rp.length - 1]
+                    :
+                    rp[rp.length - 1].split('/')[1];
 
             if(viewHash){
                 this.rewindToView(viewHash);
@@ -133,15 +136,27 @@
                 for(rp; rp < rplen; rp++){
 
                     //if this is the last part of a route, then need to drop all the internal routing (edit / create)
-                    routePart = rp === rplen - 1 ?
-                        routeParams[rp].split('/')[0]
-                        :
-                        routeParams[rp];
+                    if(rp === rplen - 1){
 
-                    route ?
-                        route += '/' + routePart
-                        :
-                        route = routePart;
+                        //test the id. if create, then a route is shorter
+                        if(routeParams[rp - 1] === 'create'){
+                            routePart = undefined; //last part is always a sub route in this scenario!!!
+                        }
+                        else {
+                            routePart = routeParams[rp].split('/')[0];
+                        }
+                    }
+                    else {
+                        routePart = routeParams[rp];
+                    }
+
+
+                    if(routePart){
+                        route ?
+                            route += '/' + routePart
+                            :
+                            route = routePart;
+                    }
                 }
 
                 route += (newTab.hash? '/' + newTab.hash : '');

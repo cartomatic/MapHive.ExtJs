@@ -138,7 +138,7 @@
         },
 
         /**
-         * rewinds to a specified view (tab needs to have a hash property
+         * rewinds to a specified view (tab needs to have a hash property)
          * @param hash
          */
         rewindToView: function(hash){
