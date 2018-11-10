@@ -27,7 +27,27 @@
          * @returns {*|boolean}
          */
         shouldPreventReload: function(){
-            return this.callMeParent(arguments) || this.isDirtyModeActive();
+
+            var previousRoute = this.getPreviousRoute(),
+                previousRouteParams = this.getDataRouteParamsForRoute(previousRoute) || [],
+                currentRouteParams = this.getDataRouteParamsForCurrentRoute(),
+                rp = 1, rplen = currentRouteParams.length,
+                prevent;
+
+            for(rp; rp < rplen; rp ++){
+                if(rp === rplen - 1){
+                    prevent = previousRouteParams[rp] && previousRouteParams[rp].split('/')[0] === currentRouteParams[rp].split('/')[0];
+                }
+                else {
+                    prevent = previousRouteParams[rp] === currentRouteParams[rp];
+                }
+
+                if(!prevent){
+                    break;
+                }
+            }
+
+            return !!prevent || this.isDirtyModeActive();
         },
 
         /**
