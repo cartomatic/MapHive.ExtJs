@@ -155,10 +155,17 @@
             //Note: when a complex route is registered, it is assumed tha ids are represented by a '{id}' token
 
             var routeParts = route.split('/{id}/'),
-                routePatternLvls;
+                routePatternLvls = routeParts.length;
 
             //FIXME: currently the nested types also use the same sub types as the less nested paths. this leads to false positive route recognitions - router does complain about not found routes where it should. This is ok for standard app nav, no so much when one starts tampering routes by hand
-            //Note: not sure if this is still the case, as now isDataRoute, and isNavRoute start testing with the most derived route! It is likely already handled!
+            //see the registeredDataRoutesTypes arr. it should really be distinct per route pattern level.
+            //otherwise, for example, a single lvl 2 route  will inherit all the lvl1 types too, while having own type 2 and look like this
+            //:type1: "(projects|dicts-manhole-service-type|dicts-cover-shape|dicts-pipe-size|customers|users|dicts-cover-duty|dicts-cover-material|dicts-manhole-material|manholes)"
+            //:type2: "(manholes)"
+            //while should looke for example like this
+            //:type1: "(projects)"
+            //:type2: "(manholes)"
+            //It is not crucial really, as multi nested routes will have multi types anyway
 
             Ext.Array.each(routeParts, function(rp, idx){
                 var lvl = idx + 1,
@@ -170,7 +177,9 @@
                 }
             }, this);
 
-            routePatternLvls = Ext.Object.getKeys(this.registeredDataRoutesTypes).length;
+            //
+            //routePatternLvls = Ext.Object.getKeys(this.registeredDataRoutesTypes).length;
+
 
 
             for (var lvl = routePatternLvls; lvl >= 1; lvl --){
@@ -178,7 +187,7 @@
                 var conditions = {};
                 for(var l = 1; l <= lvl; l ++){
                     conditions[':type' + l] = '(' + this.registeredDataRoutesTypes['type' +l].join('|')  +')';
-                    conditions[':id' + l] = '([A-Za-z0-9-]{36}' + (l < routePatternLvls ? '' : '|create') + ')' //'([A-Za-z0-9-]{36}|create|edit)'
+                    conditions[':id' + l] = '([A-Za-z0-9-]{36}' + (l < lvl ? '' : '|create') + ')' //'([A-Za-z0-9-]{36}|create|edit)'
                 }
                 conditions[ ':args'] = '(.*)';
 
@@ -422,7 +431,7 @@
                 dataRouteRegex,
                 navRouteRegex;
 
-            //need to start testing from the deepest lvl - lower levels are more greed and would test positive for deeper routes
+            //need to start testing from the deepest lvl - lower levels are more greedy and would test positive for deeper routes
             for(lvl; lvl >= 1; lvl --){
                 dataRouteRegex = (Ext.route.Router.routes[this.getDataRoutePattern(lvl)] || {}).matcherRegex;
                 navRouteRegex = (Ext.route.Router.routes[this.getNavRoutePattern(lvl)] || {}).matcherRegex;
