@@ -23,30 +23,11 @@
         },
 
         /**
-         * intercepts the rec load in order to waive off loads of records that are already being edited.
-         * this is necessary for the dirty mode - by default rec gets re-fetched and rebound
-         * @param id
-         * @param route
-         */
-        loadRecord: function(id, route){
-
-            //avoid reloading record as it will reset the form and we do want to avoid that!
-            if(this.shouldPreventReload()){
-                //<debug>
-                console.log('[EDIT VIEW] - skipping a rec load - likely rec dirty or something...');
-                //</debug>
-                return;
-            }
-
-            this.callMeParent(arguments);
-        },
-
-        /**
          * whether or not record reload should be prevented
          * @returns {*|boolean}
          */
         shouldPreventReload: function(){
-            return this.isDirtyModeActive();
+            return this.callMeParent(arguments) || this.isDirtyModeActive();
         },
 
         /**

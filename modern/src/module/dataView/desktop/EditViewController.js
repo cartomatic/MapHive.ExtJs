@@ -30,7 +30,15 @@
          * @param id
          */
         loadRecord: function(id, route) {
-            this.rewindToFirstView();
+            var rp = this.getDataRouteParamsForCurrentRoute() || [],
+                viewHash = rp[3].split('/')[1];
+
+            if(viewHash){
+                this.rewindToView(viewHash);
+            }
+            else {
+                this.rewindToFirstView();
+            }
             this.callMeParent(arguments);
         },
 
@@ -43,7 +51,14 @@
                 this.getView().close();
             }
             else{
-                Ext.History.back();
+                if(this.getView().getAdjustHash()){
+                    //this view adjusts hash for its subviews, so need to use a stored entry route to go back
+                    this.redirectTo(this.entryRoute);
+                }
+                else {
+                    //hash for this view is not adjusted, so simply go back
+                    Ext.History.back();
+                }
             }
         },
 
@@ -99,6 +114,55 @@
                     }
                 });
             });
+        },
+
+        /**
+         * actuve tab change handler - adjusts hash to specify an active tab
+         * @param tabPanel
+         * @param newTab
+         * @param oldTab
+         */
+        onActiveItemChange: function(tabPanel, newTab, oldTab){
+            var vw = this.getView(),
+                adjustHash = vw.getAdjustHash(),
+                routeParams = this.getDataRouteParamsForCurrentRoute(),
+                rp = 1, rplen = routeParams.length,
+                route, routePart;
+
+            if(adjustHash){
+                for(rp; rp < rplen; rp++){
+
+                    //if this is the last part of a route, then need to drop all the internal routing (edit / create)
+                    routePart = rp === rplen - 1 ?
+                        routeParams[rp].split('/')[0]
+                        :
+                        routeParams[rp];
+
+                    route ?
+                        route += '/' + routePart
+                        :
+                        route = routePart;
+                }
+
+                route += (newTab.hash? '/' + newTab.hash : '');
+
+                this.redirectTo(route);
+            }
+        },
+
+        /**
+         * takes care of storing an entry route so can go back when using the update hash mode
+         * @param view
+         */
+        onViewActivate: function(view){
+            var previousRoute = this.getPreviousRoute();
+
+            if(!previousRoute){
+                this.entryRoute = this.getNavRouteForCurrentDataRoute();
+                return;
+            }
+
+            this.entryRoute = previousRoute;
         }
     });
 }());

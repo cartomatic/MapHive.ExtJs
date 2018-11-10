@@ -116,34 +116,6 @@
         },
 
         /**
-         * scrfeen add handler
-         */
-        onScreenAdd: function() {
-            this.resync();
-        },
-
-        /**
-         * screen remove handler
-         * @param tabs
-         */
-        onScreenRemove: function(tabs) {
-            if (!tabs.destroying) {
-                this.resync();
-            }
-        },
-
-        /**
-         * screen activate handler
-         * @param tabs
-         */
-        onScreenActivate: function(tabs) {
-            // This event is triggered when the view is being destroyed!
-            if (!tabs.destroying) {
-                this.resync();
-            }
-        },
-
-        /**
          * rewinds form to first view
          */
         rewindToFirstView: function(){
@@ -159,6 +131,28 @@
                     return ;
                 }
                 else {
+                    tabPanel.setActiveItem(idx);
+                    return false;
+                }
+            });
+        },
+
+        /**
+         * rewinds to a specified view (tab needs to have a hash property
+         * @param hash
+         */
+        rewindToView: function(hash){
+            //find index to turn on
+            var tabPanel = this.lookup('tabPanel'),
+                tabs = tabPanel.getTabBar().items.items;
+
+            //first shown tab to be activated
+            Ext.Array.each(tabs, function(tab, idx){
+                if(tab.getHidden())
+                {
+                    return ;
+                }
+                else if (tab.card.hash === hash){
                     tabPanel.setActiveItem(idx);
                     return false;
                 }
