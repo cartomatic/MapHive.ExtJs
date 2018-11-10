@@ -31,7 +31,7 @@
          */
         loadRecord: function(id, route) {
             var rp = this.getDataRouteParamsForCurrentRoute() || [],
-                viewHash = rp[3].split('/')[1];
+                viewHash = rp[rp.length - 1].split('/')[1];
 
             if(viewHash){
                 this.rewindToView(viewHash);

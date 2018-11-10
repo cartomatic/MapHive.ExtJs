@@ -41,7 +41,7 @@
         loadRecord: function(id, route) {
 
             var rp = this.getDataRouteParamsForCurrentRoute() || [],
-                viewHash = rp[3];
+                viewHash = rp[rp.length - 1];
 
             if(viewHash){
                 this.rewindToView(viewHash);
