@@ -60,11 +60,16 @@
          */
         shouldPreventReload: function(){
             var previousRoute = this.getPreviousRoute(),
-                previousRouteParts = this.getDataRouteParamsForRoute(previousRoute),
-                currentRouteParams = this.getDataRouteParamsForCurrentRoute();
+                previousRouteParts = this.getDataRouteParamsForRoute(previousRoute) || [],
+                currentRouteParams = this.getDataRouteParamsForCurrentRoute(),
+                rp = 1, rplen = currentRouteParams.length - 1,
+                prevent;
 
-            //prevent reload if previous route is the same as the current route
-            return previousRouteParts && previousRouteParts[1] === currentRouteParams[1] && previousRouteParts[2] === currentRouteParams[2];
+            for(rp; rp < rplen; rp ++){
+                prevent = previousRouteParts[rp] === currentRouteParams[rp];
+            }
+
+            return prevent;
         },
 
         /**
