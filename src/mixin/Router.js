@@ -4,6 +4,13 @@
     //Make sure strict mode is on
     'use strict';
 
+    var oldUrl;
+
+    //observe hash changes, so can easily check if a change happens within the same view!
+    window.addEventListener('hashchange', function(e){
+        oldUrl = e.oldURL;
+    },false);
+
     /**
      * Utils for working with Ext.route.Router and Ext.route.Route
      */
@@ -151,6 +158,7 @@
                 routePatternLvls;
 
             //FIXME: currently the nested types also use the same sub types as the less nested paths. this leads to false positive route recognitions - router does complain about not found routes where it should. This is ok for standard app nav, no so much when one starts tampering routes by hand
+            //Note: not sure if this is still the case, as now isDataRoute, and isNavRoute start testing with the most derived route! It is likely already handled!
 
             Ext.Array.each(routeParts, function(rp, idx){
                 var lvl = idx + 1,
@@ -245,6 +253,43 @@
 
                 Ext.route.Router.connect(route, this.registeredRoutes[route], this);
             }, this);
+        },
+
+        /**
+         * gets previous route if any
+         * @returns {*|string}
+         */
+        getPreviousRoute: function(){
+            if(oldUrl){
+                return oldUrl.split('#')[1];
+            }
+        },
+
+        /**
+         * gets nav route for a current data route
+         * @returns {*|void}
+         */
+        getNavRouteForCurrentDataRoute: function(){
+            return this.getNavRouteFromDataRoute(window.location.hash.substring(1));
+        },
+
+        /**
+         * gets navigation route from data route
+         * @param dataRoute
+         */
+        getNavRouteFromDataRoute: function(dataRoute){
+            var routeParams = this.getDataRouteParamsForRoute(dataRoute),
+                route,
+                rp = 1, rplen = routeParams.length;
+
+            for(rp; rp < rplen - 2; rp ++){
+                route ?
+                    route += '/' + routeParams[rp]
+                    :
+                    route = routeParams[rp];
+            }
+
+            return route;
         },
 
         /**

@@ -34,7 +34,12 @@
             btnNextUi: 'mh-record-view-btn-next',
             btnPrevUi: 'mh-record-view-btn-prev',
             btnEditUi: 'mh-record-view-btn-edit',
-            btnBackUi: 'mh-record-view-btn-back'
+            btnBackUi: 'mh-record-view-btn-back',
+
+            /**
+             * whether or not hash should be adjusted when a tab changes
+             */
+            adjustHash: true
         },
         bind: {
             title: '{record.name}'
@@ -108,10 +113,12 @@
             },
 
             listeners: {
-                add: 'onScreenAdd',
-                remove: 'onScreenRemove',
-                activeitemchange: 'onScreenActivate'
+                activeItemchange: 'onActiveItemChange'
             }
-        }]
+        }],
+
+        listeners: {
+            activate: 'onViewActivate'
+        }
     });
 }());

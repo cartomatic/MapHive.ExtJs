@@ -19,7 +19,8 @@
             'mh.mixin.PublishApi',
             'mh.module.dataView.RecordLoader',
             'mh.communication.MsgBus',
-            'mh.mixin.ModalMode'
+            'mh.mixin.ModalMode',
+            'mh.mixin.Router'
         ],
 
         /**
@@ -37,11 +38,33 @@
          * @param id
          */
         loadRecord: function(id, route) {
+
+            //avoid reloading record as it will reset the form and we do want to avoid that!
+            if(this.shouldPreventReload()){
+                //<debug>
+                console.log('[EDIT VIEW] - skipping a rec reload - likely rec has not changed or if in edit mode rec is dirty or something...');
+                //</debug>
+                return;
+            }
+
             this.showLoadMask(
                 //try to grab customized translation first and fallback for default
                 this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewLocalization')
             );
             this.loadRecordInternal(id, route);
+        },
+
+        /**
+         * whether or not record reload should be prevented
+         * @returns {*|boolean}
+         */
+        shouldPreventReload: function(){
+            var previousRoute = this.getPreviousRoute(),
+                previousRouteParts = this.getDataRouteParamsForRoute(previousRoute),
+                currentRouteParams = this.getDataRouteParamsForCurrentRoute();
+
+            //prevent reload if previous route is the same as the current route
+            return previousRouteParts && previousRouteParts[1] === currentRouteParams[1] && previousRouteParts[2] === currentRouteParams[2];
         },
 
         /**

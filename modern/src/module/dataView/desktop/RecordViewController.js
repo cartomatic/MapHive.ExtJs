@@ -20,7 +20,8 @@
             'mh.module.dataView.RecordLoader',
             'mh.communication.MsgBus',
             'mh.mixin.ModalMode',
-            'mh.module.dataView.desktop.RecordViewSharedController'
+            'mh.module.dataView.desktop.RecordViewSharedController',
+            'mh.mixin.Router'
         ],
 
         /**
@@ -38,7 +39,17 @@
          * @param id
          */
         loadRecord: function(id, route) {
-            this.rewindToFirstView();
+
+            var rp = this.getDataRouteParamsForCurrentRoute() || [],
+                viewHash = rp[3];
+
+            if(viewHash){
+                this.rewindToView(viewHash);
+            }
+            else {
+                this.rewindToFirstView();
+            }
+
             this.callMeParent(arguments);
         },
 
@@ -74,7 +85,80 @@
                 this.getView().close();
             }
             else {
-                Ext.History.back();
+                if(this.getView().getAdjustHash()){
+
+                    console.warn('entryRoute', this.entryRoute);
+
+                    //this view adjusts hash for its subviews, so need to use a stored entry route to go back
+                    this.redirectTo(this.entryRoute);
+                }
+                else {
+                    //hash for this view is not adjusted, so simply go back
+                    Ext.History.back();
+                }
+            }
+        },
+
+        /**
+         * actuve tab change handler - adjusts hash to specify an active tab
+         * @param tabPanel
+         * @param newTab
+         * @param oldTab
+         */
+        onActiveItemChange: function(tabPanel, newTab, oldTab){
+            var vw = this.getView(),
+                adjustHash = vw.getAdjustHash(),
+                routeParams = this.getDataRouteParamsForCurrentRoute(),
+                rp = 1, rplen = routeParams.length,
+                route;
+
+            if(adjustHash){
+                for(rp; rp < rplen - 1; rp++){
+                    route ?
+                        route += '/' + routeParams[rp]
+                        :
+                        route = routeParams[rp];
+                }
+
+                route += (newTab.hash? '/' + newTab.hash : '');
+
+                this.redirectTo(route);
+            }
+        },
+
+        /**
+         * route that this view has been activated from
+         */
+        entryRoute: null,
+
+        /**
+         * view activate callback.
+         * @param view
+         */
+        onViewActivate: function(view){
+            var previousRoute = this.getPreviousRoute(),
+                previousRouteParams = this.getDataRouteParamsForRoute(previousRoute) || [], //previous route may not be a data route, and will not yield data route params!
+                currentRouteParams = this.getDataRouteParamsForCurrentRoute(),
+                rp = 1, rplen = currentRouteParams.length,
+                sameRouteFamily;
+
+            if(!previousRoute){
+                this.entryRoute = this.getNavRouteForCurrentDataRoute();
+                return;
+            }
+
+            //if the previous route - so the route that triggered this view id the same data route (edit / create) then ignore it
+            //if not ignored, going back would mean navigating back to edit/create view
+
+            for(rp; rp < rplen - 1; rp++){
+                sameRouteFamily = previousRouteParams[rp] === currentRouteParams[rp];
+                if(!sameRouteFamily){
+                    break;
+                }
+            }
+
+            if(!sameRouteFamily){
+                this.entryRoute = previousRoute;
             }
         }
     });
