@@ -27,7 +27,7 @@
         init: function(){
             this.injectLocalizationToViewModel();
 
-            this.publishApi('reloadStore', 'getGridInstance', 'onViewActivate', 'getSelection', 'resetGrid');
+            this.publishApi('reloadStore', 'getGridInstance', 'onViewActivate', 'getSelection', 'resetGrid', 'setPageSize');
 
             this.configureGrid();
 
@@ -129,6 +129,7 @@
 
                         var pageSizeCmb = toolbar.insert(1, {
                             xtype: 'combobox',
+                            reference: 'pageSizeCmb',
                             displayField: 'value',
                             valueField: 'value',
                             editable: false,
@@ -166,6 +167,24 @@
                 store.setPageSize(newV);
                 store.load();
             }
+        },
+
+        /**
+         * sets paging toolbar page size
+         * @param pageSize
+         */
+        setPageSize: function(pageSize, silent){
+            var cmb = this.lookupReference('pageSizeCmb'),
+                store = cmb.getStore();
+
+            store.each(function(ps){
+                if(ps.get('value') === pageSize){
+                    cmb.setValue(ps);
+                    if(!silent){
+                        store.load();
+                    }
+                }
+            });
         },
 
         /**
