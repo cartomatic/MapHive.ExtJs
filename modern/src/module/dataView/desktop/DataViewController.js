@@ -179,9 +179,14 @@
 
             store.each(function(ps){
                 if(ps.get('value') === pageSize){
-                    cmb.setValue(ps);
                     if(!silent){
+                        cmb.setValue(ps);
                         store.load();
+                    }
+                    else {
+                        cmb.suspendEvent('change');
+                        cmb.setValue(ps);
+                        cmb.resumeEvent('change');
                     }
                 }
             });
