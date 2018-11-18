@@ -15,8 +15,11 @@
 
             /**
              * when to compress the output - length tested against outgoing json string
+             * basically size of a MTU (max transmission unit) of a tcp packet is 1400 bytes(1.4KB)
+             * smaller data chinks will use a packet for transmission anyway, so no point in compressing them.
+             * assuming (naively - utf and shit) that one char is ne byte and leaving some space for headers
              */
-            lenCutOff: 0
+            lenCutOff: 1024
         },
 
         mixins: [
