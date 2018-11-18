@@ -164,7 +164,7 @@
         },
 
         /**
-         * shows a validatin msg with 'server validation' title
+         * shows a validation msg with 'server validation' title
          * @param validationFeedback
          * @param btn
          */
