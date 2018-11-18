@@ -406,6 +406,7 @@ const cleanupAndFixScripts = () => {
                 `<!--${getAppName()} :: ${appVersion}-->`,
                 `<!--MapHive :: ${mapHiveVersion}-->`,
                 firstPart,
+                `    <script type="text/javascript" src="mh/resources/jsLibs/pako/1.0.6/pako.min.js"></script>`,
                 `    <script type="text/javascript" src="build-profile-bootstrap.js?r=${new Date().getTime()}"></script>`,
                 `    <script type="text/javascript" src="maphive-bootstrap.js?r=${new Date().getTime()}"></script>`,
                 secondPart
