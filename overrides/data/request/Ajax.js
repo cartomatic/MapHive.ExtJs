@@ -46,7 +46,7 @@
                     data = pako.gzip(data);
 
                     //<debug>
-                    console.log('Orig len:' + origLen + 'Compressed length:', data.length);
+                    console.log('Orig len: ' + (origLen / 1000).toFixed(1) + 'KB (' + origLen + '); Compressed length: ' + (data.length / 1000).toFixed(1) + 'KB (' + data.length + ')');
                     console.log('Squeezed to ' + Math.round(data.length/origLen * 100) + '% of orig');
                     //</debug>
 
