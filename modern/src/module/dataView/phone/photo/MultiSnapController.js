@@ -334,7 +334,8 @@
             }
 
 
-            var vel = document.getElementById(this.getVideoElId());
+            var vel = document.getElementById(this.getVideoElId()),
+                mime = this.getView().getOutputMime() || 'image/png';
 
             if(!this.snapCanvas){
 
@@ -348,7 +349,7 @@
             this.snapCanvas.getContext('2d').drawImage(vel, 0, 0, vel.videoWidth, vel.videoHeight);
 
             //and pass for processing
-            this.applySnappedPhoto(this.snapCanvas.toDataURL('image/png'));
+            this.applySnappedPhoto(this.snapCanvas.toDataURL(mime));
         },
 
         /**
