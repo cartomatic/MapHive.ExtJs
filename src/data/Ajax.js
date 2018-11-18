@@ -374,7 +374,7 @@
 
                     break;
 
-                //unathorised
+                //unauthorised
                 case 401:
                     if (cfg && cfg.autoHandleUnauthorised !== false) {
                         //auto request status broadcasting has not been waived off
