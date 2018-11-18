@@ -24,17 +24,21 @@
 
         /**
          * whether or not record reload should be prevented
-         * @returns {*|boolean}
+         * @param id
+         * @returns {boolean|*}
          */
-        shouldPreventReload: function(){
+        shouldPreventReload: function(id){
 
             var previousRoute = this.getPreviousRoute(),
                 previousRouteParams = this.getDataRouteParamsForRoute(previousRoute) || [],
                 currentRouteParams = this.getDataRouteParamsForCurrentRoute(),
-                rp = 1, rplen = currentRouteParams.length,
+                rp = 1,
+                //when create mode is on, route is a bit different, hence need to inspect less params
+                rplen = id === 'create' ? currentRouteParams.length - 1 : currentRouteParams.length,
                 prevent;
 
             for(rp; rp < rplen; rp ++){
+
                 if(rp === rplen - 1){
                     prevent = previousRouteParams[rp] && previousRouteParams[rp].split('/')[0] === currentRouteParams[rp].split('/')[0];
                 }
