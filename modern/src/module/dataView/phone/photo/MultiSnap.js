@@ -18,6 +18,13 @@
 
         controller: 'mh-phone-photo-multi-snap',
 
+        config: {
+            /**
+             * output mime when collecting data off the canvas; supported mime are: 'image/png', 'image/jpeg', 'image/gif'
+             */
+            outputMime: 'image/png'
+        },
+
         layout: 'fit',
 
         items: [
