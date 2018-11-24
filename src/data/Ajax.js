@@ -15,14 +15,14 @@
          */
         authorizationHeader = null,
 
-            staticInstance = null,
+        staticInstance = null,
 
         getStaticInstance = function(){
             if(!staticInstance){
                 staticInstance = Ext.create('mh.data.Ajax');
             }
             return staticInstance;
-        }
+        };
 
         /**
          * Provides some customised functionality on the top of Ext.Ajax.
