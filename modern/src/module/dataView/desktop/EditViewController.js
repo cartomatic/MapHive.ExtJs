@@ -143,7 +143,7 @@
                             routePart = undefined; //last part is always a sub route in this scenario!!!
                         }
                         else {
-                            routePart = routeParams[rp].split('/')[0];
+                            routePart = (routeParams[rp] || '').split('/')[0];
                         }
                     }
                     else {
