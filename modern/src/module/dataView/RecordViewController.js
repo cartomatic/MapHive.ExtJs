@@ -68,6 +68,18 @@
 
             for(rp; rp < rplen; rp ++){
                 prevent = previousRouteParts[rp] === currentRouteParams[rp];
+                if(!prevent){
+                    break;
+                }
+            }
+
+            if(prevent){
+                //looks like previous view had similar path, so either a subview OR an edit view.
+                //if edit view, then should reload realy
+                //test if a previous view
+                if((previousRouteParts[previousRouteParts.length - 1] || '').split('/')[0] === 'edit'){
+                    prevent = false;
+                }
             }
 
             return prevent;
