@@ -40,6 +40,16 @@
         },
 
         /**
+         * sets user data, so it can be retrieved by other components
+         * useful when user data changes due to user profile edits
+         * @param userData
+         */
+        setUserData: function(userData){
+            userCfg = userCfg || {};
+            userCfg.user = userData;
+        },
+
+        /**
          * Gets identifier of a currently authenticated user
          */
         getCurrentUserUuid: function(){

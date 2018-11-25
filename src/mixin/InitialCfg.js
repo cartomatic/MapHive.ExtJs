@@ -17,7 +17,7 @@
          * @param pName
          * @returns {*|null}
          */
-        getmhCfgProperty: function(pName){
+        getMhCfgProperty: function(pName){
             if(!initialCfg){
                 this.extractInitialmhCfg();
             }

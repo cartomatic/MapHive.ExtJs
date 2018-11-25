@@ -79,7 +79,11 @@
                 translationKeys: 'translationkeys',
                 langs: 'langs',
                 emailTemplateLocalizations: 'emailtemplatelocalizations',
-                appLocalizationsBulkSave: 'applocalizations/bulksave'
+                appLocalizationsBulkSave: 'applocalizations/bulksave',
+
+                //reousrces
+                resources: 'resources',
+                resource: 'resources/' + resourceIdentifier + '/file'
             }
 
         }

@@ -16,6 +16,10 @@
             'mh.util.console.Formatters'
         ],
 
+        requires: [
+            'mh.localization.LocalizationLocalization'
+        ],
+
         /**
          * current lang code as detected on init (supplied by the server side)
          */
@@ -32,8 +36,8 @@
          */
         constructor: function(){
             //suck in server supplied translations
-            this.defaultLangCode = this.getmhCfgProperty('defaultLangCode') || this.defaultLangCode;
-            this.langCode = this.getmhCfgProperty('langCode') || this.defaultLangCode;
+            this.defaultLangCode = this.getMhCfgProperty('defaultLangCode') || this.defaultLangCode;
+            this.langCode = this.getMhCfgProperty('langCode') || this.defaultLangCode;
 
             //translations are injected via separate script
             if(typeof __mhcfg__ === 'undefined'){
@@ -41,6 +45,12 @@
             }
             __mhcfg__.localization = __mhcfg__.localization || {};
             this.translations = __mhcfg__.localization;
+
+            this.registerTranslations(mh.localization.LocalizationLocalization);
+
+            this.watchGlobal('lang::switch', function(lng){
+                this.switchLang(lng);
+            }, this);
         },
 
         /**
@@ -375,6 +385,55 @@
                 success: Ext.emptyFn,
                 failure: Ext.emptyFn
             });
+        },
+
+        /**
+         * initiates lang switch procedure
+         * @param langCode
+         */
+        switchLang: function(langCode){
+
+            //make sure changing lang makes sense at all...
+            if(this.getMhCfgProperty('langCode') === langCode || !Ext.Array.contains(this.getMhCfgProperty('supportedLangs'), langCode)){
+                return;
+            }
+
+            //mask the app
+            this.fireGlobal('loadmask::show', this.getTranslation('langSwitchMask', 'mh.localization.LocalizationLocalization'));
+
+            var me = this,
+                params = {};
+            params[this.getMhCfgProperty('langParam')] = langCode;
+
+            //defer a bit so a load mask is visible...
+            Ext.defer(function(){
+                //and fire global!
+                me.fireGlobal(
+                    'root::reloadwithparams',
+                    {
+                        params: params,
+                        replace: false
+                    }
+                );
+            }, 500);
+        },
+
+        /**
+         * gets lang supported
+         * @returns {Array}
+         */
+        getSupportedLangs: function(){
+            var supportedLangs = this.getMhCfgProperty('supportedLangs'),
+                langs = [];
+
+            Ext.Array.each(supportedLangs, function(langCode){
+                langs.push({
+                    code: langCode,
+                    name: mh.localization.Localization.getTranslation(langCode, 'mh.localization.LocalizationLocalization')
+                });
+            });
+
+            return langs;
         }
     });
 

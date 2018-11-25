@@ -52,6 +52,14 @@
          */
 
         /**
+         * @event root::reloadwithparams
+         * @param {Object} data
+         * @param {Object} data.params new url params
+         * @param {Boolean} data.replace whether or not all the params should be replaced with the incoming ones
+         * this is actually a watched event. it should be fired by the components that need to pass data to this controller
+         */
+
+        /**
          * @event root::setuphostiframe
          * @param {string} iframeId
          * this is actually a watched event. it should be fired by the components that need to pass data to this controller
@@ -205,6 +213,7 @@
 
             //app reload requests watch
             this.watchGlobal('root::reloadapp', this.onAppReload, this);
+            this.watchGlobal('root::reloadwithparams', this.reloadWithParams, this);
 
             //if this is the 'host' app provide functionality for app switching within an iframe. 'host' app just informs about an iframe it uses for app reloading
             this.watchGlobal('root::setuphostiframe', this.onSetupHostIframe, this);
@@ -226,9 +235,9 @@
          * Sets up hash param names, based on the initial config output by the app entry point (aspx, etc)
          */
         setUpHashParams: function(){
-            var appHashProperties = this.getmhCfgProperty('appHashProperties'),
-                hashPropertyDelimiter = this.getmhCfgProperty('hashPropertyDelimiter'),
-                hashPropertyValueDelimiter = this.getmhCfgProperty('hashPropertyValueDelimiter');
+            var appHashProperties = this.getMhCfgProperty('appHashProperties'),
+                hashPropertyDelimiter = this.getMhCfgProperty('hashPropertyDelimiter'),
+                hashPropertyValueDelimiter = this.getMhCfgProperty('hashPropertyValueDelimiter');
 
             if(appHashProperties){
                 //Not used anymore - app ends up in the url as !appNameOrUuid and the actual route does not have the prefix anymore
@@ -385,7 +394,7 @@
         appRequiresAuth: function(){
 
             var requiresAuth = false,
-                appIdentifiers = this.getmhCfgProperty('authRequiredAppIdentifiers') || [],
+                appIdentifiers = this.getMhCfgProperty('authRequiredAppIdentifiers') || [],
                 ai = 0, ailen = appIdentifiers.length,
 
                 //initially assume HOST mode, so the app should be specified in the url
@@ -1207,6 +1216,74 @@
                 this.lastRoute = newRoute;
                 this.fireGlobal('root::applyexternalroute', newRoute, {suppressLocal: true, host: this.xWindowRouteWatchCfg.host, hosted: this.xWindowRouteWatchCfg.hosted});
             }
+        },
+
+        /**
+         * reloads the app with the specified params
+         * @param newParams an associative arr of params to be set in the url
+         * @param replace whether or not the current url params should be replaced
+         */
+        reloadWithParams: function(evtData){
+
+            //need to obtain the access token first!
+            this.watchGlobal('auth::authtokens', this.onReloadWithParamsAuthTokensRetrieved, {self: this, newParams: evtData.params, replace: evtData.replace}, {single: true});
+            this.fireGlobal('auth::gimmeauthtokens');
+        },
+
+        /**
+         * continues app reload with new params
+         * @param tokens
+         */
+        onReloadWithParamsAuthTokensRetrieved: function(tokens){
+
+            //Note: this duplicates a fair amount of app reload, so at some point would benefit from being merged...
+
+            var self = this.self,
+                newParams = this.newParams,
+                replace = this.replace,
+                inUrl = window.location.href.split('#'),
+                url = inUrl[0],
+                hash = inUrl[1] ? [inUrl[1]] : [],
+
+                urlParts = url.split('?'),
+                baseUrl = urlParts[0],
+                params = urlParts[1] ? urlParts[1].split('&') : [],
+                paramsObj = {},
+
+                destinationUrl;
+
+            //make param an obj now
+            Ext.Array.each(params, function(p){
+                var pParts = p.split('=');
+                paramsObj[pParts[0]] = pParts[1];
+            });
+
+            if(replace){
+                paramsObj = newParams;
+            }
+            else {
+                Ext.Array.each(Ext.Object.getKeys(newParams), function(newP){
+                    paramsObj[newP] = newParams[newP];
+                });
+            }
+
+            //transform params back to an arr
+            params = [];
+            Ext.Array.each(Ext.Object.getKeys(paramsObj), function(p){
+                params.push(p + '=' + paramsObj[p]);
+            });
+
+            //handle hash auth stuff so the app auto signs in on reload
+            if(tokens.accessToken){
+                hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.accessToken) + tokens.accessToken);
+            }
+            if(tokens.refreshToken){
+                hash.push(self.getHashPropertyNameWithValueDelimiter(self.appHashProperties.refreshToken) + tokens.refreshToken);
+            }
+
+            destinationUrl = baseUrl + (params.length > 0 ? '?' + params.join('&') : '') + (hash.length > 0 ? '#' + hash.join(self.hashPropertyDelimiter) : '');
+
+            window.location.href = destinationUrl;
         }
 
     });

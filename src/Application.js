@@ -15,14 +15,14 @@
 
         name: 'MapHiveHosted',
 
-    requires: [
-        'mh.util.console.Custom',
-        'mh.communication.MsgBusXWindow',
-        'mh.ApplicationLocalization',
-        'mh.module.loadMask.LoadMask'
-    ],
+        requires: [
+            'mh.util.console.Custom',
+            'mh.communication.MsgBusXWindow',
+            'mh.ApplicationLocalization',
+            'mh.module.loadMask.LoadMask'
+        ],
 
-    mixins: [
+        mixins: [
             'mh.communication.MsgBus',
             'mh.util.console.Formatters',
             'mh.mixin.Localization',
