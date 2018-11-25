@@ -39,7 +39,6 @@
             this.getView().hide();
         },
 
-
         /**
          * btn change pass handler
          */
@@ -47,7 +46,7 @@
 
             var newPass = this.lookupReference('txtNewPass').getValue(),
                 repeatPass = this.lookupReference('txtRepeatPass').getValue(),
-                msg, title
+                msg, title;
 
             //do a pass validation preflight; regex matching is done by the global Auth controller
             if(!newPass || newPass === '' || newPass === null){

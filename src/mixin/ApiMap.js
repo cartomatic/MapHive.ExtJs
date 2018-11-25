@@ -171,7 +171,7 @@
          * @param apiKey
          */
         getApiEndPoint: function(apiKey){
-            var apiEndpoints = this.getmhCfgProperty('apiEndPoints') || {};
+            var apiEndpoints = this.getMhCfgProperty('apiEndPoints') || {};
             return apiEndpoints[apiKey];
         },
 
@@ -240,7 +240,7 @@
          */
         applyApiMapOverrides: function(){
             //grab the cfg off the global initial cfg
-            var apiMapChanges = this.getmhCfgProperty('mhApiMap'),
+            var apiMapChanges = this.getMhCfgProperty('mhApiMap'),
                 keys, key, k = 0, klen;
 
             //note: this is not used very often but leaves a hook for redirecting some apis

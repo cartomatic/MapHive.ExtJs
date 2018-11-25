@@ -24,7 +24,8 @@
             'mh.mixin.UserCfg',
             'mh.communication.MsgBus',
             'mh.mixin.UserAppsUtils',
-            'mh.mixin.PublishApi'
+            'mh.mixin.ApiMap',
+            'mh.data.Ajax'
         ],
 
         init: function() {
@@ -44,6 +45,8 @@
             }
 
             this.callMeParent(arguments);
+
+            this.watchGlobal('userprofile::changed', this.onUserProfileChanged, this);
         },
 
         /**
@@ -104,10 +107,19 @@
             var profileBtn = this.lookup('profileBtn');
 
             if(this.userProfile){
-                if(this.userProfile.get('profilePicture')) {
-                    //TODO
-                    profileBtn.setIcon(user.get('profilePicture'));
-                    profileBtn.setIconCls('roundImage');
+                var pp = this.userProfile.get('profilePicture'),
+                    icon;
+                if(pp) {
+                    if(pp.length === 36 && mh.util.Generator.isGuid(pp)){
+                        icon = this.getApiEndPointUrl('resource').replace(this.getApiMapResourceIdentifier(), pp) + '?' + this.getAccessTokenUrlParam();
+                        //TODO - small icon via API!
+                    }
+                    else {
+                        //looks like base 64 data. should not be too common though
+                        icon = pp;
+                    }
+                    profileBtn.setIcon(icon);
+                    profileBtn.setIconCls('nav-menu-round-image');
                 }
                 else {
                     profileBtn.setIcon(null);
@@ -124,6 +136,11 @@
                     : this.getTranslation('anonymous')
             );
 
+        },
+
+        onUserProfileChanged: function(userProfile){
+            this.userProfile =  userProfile;
+            this.updateUserInfo();
         },
 
         /**

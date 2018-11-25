@@ -9,11 +9,11 @@
      */
     Ext.define('mh.mixin.Localization', {
 
-    requires: [
-        'mh.localization.Localization'
-    ],
+        requires: [
+            'mh.localization.Localization'
+        ],
 
-    /**
+        /**
          * Retrieves a value of a translation string for a specified namespace (or if not provided works out the namespace based on a class calling a method)
          * @param {string} translationKey
          * @param {string} [namespace]

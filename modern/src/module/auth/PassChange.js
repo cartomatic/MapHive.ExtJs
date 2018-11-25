@@ -22,6 +22,7 @@
         viewModel: true,
 
         modal: true,
+        floated: true,
 
         hideOnMaskTap: false,
 
