@@ -44,48 +44,12 @@
             //TODO - load user profile off the server!
 
 
-            var rec = Ext.create('mh.data.model.OrganizationUser', this.getCurrentUser()),
-                pp = rec.get('profilePicture'),
-                src;
+            var rec = Ext.create('mh.data.model.OrganizationUser', this.getCurrentUser());
 
             this.getViewModel().set('record', rec);
 
-            if(pp){
-                if(pp.length === 36 && mh.util.Generator.isGuid(pp)){
-                    src = this.getResourceUrl(pp);
-                }
-                else {
-                    //looks like base 64 data. should not be too common though
-                    src = pp;
-                }
-            }
-            else {
-                src = this.getAnonymousProfilePhotoSrc();
-            }
+            this.lookupReference('profilePicture').setSrc(rec.get('profilePictureGetter'));
 
-            this.lookupReference('profilePicture').setSrc(src);
-        },
-
-        /**
-         * gets resource url
-         * @param resId
-         * @returns {string}
-         */
-        getResourceUrl: function(resId){
-            return this.getApiEndPointUrl('resource').replace(this.getApiMapResourceIdentifier(), resId) + '?' + this.getAccessTokenUrlParam();
-        },
-
-        /**
-         * gets anonymous profile photo src
-         * @returns {string}
-         */
-        getAnonymousProfilePhotoSrc: function(){
-            var src = 'mh/resources/images/anonymous-profile.png'; //no profile picture img
-            //<debug>
-            src = 'packages/local/mh/resources/images/anonymous-profile.jpg';
-            //</debug>
-
-            return src;
         },
 
         /**

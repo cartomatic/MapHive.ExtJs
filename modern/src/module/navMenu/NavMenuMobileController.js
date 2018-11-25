@@ -390,8 +390,7 @@
 
                 //TODO - picture - mind this is not yet decided how it's gonna be stored
                 if(this.userProfile.get('profilePicture')){
-                    //FIXME - at this stage will not be there!
-                    //TODO - make it a nice round image!!!!
+                    this.userPictureDisplay.setHtml('<img style="height:45px; width:45px; border-radius:50%;" src="' + this.userProfile.get('profilePictureGetter') + '" />')
                 }
                 else {
                     //no picture, just make it an faceless icon
