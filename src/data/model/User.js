@@ -12,7 +12,13 @@
 
         requires: [
             'mh.data.proxy.Rest',
-            'mh.mixin.ApiMap'
+            'mh.mixin.ApiMap',
+            'mh.util.Generator'
+        ],
+
+        mixins: [
+            'mh.mixin.ApiMap',
+            'mh.data.Ajax'
         ],
 
         customEntityNavigationUrl: 'users',
@@ -46,8 +52,31 @@
             { name: 'parentOrganizationId', type: 'string', defaultValue: null},
             { name: 'userOrgId', type: 'string', defaultValue: null},
             { name: 'visibleInCatalogue', type: 'boolean', defaultValue: false },
-            { name: 'organizationRole', type: 'int', defaultValue: 2} //org member; see the OrganizationRole enum in MapHive.Server.Core.DataModel.Organization
+            { name: 'organizationRole', type: 'int', defaultValue: 2}, //org member; see the OrganizationRole enum in MapHive.Server.Core.DataModel.Organization
 
+
+            {
+                name: 'profilePictureGetter', type: 'string',
+                calculate: function(data) {
+                    var src;
+                    if(data.profilePicture){
+                        if(data.profilePicture.length === 36 && mh.util.Generator.isGuid(data.profilePicture)){
+                            src = mh.mixin.ApiMap.getApiEndPointUrl('resource').replace(mh.mixin.ApiMap.getResourceIdentifier(), data.profilePicture) + '?' + mh.data.Ajax.getAccessTokenUrlParam();
+                        }
+                        else {
+                            src = data.profilePicture;
+                        }
+                    }
+                    else {
+                        src = 'mh/resources/images/anonymous-profile.png'; //no profile picture img
+                        //<debug>
+                        src = 'packages/local/mh/resources/images/anonymous-profile.jpg';
+                        //</debug>
+                    }
+
+                    return src;
+                }
+            }
         ],
         proxy: {
             type: 'mhrest',

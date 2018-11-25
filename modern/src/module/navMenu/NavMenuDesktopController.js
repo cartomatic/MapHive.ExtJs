@@ -107,24 +107,17 @@
             var profileBtn = this.lookup('profileBtn');
 
             if(this.userProfile){
-                var pp = this.userProfile.get('profilePicture'),
-                    icon;
+                var pp = this.userProfile.get('profilePicture');
+
                 if(pp) {
-                    if(pp.length === 36 && mh.util.Generator.isGuid(pp)){
-                        icon = this.getApiEndPointUrl('resource').replace(this.getApiMapResourceIdentifier(), pp) + '?' + this.getAccessTokenUrlParam();
-                        //TODO - small icon via API!
-                    }
-                    else {
-                        //looks like base 64 data. should not be too common though
-                        icon = pp;
-                    }
-                    profileBtn.setIcon(icon);
+                    profileBtn.setIcon(this.userProfile.get('profilePictureGetter'));
                     profileBtn.setIconCls('nav-menu-round-image');
                 }
                 else {
                     profileBtn.setIcon(null);
                     profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('mhNavMenuUser'));
                 }
+
             }
             else {
                 profileBtn.setIconCls(mh.FontIconsDictionary.getIcon('mhNavMenuUserAnonymous'));
