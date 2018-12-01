@@ -15,7 +15,8 @@
             'mh.module.userProfile.UserProfileController',
             'mh.module.userProfile.UserProfileModel',
             'mh.FontIconsDictionary',
-            'mh.module.userProfile.Icons'
+            'mh.module.userProfile.Icons',
+            'mh.field.RoundImage'
         ],
 
         xtype: 'mh-user-profile',
@@ -45,49 +46,17 @@
                 padding: 10,
                 items: [
                     {
-                        xtype: 'container',
-                        layout: {
-                            type: 'hbox',
-                            align: 'stretch'
+                        xtype: 'mh-roundimg',
+                        imgWidth: 200,
+                        imgHeight: 200,
+                        editable: true,
+                        bind: {
+                            image: '{record.profilePictureGeneric}'
                         },
-                        items: [
-                            {xtype: 'container', flex: 1},
-                            {
-                                xtype: 'container',
-                                items: [
-                                    {
-                                        xtype: 'img',
-                                        reference: 'profilePicture',
-                                        width: 200,
-                                        height: 200,
-                                        style: {
-                                            borderRadius: '50%'
-                                        }
-                                    },
-                                    {
-                                        xtype: 'button',
-                                        iconCls: mh.FontIconsDictionary.getIcon('mhUserProfileResetProfilePicture'),
-                                        left: 0,
-                                        bottom: 0,
-                                        ui: 'mh-user-profile-photo-reset-btn',
-                                        listeners: {
-                                            tap: 'userProfilePhotoResetBtnTap'
-                                        }
-                                    },
-                                    {
-                                        xtype: 'button',
-                                        iconCls: mh.FontIconsDictionary.getIcon('mhUserProfileUploadProfilePicture'),
-                                        right: 0,
-                                        bottom: 0,
-                                        ui: 'mh-user-profile-photo-add-btn',
-                                        listeners: {
-                                            tap: 'userProfilePhotoAddBtnTap'
-                                        }
-                                    }
-                                ]
-                            },
-                            {xtype: 'container', flex: 1}
-                        ]
+                        listeners: {
+                            imgreset: 'onUserProfilePhotoReset',
+                            imgchanged: 'onUserProfilePhotoChanged'
+                        }
                     },
                     {
                         xtype: 'textfield',

@@ -110,7 +110,7 @@
                 var pp = this.userProfile.get('profilePicture');
 
                 if(pp) {
-                    profileBtn.setIcon(this.userProfile.get('profilePictureGetter'));
+                    profileBtn.setIcon(this.userProfile.get('profilePictureGeneric'));
                     profileBtn.setIconCls('nav-menu-round-image');
                 }
                 else {

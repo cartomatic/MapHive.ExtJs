@@ -1,5 +1,5 @@
 @include button-ui(
-        $ui: 'mh-user-profile-photo-add-btn',
+        $ui: 'mh-roundimg-add-btn',
         $color: #fff,
         $icon-color: #fff,
         $background-color: $color-save-green,
@@ -9,7 +9,7 @@
 );
 
 @include button-ui(
-        $ui: 'mh-user-profile-photo-reset-btn',
+        $ui: 'mh-roundimg-reset-btn',
         $color: #fff,
         $icon-color: #fff,
         $background-color: $color-close-red,
