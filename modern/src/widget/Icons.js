@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict'
     
-    Ext.define('mh.field.Icons', {
+    Ext.define('mh.widget.Icons', {
         singleton: true,
         requires: [
             'mh.FontIconsDictionary'

@@ -4,7 +4,7 @@
     //Make sure strict mode is on
     'use strict'
 
-    Ext.define('mh.field.RoundImage', {
+    Ext.define('mh.widget.RoundImage', {
         extend: 'Ext.Container',
 
         xtype: 'mh-roundimg',
@@ -15,7 +15,7 @@
 
         requires: [
             'Ext.Image',
-            'mh.field.Icons'
+            'mh.widget.Icons'
         ],
 
         config: {

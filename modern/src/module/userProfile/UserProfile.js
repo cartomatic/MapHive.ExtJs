@@ -16,7 +16,7 @@
             'mh.module.userProfile.UserProfileModel',
             'mh.FontIconsDictionary',
             'mh.module.userProfile.Icons',
-            'mh.field.RoundImage'
+            'mh.widget.RoundImage'
         ],
 
         xtype: 'mh-user-profile',
