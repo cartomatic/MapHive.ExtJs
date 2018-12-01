@@ -40,17 +40,48 @@
          * loads user profile on show
          */
         onShow: function(){
+            var me = this,
+                cfg = {
+                    url: this.getApiEndPointUrl('userprofile'),
+                    success: this.onProfileLoadSuccess,
+                    failure: this.onProfileLoadFailure,
+                    exceptionMsg: this.getTranslation('profileLoadFailure'),
+                    scope: this
+                },
+                op;
 
-            //TODO - load user profile off the server!
 
+            op = function() {
+                me.fireGlobal('loadmask::show', me.getTranslation('profileLoadMask'));
+                me.doGet(cfg);
+            };
 
-            var rec = Ext.create('mh.data.model.OrganizationUser', this.getCurrentUser());
+            //retry fn
+            cfg.retry = op;
 
-            this.getViewModel().set('record', rec);
+            op();
         },
 
         /**
-         * private
+         * profile load susscess handler
+         * @param rec
+         */
+        onProfileLoadSuccess: function(data){
+            this.getViewModel().set('record', Ext.create('mh.data.model.OrganizationUser', data));
+            this.fireGlobal('loadmask::hide');
+        },
+
+        /**
+         * profile load failure handler
+         */
+        onProfileLoadFailure: function(){
+            this.getViewModel().set('record', null);
+            this.fireGlobal('loadmask::hide');
+            this.redirectTo(Ext.getApplication().getDefaultToken());
+        },
+
+        /**
+         * @private
          */
         passChangeUi: null,
 
