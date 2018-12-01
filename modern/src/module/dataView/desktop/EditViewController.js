@@ -56,7 +56,7 @@
             else{
                 if(this.getView().getAdjustHash()){
                     //this view adjusts hash for its subviews, so need to use a stored entry route to go back
-                    this.redirectTo(this.entryRoute);
+                    this.redirectTo(this.entryRoute || this.getPreviousRoute() || this.getNavRouteForCurrentDataRoute());
                 }
                 else {
                     //hash for this view is not adjusted, so simply go back
