@@ -18,6 +18,19 @@
 
         init: function(){
             this.callMeParent('init', arguments);
+        },
+
+        /**
+         * resetds user photo
+         */
+        onUserProfilePhotoReset: function(roundImg){
+            this.getViewModel().get('record').set('profilePicture', null);
+            //custom 'no'profile' img
+            roundImg.setImage(this.getViewModel().get('record').get('profilePictureGeneric'));
+        },
+
+        onUserProfilePhotoChanged: function(roundImg, imgData){
+            this.getViewModel().get('record').set('profilePicture', imgData);
         }
     });
 }());

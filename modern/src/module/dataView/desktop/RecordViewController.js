@@ -87,8 +87,6 @@
             else {
                 if(this.getView().getAdjustHash()){
 
-                    console.warn('entryRoute', this.entryRoute);
-
                     //this view adjusts hash for its subviews, so need to use a stored entry route to go back
                     this.redirectTo(this.entryRoute);
                 }

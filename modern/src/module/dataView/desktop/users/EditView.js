@@ -54,6 +54,19 @@
                         width: 400,
                         items: [
                             {
+                                xtype: 'mh-roundimg',
+                                imgWidth: 200,
+                                imgHeight: 200,
+                                editable: true,
+                                bind: {
+                                    image: '{record.profilePictureGeneric}'
+                                },
+                                listeners: {
+                                    imgreset: 'onUserProfilePhotoReset',
+                                    imgchanged: 'onUserProfilePhotoChanged'
+                                }
+                            },
+                            {
                                 xtype: 'textfield',
                                 bind: {
                                     label: '{localization.forename}',
