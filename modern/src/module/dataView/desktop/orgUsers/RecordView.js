@@ -54,6 +54,15 @@
                         width: 400,
                         items: [
                             {
+                                xtype: 'mh-roundimg',
+                                imgWidth: 200,
+                                imgHeight: 200,
+                                editable: false,
+                                bind: {
+                                    image: '{record.profilePictureGeneric}'
+                                }
+                            },
+                            {
                                 xtype: 'label',
                                 bind: {
                                     html: '<h3>{record.username}</h3>'
