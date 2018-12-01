@@ -66,12 +66,18 @@
                                 xtype: 'label',
                                 bind: {
                                     html: '<h3>{record.username}</h3>'
+                                },
+                                style: {
+                                    textAlign: 'center'
                                 }
                             },
                             {
                                 xtype: 'label',
                                 bind: {
                                     html: '<h4>{organizationRole}</h4>'
+                                },
+                                style: {
+                                    textAlign: 'center'
                                 }
                             },
                             {

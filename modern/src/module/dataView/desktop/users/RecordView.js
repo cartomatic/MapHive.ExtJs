@@ -66,6 +66,9 @@
                                 xtype: 'label',
                                 bind: {
                                     html: '<h3>{record.username}</h3>'
+                                },
+                                style: {
+                                    textAlign: 'center'
                                 }
                             },
                             {
