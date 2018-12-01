@@ -45,6 +45,14 @@
                 profileSaveFailure: {
                     en: 'Failed to save user profile',
                     pl: 'Zapisanie profilu nie powiodło się'
+                },
+                profileLoadMask: {
+                    en: 'Loading user profile...',
+                    pl: 'Ładowanie profilu użytkownika'
+                },
+                profileLoadFailure: {
+                    en: 'Failed to load user profile.',
+                    pl: 'Załadowanie profilu użytkownika nie powiodło się.'
                 }
             }
         }

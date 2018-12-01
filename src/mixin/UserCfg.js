@@ -68,10 +68,10 @@
                 return callback(null);
             }
 
-            //looks like have all that is needed to get the data off the server
-            this.doGet({
-
-            })
+            // //looks like have all that is needed to get the data off the server
+            // this.doGet({
+            //
+            // })
         },
 
     }, function(){
