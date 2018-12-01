@@ -56,7 +56,7 @@
 
 
             {
-                name: 'profilePictureGetter', type: 'string',
+                name: 'profilePictureGeneric', type: 'string',
                 calculate: function(data) {
                     var src;
                     if(data.profilePicture){

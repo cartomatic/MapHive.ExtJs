@@ -47,9 +47,6 @@
             var rec = Ext.create('mh.data.model.OrganizationUser', this.getCurrentUser());
 
             this.getViewModel().set('record', rec);
-
-            this.lookupReference('profilePicture').setSrc(rec.get('profilePictureGetter'));
-
         },
 
         /**
@@ -130,62 +127,14 @@
         /**
          * resetds user photo
          */
-        userProfilePhotoResetBtnTap: function(){
-            this.lookupReference('profilePicture').setSrc(this.getAnonymousProfilePhotoSrc());
+        onUserProfilePhotoReset: function(roundImg){
             this.getViewModel().get('record').set('profilePicture', null);
+            //custom 'no'profile' img
+            roundImg.setImage(this.getViewModel().get('record').get('profilePictureGeneric'));
         },
 
-        /**
-         * upload field for picture uploads
-         * @private
-         */
-        uploadField: null,
-
-        userProfilePhotoAddBtnTap: function(){
-            if(!this.uploadField){
-                this.uploadField = document.createElement('input');
-                this.uploadField.type = 'file';
-                this.uploadField.accept = ".png, .jpg, .gif";
-                this.uploadField.style.display = 'none';
-                document.body.appendChild(this.uploadField);
-                this.uploadField.addEventListener('change', {
-                    handleEvent: this.onUploadProfilePicture,
-                    scope: this
-                });
-            }
-
-            this.uploadField.click();
-        },
-
-        /**
-         * on upload profile picture handler
-         * @param e
-         * @param me
-         * @param file
-         */
-        onUploadProfilePicture: function(e, me, file){
-            if(typeof file === 'undefined'){
-                file = e.target.files[0];
-            }
-            if(typeof me === 'undefined'){
-                me = this.scope;
-            }
-
-            var rec = me.getViewModel().get('record'),
-                reader  = new FileReader();
-
-            reader.addEventListener("load", function () {
-                rec.set('profilePicture', reader.result);
-
-                me.lookupReference('profilePicture').setSrc(reader.result);
-
-                //reset input, so can pick the same file again
-                me.uploadField.value = '';
-            }, false);
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+        onUserProfilePhotoChanged: function(roundImg, imgData){
+            this.getViewModel().get('record').set('profilePicture', imgData);
         }
 
     });

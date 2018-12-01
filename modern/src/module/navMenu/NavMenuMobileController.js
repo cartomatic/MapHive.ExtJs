@@ -390,7 +390,7 @@
 
                 //TODO - picture - mind this is not yet decided how it's gonna be stored
                 if(this.userProfile.get('profilePicture')){
-                    this.userPictureDisplay.setHtml('<img style="height:45px; width:45px; border-radius:50%;" src="' + this.userProfile.get('profilePictureGetter') + '" />')
+                    this.userPictureDisplay.setHtml('<img style="height:45px; width:45px; border-radius:50%;" src="' + this.userProfile.get('profilePictureGeneric') + '" />')
                 }
                 else {
                     //no picture, just make it an faceless icon
