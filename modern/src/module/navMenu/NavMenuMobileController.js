@@ -14,7 +14,8 @@
         requires: [
             'mh.module.navMenu.NavMenuMobileLocalization',
             'Ext.ActionSheet',
-            'Ext.Label'
+            'Ext.Label',
+            'mh.module.dataView.phone.GlobalSettings'
         ],
 
         mixins: [
@@ -30,9 +31,33 @@
 
             this.watchGlobal('mainview::itemchanged', this.onMainViewItemChanged, this);
 
+            Ext.defer(this.resizeBtns, 1, this);
+
             this.updateUserInfo();
         },
 
+
+        /**
+         * resizes btns based on mh.module.dataView.phone.GlobalSettings
+         */
+        resizeBtns: function(){
+            var btns = ['backBtn', 'menuBtn'],
+                w = (mh.module.dataView.phone.GlobalSettings.navMenu || {}).btnWidth,
+                h = (mh.module.dataView.phone.GlobalSettings.navMenu || {}).btnHeight;
+
+            Ext.Array.each(btns, function(btn){
+                var b = this.lookupReference(btn);
+
+                if(b){
+                    if(w){
+                        b.setWidth(w);
+                    }
+                    if(h){
+                        b.setHeight(h);
+                    }
+                }
+            }, this);
+        },
 
         /**
          * instance of navigation menu drawer

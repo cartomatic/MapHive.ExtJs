@@ -7,6 +7,10 @@
     Ext.define('mh.module.dataView.phone.EditViewWizardPagingToolbar', {
         extend: 'Ext.Toolbar',
 
+        requires: [
+            'mh.module.dataView.phone.GlobalSettings'
+        ],
+
         xtype: 'mh-phone-edit-view-wizard-paging-toolbar',
 
         docked: 'bottom',
@@ -23,6 +27,7 @@
             '->',
             {
                 xtype: 'button',
+                reference: 'btnCancel',
                 ui: 'mh-phone-edit-view-wizard-gray-button',
                 listeners: {
                     tap: 'onBtnCancelTap'
@@ -32,6 +37,7 @@
             },
             {
                 xtype: 'button',
+                reference: 'btnSave',
                 ui: 'mh-phone-edit-view-wizard-soft-green-button',
                 listeners: {
                     tap: 'onBtnSaveTap'

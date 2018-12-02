@@ -10,7 +10,8 @@
 
         requires: [
             'Ext.History',
-            'mh.module.dataView.DataViewLocalization'
+            'mh.module.dataView.DataViewLocalization',
+            'mh.module.dataView.phone.GlobalSettings'
         ],
 
         mixins: [
@@ -45,13 +46,27 @@
         setUpActionBtns: function(){
             var vw = this.getView(),
                 enableEdit = vw.getEnableEdit(),
-                enableDismiss = vw.getEnableDismiss();
+                enableDismiss = vw.getEnableDismiss(),
+                w = (mh.module.dataView.phone.GlobalSettings.recView || {}).btnWidth,
+                h = (mh.module.dataView.phone.GlobalSettings.recView || {}).btnHeight;
 
             if(enableEdit) {
+                if(w){
+                    this.lookupReference('editBtn').setWidth(w);
+                }
+                if(h){
+                    this.lookupReference('editBtn').setHeight(h);
+                }
                 this.lookupReference('editBtn').show();
             }
 
             if(enableDismiss){
+                if(w){
+                    this.lookupReference('dismissBtn').setWidth(w);
+                }
+                if(h){
+                    this.lookupReference('dismissBtn').setHeight(h);
+                }
                 this.lookupReference('dismissBtn').show();
             }
         },
