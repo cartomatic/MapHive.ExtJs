@@ -14,7 +14,8 @@
         'mh.module.dataView.desktop.users.EditViewController',
         'mh.module.dataView.desktop.users.EditViewModel',
         'mh.module.dataView.desktop.users.Icons',
-        'mh.util.AliasMapper'
+        'mh.util.AliasMapper',
+        'mh.widget.RoundImage'
     ],
 
     xtype: 'mh-desktop-users-edit-view',

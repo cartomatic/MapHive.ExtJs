@@ -13,7 +13,8 @@
         'mh.module.dataView.desktop.users.Icons',
         'mh.module.dataView.desktop.users.RecordViewController',
         'mh.module.dataView.desktop.users.RecordViewModel',
-        'mh.util.AliasMapper'
+        'mh.util.AliasMapper',
+        'mh.widget.RoundImage'
     ],
 
     xtype: 'mh-desktop-users-record-view',

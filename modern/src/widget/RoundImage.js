@@ -14,7 +14,7 @@
         ],
 
         requires: [
-            'Ext.Image',
+            'Ext.Img',
             'mh.widget.Icons'
         ],
 
@@ -100,6 +100,7 @@
             var src = 'mh/resources/images/no-photo.png'; //no img
             //<debug>
             src = 'packages/local/mh/resources/images/no-photo.png';
+            //</debug>
 
             return src;
         },
