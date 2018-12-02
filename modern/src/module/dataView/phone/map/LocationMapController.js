@@ -13,7 +13,7 @@
 
         requires: [
             'mh.module.dataView.phone.map.LocationMapLocalization',
-            'mh.module.dataView.phone.GlobalSettings'
+            'mh.module.dataView.GlobalSettings'
         ],
 
         mixins: [
@@ -62,12 +62,12 @@
         },
 
         /**
-         * resizes btns based on mh.module.dataView.phone.GlobalSettings
+         * resizes btns based on mh.module.dataView.GlobalSettings
          */
         resizeBtns: function(){
             var btns = ['savePositionEditBtn', 'discardPositionEditBtn', 'gpsBtn', 'enablePositionEditBtn'],
-                w = (mh.module.dataView.phone.GlobalSettings.locationMap || {}).btnWidth,
-                h = (mh.module.dataView.phone.GlobalSettings.locationMap || {}).btnHeight;
+                w = (mh.module.dataView.GlobalSettings.locationMap || {}).btnWidth,
+                h = (mh.module.dataView.GlobalSettings.locationMap || {}).btnHeight;
 
             Ext.Array.each(btns, function(btn){
                 var b = this.lookupReference(btn);

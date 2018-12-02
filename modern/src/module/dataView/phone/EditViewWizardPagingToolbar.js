@@ -8,7 +8,7 @@
         extend: 'Ext.Toolbar',
 
         requires: [
-            'mh.module.dataView.phone.GlobalSettings'
+            'mh.module.dataView.GlobalSettings'
         ],
 
         xtype: 'mh-phone-edit-view-wizard-paging-toolbar',

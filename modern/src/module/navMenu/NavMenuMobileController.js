@@ -15,7 +15,7 @@
             'mh.module.navMenu.NavMenuMobileLocalization',
             'Ext.ActionSheet',
             'Ext.Label',
-            'mh.module.dataView.phone.GlobalSettings'
+            'mh.module.dataView.GlobalSettings'
         ],
 
         mixins: [
@@ -38,12 +38,12 @@
 
 
         /**
-         * resizes btns based on mh.module.dataView.phone.GlobalSettings
+         * resizes btns based on mh.module.dataView.GlobalSettings
          */
         resizeBtns: function(){
             var btns = ['backBtn', 'menuBtn'],
-                w = (mh.module.dataView.phone.GlobalSettings.navMenu || {}).btnWidth,
-                h = (mh.module.dataView.phone.GlobalSettings.navMenu || {}).btnHeight;
+                w = (mh.module.dataView.GlobalSettings.navMenu || {}).btnWidth,
+                h = (mh.module.dataView.GlobalSettings.navMenu || {}).btnHeight;
 
             Ext.Array.each(btns, function(btn){
                 var b = this.lookupReference(btn);
