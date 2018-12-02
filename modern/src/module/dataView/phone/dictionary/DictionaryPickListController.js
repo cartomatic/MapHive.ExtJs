@@ -24,7 +24,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.publishApi('getDictValuesCount', 'setDictionary', 'setValue', 'getValue');
+            this.publishApi('getDictValuesCount', 'setDictionary', 'setValue', 'getValue', 'isComplete');
         },
 
         /**
@@ -133,6 +133,10 @@
             this.setValue(btn.v);
 
             this.getView().fireEvent('valuepicked', this.getView(), btn.v, oldV);
+        },
+
+        isComplete: function(){
+            return !!this.value;
         }
     });
 }());
