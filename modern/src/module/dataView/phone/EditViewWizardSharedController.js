@@ -8,6 +8,14 @@
 
     Ext.define('mh.module.dataView.phone.EditViewWizardSharedController', {
 
+        requires: [
+            'mh.module.dataView.phone.EditViewWizardLocalization'
+        ],
+
+        mixins: [
+            'mh.mixin.Localization'
+        ],
+
         setUpWizardMode: function(){
             this.setUpActiveItemChangeTitleWatch();
             this.setUpWizardSubViews();
@@ -90,7 +98,25 @@
          */
         displayNextView: function(){
             var currentViewIdx = this.viewSubRoutes.indexOf(this.viewSwitcher.getActiveItem().route),
-                nextView = this.viewSubRoutes[currentViewIdx + 1];
+                nextView = this.viewSubRoutes[currentViewIdx + 1],
+                activeView = this.viewSwitcher.getActiveItem();
+
+            //before navigating further, make sure, view does not prevent it!
+            //when going back, such test is not performed as otherwise users would not be able to review previous input
+            if(this.getView().getEnforceCompleteFormsOnViewChange() && Ext.isFunction(activeView.isComplete)){
+                var incompleteFormResult = activeView.isComplete();
+                if(incompleteFormResult !== true){
+                    Ext.Msg.show({
+                        title: this.getTranslation('incompleteFormTitle', 'mh.module.dataView.phone.EditViewWizardLocalization'),
+                        //if not false & not true, then a msg!
+                        message: incompleteFormResult === false ? this.getTranslation('incompleteFormMsg', 'mh.module.dataView.phone.EditViewWizardLocalization') : incompleteFormResult,
+                        width: 350,
+                        buttons: Ext.MessageBox.OK
+                    });
+
+                    return;
+                }
+            }
 
             if(nextView){
                 this.displayView(nextView);
@@ -102,6 +128,7 @@
          */
         displayPreviousView: function(){
             var currentViewIdx = this.viewSubRoutes.indexOf(this.viewSwitcher.getActiveItem().route),
+
                 prevView = this.viewSubRoutes[currentViewIdx - 1];
 
             if(prevView){
