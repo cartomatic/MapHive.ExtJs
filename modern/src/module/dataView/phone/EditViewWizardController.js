@@ -24,6 +24,7 @@
         init: function(){
             this.callMeParent(arguments);
             this.setUpWizardMode();
+            this.resizeWizardToolbarBtns();
 
             this.setUpSwipe();
         },

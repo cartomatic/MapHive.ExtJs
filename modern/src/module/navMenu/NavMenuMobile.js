@@ -46,6 +46,7 @@
         items: [
             {
                 xtype: 'button',
+                reference: 'backBtn',
                 iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuBack'),
                 listeners: {
                     tap: 'onBackBtnTap'
@@ -60,6 +61,7 @@
             '->',
             {
                 xtype: 'button',
+                reference: 'menuBtn',
                 iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuSandwich'),
                 listeners: {
                     tap: 'onMenuBtnTap'
