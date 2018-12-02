@@ -18,7 +18,7 @@
             {
                 xtype: 'button',
                 reference: 'btnPrev',
-                ui: 'mh-phone-edit-view-wizard-soft-purple-button',
+                ui: 'mh-phone-edit-view-wizard-nav-button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnPrev'),
                 listeners: {
                     tap: 'displayPreviousView'
@@ -48,7 +48,7 @@
             {
                 xtype: 'button',
                 reference: 'btnNext',
-                ui: 'mh-phone-edit-view-wizard-soft-purple-button',
+                ui: 'mh-phone-edit-view-wizard-nav-button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnNext'),
                 listeners: {
                     tap: 'displayNextView'

@@ -160,11 +160,16 @@
             //turning on a new view...
             if(vw){
                 //bollocks - this does not seem to work ok anymore...
-                // this.lookupReference('btnPrev').setDisabled(vwIdx === 0);
-                // this.lookupReference('btnNext').setDisabled(vwIdx === this.viewSubRoutes.length - 1);
+                //this.lookupReference('btnPrev').setDisabled(vwIdx === 0);
+                //this.lookupReference('btnNext').setDisabled(vwIdx === this.viewSubRoutes.length - 1);
+
                 //this neither???
-                this.lookupReference('btnPrev')[vwIdx === 0 ? 'disable' : 'enable']();
-                this.lookupReference('btnNext')[vwIdx === this.viewSubRoutes.length - 1 ? 'disable' : 'enable']();
+                //this.lookupReference('btnPrev')[vwIdx === 0 ? 'disable' : 'enable']();
+                //this.lookupReference('btnNext')[vwIdx === this.viewSubRoutes.length - 1 ? 'disable' : 'enable']();
+
+                //so just adjust styles
+                this.lookupReference('btnPrev').setUi('mh-phone-edit-view-wizard-nav-button' + (vwIdx === 0 ? '-disabled' : ''));
+                this.lookupReference('btnNext').setUi('mh-phone-edit-view-wizard-nav-button' + (vwIdx === this.viewSubRoutes.length - 1 ? '-disabled' : ''));
 
 
                 //TODO - control sub views via router???
