@@ -15,7 +15,7 @@
             'mh.module.dataView.phone.DataViewLocalization',
             'Ext.dataview.listswiper.ListSwiper',
             'Ext.dataview.listswiper.Stepper',
-            'mh.module.dataView.phone.GlobalSettings'
+            'mh.module.dataView.GlobalSettings'
         ],
 
         mixins: [
@@ -112,8 +112,8 @@
                     ui: 'mh-phone-data-view-create-btn raised',
                     right: 15,
                     bottom: 15,
-                    width: (mh.module.dataView.phone.GlobalSettings.dataView || {}).btnWidth,
-                    height: (mh.module.dataView.phone.GlobalSettings.dataView || {}).btnHeight,
+                    width: (mh.module.dataView.GlobalSettings.dataView || {}).btnWidth,
+                    height: (mh.module.dataView.GlobalSettings.dataView || {}).btnHeight,
                     iconCls: mh.FontIconsDictionary.getIcon('mhDataViewNew'),
                     listeners: {
                         tap: 'onBtnCreateTap'

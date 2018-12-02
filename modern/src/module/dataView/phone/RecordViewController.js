@@ -11,7 +11,7 @@
         requires: [
             'Ext.History',
             'mh.module.dataView.DataViewLocalization',
-            'mh.module.dataView.phone.GlobalSettings'
+            'mh.module.dataView.GlobalSettings'
         ],
 
         mixins: [
@@ -47,8 +47,8 @@
             var vw = this.getView(),
                 enableEdit = vw.getEnableEdit(),
                 enableDismiss = vw.getEnableDismiss(),
-                w = (mh.module.dataView.phone.GlobalSettings.recView || {}).btnWidth,
-                h = (mh.module.dataView.phone.GlobalSettings.recView || {}).btnHeight;
+                w = (mh.module.dataView.GlobalSettings.recView || {}).btnWidth,
+                h = (mh.module.dataView.GlobalSettings.recView || {}).btnHeight;
 
             if(enableEdit) {
                 if(w){
