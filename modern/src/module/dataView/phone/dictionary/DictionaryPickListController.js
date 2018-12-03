@@ -13,7 +13,8 @@
 
         requires: [
             'mh.FontIconsDictionary',
-            'mh.module.dataView.phone.dictionary.DictionaryPickListIcons'
+            'mh.module.dataView.phone.dictionary.DictionaryPickListIcons',
+            'mh.module.commonConfig.CommonConfig'
         ],
 
         mixins: [
@@ -65,6 +66,7 @@
                     xtype: 'button',
                     v: dictV.uuid,
                     text: dictV.name,
+                    height: (mh.module.commonConfig.CommonConfig.dictBtn || {}).btnHeight,
                     margin: '0 0 10 0',//trbl
                     listeners: {
                         tap: 'onDictBtnTap'

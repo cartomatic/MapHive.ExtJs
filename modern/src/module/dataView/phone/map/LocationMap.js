@@ -14,7 +14,8 @@
             'mh.module.dataView.phone.map.LocationMapController',
             'mh.module.dataView.phone.map.LocationMapModel',
             'mh.FontIconsDictionary',
-            'mh.module.dataView.phone.map.Icons'
+            'mh.module.dataView.phone.map.Icons',
+            'mh.module.commonConfig.CommonConfig'
         ],
 
         xtype: 'mh-phone-location-map',
@@ -104,6 +105,8 @@
                         ui: 'mh-phone-location-map-save-green-btn raised',
                         top: 10,
                         right: 120,
+                        width: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnWidth,
+                        height: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnHeight,
                         hidden: true
                     },
                     {
@@ -116,6 +119,8 @@
                         ui: 'mh-phone-location-map-close-red-btn raised',
                         top: 10,
                         right: 65,
+                        width: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnWidth,
+                        height: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnHeight,
                         hidden: true
                     },
                     {
@@ -128,6 +133,8 @@
                         ui: 'mh-phone-location-map-purple-btn raised',
                         top: 10,
                         right: 10,
+                        width: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnWidth,
+                        height: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnHeight,
                         hidden: true
                     },
                     {
@@ -140,6 +147,8 @@
                         ui: 'mh-phone-location-map-action-blue-btn raised',
                         top: 10,
                         right: 10,
+                        width: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnWidth,
+                        height: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnHeight,
                         hidden: true
                     }
                 ]

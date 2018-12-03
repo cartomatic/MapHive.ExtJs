@@ -12,8 +12,7 @@
         alias: 'controller.mh-phone-location-map',
 
         requires: [
-            'mh.module.dataView.phone.map.LocationMapLocalization',
-            'mh.module.dataView.GlobalSettings'
+            'mh.module.dataView.phone.map.LocationMapLocalization'
         ],
 
         mixins: [
@@ -57,30 +56,6 @@
                     //</debug>
                 })
             });
-
-            this.resizeBtns();
-        },
-
-        /**
-         * resizes btns based on mh.module.dataView.GlobalSettings
-         */
-        resizeBtns: function(){
-            var btns = ['savePositionEditBtn', 'discardPositionEditBtn', 'gpsBtn', 'enablePositionEditBtn'],
-                w = (mh.module.dataView.GlobalSettings.locationMap || {}).btnWidth,
-                h = (mh.module.dataView.GlobalSettings.locationMap || {}).btnHeight;
-
-            Ext.Array.each(btns, function(btn){
-                var b = this.lookupReference(btn);
-
-                if(b){
-                    if(w){
-                        b.setWidth(w);
-                    }
-                    if(h){
-                        b.setHeight(h);
-                    }
-                }
-            }, this);
         },
 
         editAllowed: false,
