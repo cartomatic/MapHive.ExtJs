@@ -32,8 +32,10 @@
                 xtype: 'button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhPhotoDelete'),
                 ui: 'mh-phone-photo-dismiss-btn raised',
-                left: 20,
-                bottom: 20,
+                left: 15,
+                bottom: 15,
+                width: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
                 listeners: {
                     tap: 'onDeletePhoto'
                 }
@@ -42,8 +44,10 @@
                 xtype: 'button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSnap'),
                 ui: 'mh-phone-photo-snap-btn raised',
-                right: 20,
-                bottom: 20,
+                right: 15,
+                bottom: 15,
+                width: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
                 listeners: {
                     tap: 'onShowSnapPhotoDialog'
                 }
