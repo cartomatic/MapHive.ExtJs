@@ -271,26 +271,6 @@
             }
 
             return false;
-        },
-
-        resizeWizardToolbarBtns: function(){
-
-            var btns = ['btnPrev', 'btnCancel', 'btnSave', 'btnNext'],
-                w = (mh.module.dataView.GlobalSettings.wizardPagingToolbar || {}).btnWidth,
-                h = (mh.module.dataView.GlobalSettings.wizardPagingToolbar || {}).btnHeight;
-
-            Ext.Array.each(btns, function(btn){
-                var b = this.lookupReference(btn);
-
-                if(b){
-                    if(w){
-                        b.setWidth(w);
-                    }
-                    if(h){
-                        b.setHeight(h);
-                    }
-                }
-            }, this);
         }
 
     });

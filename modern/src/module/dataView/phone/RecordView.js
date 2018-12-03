@@ -12,7 +12,8 @@
             'mh.module.dataView.phone.RecordViewController',
             'mh.module.dataView.RecordViewModel',
             'mh.module.dataView.Icons',
-            'mh.FontIconsDictionary'
+            'mh.FontIconsDictionary',
+            'mh.module.commonConfig.CommonConfig'
         ],
 
         controller: 'mh-phone-record-view',
@@ -59,6 +60,8 @@
                 ui: 'mh-phone-record-view-edit-btn raised',
                 right: 15,
                 bottom: 15,
+                width: (mh.module.commonConfig.CommonConfig.recView || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.recView || {}).btnHeight,
                 hidden: true,
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewEdit'),
                 listeners: {
@@ -71,6 +74,8 @@
                 ui: 'mh-phone-record-view-dismiss-btn raised',
                 left: 15,
                 bottom: 15,
+                width: (mh.module.commonConfig.CommonConfig.recView || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.recView || {}).btnHeight,
                 hidden: true,
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDismiss'),
                 listeners: {

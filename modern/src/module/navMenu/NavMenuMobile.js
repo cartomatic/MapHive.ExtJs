@@ -16,7 +16,8 @@
 
         requires: [
             'mh.FontIconsDictionary',
-            'mh.module.navMenu.Icons'
+            'mh.module.navMenu.Icons',
+            'mh.module.commonConfig.CommonConfig'
         ],
 
         controller: 'mh-main-view-nav-menu-mobile',
@@ -48,6 +49,8 @@
                 xtype: 'button',
                 reference: 'backBtn',
                 iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuBack'),
+                width: (mh.module.commonConfig.CommonConfig.navMenu || {}).width,
+                height: (mh.module.commonConfig.CommonConfig.navMenu || {}).height,
                 listeners: {
                     tap: 'onBackBtnTap'
                 }
@@ -63,6 +66,8 @@
                 xtype: 'button',
                 reference: 'menuBtn',
                 iconCls: mh.FontIconsDictionary.getIcon('mhNavMenuSandwich'),
+                width: (mh.module.commonConfig.CommonConfig.navMenu || {}).width,
+                height: (mh.module.commonConfig.CommonConfig.navMenu || {}).height,
                 listeners: {
                     tap: 'onMenuBtnTap'
                 }

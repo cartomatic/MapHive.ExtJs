@@ -22,7 +22,6 @@
         init: function() {
             this.setUpWizardMode();
             this.setUpSwipe();
-            this.resizeWizardToolbarBtns();
         },
 
         /**

@@ -8,7 +8,7 @@
         extend: 'Ext.Toolbar',
 
         requires: [
-            'mh.module.dataView.GlobalSettings'
+            'mh.module.commonConfig.CommonConfig'
         ],
 
         xtype: 'mh-phone-edit-view-wizard-paging-toolbar',
@@ -20,6 +20,8 @@
                 reference: 'btnPrev',
                 ui: 'mh-phone-edit-view-wizard-nav-button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnPrev'),
+                width: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnHeight,
                 listeners: {
                     tap: 'displayPreviousView'
                 }
@@ -33,6 +35,8 @@
                     tap: 'onBtnCancelTap'
                 },
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnCancel'),
+                width: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnHeight,
                 margin: '0 15 0 0' //trbl
             },
             {
@@ -42,7 +46,9 @@
                 listeners: {
                     tap: 'onBtnSaveTap'
                 },
-                iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnSave')
+                iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnSave'),
+                width: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnHeight
             },
             '->',
             {
@@ -50,6 +56,8 @@
                 reference: 'btnNext',
                 ui: 'mh-phone-edit-view-wizard-nav-button',
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnNext'),
+                width: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnHeight,
                 listeners: {
                     tap: 'displayNextView'
                 }
