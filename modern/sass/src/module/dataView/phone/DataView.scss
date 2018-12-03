@@ -7,3 +7,12 @@
         $border-radius: 50%,
         $border-radius-big: 50%
 );
+
+.mh-data-view-link {
+        font-weight: bold;
+        text-decoration: none;
+        color: $base-color;
+        &:hover {
+                text-decoration: underline;
+        }
+}
