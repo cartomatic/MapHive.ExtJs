@@ -138,7 +138,8 @@
         },
 
         isComplete: function(){
-            return !!this.value;
+            //either has a picked value OR single value dict OR empty dict
+            return !!this.value || this.getView().items.items.length <= 1;
         }
     });
 }());

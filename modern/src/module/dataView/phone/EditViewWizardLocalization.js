@@ -15,8 +15,8 @@
                     pl: 'Niekompletny formularz'
                 },
                 incompleteFormMsg: {
-                    en: 'Current form is incomplete. Please make sure to fill in all the required fields.',
-                    pl: 'Aktywny formularz jest niekompletny. Upewnij się, że wypełnione są wszystkie wymagane pola.'
+                    en: 'Form is incomplete. Please make sure to fill in all the required fields.',
+                    pl: 'Formularz jest niekompletny. Upewnij się, że wypełnione są wszystkie wymagane pola.'
                 }
             }
         }

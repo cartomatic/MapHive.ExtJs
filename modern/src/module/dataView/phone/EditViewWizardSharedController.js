@@ -104,16 +104,9 @@
             //before navigating further, make sure, view does not prevent it!
             //when going back, such test is not performed as otherwise users would not be able to review previous input
             if(this.getView().getEnforceCompleteFormsOnViewChange() && Ext.isFunction(activeView.isComplete)){
-                var incompleteFormResult = activeView.isComplete();
-                if(incompleteFormResult !== true){
-                    Ext.Msg.show({
-                        title: this.getTranslation('incompleteFormTitle', 'mh.module.dataView.phone.EditViewWizardLocalization'),
-                        //if not false & not true, then a msg!
-                        message: incompleteFormResult === false ? this.getTranslation('incompleteFormMsg', 'mh.module.dataView.phone.EditViewWizardLocalization') : incompleteFormResult,
-                        width: 350,
-                        buttons: Ext.MessageBox.OK
-                    });
-
+                var isComplete = activeView.isComplete();
+                if(isComplete !== true){
+                    this.displayValidationFeedback(isComplete);
                     return;
                 }
             }
@@ -271,6 +264,57 @@
             }
 
             return false;
+        },
+
+        /**
+         * validates wizard forms and breaks on first incomplete form
+         * @returns {boolean}
+         */
+        validateWizardForms: function(){
+            if(!this.getView().getEnforceCompleteFormsOnSave()){
+                return true;
+            }
+
+            var isComplete,
+                viewSubRoute,
+                vw;
+
+            //right, should validate the form...
+            Ext.Array.each(this.viewSubRoutes, function(subRoute){
+                viewSubRoute = subRoute;
+                vw = this.viewMap[subRoute];
+
+                if(Ext.isFunction(vw.isComplete)){
+                    isComplete = vw.isComplete();
+                    return !!isComplete; //when false it will break the loop
+                }
+            }, this);
+
+
+            if(isComplete !== true){
+                this.displayValidationFeedback(isComplete);
+
+                //navigate to offending view
+                this.displayView(viewSubRoute);
+
+                return false;
+            }
+
+            return true;
+        },
+
+        /**
+         * displays form validation msg
+         * @param isComplete
+         */
+        displayValidationFeedback: function(isComplete){
+            Ext.Msg.show({
+                title: this.getTranslation('incompleteFormTitle', 'mh.module.dataView.phone.EditViewWizardLocalization'),
+                //if not false & not true, then a msg!
+                message: isComplete === false ? this.getTranslation('incompleteFormMsg', 'mh.module.dataView.phone.EditViewWizardLocalization') : isComplete,
+                width: 350,
+                buttons: Ext.MessageBox.OK
+            });
         }
 
     });
