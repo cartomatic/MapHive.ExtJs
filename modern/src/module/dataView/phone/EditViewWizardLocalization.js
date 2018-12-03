@@ -17,6 +17,10 @@
                 incompleteFormMsg: {
                     en: 'Form is incomplete. Please make sure to fill in all the required fields.',
                     pl: 'Formularz jest niekompletny. Upewnij się, że wypełnione są wszystkie wymagane pola.'
+                },
+                saveAnywayPrompt: {
+                    en: 'Would you like to save it anyway?',
+                    pl: 'Czy mimo to chcesz zapisać?'
                 }
             }
         }
