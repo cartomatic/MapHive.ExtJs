@@ -272,6 +272,7 @@
          */
         validateWizardFormsAndSave: function(successCallback){
             if(!this.getView().getEnforceCompleteFormsOnSave()){
+                this.markRecordComplete(null);
                 successCallback();
                 return;
             }
@@ -305,6 +306,7 @@
                             me.displayView(viewSubRoute);
                         }
                         else {
+                            me.markRecordComplete(false);
                             successCallback();
                         }
                     }
@@ -312,8 +314,17 @@
                 return;
             }
 
+            this.markRecordComplete(true);
             successCallback();
         },
+
+        /**
+         * marks record completness state
+         * @param complete
+         * @template
+         */
+        markRecordComplete: Ext.emptyFn,
+
 
         /**
          * displays form validation msg
