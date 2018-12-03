@@ -15,9 +15,6 @@
 
         mixins: [
             'mh.mixin.CallMeParent',
-            //'mh.module.dataView.RecordLoader',
-            //'mh.mixin.ResponseValidationErrorReader',
-            //'mh.mixin.DirtyMode',
             'mh.module.dataView.phone.EditViewWizardSharedController'
         ],
 
@@ -45,6 +42,23 @@
             //adding a first non-auto-skip view is a temporary solution
             //making a dict only skip when flagged as set up could be an option too
             this.rewindToFirstView();
+        },
+
+        /**
+         * always valid as wizard forms perform own per form validation!
+         * @returns {boolean}
+         */
+        isValid: function(){
+            return true;
+        },
+
+        onBtnSaveTap: function(){
+            if(this.validateWizardForms()){
+                this.callMeParent(arguments);
+                return;
+            }
+
+            //if not valid - validation has already taken care of the view behavior, msgs, etc.
         }
 
     });

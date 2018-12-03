@@ -82,7 +82,7 @@
         isValid: function(){
             var invalidFields = [];
 
-            Ext.Array.each(this.getView().down('container'), function(panel){
+            Ext.Array.each(this.getView().down('panel[reference=viewItemsHolder]'), function(panel){
                 Ext.Array.each(panel.items.items, function(fld){
                     if(Ext.isFunction(fld.validate)){
                         fld.validate(); //aka clearInvalid

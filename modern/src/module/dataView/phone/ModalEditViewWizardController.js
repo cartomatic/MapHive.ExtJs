@@ -48,11 +48,15 @@
          */
         onBtnSaveTap: function(){
 
-            var formData = this.collectFormData();
+            if(this.validateWizardForms()){
+                var formData = this.collectFormData();
 
-            this.getView().fireEvent('modaleditviewsave', this.getView(), formData);
+                this.getView().fireEvent('modaleditviewsave', this.getView(), formData);
 
-            this.getView().hide();
+                this.getView().hide();
+            }
+
+            //if not valid - validation has already taken care of the view behavior, msgs, etc.
         },
 
         /**
