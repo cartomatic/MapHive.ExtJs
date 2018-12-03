@@ -267,12 +267,13 @@
         },
 
         /**
-         * validates wizard forms and breaks on first incomplete form
+         * validates wizard forms and breaks on first incomplete form; when valid executes the callback supplied
          * @returns {boolean}
          */
-        validateWizardForms: function(){
+        validateWizardFormsAndSave: function(successCallback){
             if(!this.getView().getEnforceCompleteFormsOnSave()){
-                return true;
+                successCallback();
+                return;
             }
 
             var isComplete,
@@ -292,28 +293,46 @@
 
 
             if(isComplete !== true){
-                this.displayValidationFeedback(isComplete);
+                var me = this;
 
-                //navigate to offending view
-                this.displayView(viewSubRoute);
-
-                return false;
+                this.displayValidationFeedback(
+                    isComplete,
+                    this.getTranslation('saveAnywayPrompt', 'mh.module.dataView.phone.EditViewWizardLocalization'),
+                    Ext.MessageBox.YESNO,
+                    function(btn){
+                        if(btn === 'no'){
+                            //navigate to offending view
+                            me.displayView(viewSubRoute);
+                        }
+                        else {
+                            successCallback();
+                        }
+                    }
+                );
+                return;
             }
 
-            return true;
+            successCallback();
         },
 
         /**
          * displays form validation msg
          * @param isComplete
          */
-        displayValidationFeedback: function(isComplete){
+        displayValidationFeedback: function(isCompleteFeedback, xtraMsg, btns, fn){
+
+            //if not false & not true, then a msg!
+            var msg = isCompleteFeedback === false ? this.getTranslation('incompleteFormMsg', 'mh.module.dataView.phone.EditViewWizardLocalization') : isCompleteFeedback;
+            if(xtraMsg){
+                msg += '<br/>' + xtraMsg;
+            }
+
             Ext.Msg.show({
                 title: this.getTranslation('incompleteFormTitle', 'mh.module.dataView.phone.EditViewWizardLocalization'),
-                //if not false & not true, then a msg!
-                message: isComplete === false ? this.getTranslation('incompleteFormMsg', 'mh.module.dataView.phone.EditViewWizardLocalization') : isComplete,
+                message: msg,
                 width: 350,
-                buttons: Ext.MessageBox.OK
+                buttons: btns || Ext.MessageBox.OK,
+                fn: fn
             });
         }
 

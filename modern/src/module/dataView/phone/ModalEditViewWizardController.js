@@ -48,15 +48,17 @@
          */
         onBtnSaveTap: function(){
 
-            if(this.validateWizardForms()){
-                var formData = this.collectFormData();
+            var me = this,
+                successCallback = function(){
+                    var formData = me.collectFormData();
 
-                this.getView().fireEvent('modaleditviewsave', this.getView(), formData);
+                    me.getView().fireEvent('modaleditviewsave', me.getView(), formData);
 
-                this.getView().hide();
-            }
+                    me.getView().hide();
+                }
 
-            //if not valid - validation has already taken care of the view behavior, msgs, etc.
+
+            this.validateWizardFormsAndSave(successCallback);
         },
 
         /**

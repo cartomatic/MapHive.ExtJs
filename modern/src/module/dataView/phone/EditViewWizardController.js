@@ -53,12 +53,15 @@
         },
 
         onBtnSaveTap: function(){
-            if(this.validateWizardForms()){
-                this.callMeParent(arguments);
-                return;
-            }
 
-            //if not valid - validation has already taken care of the view behavior, msgs, etc.
+            var me = this,
+                args = arguments,
+                successCallback = function(){
+                    me.superclass.superclass.onBtnSaveTap.apply(me, args);
+                };
+
+
+            this.validateWizardFormsAndSave(successCallback);
         }
 
     });
