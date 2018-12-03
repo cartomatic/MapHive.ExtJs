@@ -10,5 +10,13 @@
     Ext.define('mh.module.commonConfig.CommonConfig', {
         singleton: true
 
+        //photoSnapper
+        //wizardPagingToolbar
+        //dataView
+        //recView
+        //navMenu
+        //locationMap
+        //dictBtn
+
     });
 }());

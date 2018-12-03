@@ -226,8 +226,10 @@
                             xtype: 'button',
                             iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSwap'),
                             ui: 'mh-phone-photo-swap-btn raised',
-                            right: 20,
-                            top: 20,
+                            right: 15,
+                            top: 15,
+                            width: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnWidth,
+                            height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
                             hidden: this.noCamerasDetected, // || !this.canSwapCameras,
                             handler: function(){
                                 me.swapCameras()
@@ -238,8 +240,10 @@
                             //floated: true,
                             iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSnap'),
                             ui: 'mh-phone-photo-snap-btn raised',
-                            right: 20,
-                            bottom: 20,
+                            right: 15,
+                            bottom: 15,
+                            width: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnWidth,
+                            height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
                             hidden: this.noCamerasDetected,
                             handler: function(){
                                 me.snapPhoto();
@@ -251,8 +255,10 @@
                             //floated: true,
                             iconCls: mh.FontIconsDictionary.getIcon('mhPhotoCancel'),
                             ui: 'mh-phone-photo-dismiss-btn round',
-                            left: 20,
-                            bottom: 20,
+                            left: 15,
+                            bottom: 15,
+                            width: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnWidth,
+                            height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
                             handler: function(){
                                 me.hideSnapperDialog();
                             }
