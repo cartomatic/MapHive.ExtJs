@@ -14,11 +14,13 @@
         requires: [
             'mh.FontIconsDictionary',
             'mh.module.dataView.phone.dictionary.DictionaryPickListIcons',
-            'mh.module.commonConfig.CommonConfig'
+            'mh.module.commonConfig.CommonConfig',
+            'mh.module.dataView.phone.dictionary.DictionaryPickListLocalization'
         ],
 
         mixins: [
-            'mh.mixin.PublishApi'
+            'mh.mixin.PublishApi',
+            'mh.mixin.Localization'
         ],
 
         /**
@@ -139,7 +141,10 @@
 
         isComplete: function(){
             //either has a picked value OR single value dict OR empty dict
-            return !!this.value || this.getView().items.items.length <= 1;
+            if(!(!!this.value || this.getView().items.items.length <= 1)){
+                return this.getTranslation('incompleteMissingValue');
+            }
+            return true;
         }
     });
 }());
