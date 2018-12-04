@@ -21,6 +21,14 @@
                 title: {
                     en: 'Location map',
                     pl: 'Lokalizacja'
+                },
+                incompleteLocationMsg: {
+                    en: 'Geolocation not set.',
+                    pl: 'Brak współrzędnych geograficznych.'
+                },
+                incompleteLocationNotSaved: {
+                    en: 'Location has not been confirmed.',
+                    pl: 'Współrzędne geograficzne nie zostały zatwierdzone.'
                 }
             }
         }
