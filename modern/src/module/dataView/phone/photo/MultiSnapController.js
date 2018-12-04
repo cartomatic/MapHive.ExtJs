@@ -27,7 +27,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.publishApi('setSnappers', 'setPhotos', 'setPhoto', 'getPhotos', 'getPhoto');
+            this.publishApi('setSnappers', 'setPhotos', 'setPhoto', 'getPhotos', 'getPhoto', 'isComplete');
 
             this.setUpCameras();
         },
@@ -615,6 +615,21 @@
             if(this.refs && this.refs.length > 0){
                 this.lookupReference('tabPanel').setActiveItem(0);
             }
+        },
+
+        isComplete: function(){
+            var photos = this.getPhotos(),
+                complete = true;
+
+            Ext.Array.each(Ext.Object.getKeys(photos), function(ref){
+
+                if(!photos[ref]){
+                    this.lookupReference('tabPanel').setActiveItem(this.lookupReference(ref + '-img'));
+                    complete = this.getTranslation('incompleteMissingPhoto');
+                }
+            }, this);
+
+            return complete;
         }
     });
 }());

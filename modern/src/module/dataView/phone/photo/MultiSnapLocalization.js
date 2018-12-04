@@ -13,6 +13,10 @@
                 noVideoDevicesFound: {
                     en: 'No video input devices found.',
                     pl: 'Nie znaleziono aparatu fotograficznego'
+                },
+                incompleteMissingPhoto: {
+                    en: 'Missing photograph.',
+                    pl: 'Nie zrobiono zdjęcia.'
                 }
             }
         }
