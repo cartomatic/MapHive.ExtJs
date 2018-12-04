@@ -47,6 +47,9 @@
                 return;
             }
 
+            //start with blank rec, so previously displayed stuff cleans up
+            this.getViewModel().set('record', null);
+
             this.showLoadMask(
                 //try to grab customized translation first and fallback for default
                 this.getTranslation('loadRecLoadMask', null, true) || this.getTranslation('loadRecLoadMask', 'mh.module.dataView.DataViewLocalization')
