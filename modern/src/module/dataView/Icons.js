@@ -23,7 +23,7 @@
                 mhDataViewBtnDestroy: 'x-li li-cross-circle',
                 mhDataViewBtnRefresh: 'x-li li-sync2',
                 mhDataViewBtnBack: 'x-li li-cross-circle',
-                mhDataViewBtnSave: 'x-li li-floppy-disk'
+                mhDataViewBtnSave: 'x-li li-checkmark-circle'
             });
         }
     });
