@@ -8,7 +8,7 @@
          * access token issued by the IdentityServer
          * @type {string}
          */
-    var accessToken =  null,
+    var accessToken = null,
         /**
          * Value of the Authorization header to be appended in each request
          * @type {string}

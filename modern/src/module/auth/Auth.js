@@ -58,7 +58,8 @@
                 maxWidth: 400,
 
                 //minHeight: 255,
-                height: '100%',
+                height: Ext.platformTags.android === 5 ? 225 : '100%',
+
 
 
                 style: {
