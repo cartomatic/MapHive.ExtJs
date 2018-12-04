@@ -27,7 +27,7 @@
         init: function() {
             this.injectLocalizationToViewModel();
 
-            this.publishApi('getLocationData');
+            this.publishApi('getLocationData', 'isComplete');
 
             var vw = this.getView(),
                 commChannel = 'locationmap_' + new Date().getTime(),
@@ -569,6 +569,19 @@
                 lat: this.lat,
                 accuracy: this.accuracy
             }
+        },
+
+        isComplete: function(){
+            var vw = this.getView();
+
+            if(this.editable){
+                return this.getTranslation('incompleteLocationNotSaved');
+            }
+
+            if(this.lon === vw.getInitialLongitude() && this.lat === vw.getInitialLatitude() || !this.lon && !this.lat){
+                return this.getTranslation('incompleteLocationMsg');
+            }
+            return true;
         }
     });
 }());
