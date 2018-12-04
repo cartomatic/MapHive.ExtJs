@@ -80,7 +80,9 @@
          * cleans up view and closes it; special handling for floating / windowed editors
          */
         cleanNClose: function(){
-            this.getViewModel().set('record', null);
+            //not unbinding so when going back is dismissed rec does not clean up!
+            //moved to loadRecord method
+            //this.getViewModel().set('record', null);
             Ext.History.back();
         },
 
