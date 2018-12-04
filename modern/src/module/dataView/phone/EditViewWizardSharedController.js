@@ -193,9 +193,9 @@
 
 
                 //TODO - control sub views via router???
+                //this would be trouble some with modal mode, as it prevents route changes!
+                //should be ok in std mode, as desktop rec / edit views already support it
                 this.viewSwitcher.setActiveItem(vw);
-
-                //TODO - also router???
             }
         },
 
@@ -288,10 +288,10 @@
 
                 if(Ext.isFunction(vw.isComplete)){
                     isComplete = vw.isComplete();
-                    return !!isComplete; //when false it will break the loop
+
+                    return Ext.isString(isComplete) ? false : isComplete; //when false it will break the loop
                 }
             }, this);
-
 
             if(isComplete !== true){
                 var me = this;
@@ -333,7 +333,8 @@
         displayValidationFeedback: function(isCompleteFeedback, xtraMsg, btns, fn){
 
             //if not false & not true, then a msg!
-            var msg = isCompleteFeedback === false ? this.getTranslation('incompleteFormMsg', 'mh.module.dataView.phone.EditViewWizardLocalization') : isCompleteFeedback;
+            var msg = this.getTranslation('incompleteFormMsg1', 'mh.module.dataView.phone.EditViewWizardLocalization') + '<br/>' +
+                (isCompleteFeedback === false ? this.getTranslation('incompleteFormMsg2', 'mh.module.dataView.phone.EditViewWizardLocalization') : isCompleteFeedback);
             if(xtraMsg){
                 msg += '<br/>' + xtraMsg;
             }

@@ -14,9 +14,13 @@
                     en: 'Incomplete form',
                     pl: 'Niekompletny formularz'
                 },
-                incompleteFormMsg: {
-                    en: 'Form is incomplete. Please make sure to fill in all the required fields.',
-                    pl: 'Formularz jest niekompletny. Upewnij się, że wypełnione są wszystkie wymagane pola.'
+                incompleteFormMsg1: {
+                    en: 'Form is incomplete.',
+                    pl: 'Formularz jest niekompletny.'
+                },
+                incompleteFormMsg2: {
+                    en: 'Please make sure to fill in all the required fields.',
+                    pl: 'Upewnij się, że wypełnione są wszystkie wymagane pola.'
                 },
                 saveAnywayPrompt: {
                     en: 'Would you like to save it anyway?',
