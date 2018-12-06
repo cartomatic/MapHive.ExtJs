@@ -895,7 +895,7 @@
             destinationUrl = self.updateUrlOrgToken(destinationUrl, self.getUrlOrgIdentifier());
 
             //<debug>
-            console.warn('updatedHostURL!', updatedHostUrl);
+            console.log('updatedHostURL!', updatedHostUrl);
             console.warn('destinationUrl', destinationUrl);
             //</debug>
 
