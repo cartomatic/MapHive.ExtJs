@@ -67,7 +67,6 @@
          */
         collectFormData: function(){
             var msg = Ext.getClassName(this) + ' does not provide a collectFormData implementation';
-            console.warn(msg);
             return msg;
         },
 

@@ -498,7 +498,7 @@
 
             if (this.stream) {
                 //<debug>
-                console.warn('Resetting video feed');
+                console.log('Resetting video feed');
                 //</debug>
 
                 this.stream.getTracks().forEach(function (track) {

@@ -254,7 +254,9 @@
         hasSwipeIgnoreCls: function(el, ignoreCls){
             var parent = el.parentElement;
             while(parent){
-                console.warn(parent.className);
+                //<debug>
+                console.log(parent.className);
+                //</debug>
 
                 if(parent.className.indexOf('edit-wizard-swipe-ignore') >= 0){
                     return true;
