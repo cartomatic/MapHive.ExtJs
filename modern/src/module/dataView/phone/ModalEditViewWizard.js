@@ -48,7 +48,7 @@
             /**
              * whether or not forms should be complete; each view of wizard can prevent scrolling further IF it has a isComplete fn and it returns false
              */
-            enforceCompleteFormsOnViewChange: true,
+            enforceCompleteFormsOnViewChange: false,
 
             /**
              * whether or not should prevent saving until all forms are complete
