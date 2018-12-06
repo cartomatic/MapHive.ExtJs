@@ -64,6 +64,7 @@
 
                 //users
                 users: 'users',
+                userName: 'users/username',
                 organizationUsers: 'organizations/' + orgIdentifier + '/users',
                 organizationUsersLink: 'organizations/' + orgIdentifier + '/users/link',
                 userprofile: 'users/owndetails',
