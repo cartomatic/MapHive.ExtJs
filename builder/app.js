@@ -407,6 +407,8 @@ const cleanupAndFixScripts = () => {
                 `<!--MapHive :: ${mapHiveVersion}-->`,
                 firstPart,
                 `    <script type="text/javascript" src="mh/resources/jsLibs/pako/1.0.6/pako.min.js"></script>`,
+                `    <link rel="stylesheet" href="mh/resources/jsLibs/color-picker/color-picker.min.css" type="text/css">`,
+                `    <script type="text/javascript" src="mh/resources/jsLibs/color-picker/color-picker.min.js"></script>`,
                 `    <script type="text/javascript" src="build-profile-bootstrap.js?r=${new Date().getTime()}"></script>`,
                 `    <script type="text/javascript" src="maphive-bootstrap.js?r=${new Date().getTime()}"></script>`,
                 secondPart
