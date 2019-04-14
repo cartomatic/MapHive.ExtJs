@@ -118,7 +118,7 @@
         }],
 
         listeners: {
-            activate: 'onViewActivate'
+            activate: '__onViewActivate'
         }
     });
 }());

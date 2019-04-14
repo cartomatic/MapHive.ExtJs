@@ -611,7 +611,7 @@
             this.startVideoFeed();
         },
 
-        onViewActivate: function(){
+        __onViewActivate: function(){
             if(this.refs && this.refs.length > 0){
                 this.lookupReference('tabPanel').setActiveItem(0);
             }

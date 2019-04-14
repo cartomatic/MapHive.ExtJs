@@ -21,10 +21,10 @@
         init: function(){
             this.callMeParent(arguments);
 
-            this.getView().on('activate', this.onViewActivate, this);
+            this.getView().on('activate', this.__onViewActivate, this);
         },
 
-        onViewActivate: function(){
+        __onViewActivate: function(){
             mh.data.model.OrganizationUser.getProxy().setUrl(this.getApiEndPointUrl('organizationUsers'));
         },
 

@@ -61,8 +61,8 @@
         ],
 
         listeners: {
-            activate: 'onViewActivate',
-            deactivate: 'onViewDeactivate'
+            activate: '__onViewActivate',
+            deactivate: '__onViewDeactivate'
         }
     });
 }());

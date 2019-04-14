@@ -31,6 +31,9 @@
             //when view kicks in, make sure to add its items
             this.getView().on('initialize', this.onViewInitialize, this);
 
+            //this.getView().on('activate', this.onViewActivates, this);
+
+
             this.callMeParent(arguments);
         },
 
@@ -133,7 +136,8 @@
          * view activate callback.
          * @param view
          */
-        onViewActivate: function(view){
+        __onViewActivate: function(view){
+
             var previousRoute = this.getPreviousRoute(),
                 previousRouteParams = this.getDataRouteParamsForRoute(previousRoute) || [], //previous route may not be a data route, and will not yield data route params!
                 currentRouteParams = this.getDataRouteParamsForCurrentRoute(),

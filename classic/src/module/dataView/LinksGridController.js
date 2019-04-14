@@ -138,7 +138,7 @@
             this.addDeleteColumn();
 
             //hook up some events, so data reloading works like expected
-            vw.on('activate', this.onViewActivate, this);
+            vw.on('activate', this.__onViewActivate, this);
 
             //by default disable grid's dd
             this.setDdPluginDisabled(true);
@@ -329,7 +329,7 @@
         /**
          * View activate callback; used to load the grid records if not loaded previously
          */
-        onViewActivate: function(){
+        __onViewActivate: function(){
             if(this.boundRec && !this.storeLoaded){
                 this.loadStore();
             }
