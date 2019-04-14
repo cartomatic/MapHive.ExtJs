@@ -29,7 +29,7 @@
         /**
          * customised view activate
          */
-        onViewActivate: function() {
+        __onViewActivate: function() {
             //adjust the store url to the currently scoped org.
             this.getViewModel().getStore('gridstore').getProxy().setUrl(this.getApiEndPointUrl('organizationUsers'));
             this.callMeParent(arguments);

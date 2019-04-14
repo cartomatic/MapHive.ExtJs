@@ -239,12 +239,12 @@
         /**
          * view activate callback - reloads store, so when user enters this view data is always fresh
          */
-        onViewActivate: function() {
+        __onViewActivate: function() {
             this.isActive = true;
             this.reloadStore();
         },
 
-        onViewDeactivate: function(){
+        __onViewDeactivate: function(){
             this.isActive = false;
         },
 

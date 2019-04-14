@@ -150,11 +150,11 @@
          */
         isActive: false,
 
-        onViewActivate: function() {
+        __onViewActivate: function() {
             this.isActive = true;
         },
 
-        onViewDeactivate: function(){
+        __onViewDeactivate: function(){
             this.isActive = false;
         }
     });

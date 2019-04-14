@@ -130,7 +130,7 @@
             this.configureTitle();
 
             //hook up some events, so data reloading works like expected
-            vw.on('activate', this.onViewActivate, this);
+            vw.on('activate', this.__onViewActivate, this);
 
 
             //grid's editable mode as configured
@@ -386,7 +386,7 @@
         /**
          * View activate callback; used to load the grid records if not loaded previously
          */
-        onViewActivate: function(){
+        __onViewActivate: function(){
             if(this.boundRec && this.boundRec.get('uuid') && !this.storeLoaded){
                 this.loadStore();
             }

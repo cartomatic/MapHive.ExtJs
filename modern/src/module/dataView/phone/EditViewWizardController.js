@@ -33,7 +33,7 @@
         /**
          * view activate handler
          */
-        onViewActivate: function() {
+        __onViewActivate: function() {
             //this method is mixed in, not inherited, hence cannot call parent directly
             this.callMeParent(arguments);
 

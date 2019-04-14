@@ -169,7 +169,7 @@
          * takes care of storing an entry route so can go back when using the update hash mode
          * @param view
          */
-        onViewActivate: function(view){
+        __onViewActivate: function(view){
             var previousRoute = this.getPreviousRoute();
 
             if(!previousRoute){

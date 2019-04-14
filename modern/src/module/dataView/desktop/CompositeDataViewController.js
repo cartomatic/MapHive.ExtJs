@@ -21,8 +21,8 @@
 
             this.injectLocalizationToViewModel();
 
-            this.getView().on('activate', this.onViewActivate, this);
-            this.getView().on('deactivate', this.onViewDeactivate, this);
+            this.getView().on('activate', this.__onViewActivate, this);
+            this.getView().on('deactivate', this.__onViewDeactivate, this);
 
             this.getView().on('beforeactiveItemchange', this.onBeforeActiveTabChange, this);
 
@@ -57,7 +57,7 @@
         /**
          * view activate handler
          */
-        onViewActivate: function(){
+        __onViewActivate: function(){
             this.active = true;
             this.ensureRouteUi();
         },
@@ -65,7 +65,7 @@
         /**
          * view deactivate handler
          */
-        onViewDeactivate: function(){
+        __onViewDeactivate: function(){
             this.active = false;
         },
 
@@ -119,8 +119,8 @@
                         vw.setActiveItem(item);
                         vw.resumeEvent('beforeactiveItemchange');
 
-                        if(Ext.isFunction(item.onViewActivate)){
-                            item.onViewActivate();
+                        if(Ext.isFunction(item.__onViewActivate)){
+                            item.__onViewActivate();
                         }
                     },100);
 

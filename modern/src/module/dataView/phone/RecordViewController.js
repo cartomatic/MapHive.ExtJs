@@ -110,14 +110,14 @@
          */
         isActive: false,
 
-        onViewActivate: function() {
+        __onViewActivate: function() {
             this.isActive = true;
 
             //scroll to top on show
             this.lookupReference('viewItemsHolder').getScrollable().scrollTo(0, 0, true);
         },
 
-        onViewDeactivate: function(){
+        __onViewDeactivate: function(){
             this.isActive = false;
         }
 

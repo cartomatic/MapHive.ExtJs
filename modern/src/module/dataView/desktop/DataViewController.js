@@ -27,7 +27,7 @@
         init: function(){
             this.injectLocalizationToViewModel();
 
-            this.publishApi('reloadStore', 'getGridInstance', 'onViewActivate', 'getSelection', 'resetGrid', 'setPageSize');
+            this.publishApi('reloadStore', 'getGridInstance', '__onViewActivate', 'getSelection', 'resetGrid', 'setPageSize');
 
             this.configureGrid();
 
@@ -365,7 +365,7 @@
         /**
          * view activate callback - reloads store, so when user enters this view data is always fresh
          */
-        onViewActivate: function() {
+        __onViewActivate: function() {
             if(this.getView().getAutoReloadOnViewActivate() === true){
                 this.reloadStore();
             }
