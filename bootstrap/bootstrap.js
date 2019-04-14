@@ -329,7 +329,7 @@
         finaliseLoad = function(){
             //make sure to reload script so caching is avoided. this script should not be to heavy...
             //this should also avoid dev time caching too
-            return loadScript('bootstrap.js');
+            return loadScript('generatedFiles/bootstrap.js');
         };
 
     //do the actual loading
