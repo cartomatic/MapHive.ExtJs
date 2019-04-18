@@ -68,7 +68,7 @@
                         }
                     }
                     else {
-                        src = 'mh/resources/images/anonymous-profile.png'; //no profile picture img
+                        src = 'mh/resources/images/anonymous-profile.jpg'; //no profile picture img
                         //<debug>
                         src = 'packages/local/mh/resources/images/anonymous-profile.jpg';
                         //</debug>
