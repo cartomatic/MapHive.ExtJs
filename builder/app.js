@@ -212,14 +212,17 @@ const buildExtJsApp = () => {
             console.error(`chdir: ${err}`);
         }
 
-        var params = ['app', 'build'];
+        var params = ['sencha', 'app', 'build'];
         if (hasTestSwitch()) {
             params.push('testing');
         }
 
         console.log('Executing sencha build....');
 
-        execFile('sencha', params, (error, stdout, stderr) => {
+        //on windows need to call npx.cmd. found at https://stackoverflow.com/a/43285131
+        var cmd = /^win/.test(process.platform) ? 'npx.cmd' : 'npx';
+
+        execFile(cmd, params, (error, stdout, stderr) => {
             if (error instanceof Error) {
                 throw error;
             }
@@ -293,7 +296,7 @@ const copyResources = () => {
         var compressBootstrap = compressor.minify({
             compressor: 'uglifyjs',
             input: root + '\\packages\\local\\mh\\bootstrap\\bootstrap.js',
-            output: dest + '\\maphive-bootstrap.js'
+            output: dest + '\\generatedFiles\\maphive-bootstrap.js'
         });
 
         //just grab build profiles - if they are present this is a multi profile build
@@ -301,9 +304,10 @@ const copyResources = () => {
 
         //for test build using a testing bootstraper and it loads bootstrap.json, not app.json...
         //this is true for single profile builds
-        if (hasTestSwitch() && !buildProfiles) {
-            copyFile(dest + '\\app.json', dest + '\\bootstrap.json');    
-        }
+        //Note: this seems to be not need
+        //if (hasTestSwitch() && !buildProfiles) {
+        //    copyFile(dest + '\\app.json', dest + '\\bootstrap.json');    
+        //}
 
         copyDir(root + '\\splash', dest + '\\splash')
             .then(copyDir(root + '\\config', dest + '\\config'))
@@ -340,7 +344,7 @@ const extractExtBuildProfilePicker = () => {
     var compressBootstrap = compressor.minify({
         compressor: 'uglifyjs',
         input: dst + '\\..\\build-profile-bootstrap.js',
-        output: dst + '\\build-profile-bootstrap.js'
+        output: dst + '\\generatedFiles\\build-profile-bootstrap.js'
     });
 
 
@@ -375,7 +379,7 @@ const extractExtBootstrap = () => {
             endIdx - startIdx
         );
         
-        fs.writeFileSync(dst + '\\bootstrap.js', bootstrap);
+        fs.writeFileSync(dst + '\\generatedFiles\\bootstrap.js', bootstrap);
         console.log('ext.js bootstrap extracted');
 
         resolve();
@@ -406,11 +410,11 @@ const cleanupAndFixScripts = () => {
                 `<!--${getAppName()} :: ${appVersion}-->`,
                 `<!--MapHive :: ${mapHiveVersion}-->`,
                 firstPart,
-                `    <script type="text/javascript" src="mh/resources/jsLibs/pako/1.0.6/pako.min.js"></script>`,
-                `    <link rel="stylesheet" href="mh/resources/jsLibs/color-picker/color-picker.min.css" type="text/css">`,
-                `    <script type="text/javascript" src="mh/resources/jsLibs/color-picker/color-picker.min.js"></script>`,
-                `    <script type="text/javascript" src="build-profile-bootstrap.js?r=${new Date().getTime()}"></script>`,
-                `    <script type="text/javascript" src="maphive-bootstrap.js?r=${new Date().getTime()}"></script>`,
+                // `    <script type="text/javascript" src="mh/resources/jsLibs/pako/1.0.6/pako.min.js"></script>`,
+                // `    <link rel="stylesheet" href="mh/resources/jsLibs/color-picker/color-picker.min.css" type="text/css">`,
+                // `    <script type="text/javascript" src="mh/resources/jsLibs/color-picker/color-picker.min.js"></script>`,
+                `    <script type="text/javascript" src="generatedFiles/build-profile-bootstrap.js?r=${new Date().getTime()}"></script>`,
+                `    <script type="text/javascript" src="generatedFiles/maphive-bootstrap.js?r=${new Date().getTime()}"></script>`,
                 secondPart
         ].join('\r\n');
 
@@ -524,7 +528,7 @@ const deployApp = () => {
 const promoteToLive = () => {
     return new Promise((resolve, reject) => {
         readDeployerConfigurationJson();
-        var promoteUrl = deployerConfiguration.endPoint + '/promote?appId=' + deployerConfiguration.appId;
+        var promoteUrl = deployerConfiguration.endPoint + 'promote?appId=' + deployerConfiguration.appId;
 
         console.log(`Deploying dev master to LIVE @ ${promoteUrl}...`);
 
