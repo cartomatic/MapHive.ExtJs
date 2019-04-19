@@ -14,8 +14,8 @@
         statics: {
             localization: {
                 validationErrorServer: {
-                    en: 'Server error :: Invalid form data',
-                    pl: 'Błąd servera :: Błędne dane formularza'
+                    en: 'Invalid form data', //'Server error :: Invalid form data',
+                    pl: 'Błędne dane formularza' //'Błąd servera :: Błędne dane formularza'
                 },
                 validationErrorTitle:{
                     en: 'Invalid form data',
@@ -41,7 +41,7 @@
 
                 unknownErr: {
                     en: 'Unknown error triggered for "{field_name}" field.<br/>The error message is:<br/><i>{err_msg}</i>.',
-                    pl: 'Nieznany wyjątek dla pola "{field_name}". Informacja o wyjąku: {err_msg}.'
+                    pl: 'Nieznany wyjątek dla pola "{field_name}". <br/>Informacja o wyjątku: <br/><i>{err_msg}</i>.'
                 },
                 valueTooShortErr: {
                     en: 'Value for the "{field_name}" field is too short. The minimum length is {min_length}, while the length of a provided string was {total_length}.',
