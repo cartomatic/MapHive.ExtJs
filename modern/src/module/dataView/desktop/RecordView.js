@@ -39,7 +39,13 @@
             /**
              * whether or not hash should be adjusted when a tab changes
              */
-            adjustHash: true
+            adjustHash: true,
+
+            /**
+             * whether or not should show next / prev btns;
+             * next / prev btns are hidden by default
+             */
+            showPrevNextBtns: false
         },
         bind: {
             title: '{record.name}'
@@ -54,13 +60,15 @@
                 xtype: 'button',
                 reference: 'btnPrev',
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnPrev'),
-                handler: 'onBtnPrevTap'
+                handler: 'onBtnPrevTap',
+                hidden: true
             },
             next: {
                 xtype: 'button',
                 reference: 'btnNext',
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnNext'),
-                handler: 'onBtnNextTap'
+                handler: 'onBtnNextTap',
+                hidden:true
             },
             spacer: {
                 xtype: 'spacer',

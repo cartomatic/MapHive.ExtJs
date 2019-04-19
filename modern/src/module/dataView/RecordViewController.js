@@ -31,6 +31,18 @@
             //this is why translations for this module are not placed in its own file but in mh.module.dataView.DataViewLocalization instead
             this.injectLocalizationToViewModel();
             this.publishApi('loadRecord');
+
+            this.handlePrevNextBtnsVisibility();
+        },
+
+        handlePrevNextBtnsVisibility: function(){
+            var vw = this.getView(),
+                showPrevNextBtns = vw.getShowPrevNextBtns();
+
+            if(showPrevNextBtns){
+                this.lookupReference('btnPrev').show();
+                this.lookupReference('btnNext').show();
+            }
         },
 
         /**
