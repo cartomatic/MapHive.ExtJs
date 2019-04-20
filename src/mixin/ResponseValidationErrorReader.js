@@ -83,7 +83,7 @@
 
                 switch (err.code) {
 
-                    case 'required':
+                    case 'value_required':
                         msg = this.getErrTranslation('valueRequired');
                         break;
 
