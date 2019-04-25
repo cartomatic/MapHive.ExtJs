@@ -9,7 +9,7 @@
         modalModeRouteSnapshot = null,
         modalModeLvl = 0,
 
-        logHdr = '[MODAL MODE],_s::,deeppink,',
+        logHdr = '[MODAL MODE],_s::,deeppink',
 
         startModalMode = function(){
             modalModeRouteSnapshot = window.location.hash.replace('#', '');
@@ -68,6 +68,9 @@
                 //<debug>
                 console.log(logHdr, 'Ended at child level. Current lvl: ' + modalModeLvl);
                 //</debug>
+            },
+            getModalModeActive: function(){
+                return modalModeActive;
             }
         },
 

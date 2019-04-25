@@ -113,6 +113,11 @@
                 rp = 1, rplen = routeParams.length,
                 route;
 
+            //do not adjust hash in modal mode. In such scenario the url should remain unchanged!
+            if(this.getModalModeActive()){
+                return;
+            }
+
             if(adjustHash){
                 for(rp; rp < rplen - 1; rp++){
                     route ?
