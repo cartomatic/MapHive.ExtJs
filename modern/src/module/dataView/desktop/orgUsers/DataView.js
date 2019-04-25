@@ -53,7 +53,7 @@
                         //user is a part of record view edit url!!!
                         '<a class="mh-data-view-link mh-data-view-img"',
                         'href="#' + mh.data.model.OrganizationUser.getEntityNavigationUrlBase() + '/{uuid}"',
-                        'onclick="return mh.module.dataView.desktop.DataViewController.handleLinkRedirectRespectingModalMode(\'[src-component-id]\',\'' + mh.data.model.OrganizationUser.getEntityNavigationUrlBase() + '/{uuid}' + '\');"',
+                        'onclick="return mh.module.dataView.desktop.DataViewController.handleLinkRedirectRespectingModalMode(\'[src-component-id]\',\'[reload-fn]\',\'' + mh.data.model.OrganizationUser.getEntityNavigationUrlBase() + '/{uuid}' + '\');"',
                         '>',
                         '<span style="background-image: url(\'{profilePictureGeneric}\')"></span>{username}',
                         '</a>'

@@ -37,14 +37,32 @@
              * @param route
              * @returns {boolean}
              */
-            handleLinkRedirectRespectingModalMode: function(componentId, route){
+            handleLinkRedirectRespectingModalMode: function(componentId, reloadFn, route){
 
                 if(mh.mixin.ModalMode.getModalModeActive()){
                     //<debug>
                     console.log(logHdr, 'modal mode detected - preventing link re-route; showing modal view instead.');
                     //</debug>
                     var viewer = mh.module.dataView.ModalDataView.show(route);
-                    viewer.on('close', function(rec){Ext.ComponentManager.get(componentId).getController().reloadStore();}, this, {single: true});
+                    viewer.on(
+                        'close',
+                        function(rec){
+                            try{
+                                if(reloadFn === '[reload-fn]'){
+                                    reloadFn = 'reloadStore'
+                                }
+                                var ctrl = Ext.ComponentManager.get(componentId).getController();
+                                if(Ext.isFunction(ctrl[reloadFn])){
+                                    ctrl[reloadFn]();
+                                }
+                            }
+                            catch(e){
+                                //ignore
+                            }
+                        },
+                        this,
+                        {single: true}
+                    );
 
                     //false to prevent the default link behavior
                     return false;
