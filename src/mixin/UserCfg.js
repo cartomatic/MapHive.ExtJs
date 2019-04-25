@@ -74,6 +74,15 @@
             // })
         },
 
+        /**
+         * returns a property of a user configuration
+         * @param pName
+         * @returns {*}
+         */
+        getUserConfigProperty: function(pName){
+            return userCfg[pName];
+        }
+
     }, function(){
         var msgBus = Ext.create('mh.communication.MsgBus');
         msgBus.watchGlobal('root::getuserconfigend', function(cfg){
