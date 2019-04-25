@@ -52,7 +52,7 @@
         loadRecord: function(id, route) {
 
             //avoid reloading record as it will reset the form and we do want to avoid that!
-            if(this.shouldPreventReload(id)){
+            if(this.shouldPreventReload(id, route)){
                 //<debug>
                 console.log('[EDIT VIEW] - skipping a rec reload - likely rec has not changed or if in edit mode rec is dirty or something...');
                 //</debug>
@@ -72,12 +72,13 @@
         /**
          * whether or not record reload should be prevented
          * @param id
-         * @returns {*}
+         * @param route
+         * @returns {boolean}
          */
-        shouldPreventReload: function(id){
+        shouldPreventReload: function(id, route){
             var previousRoute = this.getPreviousRoute(),
                 previousRouteParts = this.getDataRouteParamsForRoute(previousRoute) || [],
-                currentRouteParams = this.getDataRouteParamsForCurrentRoute(),
+                currentRouteParams = (route ? this.getDataRouteParamsForRoute(route) : this.getDataRouteParamsForCurrentRoute()),
                 rp = 1, rplen = currentRouteParams.length - 1,
                 prevent;
 

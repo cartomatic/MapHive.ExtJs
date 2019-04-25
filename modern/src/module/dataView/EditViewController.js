@@ -27,11 +27,11 @@
          * @param id
          * @returns {boolean|*}
          */
-        shouldPreventReload: function(id){
+        shouldPreventReload: function(id, route){
 
             var previousRoute = this.getPreviousRoute(),
                 previousRouteParams = this.getDataRouteParamsForRoute(previousRoute) || [],
-                currentRouteParams = this.getDataRouteParamsForCurrentRoute(),
+                currentRouteParams = (route ? this.getDataRouteParamsForRoute(route) : this.getDataRouteParamsForCurrentRoute()),
                 rp = 1,
                 //when create mode is on, route is a bit different, hence need to inspect less params
                 rplen = id === 'create' ? currentRouteParams.length - 1 : currentRouteParams.length,

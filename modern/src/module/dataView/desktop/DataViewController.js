@@ -1,8 +1,13 @@
 //Disable some of the JSLint warnings
 /*global window,console,Ext*/
 (function(){
+
+
+
     //Make sure strict mode is on
     'use strict';
+
+    var logHdr = '[DESKTOP DATA VIEW],_s::,purple';
 
     /**
      * controls the generic data view behavior - filtering, sorting, reloading and such
@@ -24,6 +29,33 @@
             'mh.mixin.ModalMode'
         ],
 
+        statics: {
+            /**
+             * handles link redirect wih modal respect to modal mode.
+             * if modal mode is on, a floating modal viewer will be shown, otherwise a standard redirect should occur
+             * @param componentId identifier of a component to obtain a controller to call store refresh
+             * @param route
+             * @returns {boolean}
+             */
+            handleLinkRedirectRespectingModalMode: function(componentId, route){
+
+                if(mh.mixin.ModalMode.getModalModeActive()){
+                    //<debug>
+                    console.log(logHdr, 'modal mode detected - preventing link re-route; showing modal view instead.');
+                    //</debug>
+                    var viewer = mh.module.dataView.ModalDataView.show(route);
+                    viewer.on('close', function(rec){Ext.ComponentManager.get(componentId).getController().reloadStore();}, this, {single: true});
+
+                    //false to prevent the default link behavior
+                    return false;
+                }
+                //else - this should simply follow a link
+                //<debug>
+                console.log(logHdr, 'modal mode off - standard link re-route');
+                //</debug>
+            }
+        },
+
         init: function(){
             this.injectLocalizationToViewModel();
 
@@ -34,6 +66,26 @@
             this.configureActionBtns();
 
             this.handleInitialTbarBtnsVisibility();
+
+            this.adjustClickableLinksTemplates();
+        },
+
+        /**
+         * spins through the columns to check if any col has a template. If so it replaces a view-id token with the actual view id, so
+         * it is possible to properly handle lick clicks in modal mode later
+         */
+        adjustClickableLinksTemplates: function(){
+            var grid = this.getGridInstance(),
+                cols = grid.getColumns(),
+                cmpId = this.getView().getId();
+
+            Ext.Array.each(cols, function(c){
+                var tpl = c.getTpl();
+
+                if(tpl && tpl.html.indexOf('[src-component-id]') > -1){
+                    tpl.html = tpl.html.replace('[src-component-id]', cmpId);
+                }
+            });
         },
 
         /**

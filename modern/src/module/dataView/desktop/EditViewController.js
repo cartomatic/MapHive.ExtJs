@@ -28,9 +28,10 @@
         /**
          * sets a record to be bound on the view model
          * @param id
+         * @param route
          */
         loadRecord: function(id, route) {
-            var rp = this.getDataRouteParamsForCurrentRoute() || [],
+            var rp = (route ? this.getDataRouteParamsForRoute(route) : this.getDataRouteParamsForCurrentRoute()) || [],
                 viewHash = id === 'create' ?
                     rp[rp.length - 1]
                     :
@@ -131,6 +132,11 @@
                 routeParams = this.getDataRouteParamsForCurrentRoute(),
                 rp = 1, rplen = routeParams.length,
                 route, routePart;
+
+            //do not adjust hash in modal mode. In such scenario the url should remain unchanged!
+            if(this.getModalModeActive()){
+                return;
+            }
 
             if(adjustHash){
                 for(rp; rp < rplen; rp++){
