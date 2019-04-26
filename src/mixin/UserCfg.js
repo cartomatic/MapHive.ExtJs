@@ -81,6 +81,32 @@
          */
         getUserConfigProperty: function(pName){
             return userCfg[pName];
+        },
+
+        /**
+         * whether or not uuid is an uuid of a current org owner
+         * @param uuid
+         * @returns {boolean}
+         */
+        getUserIsOrgOwner: function(orgId, userId){
+            var isOwner = false,
+                orgs = this.getUserConfigProperty('orgs');
+
+            Ext.Array.each(orgs, function(o){
+                if(isOwner){
+                    return false;
+                }
+                if(o.uuid === orgId){
+                    Ext.Array.each(o.owners, function(u){
+                        if(u.uuid === userId){
+                            isOwner = true;
+                            return false;
+                        }
+                    });
+                }
+            });
+
+            return isOwner;
         }
 
     }, function(){
@@ -88,7 +114,7 @@
         msgBus.watchGlobal('root::getuserconfigend', function(cfg){
             userCfg = cfg;
         });
-        msgBus.watchGlobal('org::change', function(org){
+        msgBus.watchGlobal('org::changed', function(org){
             currentOrg = org;
         });
     });
