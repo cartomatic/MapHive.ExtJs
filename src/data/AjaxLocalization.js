@@ -19,8 +19,8 @@
                     pl: 'Server zgłosił następujący błąd: '
                 },
                 code403: {
-                    en: 'You are not allowed to view this resource.',
-                    pl: 'Nie masz uprawnień do wglądu w rządany zasób.'
+                    en: 'You are not allowed to view or modify this resource.',
+                    pl: 'Nie masz uprawnień do wglądu i modyfikacji rządanego zasobu.'
                 },
                 opTimedOut: {
                     en: 'Operation timed out.',
