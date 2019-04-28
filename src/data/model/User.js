@@ -32,6 +32,8 @@
 
             { name: 'forename', type: 'string' },
             { name: 'surname', type: 'string' },
+            { name: 'fullname', type: 'string' },
+            //username is the same as fullname; full name has been added so can filter / sort based on it
             {
                 name: 'username', type: 'string',
                 calculate: function(data){

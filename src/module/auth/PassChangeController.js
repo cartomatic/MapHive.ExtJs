@@ -18,7 +18,8 @@
         mixins: [
             'mh.mixin.Localization',
             'mh.data.Ajax',
-            'mh.mixin.ApiMap'
+            'mh.mixin.ApiMap',
+            'mh.module.auth.Utils'
         ],
 
         /**
@@ -148,27 +149,12 @@
 
             this.unmask();
 
-            var title, msg;
-
-            switch(e.failureReason){
-                case 'too_short':
-                case 'not_complex_enough':
-                case 'new_pass_same_as_old_pass':
-                case 'invalid_old_pass':
-                    title = this.getTranslation('passResetFailureTitle_' + e.failureReason);
-                    msg = this.getTranslation('passResetFailureMsg_' + e.failureReason);
-                    break;
-
-                default:
-                    title = this.getTranslation('passChangeFailureTitle');
-                    msg = this.getTranslation('passChangeFailureMsg');
-                    break;
-            }
+            var msgBoxData = this.getPassChangeFailureMsg(e);
 
             //give a feedback msg
             Ext.Msg.show({
-                title: title,
-                message: msg,
+                title: msgBoxData.title,
+                message: msgBoxData.msg,
                 width: 350,
                 styleHtmlContent: true,
                 buttons: Ext.MessageBox.OK,
