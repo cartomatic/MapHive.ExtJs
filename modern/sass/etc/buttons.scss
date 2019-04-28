@@ -1,0 +1,19 @@
+@include button-ui(
+  $ui: 'mh-data-view-btn-icon-soft-red',
+  $icon-color: $color-soft-red
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-icon-soft-green',
+  $icon-color: $color-soft-green
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-icon-soft-blue',
+  $icon-color: $color-soft-blue
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-icon-soft-purple',
+  $icon-color: $color-soft-purple
+);

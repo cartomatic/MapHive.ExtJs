@@ -45,7 +45,7 @@
                 passResetRequest: 'passresetrequest',
                 resetPass: 'resetpass',
                 changePass: 'changepass',
-                forceResetPass: 'forceresetpass'
+                forceChangePass: 'forcechangepass'
             },
 
             coreApi: {
