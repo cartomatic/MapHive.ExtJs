@@ -119,7 +119,7 @@
          *
          * verifies if a scoped organization has an access to the application and also if a user has been granted an access to this app; if not checks if another user org has an access
          * to the application and if so re-scopes the org silently;
-         * for the common/public apps org->app context checkup is irrelevant, but it is important for non common/public apps
+         * for the common/public apps org->app context checkup is irrelevant, but it is important for non common/private apps
          *
          * If a user does not have an org that can access the application, or he is not granted an access to an app, a msg is given and a user is redirected to the home or default app (depending on the auth status)
          * An exemption is the dashboard app - every authenticated user can access it even though it requires authentication
