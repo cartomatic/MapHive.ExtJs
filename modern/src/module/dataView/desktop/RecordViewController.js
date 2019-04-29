@@ -31,7 +31,7 @@
             //when view kicks in, make sure to add its items
             this.getView().on('initialize', this.onViewInitialize, this);
 
-            //this.getView().on('activate', this.onViewActivates, this);
+            //this.getView().on('activate', this.__onViewActivates, this);
 
 
             this.callMeParent(arguments);
