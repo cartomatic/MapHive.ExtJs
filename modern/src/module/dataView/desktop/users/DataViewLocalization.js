@@ -28,7 +28,7 @@
                     en: 'Surname',
                     pl: 'Nazwisko'
                 },
-                fullName: {
+                fullname: {
                     en: 'User',
                     pl: 'Użytkownik'
                 },

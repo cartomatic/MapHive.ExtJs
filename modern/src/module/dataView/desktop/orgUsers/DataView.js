@@ -43,9 +43,9 @@
             columns: [
                 {
                     bind: {
-                        text: '{localization.username}'
+                        text: '{localization.fullname}'
                     },
-                    dataIndex: 'username',
+                    dataIndex: 'fullname',
                     cell: {
                         encodeHtml: false
                     },
@@ -55,7 +55,7 @@
                         'href="#' + mh.data.model.OrganizationUser.getEntityNavigationUrlBase() + '/{uuid}"',
                         'onclick="return mh.module.dataView.desktop.DataViewController.handleLinkRedirectRespectingModalMode(\'[src-component-id]\',\'[reload-fn]\',\'' + mh.data.model.OrganizationUser.getEntityNavigationUrlBase() + '/{uuid}' + '\');"',
                         '>',
-                        '<span style="background-image: url(\'{profilePictureGeneric}\')"></span>{username}',
+                        '<span style="background-image: url(\'{profilePictureGeneric}\')"></span>{fullname}',
                         '</a>'
                     ],
                     flex: 1,
