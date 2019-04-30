@@ -12,15 +12,6 @@
 
         ],
 
-        stores: {
-            langs: {
-                fields: [
-                    { name: 'code', type: 'string' },
-                    { name: 'name', type: 'string' }
-                ]
-            }
-        },
-    
         data: {
             /* This object holds the arbitrary data that populates the ViewModel and is then available for binding. */
         }

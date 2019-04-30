@@ -16,7 +16,8 @@
             'mh.module.userProfile.UserProfileModel',
             'mh.FontIconsDictionary',
             'mh.module.userProfile.Icons',
-            'mh.widget.RoundImage'
+            'mh.widget.RoundImage',
+            'mh.module.langSwitcher.LangSwitcher'
         ],
 
         xtype: 'mh-user-profile',
@@ -112,21 +113,17 @@
                         width: '100%'
                     },
                     {
-                        xtype: 'combobox',
-                        reference: 'langSwitcher',
-                        margin: '50 0 0 0',
-                        editable: false,
-                        valueField: 'code',
-                        displayField: 'name',
-                        triggerAction: 'all',
-                        queryMode: 'local',
+                        xtype: 'fieldcontainer',
                         bind: {
-                            label: '{localization.uiLang}',
-                            store: '{langs}'
+                            label: '{localization.uiLang}'
                         },
-                        listeners: {
-                            change: 'onLangChange'
-                        }
+                        margin: '50 0 0 0',
+                        items: [
+                            {
+                                xtype: 'mh-lang-switcher',
+                                flex: 1
+                            }
+                        ]
                     }
                 ]
             },

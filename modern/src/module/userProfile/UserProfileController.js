@@ -29,11 +29,6 @@
          */
         init: function() {
             this.injectLocalizationToViewModel();
-
-            //need to load langs store for combo
-            this.getViewModel().getStore('langs').loadData(mh.localization.Localization.getSupportedLangs());
-            //and set current lang
-            this.lookupReference('langSwitcher').setValue(this.getMhCfgProperty('langCode'));
         },
 
         /**
@@ -95,15 +90,7 @@
             this.passChangeUi.show();
         },
 
-        /**
-         * lang combo change evt handler
-         * @param cmb
-         * @param newV
-         * @param oldV
-         */
-        onLangChange: function(cmb, newV, oldV){
-            mh.localization.Localization.switchLang(newV);
-        },
+
 
         /**
          * profile save changes btn tap handler
