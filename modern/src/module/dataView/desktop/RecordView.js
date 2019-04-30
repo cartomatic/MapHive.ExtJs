@@ -46,6 +46,12 @@
              * next / prev btns are hidden by default
              */
             showPrevNextBtns: false
+
+            //TODO
+            // /**
+            //  * customization hook for adjusting tab panel cfg
+            //  */
+            // tabPanelCfg: null
         },
         bind: {
             title: '{record.name}'
@@ -71,7 +77,7 @@
                 hidden:true
             },
             spacer: {
-                xtype: 'spacer',
+                xtype: 'spacer'
                 //weight: 10
             },
             action: {
@@ -108,7 +114,7 @@
                 scrollable: 'y',
                 padding: 15,
                 tab: {
-                    iconAlign: 'top'
+                    iconAlign: 'left'
                 }
             },
 
