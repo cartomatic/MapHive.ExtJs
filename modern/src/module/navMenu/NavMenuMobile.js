@@ -45,6 +45,13 @@
         },
 
         items: [
+            //back btn spacer is used in place of the back bnt, so the view title is always centered
+            {
+                xtype: 'container',
+                reference: 'backBtnSpacer',
+                width: 36,
+                hidden: true
+            },
             {
                 xtype: 'button',
                 reference: 'backBtn',

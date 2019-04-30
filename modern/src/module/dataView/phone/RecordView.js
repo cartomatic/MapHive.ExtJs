@@ -36,7 +36,12 @@
             /**
              * view items to be added to this view
              */
-            viewItems: null
+            viewItems: null,
+
+            /**
+             * whether or not mobile nav menu back navigation from this view should be prevented
+             */
+            preventBackNavigation: false
         },
 
         bind: {
