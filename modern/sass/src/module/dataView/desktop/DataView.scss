@@ -49,3 +49,24 @@
   $ui: 'mh-data-view-btn-destroy',
   $color: #a7231a
 );
+
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-icon-soft-red',
+  $color: $color-soft-red
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-icon-soft-green',
+  $color: $color-soft-green
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-icon-soft-blue',
+  $color: $color-soft-blue
+);
+
+@include button-ui(
+  $ui: 'mh-data-view-btn-icon-soft-purple',
+  $color: $color-soft-purple
+);
