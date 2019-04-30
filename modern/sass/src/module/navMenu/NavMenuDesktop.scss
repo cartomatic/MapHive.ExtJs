@@ -208,9 +208,34 @@ some uis used by the nav menu
   $color: $neutral-light-color,
   $pressed-color: $neutral-light-color,
   $background-color: $color,
+
+  //$hovered-background-color: $highlight-color,
+  //$pressing-background-color: $base-light-color,
+  //$pressed-background-color: $base-light-color
   $hovered-background-color: $highlight-color,
   $pressing-background-color: $base-light-color,
   $pressed-background-color: $base-light-color
+);
+
+@include button-ui(
+  $ui: 'navmenu-dark-app-btn',
+  $color: $neutral-light-color,
+  $pressed-color: $neutral-light-color,
+  $background-color: $color,
+
+    //$hovered-background-color: $highlight-color,
+    //$pressing-background-color: $base-light-color,
+    //$pressed-background-color: $base-light-color
+  $hovered-background-color: $color,
+  $pressing-background-color: $color,
+  $pressed-background-color: $color,
+
+  $icon-size: 44px,
+  $icon-size-big: 44px,
+  $icon-only-padding: 0px,
+  $icon-only-padding-big: 0px,
+  $padding: 2px,
+  $padding-big: 2px
 );
 
 @include dataview-ui(
