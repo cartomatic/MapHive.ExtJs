@@ -388,7 +388,7 @@
                 this.getUserProfileDisplay().show();
 
                 //TODO - picture - mind this is not yet decided how it's gonna be stored
-                if(this.userProfile.get('profilePicture')){
+                if(this.userProfile.get('profilePictureGeneric')){
                     this.userPictureDisplay.setHtml('<img style="height:45px; width:45px; border-radius:50%;" src="' + this.userProfile.get('profilePictureGeneric') + '" />')
                 }
                 else {

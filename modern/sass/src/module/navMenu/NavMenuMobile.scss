@@ -1,0 +1,33 @@
+
+
+@include button-ui(
+  $ui: 'navmenu-large',
+  $font-size: 14px,
+  $font-size-big: 14px,
+  $icon-size: 21px,
+  $icon-size-big: 21px,
+  $icon-font-size: 21px,
+  $icon-font-size-big: 21px,
+  $icon-only-padding: 16px,
+  $icon-only-padding-big: 18px,
+  $padding: 16px,
+  $padding-big: 18px
+);
+
+@include button-ui(
+  $ui: 'navmenu-dark-app-btn',
+  $color: $neutral-light-color,
+  $pressed-color: $neutral-light-color,
+  $background-color: $color,
+
+  $hovered-background-color: $color,
+  $pressing-background-color: $color,
+  $pressed-background-color: $color,
+
+  $icon-size: 44px,
+  $icon-size-big: 44px,
+  $icon-only-padding: 0px,
+  $icon-only-padding-big: 0px,
+  $padding: 2px,
+  $padding-big: 2px
+);

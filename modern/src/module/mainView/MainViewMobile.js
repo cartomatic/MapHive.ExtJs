@@ -55,6 +55,7 @@
              * when not provided, setting is ignored;
              * navMenu is passed to the constructor; expects the navMenu module to expose a 'addAppSwitcherBtn' method in order to pass own UI back
              */
+            //TODO - implementation!!!
             appSwitcher: 'mh.module.mainViewMobile.AppSwitcher',
 
             /**
@@ -62,6 +63,7 @@
              * when not provided, setting gets ignored;
              * navMenu is passed to the constructor; expects the navMenu module to expose a 'addOrgContextSwitcherBtn' method in order to pass own UI back
              */
+            //TODO - implementation!!!
             orgContextSwitcher: 'mh.module.mainViewMobile.OrgContextSwitcher'
         },
 

@@ -24,6 +24,7 @@
             'mh.util.AliasMapper'
         ],
 
+        navMenu: null,
 
         /**
          * @event route::register
@@ -35,7 +36,7 @@
 
             var vw = this.getView();
 
-            vw.add(
+            this.navMenu = vw.add(
                 vw.getNavMenu() || {
                     xtype: 'mh-main-view-nav-menu-mobile',
                     docked: 'top'
