@@ -9,6 +9,10 @@
 
         xtype:'mh-auth-login',
 
+        requires: [
+            'mh.module.langSwitcher.LangSwitcherMini'
+        ],
+
         layout: 'vbox',
 
         style: {
@@ -31,6 +35,11 @@
                     },
                     iconCls: 'x-i54c i54c-open-lock'
                 },
+                tools: [
+                    {
+                        xtype: 'mh-lang-switcher-mini'
+                    }
+                ],
                 items: [
                     {
                         xtype: 'emailfield',
