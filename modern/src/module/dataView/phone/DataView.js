@@ -51,7 +51,12 @@
             /**
              * whether or not delete btn should be visible
              */
-            enableDestroy: false
+            enableDestroy: false,
+
+            /**
+             * whether or not mobile nav menu back navigation from this view should be prevented
+             */
+            preventBackNavigation: false
         },
 
         layout: 'fit',

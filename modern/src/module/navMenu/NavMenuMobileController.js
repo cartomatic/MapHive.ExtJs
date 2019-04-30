@@ -253,6 +253,53 @@
         },
 
 
+        /**
+         * checks whether or not a view being brought into focus can navigate back or not
+         */
+        getPreventBackNavigation: function(routeRec, viewInstance) {
+
+            var xtype = routeRec ? routeRec.get('xtype') : viewInstance ? viewInstance.xtype : 'unknown-xtype',
+                cls = Ext.ClassManager.getByAlias('widget.' + xtype),
+                className = Ext.getClassName(cls),
+
+                preventBackNavigation;
+
+            try {
+                //try to init a class
+                if(!viewInstance){
+                    viewInstance = Ext.create(className);
+                }
+
+                //try to grab a title from the 'conventional places'
+                //this should account for the dynamic titles too
+
+                //does it have a title getter?
+                if(Ext.isFunction(viewInstance.getPreventBackNavigation)){
+                    preventBackNavigation = viewInstance.getPreventBackNavigation();
+                }
+
+                //maybe set explicitly
+                if(!preventBackNavigation){
+                    if(viewInstance.preventBackNavigation){
+                        preventBackNavigation = viewInstance.preventBackNavigation;
+                    }
+                }
+
+                //maybe set via bindings
+                if(!preventBackNavigation){
+                    if(viewInstance._preventBackNavigation){
+                        preventBackNavigation = viewInstance._preventBackNavigation;
+                    }
+                }
+            }
+            catch(e){
+                //<debug>
+                console.warn('failed to obtain a preventBackNavigation value for xtype ' + xtype, e);
+                //</debug>
+            }
+
+            return !!preventBackNavigation;
+        },
 
 
 
@@ -415,6 +462,7 @@
 
             var viewTitle = this.getViewTitle(null, newView),
                 iconCls = this.getViewIconCls(null, newView), //null, as no route rec here
+                preventBackNavigation = this.getPreventBackNavigation(null, newView),
                 html = '';
 
             if(iconCls){
@@ -424,6 +472,10 @@
             html += '<span style="text-align: center; vertical-align: center;">' + viewTitle + '</span>';
 
             this.lookupReference('activeViewTitle').setHtml(html);
+
+
+            this.lookupReference('backBtn').setVisibility(!preventBackNavigation);
+            this.lookupReference('backBtnSpacer').setVisibility(preventBackNavigation);
         },
 
         /**
