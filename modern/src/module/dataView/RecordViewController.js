@@ -37,7 +37,7 @@
 
         handlePrevNextBtnsVisibility: function(){
             var vw = this.getView(),
-                showPrevNextBtns = vw.getShowPrevNextBtns();
+                showPrevNextBtns = Ext.isFunction(vw.getShowPrevNextBtns) && vw.getShowPrevNextBtns();
 
             if(showPrevNextBtns){
                 this.lookupReference('btnPrev').show();
