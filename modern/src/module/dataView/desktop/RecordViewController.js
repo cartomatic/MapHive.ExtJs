@@ -101,7 +101,7 @@
         },
 
         /**
-         * actuve tab change handler - adjusts hash to specify an active tab
+         * active tab change handler - adjusts hash to specify an active tab
          * @param tabPanel
          * @param newTab
          * @param oldTab

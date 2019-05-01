@@ -130,7 +130,7 @@
             this.configureTitle();
 
             //hook up some events, so data reloading works like expected
-            vw.on('activate', this.__onViewActivate, this);
+            vw.on('painted', this.__onViewPainted, this);
 
 
             //grid's editable mode as configured
@@ -313,7 +313,6 @@
          * @param rec
          */
         setContext: function(rec){
-
             this.boundRec = rec;
 
             this.storeLoaded = false;
@@ -362,12 +361,15 @@
             }
         },
 
+        loadInProgress: false,
+
         /**
          * loads the store
          */
         loadStore: function(){
             //note: prevent loading for new recs - no data yet and no parent uuid
-            if(this.gridStore && this.boundRec && this.boundRec.get('uuid')){
+            if(this.gridStore && this.boundRec && this.boundRec.get('uuid') && !this.loadInProgress){
+                this.loadInProgress = true;
                 this.gridStore.loadPage(1, {limit: this.recLimit});
             }
         },
@@ -376,6 +378,7 @@
          * store loaded callback
          */
         onStoreLoad: function(){
+            this.loadInProgress = false;
             this.storeLoaded = true;
 
             //reset flag when store gets loaded. otherwise change evt wipes out this setting if called in setContext
@@ -386,7 +389,7 @@
         /**
          * View activate callback; used to load the grid records if not loaded previously
          */
-        __onViewActivate: function(){
+        __onViewPainted: function(){
             if(this.boundRec && this.boundRec.get('uuid') && !this.storeLoaded){
                 this.loadStore();
             }
