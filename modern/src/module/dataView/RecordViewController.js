@@ -54,7 +54,7 @@
             //avoid reloading record as it will reset the form and we do want to avoid that!
             if(this.shouldPreventReload(id, route)){
                 //<debug>
-                console.log('[EDIT VIEW] - skipping a rec reload - likely rec has not changed or if in edit mode rec is dirty or something...');
+                console.log('[RECORD VIEW] - skipping a rec reload - likely rec has not changed or if in edit mode rec is dirty or something...');
                 //</debug>
                 return;
             }
