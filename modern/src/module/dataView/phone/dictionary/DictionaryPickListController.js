@@ -61,7 +61,9 @@
                 return;
             }
 
-            var items = [];
+            var items = [],
+                valueFound = false,
+                defaultValue;
 
             Ext.Array.each(dictValues, function(dictV){
                 items.push({
@@ -76,16 +78,19 @@
                 });
 
                 if(!value && dictV && dictV.linkData && dictV.linkData.mhi && dictV.linkData.mhi.isDefault){
-                    value = dictV.uuid;
+                    defaultValue = dictV.uuid;
                 }
                 if(!value && dictValues.length === 1){
-                    value = dictValues[0].uuid;
+                    defaultValue = dictValues[0].uuid;
+                }
+                if(value && value === dictV.uuid){
+                    valueFound = true;
                 }
             });
 
             this.getView().add(items);
 
-            this.setValue(value);
+            this.setValue(valueFound ? value : defaultValue || dictValues[0].uuid);
         },
 
         /**
