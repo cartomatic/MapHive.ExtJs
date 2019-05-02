@@ -168,6 +168,13 @@
                 //</debug>
                 moveNext = true;
             }
+            //check if view wants to be shown; this allows the views to customize their presence based on the context they are in
+            if(Ext.isFunction(vw.preventShow) && vw.preventShow()){
+                //<debug>
+                console.log(cnslHdr, 'View does not want to be shown: preventShow returned true. View skipped is: ', view);
+                //</debug>
+                moveNext = true;
+            }
 
             if(moveNext){
                 //<debug>
