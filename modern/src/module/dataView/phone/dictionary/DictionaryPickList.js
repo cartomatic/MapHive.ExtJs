@@ -26,7 +26,6 @@
 
         scrollable: 'y',
         bodyPadding: 10,
-        reference: 'payingRights',
         layout: {
             type: 'vbox',
             align: 'stretch'
