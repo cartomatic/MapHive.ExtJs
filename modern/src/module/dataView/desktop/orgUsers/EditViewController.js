@@ -22,6 +22,18 @@
             this.callMeParent(arguments);
 
             this.getView().on('activate', this.__onViewActivate, this);
+
+        },
+
+        onRecordLoadSuccess: function(record){
+            this.callMeParent(arguments);
+
+            if(!record.get('uuid')){
+                this.lookupReference('isAccountClosed').hide();
+            }
+            else {
+                this.lookupReference('isAccountClosed').show();
+            }
         },
 
         __onViewActivate: function(){

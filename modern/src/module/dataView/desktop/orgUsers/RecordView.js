@@ -66,7 +66,7 @@
                             {
                                 xtype: 'label',
                                 bind: {
-                                    html: '<h3>{record.username}</h3>'
+                                    html: '<h2>{record.fullname}</h2>'
                                 },
                                 style: {
                                     textAlign: 'center'
@@ -75,7 +75,7 @@
                             {
                                 xtype: 'label',
                                 bind: {
-                                    html: '<h4>{organizationRole}</h4>'
+                                    html: '<h3>{organizationRole}</h3>'
                                 },
                                 style: {
                                     textAlign: 'center'
@@ -114,6 +114,20 @@
                                 bind: {
                                     label: '{localization.visibleInCatalogue}',
                                     html: '{record.visibleInCatalogue}'
+                                }
+                            },
+                            {
+                                xtype: 'displayfield',
+                                bind: {
+                                    label: '{localization.isAccountVerified}',
+                                    html: '{record.isAccountVerified}'
+                                }
+                            },
+                            {
+                                xtype: 'displayfield',
+                                bind: {
+                                    label: '{localization.isAccountClosed}',
+                                    html: '{record.isAccountClosed}'
                                 }
                             }
                         ]

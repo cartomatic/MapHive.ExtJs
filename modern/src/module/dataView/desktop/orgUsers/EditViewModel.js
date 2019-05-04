@@ -13,6 +13,7 @@
         ],
 
         mixins: [
+            'mh.mixin.UserCfg',
             'mh.mixin.OrganizationUtils'
         ],
 
@@ -47,6 +48,19 @@
                     }
                     //testing for a null rec, so owner locking is prevented for new recs
                     return rec.get('uuid') !== null && rec.get('organizationRole') === 0;
+                }
+            },
+            isOrgOwner: {
+                bind: {
+                    bindTo: '{record}',
+                    deep: true
+                },
+                get: function (rec) {
+                    if (!rec) {
+                        return false;
+                    }
+
+                    return this.getUserIsOrgOwner(this.getCurrentOrgId(), rec.get('uuid'));
                 }
             },
             canModifyOrgRole: {

@@ -65,24 +65,72 @@
                     }
                 },
                 {
-                    cell: {
-                        xtype: 'gridcell',
-                        encodeHtml: false
-                    },
                     menuDisabled: true,
                     sortable: false,
                     width: 40,
-                    renderer: mh.module.dataView.desktop.orgUsers.Renderers.externalUserRenderer
+                    cell: {
+                        xtype: 'widgetcell',
+                        exposeExtraEvents: true,
+                        bind: '{record}',
+                        widget: {
+                            xtype: 'button'
+                        },
+                        listeners: {
+                            //can subscribe to this listener because an override exposes extra events
+                            recordset: mh.module.dataView.desktop.orgUsers.GridWidgetsBehaviors.verifiedAccountIndicatorBehavior
+                        }
+                    }
                 },
                 {
-                    cell: {
-                        xtype: 'gridcell',
-                        encodeHtml: false
-                    },
                     menuDisabled: true,
                     sortable: false,
                     width: 40,
-                    renderer: mh.module.dataView.desktop.orgUsers.Renderers.orgRoleRenderer
+                    cell: {
+                        xtype: 'widgetcell',
+                        exposeExtraEvents: true,
+                        bind: '{record}',
+                        widget: {
+                            xtype: 'button'
+                        },
+                        listeners: {
+                            //can subscribe to this listener because an override exposes extra events
+                            recordset: mh.module.dataView.desktop.orgUsers.GridWidgetsBehaviors.closedAccountIndicatorBehavior
+                        }
+                    }
+                },
+                {
+                    menuDisabled: true,
+                    sortable: false,
+                    width: 40,
+                    cell: {
+                        xtype: 'widgetcell',
+                        exposeExtraEvents: true,
+                        bind: '{record}',
+                        widget: {
+                            xtype: 'button'
+                        },
+                        listeners: {
+                            //can subscribe to this listener because an override exposes extra events
+                            recordset: mh.module.dataView.desktop.orgUsers.GridWidgetsBehaviors.externalUserIndicatorBehavior
+                        }
+                    }
+                },
+                {
+                    menuDisabled: true,
+                    sortable: false,
+                    width: 40,
+                    cell: {
+                        xtype: 'widgetcell',
+                        exposeExtraEvents: true,
+                        bind: '{record}',
+                        widget: {
+                            xtype: 'button'
+                        },
+                        listeners: {
+                            //can subscribe to this listener because an override exposes extra events
+                            recordset: mh.module.dataView.desktop.orgUsers.GridWidgetsBehaviors.orgRoleIndicatorBehavior
+                        }
+                    }
                 }
             ]
         }

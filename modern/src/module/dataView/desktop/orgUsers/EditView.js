@@ -120,6 +120,16 @@
                                     value: '{record.visibleInCatalogue}',
                                     disabled: '{isExtUser}'
                                 }
+                            },
+                            {
+                                xtype: 'togglefield',
+                                labelWidth: 150,
+                                reference: 'isAccountClosed',
+                                bind: {
+                                    label: '{localization.isAccountClosed}',
+                                    value: '{record.isAccountClosed}',
+                                    disabled: '{isOrgOwner}' //auto disable this field for org owners
+                                }
                             }
                         ]
                     }
