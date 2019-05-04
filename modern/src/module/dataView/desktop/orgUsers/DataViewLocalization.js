@@ -55,6 +55,14 @@
                 visibleInCatalogue: {
                     en: 'Visible in catalogue',
                     pl: 'Widoczny w katalogu'
+                },
+                isAccountVerified: {
+                    en: 'Account verified?',
+                    pl: 'Konto zweryfikowane?'
+                },
+                isAccountClosed: {
+                    en: 'Account closed?',
+                    pl: 'Konto zamknięte?'
                 }
             }
         }

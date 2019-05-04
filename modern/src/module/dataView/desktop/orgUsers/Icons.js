@@ -15,7 +15,11 @@
                 mhOrgUsersAddOwnUser: 'x-i54 i54-home',
                 mhOrgUsersAddExtUser: 'x-i54 i54-searching-group',
                 mhOrgUsersOwnUser: 'x-i54 i54-home i54-lg',
-                mhOrgUsersExtUser: 'x-i54 i54-global i54-lg'
+                mhOrgUsersExtUser: 'x-i54 i54-global i54-lg',
+                mhUserAccountVerified: 'x-i54 i54-user-security-male',
+                mhUserAccountNotVerified: 'x-i54c i54c-anonymous-2',
+                mhUserAccountActive: 'x-i54 i54-profile-voltage',
+                mhUserAccountClosed: 'x-i54c i54c-lock-user1'
             });
         }
     });
