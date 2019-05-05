@@ -35,6 +35,18 @@
 
             //continue with the record loader
             this.callMeParent(arguments);
+        },
+
+        afterRecordSave: function(rec){
+            //<debug>
+            console.log(this.logHdr, 'Executing afterRecordSave for dictionary with the following model: ' + Ext.getClassName(rec));
+            //</debug>
+
+            this.fireGlobal('mh-dictionary::changed', {
+                model: Ext.getClassName(rec),
+                op: 'save',
+                rec: rec
+            });
         }
 
     });

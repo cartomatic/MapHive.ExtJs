@@ -19,6 +19,18 @@
                 description: {
                     en: 'Description',
                     pl: 'Opis'
+                },
+                err_title: {
+                    en: 'Delete failure',
+                    pl: 'Bład usuwania'
+                },
+                err_unknown: {
+                    en: 'Unknown error',
+                    pl: 'Nieznany wyjątek'
+                },
+                err_dictionary_value_in_use: {
+                    en: 'Dictionary value you are trying to delete is used elsewhere in the application.',
+                    pl: 'Wartość słownikowa, którą próbujesz usunąć jest wykorzystywana przez aplikację.'
                 }
             }
         }

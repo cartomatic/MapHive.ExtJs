@@ -14,10 +14,11 @@
 
         mixins: [
             'mh.mixin.CallMeParent',
-            'mh.util.console.Formatters'
+            'mh.util.console.Formatters',
+            'mh.communication.MsgBus'
         ],
 
-        evtHdrStyle: '_s::,brown,',
+        logHdr: '[SIMPLE DICT]_s::,brown,',
 
         init: function(){
 
@@ -37,7 +38,7 @@
                 }
             }
             //<debug>
-            console.log('[SIMPLE DICT]' + this.evtHdrStyle, 'Initing dict for ' + model);
+            console.log(this.logHdr, 'Initing dict for ' + model);
             //</debug>
 
             navRoute = Ext.ClassManager.get(model).getEntityNavigationUrlBase();
@@ -78,6 +79,58 @@
             //continue with init so all the stuff properly binds to customised components
             this.callMeParent(arguments);
 
+        },
+
+        afterRecordDestroy: function(rec){
+            //<debug>
+            console.log(this.logHdr, 'Executing afterRecordDestroy for dictionary with the following model: ' + this.getView().getModel());
+            //</debug>
+
+            this.fireGlobal('mh-dictionary::changed', {
+                model: this.getView().getModel(),
+                op: 'destroy',
+                rec: rec
+            });
+        },
+
+        /**
+         * rec delete failure handler; unmasks and reloads grid
+         */
+        destroyRecordsFailure: function(response){
+
+            //calling parent here seems to call this method twice. therefore just handling shit manually as no time to investigate
+            //this.callMeParent(arguments);
+
+            var grid = this.getGridInstance(),
+                msg;
+
+            grid.setMasked(false);
+            this.lookup('dataviewgrid').getStore().load();
+
+
+            if(response.responseJson && response.responseJson[0]){
+                msg = this.getCustomErrorMsg(response.responseJson[0]);
+            }
+
+            Ext.Msg.show({
+                title: this.getTranslation('err_title'),
+                message: msg,
+                width: 500,
+                buttons: Ext.MessageBox.OK,
+                icon: Ext.MessageBox.WARNING
+            });
+        },
+
+        getCustomErrorMsg: function(err){
+
+            switch (err.code) {
+                case 'dictionary_value_in_use':
+                    return this.getTranslation('err_' + err.code);
+                    break;
+                default:
+                    return this.getTranslation('err_unknown');
+                    break;
+            }
         }
     });
 
