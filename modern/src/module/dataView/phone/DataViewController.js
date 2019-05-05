@@ -184,7 +184,9 @@
             var me = this,
                 cfg = {
                     scope: me,
-                    success: success,
+                    success: function(){
+                        success(record);
+                    },
                     failure: failure,
                     exceptionMsg: me.getTranslation('destroyFailureMsg'),
                     autoIgnore404: false, //this is required to show msg on 404 which will often be the case in dev mode!
@@ -211,14 +213,16 @@
         /**
          * destroy record success handler
          */
-        destroyRecordSuccess: function(){
+        destroyRecordSuccess: function(rec){
             this.getView().setMasked(false);
-            this.afterRecordDestroy();
+            this.afterRecordDestroy(rec);
             this.reloadStore();
         },
 
         /**
          * after rec destroy extension hook
+         * @param rec detroyed record
+         * @template
          */
         afterRecordDestroy: Ext.emptyFn,
 

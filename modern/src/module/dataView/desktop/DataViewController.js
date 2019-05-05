@@ -591,8 +591,8 @@
             if(records.length === 0){
                 //looks like we're done here
                 grid.setMasked(false);
+                //this.afterRecordDestroy(); //firing per rec destroy now with destroyed rec instance, so no point in firing it here now; see below
                 this.reloadStore();
-                this.afterRecordDestroy();
                 return;
             }
 
@@ -600,6 +600,8 @@
             var me = this,
                 rec = records.pop(),
                 success = function(){
+                    //fire after rec destroy every time record has been destroyed
+                    this.afterRecordDestroy(rec);
                     me.destroyRecords(records);
                 },
                 failure = me.destroyRecordsFailure;
@@ -692,6 +694,7 @@
 
         /**
          * After delete callback - custom after delete logic can be hooked in here
+         * @param rec detroyed record
          * @template
          */
         afterRecordDestroy: Ext.emptyFn,
