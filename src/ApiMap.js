@@ -41,7 +41,7 @@
                 logout: 'letmeoutofhere',
                 tokenValidation: 'tokenvalidation',
                 accountActivation: 'accountactivation',
-                resendActivation: 'resendactivation/{userId}',
+                resendActivation: 'resendactivation/' + resourceIdentifier,
                 passResetRequest: 'passresetrequest',
                 resetPass: 'resetpass',
                 changePass: 'changepass',

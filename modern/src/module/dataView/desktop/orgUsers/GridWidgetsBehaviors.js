@@ -23,7 +23,10 @@
 
         mixins: [
             'mh.mixin.OrganizationUtils',
-            'mh.mixin.Localization'
+            'mh.mixin.Localization',
+            'mh.communication.MsgBus',
+            'mh.data.Ajax',
+            'mh.mixin.ApiMap'
         ],
 
         constructor: function(){
@@ -61,6 +64,54 @@
             widget.rec = rec;
 
             widget.show();
+        },
+
+        /**
+         * handles clicks on the active account btn
+         * @param btn
+         */
+        verifiedAccountBtnHandler: function(btn){
+            if(!btn.rec.get('isAccountVerified')){
+
+                Ext.Msg.show({
+                    title: me.getTranslation('resendActivationTitle'),
+                    message: me.getTranslation('resendActivationMsg'),
+                    buttons: Ext.MessageBox.OKCANCEL,
+                    fn: function (msgBtn) {
+                        if(msgBtn === 'ok'){
+                            me.resendActivationEmail(btn.rec);
+                        }
+                    }
+                });
+            }
+            else {
+                Ext.Msg.show({
+                    title: me.getTranslation('accountActiveTitle'),
+                    message: me.getTranslation('accountActiveMsg'),
+                    buttons: Ext.MessageBox.OK
+                });
+            }
+        },
+
+        /**
+         * resends an activation email for a user
+         * @param rec
+         */
+        resendActivationEmail: function(rec){
+            me.fireGlobal('loadmask::show', this.getTranslation('resendingActivationEmailLoadMask'));
+
+            console.warn('Co jet urwa', rec.get('uuid'));
+
+            me.doPost({
+                url: me.getApiEndPointUrl('resendActivation').replace(this.getApiMapResourceIdentifier(), rec.get('uuid')),
+                autoHandleExceptions: me,
+                success: function(){
+                    me.fireGlobal('loadmask::hide');
+                },
+                failure: function(){
+                    me.fireGlobal('loadmask::hide');
+                }
+            });
         },
 
         /**
