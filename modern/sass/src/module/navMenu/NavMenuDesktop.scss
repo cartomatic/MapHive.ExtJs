@@ -15,6 +15,8 @@ $navmenu-sidebar-slide-width: dynamic(75vw);
 $navmenu-sidebar-micro-width: dynamic($navmenu-sidebar-icon-size + $navmenu-sidebar-item-padding*2);
 $navmenu-sidebar-micro-expanded-width: dynamic(256px);
 
+$navmenu-neutral-light-color: dynamic($neutral-light-color);
+
 .navmenu-sidebar {
   $navmenu-sidebar-picture-size: $navmenu-sidebar-icon-size*1.6;
   $navmenu-sidebar-picture-size-big: $navmenu-sidebar-icon-size-big*1.8;
@@ -207,7 +209,7 @@ some uis used by the nav menu
   $ui: 'navmenu-dark',
   $color: $neutral-light-color,
   $pressed-color: $neutral-light-color,
-  $background-color: $color,
+  $background-color:  $navmenu-sidebar-background-color, //$color, <- this one revereses in dark mode!
 
   //$hovered-background-color: $highlight-color,
   //$pressing-background-color: $base-light-color,
@@ -221,14 +223,15 @@ some uis used by the nav menu
   $ui: 'navmenu-dark-app-btn',
   $color: $neutral-light-color,
   $pressed-color: $neutral-light-color,
-  $background-color: $color,
+
+  $background-color: $navmenu-sidebar-background-color, //$color, <- this one revereses in dark mode!
 
     //$hovered-background-color: $highlight-color,
     //$pressing-background-color: $base-light-color,
     //$pressed-background-color: $base-light-color
-  $hovered-background-color: $color,
-  $pressing-background-color: $color,
-  $pressed-background-color: $color,
+  //$hovered-background-color: $color,
+  //$pressing-background-color: $color,
+  //$pressed-background-color: $color,
 
   $icon-size: 44px,
   $icon-size-big: 44px,
