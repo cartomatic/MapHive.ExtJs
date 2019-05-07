@@ -422,6 +422,13 @@
                 }
             }
 
+            //also check the debug auth requires flag - this is so can start up the app locally when launched from sencha tools
+            if(!requiresAuth){
+                if(typeof(__mhcfg__) !== 'undefined' && __mhcfg__.senchaDebugCfg){
+                    requiresAuth = __mhcfg__.senchaDebugCfg.debugHost === window.location.host && __mhcfg__.senchaDebugCfg.requiresAuth;
+                }
+            }
+
             return requiresAuth;
         },
 
