@@ -11,5 +11,15 @@
   /**
    * Where the git repo to extract the revision metadata is located against the app root
    */
-  "gitRepo": "\\..\\"
+  "gitRepo": "\\..\\",
+
+  /**
+   * whether or not should use pako compressor for outgoing traffic
+   */
+  "usePako": true,
+
+  /**
+   * Whether or not should use an external color picker library
+   */
+  "useColorPicker": true
 }

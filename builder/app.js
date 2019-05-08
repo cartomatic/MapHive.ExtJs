@@ -23,6 +23,14 @@ const hasLiveSwitch = () => {
     return process.argv[3] && process.argv[3] === 'live';
 }
 
+/**
+ * return deploy environment. If present a specific configuration will be loaded, for example deployer-configuration-ENV.json;
+ * otherwise a default deployer-configuration.json will be loaded
+ *
+ */
+const getDeployEnv = () => {
+    return process.argv[4] || null;
+}
 
 //content of app.json
 var appJson = null;
@@ -72,8 +80,12 @@ var deployerConfiguration = null;
  */
 const readDeployerConfigurationJson = () => {
     if (!deployerConfiguration) {
-        var appRoot = getCmdRoot();
-        deployerConfiguration = JSON.parse(stripJsonComments(fs.readFileSync(appRoot + '/deployer-configuration.json', 'utf8')));
+        let appRoot = getCmdRoot(),
+            deployEnv = getDeployEnv() || '';
+        if(deployEnv){
+            deployEnv = `-${deployEnv()}`;
+        };
+        deployerConfiguration = JSON.parse(stripJsonComments(fs.readFileSync(appRoot + `/deployer-configuration${deployEnv}.json`, 'utf8')));
     }
 }
 
@@ -392,34 +404,47 @@ const extractExtBootstrap = () => {
 const cleanupAndFixScripts = () => {
     return new Promise((resolve, reject) => {
 
-        var dst = getBuildDirectory() + '\\index.html';
+        readDeployerConfigurationJson();
+
+        let dst = getBuildDirectory() + '\\index.html',
 
         //read the html first
-        var html = fs.readFileSync(dst).toString();
+            html = fs.readFileSync(dst).toString(),
 
-        var removeIdxStart = html.indexOf('<!--cleanup_begin-->');
-        var removeIdxEnd = html.indexOf('<!--cleanup_end-->') + '<!--cleanup_end-->'.length;
+            removeIdxStart = html.indexOf('<!--cleanup_begin-->'),
+            removeIdxEnd = html.indexOf('<!--cleanup_end-->') + '<!--cleanup_end-->'.length,
 
-        var firstPart = html.substring(0, removeIdxStart);
-        var secondPart = html.substring(removeIdxEnd);
+            firstPart = html.substring(0, removeIdxStart),
+            secondPart = html.substring(removeIdxEnd),
 
         //add production map hive bootstrap script
 
-        var newHtml =
-            [
-                `<!--${getAppName()} :: ${appVersion}-->`,
-                `<!--MapHive :: ${mapHiveVersion}-->`,
-                firstPart,
-                // `    <script type="text/javascript" src="mh/resources/jsLibs/pako/1.0.6/pako.min.js"></script>`,
-                // `    <link rel="stylesheet" href="mh/resources/jsLibs/color-picker/color-picker.min.css" type="text/css">`,
-                // `    <script type="text/javascript" src="mh/resources/jsLibs/color-picker/color-picker.min.js"></script>`,
-                `    <script type="text/javascript" src="generatedFiles/build-profile-bootstrap.js?r=${new Date().getTime()}"></script>`,
-                `    <script type="text/javascript" src="generatedFiles/maphive-bootstrap.js?r=${new Date().getTime()}"></script>`,
-                secondPart
-        ].join('\r\n');
+            newHtml =
+                [
+                    `<!--${getAppName()} :: ${appVersion}-->`,
+                    `<!--MapHive :: ${mapHiveVersion}-->`,
+                    firstPart
+                ];
+
+        if(deployerConfiguration.usePako){
+            newHtml.push(`    <script type="text/javascript" src="mh/resources/jsLibs/pako/1.0.6/pako.min.js"></script>`);
+        }
+
+        if(deployerConfiguration.useColorPicker){
+            newHtml = newHtml.concat([
+                `    <link rel="stylesheet" href="mh/resources/jsLibs/color-picker/color-picker.min.css" type="text/css">`,
+                `    <script type="text/javascript" src="mh/resources/jsLibs/color-picker/color-picker.min.js"></script>`
+            ]);
+        }
+
+        newHtml = newHtml.concat([
+            `    <script type="text/javascript" src="generatedFiles/build-profile-bootstrap.js?r=${new Date().getTime()}"></script>`,
+            `    <script type="text/javascript" src="generatedFiles/maphive-bootstrap.js?r=${new Date().getTime()}"></script>`,
+            secondPart
+        ]);
 
         //resave html
-        fs.writeFileSync(dst, newHtml);
+        fs.writeFileSync(dst, newHtml.join('\r\n'));
 
         resolve();
     });
