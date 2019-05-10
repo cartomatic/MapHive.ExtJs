@@ -295,7 +295,11 @@
                 viewSubRoute = subRoute;
                 vw = this.viewMap[subRoute];
 
-                if(Ext.isFunction(vw.isComplete)){
+                //when view does not show in given context, make it always validate
+                if(Ext.isFunction(vw.preventShow) && vw.preventShow()){
+                    isComplete = true;
+                }
+                else if(Ext.isFunction(vw.isComplete)){
                     isComplete = vw.isComplete();
 
                     return Ext.isString(isComplete) ? false : isComplete; //when false it will break the loop
