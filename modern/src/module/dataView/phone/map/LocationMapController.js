@@ -574,6 +574,11 @@
         isComplete: function(){
             var vw = this.getView();
 
+            if(!this.map){
+                //late binding, so no data yet unfortunately. pretend form is valid
+                return true;
+            }
+
             if(this.editable){
                 return this.getTranslation('incompleteLocationNotSaved');
             }

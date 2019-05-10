@@ -295,6 +295,10 @@
                 viewSubRoute = subRoute;
                 vw = this.viewMap[subRoute];
 
+                //<debug>
+                console.log(cnslHdr, '[ViewValidation]_s::,DarkRed,', subRoute, 'preventShow: ' + (Ext.isFunction(vw.preventShow) ? vw.preventShow() : undefined), 'isComplete: ' + (Ext.isFunction(vw.isComplete) ? vw.isComplete() : undefined));
+                //</debug>
+
                 //when view does not show in given context, make it always validate
                 if(Ext.isFunction(vw.preventShow) && vw.preventShow()){
                     isComplete = true;
