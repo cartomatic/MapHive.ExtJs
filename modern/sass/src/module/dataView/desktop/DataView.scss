@@ -24,6 +24,12 @@
   }
 }
 
+.mh-data-view-bold-text {
+  font-weight: bold;
+  text-decoration: none;
+  color: $base-color;
+}
+
 @include button-ui(
   $ui: 'mh-data-view-grid-btn'
 );
