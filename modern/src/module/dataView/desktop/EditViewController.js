@@ -47,6 +47,15 @@
         },
 
         /**
+         * loads a complete record
+         * @param rec
+         */
+        loadCompleteRecord: function(rec){
+            this.rewindToFirstView();
+            this.callMeParent(arguments);
+        },
+
+        /**
          * cleans up view and closes it; special handling for floating / windowed editors
          */
         cleanNClose: function(){

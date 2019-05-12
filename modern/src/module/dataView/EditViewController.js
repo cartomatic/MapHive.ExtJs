@@ -15,11 +15,14 @@
             'mh.mixin.CallMeParent',
             'mh.module.dataView.RecordLoader',
             'mh.mixin.ResponseValidationErrorReader',
-            'mh.mixin.DirtyMode'
+            'mh.mixin.DirtyMode',
+            'mh.mixin.PublishApi'
         ],
 
         init: function(){
             this.callMeParent(arguments);
+
+            this.publishApi('setLocalSaveMode', 'loadCompleteRecord');
         },
 
         /**
@@ -52,6 +55,27 @@
             }
 
             return !!prevent || this.isDirtyModeActive();
+        },
+
+        /**
+         * loads a complete record
+         * @param rec
+         */
+        loadCompleteRecord: function(rec){
+            this.onRecordLoadSuccess(rec);
+        },
+
+        /**
+         * whether or not a local save mode is on
+         */
+        localSaveMode: false,
+
+        /**
+         * sets local save mode; local save mode means a remote record save does not happen. instead a modified record is returned via event
+         * @param localSaveMode
+         */
+        setLocalSaveMode: function(localSaveMode){
+            this.localSaveMode = localSaveMode;
         },
 
         /**
@@ -171,7 +195,13 @@
             //customised binding (stuff like arrays to grids, custom json data, etc.) can also be done transparently as required;
             //therefore the default functionality is to grab a record and perform a save on it.
 
-            this.saveRecord(rec, this.onSaveSuccess,this.onSaveFailure);
+            if(this.localSaveMode){
+                //do not save remotely. go straight to save success handler
+                this.onSaveSuccess(rec);
+            }
+            else {
+                this.saveRecord(rec, this.onSaveSuccess,this.onSaveFailure);
+            }
         },
 
         /**
