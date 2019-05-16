@@ -13,7 +13,8 @@
         ],
 
         mixins: [
-            'mh.mixin.Localization'
+            'mh.mixin.Localization',
+            'mh.mixin.MsgBoxUtils'
         ],
 
         setUpWizardMode: function(){
@@ -359,7 +360,7 @@
             Ext.Msg.show({
                 title: this.getTranslation('incompleteFormTitle', 'mh.module.dataView.phone.EditViewWizardLocalization'),
                 message: msg,
-                width: 350,
+                width: this.getFixedMsgBoxWidth(350),
                 buttons: btns || Ext.MessageBox.OK,
                 fn: fn
             });

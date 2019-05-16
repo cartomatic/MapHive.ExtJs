@@ -12,6 +12,10 @@
             'mh.mixin.ResponseValidationErrorReaderLocalization'
         ],
 
+        mixins: [
+            'mh.mixin.MsgBoxUtils'
+        ],
+
         /**
          * Gets a friendly server validation feedback based on the server response text, so form errors shown to a user are less scary
          * @param field
@@ -218,7 +222,7 @@
                 Ext.Msg.show({
                     title: msgTitle || this.getErrTranslation('validationErrorTitle'),
                     message: msg,
-                    width: 500,
+                    width: this.getFixedMsgBoxWidth(500),
                     buttons: Ext.MessageBox.OK,
                     animateTarget: btn ? btn : undefined,
                     icon: Ext.MessageBox.WARNING,
@@ -230,7 +234,7 @@
                 Ext.Msg.show({
                     title: msgTitle || this.getErrTranslation('validationErrorTitle'),
                     message: msg,
-                    width: 500,
+                    width: this.getFixedMsgBoxWidth(500),
                     buttons: Ext.MessageBox.OK,
                     animateTarget: btn ? btn : undefined,
                     icon: Ext.MessageBox.WARNING,
