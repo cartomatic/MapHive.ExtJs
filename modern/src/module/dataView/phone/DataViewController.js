@@ -185,7 +185,7 @@
                 cfg = {
                     scope: me,
                     success: function(){
-                        success(record);
+                        success.apply(me, [record]);
                     },
                     failure: failure,
                     exceptionMsg: me.getTranslation('destroyFailureMsg'),
