@@ -164,6 +164,11 @@
                 }
             }
 
+            //WARNING: test above will fail for longer routes - for example when edit route was nested. same object, explored from nested route but...
+            //according to the above will look as totally different route family.
+            //for example: layers/XXX/edit should be the same family as projects/XXX/layers/XXX/edit!
+            //TODO - make it more flexible at some point
+
             if(!sameRouteFamily){
                 this.entryRoute = previousRoute;
             }
