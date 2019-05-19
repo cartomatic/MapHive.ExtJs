@@ -26,7 +26,8 @@
             'mh.mixin.Localization',
             'mh.data.Ajax',
             'mh.mixin.PublishApi',
-            'mh.mixin.ModalMode'
+            'mh.mixin.ModalMode',
+            'mh.mixin.ResponseValidationErrorReader'
         ],
 
         statics: {
@@ -656,12 +657,18 @@
         },
 
         /**
-         * rec delete failure handler; unmasks and reloads grid
+         * rec delete failure handler; unmasks and reloads grid; tries to show a msg if found
          */
-        destroyRecordsFailure: function(){
+        destroyRecordsFailure: function(response){
+
             var grid = this.getGridInstance();
             grid.setMasked(false);
             this.lookup('dataviewgrid').getStore().load();
+
+            //uhuh, looks like it's a server err...
+            this.showValidationMsgServerErr(
+                this.getFriendlyServerValidationFeedback(response.responseText || response.responseJson)
+            );
         },
 
         /**
