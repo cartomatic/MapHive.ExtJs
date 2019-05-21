@@ -96,7 +96,7 @@
          * cancel btn tap
          */
         onBtnCancelTap: function() {
-            this.getView().fireEvent('editview::savedismissed');
+            this.getView().fireEvent('editview::savedismissed', this.getViewModel().get('record'));
             this.cleanNClose();
         },
 
