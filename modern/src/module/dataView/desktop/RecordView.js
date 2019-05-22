@@ -45,7 +45,12 @@
              * whether or not should show next / prev btns;
              * next / prev btns are hidden by default
              */
-            showPrevNextBtns: false
+            showPrevNextBtns: false,
+
+            /**
+             * whether or not edit should be allowed from this modul
+             */
+            preventEdit: false
 
             //TODO
             // /**
