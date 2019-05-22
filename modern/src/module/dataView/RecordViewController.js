@@ -30,7 +30,7 @@
             //Note: in most cases injected localizations will inherit from specific data views and in consequence from mh.module.dataView.DataViewLocalization
             //this is why translations for this module are not placed in its own file but in mh.module.dataView.DataViewLocalization instead
             this.injectLocalizationToViewModel();
-            this.publishApi('loadRecord');
+            this.publishApi('loadRecord', 'loadCompleteRecord');
 
             this.handlePrevNextBtnsVisibility();
         },
@@ -43,6 +43,14 @@
                 this.lookupReference('btnPrev').show();
                 this.lookupReference('btnNext').show();
             }
+        },
+
+        /**
+         * loads a complete record without pulling it via proxy
+         * @param rec
+         */
+        loadCompleteRecord: function(rec){
+            this.onRecordLoadSuccess(rec);
         },
 
         /**
