@@ -127,6 +127,11 @@
             }
 
             if(adjustHash){
+                //make sure to not redirect during init. otherwise will switch tab to the default one
+                if(this.duringViewInitialize){
+                    return;
+                }
+
                 for(rp; rp < rplen - 1; rp++){
                     route ?
                         route += '/' + routeParams[rp]

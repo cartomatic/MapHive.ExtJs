@@ -20,14 +20,24 @@
         ],
 
         /**
+         * whether or not view initialize procedure is in progress
+         */
+        duringViewInitialize: false,
+
+        /**
          * handles view initialization setup - this is where the screens cfg gets processed
          * @param vw
          * @param eOpts
          */
         onViewInitialize: function(vw, eOpts){
+
+            this.duringViewInitialize = true;
+
             vw.lookup('tabPanel').add(vw.getScreens());
 
             this.configureActionBtns();
+
+            this.duringViewInitialize = false;
         },
 
         /**
