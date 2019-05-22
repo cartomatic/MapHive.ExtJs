@@ -148,6 +148,12 @@
             }
 
             if(adjustHash){
+
+                //make sure to not redirect during init. otherwise will switch tab to the default one
+                if(this.duringViewInitialize){
+                    return;
+                }
+
                 for(rp; rp < rplen; rp++){
 
                     //if this is the last part of a route, then need to drop all the internal routing (edit / create)
