@@ -58,14 +58,6 @@
         },
 
         /**
-         * loads a complete record
-         * @param rec
-         */
-        loadCompleteRecord: function(rec){
-            this.onRecordLoadSuccess(rec);
-        },
-
-        /**
          * whether or not a local save mode is on
          */
         localSaveMode: false,
