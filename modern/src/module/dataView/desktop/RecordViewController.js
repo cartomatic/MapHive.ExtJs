@@ -35,6 +35,14 @@
 
 
             this.callMeParent(arguments);
+
+            let vw = this.getView(),
+                preventEdit = vw.getPreventEdit();
+
+            //handle visibility of edit btn
+            if(preventEdit){
+                this.lookupReference('btnEdit').hide();
+            }
         },
 
         /**
