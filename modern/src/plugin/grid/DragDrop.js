@@ -72,7 +72,12 @@
             /**
              * validator function that is used do decide whether or not a row can be dragged
              */
-            beforeDragStartValidator: null
+            beforeDragStartValidator: null,
+
+            /**
+             * custom target validator used to decide whether or not target is valid
+             */
+            targetValidator: null
         },
 
         /**
@@ -450,10 +455,12 @@
                 dragSources = evt.target ? evt.target.ddSource || [] : [],
                 ok = evt.target && Ext.Array.some(dropTargets, function(g){
                     return dragSources.indexOf(g) >= 0;
-                }, this);
+                }, this),
+                validator = this.getTargetValidator();
 
-            return ok;
+            return ok && Ext.isFunction(validator) && validator(evt);
         },
+
 
 
         /**
