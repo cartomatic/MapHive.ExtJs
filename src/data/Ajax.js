@@ -325,7 +325,12 @@
                 title = this.getTranslation('error', 'mh.data.Ajax') + (cfg.exceptionMsg ? ' :: ' + cfg.exceptionMsg : ''),
 
                 msg =
-                    this.getTranslation('srvErrMsg', 'mh.data.Ajax') + this.emphasize(response.status + ' :: ' + response.statusText );
+                    this.getTranslation('srvErrMsg', 'mh.data.Ajax') +
+                    this.emphasize(
+                        response
+                                ? response.status + ' :: ' + response.statusText
+                                : this.getTranslation('errUnknown', 'mh.data.Ajax')
+                    );
 
 
             //add the retry to output too so it can be handled at the caller level when required!

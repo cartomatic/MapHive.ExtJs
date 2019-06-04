@@ -18,6 +18,10 @@
                     en: 'Server reported the following error: ',
                     pl: 'Server zgłosił następujący błąd: '
                 },
+                errUnknown: {
+                    en: 'Unknown (no response available)',
+                    pl: 'Nieznany (brak odpowiedzi)'
+                },
                 code403: {
                     en: 'You are not allowed to view this resource.',
                     pl: 'Nie masz uprawnień do wglądu w rządany zasób.'
