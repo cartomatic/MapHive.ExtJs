@@ -340,7 +340,12 @@
                 errMsg = (Ext.JSON.decode(response.responseText, true) || {} ).errorMessage || response.responseText || response.statusText,
 
                 msg =
-                    this.getTranslation('srvErrMsg', 'mh.data.Ajax') + this.emphasize(response.status + ' :: ' + errMsg );
+                    this.getTranslation('srvErrMsg', 'mh.data.Ajax') +
+                    this.emphasize(
+                        response
+                            ? response.status + ' :: ' + response.statusText
+                            : this.getTranslation('errUnknown', 'mh.data.Ajax')
+                    );
 
 
             //add the retry to output too so it can be handled at the caller level when required!
