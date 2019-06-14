@@ -336,7 +336,8 @@
             //add the retry to output too so it can be handled at the caller level when required!
             output.retry = retry;
 
-
+            //make sure the response object is accessible. sometimes it seems to not be
+            response = response || {};
 
             //some important stuff within the response
             //response.status

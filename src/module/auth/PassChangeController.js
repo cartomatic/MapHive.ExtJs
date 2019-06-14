@@ -64,7 +64,7 @@
                     title: title,
                     message: msg,
                     width: 350,
-                    buttons: Ext.Msg.OK,
+                    buttons: Ext.isModern ? Ext.MessageBox.OK : Ext.Msg.OK,
                     icon: Ext.MessageBox.ERROR
                 });
                 return;
@@ -172,7 +172,7 @@
                 message: msg,
                 width: 350,
                 styleHtmlContent: true,
-                buttons: Ext.Msg.OK,
+                buttons: Ext.isModern ? Ext.MessageBox.OK : Ext.Msg.OK,
                 icon: Ext.MessageBox.ERROR
             });
         }
