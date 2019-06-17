@@ -12,7 +12,10 @@
     
         xtype: 'mh.locking-screen',
 
-        fullscreen: true
+        fullscreen: true,
+
+
+        floated: true //with 6.6 need to make it floated in order to bring it upfront
 
         //TODO - need mobile cls, as all the stuff ends up in common resources dir. this is a package lib after all ;)
         //cls: 'mh-locking-screen'
