@@ -456,9 +456,10 @@
                 ok = evt.target && Ext.Array.some(dropTargets, function(g){
                     return dragSources.indexOf(g) >= 0;
                 }, this),
-                validator = this.getTargetValidator();
+                validator = this.getTargetValidator(),
+                valid = Ext.isFunction(validator) ? validator(evt) : true;
 
-            return ok && Ext.isFunction(validator) && validator(evt);
+            return ok && valid;
         },
 
 
