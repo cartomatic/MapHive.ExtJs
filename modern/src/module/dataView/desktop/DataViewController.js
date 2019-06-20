@@ -1,5 +1,5 @@
 //Disable some of the JSLint warnings
-/*global window,console,Ext*/
+/*global window,console,Ext,mh*/
 (function(){
 
 
