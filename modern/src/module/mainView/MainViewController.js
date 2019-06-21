@@ -327,7 +327,7 @@
             }
 
             return item || container.add(Ext.create('Ext.Panel', {
-                html: '<h1 style="color:red;">Uuuuuups, no view for xtype: ' + config.xtype + ' could be found!</h1>'
+                html: '<h1 style="color:red;">Oooops, no view for xtype: ' + config.xtype + ' could be found!</h1>'
             }));
         },
 

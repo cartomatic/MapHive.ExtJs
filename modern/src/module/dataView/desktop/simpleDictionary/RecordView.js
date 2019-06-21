@@ -68,7 +68,7 @@
                             {
                                 xtype: 'label',
                                 bind: {
-                                    html: '<h3>{record.name}</h3>'
+                                    html: '<h3 class="mh-record-view-rec-name">{record.name}</h3>'
                                 }
                             },
                             {
