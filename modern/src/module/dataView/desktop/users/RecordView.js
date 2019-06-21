@@ -66,7 +66,7 @@
                             {
                                 xtype: 'label',
                                 bind: {
-                                    html: '<h3>{record.username}</h3>'
+                                    html: '<h3 class="mh-record-view-rec-name">{record.username}</h3>'
                                 },
                                 style: {
                                     textAlign: 'center'

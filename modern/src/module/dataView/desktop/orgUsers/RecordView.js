@@ -75,7 +75,7 @@
                             {
                                 xtype: 'label',
                                 bind: {
-                                    html: '<h3>{organizationRole}</h3>'
+                                    html: '<h3 class="mh-record-view-rec-name">{organizationRole}</h3>'
                                 },
                                 style: {
                                     textAlign: 'center'
