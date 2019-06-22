@@ -5,26 +5,26 @@
     'use strict';
 
     /**
-     * Created by info_000 on 04-Aug-16.
+     * ol map container that automatically loads all the required ol scripts.
+     * usually will load a current ol version
      */
     Ext.define('mh.module.map.Ol3MapContainer', {
-        extend: 'Ext.Container',
-    
-        xtype: 'mh-ol3-map-container',
+        extend: 'mh.module.map.Ol3MapContainerBase',
 
         requires: [
-            'mh.module.map.Ol3MapContainerController'
+            'mh.util.Loader'
         ],
-
-        controller: 'mh-ol3-map-container',
-
-        items: [
-
-        ],
-
-        listeners: {
-            resize: 'onViewResizeM'
-        }
+    
+        xtype: 'mh-ol3-map-container'
+    },
+    function(){
+        let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/ol/5.3.0`;
+        mh.util.Loader.load({
+            fileList: [
+                `${basePath}/ol.css`,
+                `${basePath}/ol.js`
+            ]
+        });
     });
 
 }());
