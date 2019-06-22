@@ -426,16 +426,16 @@ const cleanupAndFixScripts = () => {
                     firstPart
                 ];
 
-        if(deployerConfiguration.usePako){
-            newHtml.push(`    <script type="text/javascript" src="mh/resources/jsLibs/pako/1.0.6/pako.min.js"></script>`);
-        }
+        // if(deployerConfiguration.usePako){
+        //     newHtml.push(`    <script type="text/javascript" src="mh/resources/jsLibs/pako/1.0.6/pako.min.js"></script>`);
+        // }
 
-        if(deployerConfiguration.useColorPicker){
-            newHtml = newHtml.concat([
-                `    <link rel="stylesheet" href="mh/resources/jsLibs/color-picker/color-picker.min.css" type="text/css">`,
-                `    <script type="text/javascript" src="mh/resources/jsLibs/color-picker/color-picker.min.js"></script>`
-            ]);
-        }
+        // if(deployerConfiguration.useColorPicker){
+        //     newHtml = newHtml.concat([
+        //         `    <link rel="stylesheet" href="mh/resources/jsLibs/color-picker/color-picker.min.css" type="text/css">`,
+        //         `    <script type="text/javascript" src="mh/resources/jsLibs/color-picker/color-picker.min.js"></script>`
+        //     ]);
+        // }
 
         newHtml = newHtml.concat([
             `    <script type="text/javascript" src="generatedFiles/build-profile-bootstrap.js?r=${new Date().getTime()}"></script>`,

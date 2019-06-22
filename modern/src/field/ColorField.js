@@ -9,6 +9,11 @@
      */
     Ext.define('mh.field.ColorField', {
         extend: 'Ext.field.Text',
+
+        requires: [
+            'mh.util.Loader'
+        ],
+
         readOnly: true,
 
         xtype: 'mh-color-field',
@@ -58,5 +63,14 @@
 
             this.inputElement.dom.style.backgroundColor = (value || this.getDefaultColor());
         }
+    },
+    function(){
+        let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/color-picker`;
+        mh.util.Loader.load({
+            fileList: [
+                `${basePath}/color-picker.min.css`,
+                `${basePath}/color-picker.min.js`
+            ]
+        });
     });
 }());
