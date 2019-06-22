@@ -7,6 +7,10 @@
     Ext.define('mh.overrides.data.request.Ajax', {
         override: 'Ext.data.request.Ajax',
 
+        requires: [
+            'mh.util.Loader'
+        ],
+
         statics: {
             /**
              * whether or not outgoing traffic should be compressed
@@ -90,5 +94,13 @@
 
             return me;
         }
+    },
+    function(){
+        let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/pako/1.0.6`;
+        mh.util.Loader.load({
+            fileList: [
+                `${basePath}/pako.min.js`
+            ]
+        });
     });
 }());
