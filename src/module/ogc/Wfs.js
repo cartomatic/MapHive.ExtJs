@@ -57,15 +57,19 @@
         /**
          * fetches wfs capabilities
          * @param url someServer/ows
+         * @param preferredVersion
          * @returns {Promise<string | never>}
          */
-        getCapabilities: function(url){
+        getCapabilities: function(url, preferredVersion){
 
             let baseUrl = mh.module.ogc.Utils.extractBaseUrl(url),
                 params = mh.module.ogc.Utils.extractUrlParams(url, ['service', 'version', 'request']) || [];
 
             params.push('service=wfs');
             params.push('request=GetCapabilities');
+            if(preferredVersion){
+                params.push(`version=${preferredVersion}`);
+            }
 
             url = `${baseUrl}?${params.join('&')}`;
 
@@ -79,14 +83,18 @@
         /**
          * describes feature types available
          * @param url
+         * @param preferredVersion
+         * @returns {Promise<string | never>}
          */
-        describeFeatureType: function(url){
+        describeFeatureType: function(url, preferredVersion){
             let baseUrl = mh.module.ogc.Utils.extractBaseUrl(url),
                 params = mh.module.ogc.Utils.extractUrlParams(url, ['service', 'version', 'request']) || [];
 
             params.push('service=wfs');
-            params.push('version=1.1.0');
             params.push('request=DescribeFeatureType');
+            if(preferredVersion){
+                params.push(`version=${preferredVersion}`);
+            }
 
             url = `${baseUrl}?${params.join('&')}`;
 
