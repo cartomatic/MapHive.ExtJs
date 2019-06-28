@@ -52,15 +52,19 @@
         /**
          * fetches wms capabilities
          * @param url someServer/ows
+         * @param preferredVersion
          * @returns {Promise<string | never>}
          */
-        getCapabilities: function(url){
+        getCapabilities: function(url, preferredVersion){
 
             let baseUrl = mh.module.ogc.Utils.extractBaseUrl(url),
                 params = mh.module.ogc.Utils.extractUrlParams(url, ['service', 'version', 'request']) || [];
 
             params.push('service=wms');
             params.push('request=GetCapabilities');
+            if(preferredVersion){
+                params.push(`version=${preferredVersion}`);
+            }
 
             url = `${baseUrl}?${params.join('&')}`;
 
