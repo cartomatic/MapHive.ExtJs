@@ -73,6 +73,64 @@
             }).then(function(text) {
                 return unmarshaller.unmarshalString(text);
             });
+        },
+
+        /**
+         * extracts WMS layer by name from service capabilities
+         * @param caps
+         * @param lName
+         * @returns {number | never | bigint | T | T | *}
+         */
+        getLayerFromCaps: function(caps, lName){
+            return caps.capability.layer.layer.find(l=>l.name === lName);
+        },
+
+        /**
+         * extracts WMS GetMap url from capabilities document
+         */
+        getMapUrlFromCaps: function(caps){
+            let dcp = caps.capability.request.getMap.dcpType[0];
+
+            if(dcp && dcp.http && dcp.http.get){
+                return dcp.http.get.onlineResource.href;
+            }
+        },
+
+        /**
+         * gets wms wgs84 extent for specified layers
+         * @param caps
+         * @param layers {string|string[]}
+         * @returns {number[]}
+         */
+        getWgs84ExtentForLayers: function(caps, layers){
+            let l,b,r,t;
+
+            if(!Array.isArray(layers)){
+                layers = layers.split(',');
+            }
+
+            layers.forEach((lName) => {
+                let wmsL = mh.module.ogc.Wms.getLayerFromCaps(caps, lName);
+
+                if(wmsL){
+                    if(b === undefined){
+                        l = wmsL.exGeographicBoundingBox.eastBoundLongitude;
+                        b = wmsL.exGeographicBoundingBox.southBoundLatitude;
+                        r = wmsL.exGeographicBoundingBox.westBoundLongitude;
+                        t = wmsL.exGeographicBoundingBox.northBoundLatitude;
+                    }
+                    else {
+                        l = Math.min(l, wmsL.exGeographicBoundingBox.eastBoundLongitude);
+                        b = Math.min(b, wmsL.exGeographicBoundingBox.southBoundLatitude);
+                        r = Math.max(r, wmsL.exGeographicBoundingBox.westBoundLongitude);
+                        t = Math.max(t, wmsL.exGeographicBoundingBox.northBoundLatitude);
+                    }
+                }
+            });
+
+            if(l !== undefined){
+                return [l,b,r,t];
+            }
         }
     });
 
