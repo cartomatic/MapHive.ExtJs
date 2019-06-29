@@ -103,7 +103,99 @@
             }).then(function(text) {
                 return unmarshaller.unmarshalString(text);
             });
+        },
+
+        /**
+         * gets WFS feature type description from capabilities
+         * @param caps
+         * @param tName
+         * @returns {number | never | bigint | T | T | *}
+         */
+        getFeatureTypeDescriptionFromCapabilities: function(caps, tName){
+            //truncate Type part - featureType name is taken from the describeFeatureType and seems to have Type word appended (at least geoserver does so)
+            let tNameFixed = tName;
+            if(tNameFixed.endsWith('Type')){
+                tNameFixed = tNameFixed.substring(0, tNameFixed.length - 4);
+            }
+
+            return (
+                caps.featureTypeList.featureType //1.1.0
+                || caps.featureTypeList.featureTypeArray //2.0.0
+            ).find(x=>x.name.localPart === tNameFixed);
+        },
+
+
+        /**
+         * returns a wgs 84 extent for feature type in a form of [l,b,r,t]
+         * @param caps
+         * @param tName
+         * @returns {null|*[]}
+         */
+        getFeatureTypeWgs84ExtentFromCaps: function(caps, tName){
+            let f = mh.module.ogc.Wfs.getFeatureTypeDescriptionFromCapabilities(caps, tName);
+
+            //Note: applies to wfs 1.1.0
+            if(f && f.wgs84BoundingBox[0]){
+                let bb = f.wgs84BoundingBox[0];
+                return [bb.lowerCorner[0], bb.lowerCorner[1], bb.upperCorner[0], bb.upperCorner[1]];
+            }
+
+            return null;
+        },
+
+        /**
+         * gets namespaced type name
+         * @param caps
+         * @param tName
+         */
+        getTypeNameWithNamespaceFromCaps: function(caps, tName){
+            let f = mh.module.ogc.Wfs.getFeatureTypeDescriptionFromCapabilities(caps, tName);
+
+            if(f){
+                return `${f.name.prefix}:${f.name.localPart}`;
+            }
+
+            //uuh, not found, so return whatever has been extracted from describeFeatureType
+            return tName;
+        },
+
+        /**
+         * extracts WFS get feature url from the caps doc
+         * @param caps
+         */
+        getFeatureUrlFromCaps: function(caps){
+            let getFeatureOp = caps.operationsMetadata.operation.find(o => o.name === 'GetFeature') || {},
+                dcp = (getFeatureOp.dcp || [])[0];
+
+            if(dcp && dcp.http && dcp.http.getOrPost){
+                let get = dcp.http.getOrPost.find(x => x.name.localPart === 'Get');
+                if(get){
+                    return get.value.href;
+                }
+            }
+        },
+
+        /**
+         * checks if a WFS service supports outputting data as geojson
+         * @param caps
+         */
+        outputsGeoJson: function(caps){
+            let getFeatureOp = caps.operationsMetadata.operation.find(o=> o.name === 'GetFeature'),
+                outputFormats = getFeatureOp
+                    ? ((getFeatureOp.parameter.find(p => p.name === 'outputFormat') || {}).allowedValues || {}).valueOrRange || //2.0.0
+                      (getFeatureOp.parameter.find(p => p.name === 'outputFormat') || {}).value || //1.1.0
+                      []
+                    : [],
+                supportsGeoJson = !!outputFormats.find(f => {
+                    let format = f.value //2.0.0
+                        || f; //1.1.0
+
+                    return format === 'application/json' || format === 'json';
+                });
+
+            return supportsGeoJson;
         }
+
     });
 
 }());
