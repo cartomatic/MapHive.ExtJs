@@ -79,11 +79,12 @@
                 reference: 'btnNext',
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnNext'),
                 handler: 'onBtnNextTap',
-                hidden:true
+                hidden:true,
+                weight: 5
             },
             spacer: {
-                xtype: 'spacer'
-                //weight: 10
+                xtype: 'spacer',
+                weight: 10
             },
             action: {
                 xtype: 'button',
@@ -93,7 +94,7 @@
                 },
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnEdit'),
                 margin: '0 10 0 0',
-                //weight: 20,
+                weight: 30,
                 handler: 'onBtnEditTap'
             },
 
@@ -105,7 +106,7 @@
                 },
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnBack'),
                 margin: '0 10 0 0',
-                //weight: 30,
+                weight: 40,
                 handler: 'onBtnBackTap'
             }
         },
