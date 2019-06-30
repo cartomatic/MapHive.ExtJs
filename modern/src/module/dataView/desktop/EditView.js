@@ -51,7 +51,7 @@
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnSave'),
                 ui: 'action', //FIXME - customize UI
                 margin: '0 10 0 0',
-                //weight: 20,
+                weight: 30,
                 handler: 'onBtnSaveTap'
             },
 
@@ -64,7 +64,7 @@
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnBack'),
                 ui: 'action', //FIXME - customize UI
                 margin: '0 10 0 0',
-                //weight: 30,
+                weight: 40,
                 handler: 'onBtnCancelTap'
             }
         }
