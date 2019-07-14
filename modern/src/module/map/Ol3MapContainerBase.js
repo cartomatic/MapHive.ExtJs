@@ -19,9 +19,19 @@
 
         controller: 'mh-ol3-map-container',
 
-        items: [
+        config: {
+            /**
+             * @cfg {string|ol.proj}
+             * Either epsg for the map to use or an instance of ol.proj
+             */
+            proj: 'EPSG:3857',
 
-        ],
+            /**
+             * @cfg {string|ol.layer}
+             * either a string name for supported base layer or an instance of ol.layer
+             */
+            baseLayer: 'OSM'
+        },
 
         listeners: {
             resize: 'onViewResizeM'
