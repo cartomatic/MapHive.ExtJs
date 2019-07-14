@@ -49,7 +49,6 @@
                     text: '{record.phantom? localization.create : localization.update}'
                 },
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnSave'),
-                ui: 'action', //FIXME - customize UI
                 margin: '0 10 0 0',
                 weight: 30,
                 handler: 'onBtnSaveTap'
@@ -62,7 +61,6 @@
                     text: '{localization.btnBack}'
                 },
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnBack'),
-                ui: 'action', //FIXME - customize UI
                 margin: '0 10 0 0',
                 weight: 40,
                 handler: 'onBtnCancelTap'
