@@ -17,20 +17,6 @@
             'mh.mixin.PublishApi'
         ],
 
-        config: {
-            /**
-             * @cfg {string|ol.proj}
-             * Either epsg for the map to use or an instance of ol.proj
-             */
-            proj: 'EPSG:3857',
-
-            /**
-             * @cfg {string|ol.layer}
-             * either a string name for supported base layer or an instance of ol.layer
-             */
-            baseLayer: 'OSM'
-        },
-
         /**
          * @event mapcontainer::mapcreated
          * @param {ol.Map} map
@@ -124,14 +110,14 @@
          */
         createMap: function(mapContainerId){
             //projection
-            var proj = this.getProj();
+            var proj = this.getView().getProj();
             if(Ext.isString(proj)){
                 proj = ol.proj.get(proj);
             }
 
             //base layer - even though ol3 does not require one...
             //TODO - maybe in the future support some more default layers...
-            var baseL = this.getBaseLayer();
+            var baseL = this.getView().getBaseLayer();
             if(Ext.isString(baseL)){
                 switch(baseL){
 
@@ -145,7 +131,7 @@
             }
 
             this.map = new ol.Map({
-                layers: [baseL],
+                layers: baseL ? [baseL] : [],
                 target: mapContainerId,
                 controls: ol.control.defaults({
                     attributionOptions: {
