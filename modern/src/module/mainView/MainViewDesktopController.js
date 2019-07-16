@@ -37,11 +37,13 @@
             var vw = this.getView(),
                 navMenu = vw.getNavMenu(),
                 appSwitcher = vw.getAppSwitcher(),
-                orgSwitcher = vw.getOrgContextSwitcher();
+                orgSwitcher = vw.getOrgContextSwitcher(),
+                navMenuLogOffReload = !!vw.getNavMenuLogOffReload();
 
             if(navMenu){
                 navMenu.zIndex = 4;
                 navMenu.reference = 'navmenu';
+                navMenu.logOffReload = navMenuLogOffReload;
 
                 vw.setLbar(navMenu);
             }

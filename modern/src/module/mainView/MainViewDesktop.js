@@ -50,6 +50,11 @@
             },
 
             /**
+             * whether or not log off should reload the app instead of trying to launch the default app
+             */
+            navMenuLogOffReload: false,
+
+            /**
              * store with main menu routes to be registered; should contain mh.data.model.Route models
              */
             menuRoutesStore: 'routes-main-menu', //registered via application.stores, but id explicitly enforced by a store def
