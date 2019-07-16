@@ -14,7 +14,8 @@
             'Ext.layout.VBox',
             'mh.FontIconsDictionary',
             'mh.module.navMenu.NavMenuDesktopController',
-            'mh.module.navMenu.NavMenuDesktopModel'
+            'mh.module.navMenu.NavMenuDesktopModel',
+            'mh.module.userProfile.UserProfile'
         ],
 
         mixins: [

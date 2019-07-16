@@ -17,7 +17,8 @@
             'mh.FontIconsDictionary',
             'mh.module.userProfile.Icons',
             'mh.widget.RoundImage',
-            'mh.module.langSwitcher.LangSwitcher'
+            'mh.module.langSwitcher.LangSwitcher',
+            'Ext.field.Container'
         ],
 
         xtype: 'mh-user-profile',
