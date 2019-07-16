@@ -28,7 +28,7 @@
 
             /**
              * @cfg {string|ol.layer}
-             * either a string name for supported base layer or an instance of ol.layer
+             * either a string name for supported base layer an instance of ol.layer or a function returning an instance of ol.Layer|ol.Layer[]
              */
             baseLayer: 'OSM'
         },

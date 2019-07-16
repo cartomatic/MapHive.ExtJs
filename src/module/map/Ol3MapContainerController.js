@@ -129,9 +129,12 @@
                         break;
                 }
             }
+            else if(Ext.isFunction(baseL)){
+                baseL = baseL();
+            }
 
             this.map = new ol.Map({
-                layers: baseL ? [baseL] : [],
+                layers: baseL ? (Ext.isArray(baseL) ? baseL : [baseL]) : [],
                 target: mapContainerId,
                 controls: ol.control.defaults({
                     attributionOptions: {
