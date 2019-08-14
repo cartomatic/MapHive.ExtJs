@@ -167,7 +167,7 @@
          * @private
          */
         trapLoginEnter: function (txtField, e) {
-            if (e.getKey() === e.ENTER) {
+            if (Ext.isFunction(e.getKey) && e.getKey() === e.ENTER) {
 
                 if (txtField === this.lookupReference('txtForgotPassEmail')) {
                     //looks like this is a pass reset
