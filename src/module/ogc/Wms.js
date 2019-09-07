@@ -18,8 +18,7 @@
         singleton: true,
 
         constructor: function() {
-            mh.module.ogc.Utils.loadScripts(
-                [
+            let scripts = [
                     'jsonix/3.0.0/Jsonix-min.js',
                     'w3c-schemas/1.4.0/lib/XLink_1_0.js',
                     'inspire-schemas/1.0.0/lib/INSPIRE_VS_1_0.js',
@@ -31,7 +30,11 @@
                     'ogc-schemas/2.6.1/lib/WMS_1_3_0.js',
                     'ogc-schemas/2.6.1/lib/WMS_1_3_0_Exceptions.js'
                 ],
-                function(){
+                callback = () => {
+                    if(typeof Jsonix === 'undefined' || typeof XLink_1_0 === 'undefined'){
+                        loadScripts();
+                        return;
+                    }
                     context =  new Jsonix.Context([
                         XLink_1_0,
                         INSPIRE_VS_1_0,
@@ -45,8 +48,15 @@
                     ]);
                     unmarshaller = context.createUnmarshaller();
                 },
-                this
-            );
+                loadScripts = () => {
+                    mh.module.ogc.Utils.loadScripts(
+                        scripts,
+                        callback,
+                        this
+                    );
+                };
+
+           loadScripts();
         },
 
         /**

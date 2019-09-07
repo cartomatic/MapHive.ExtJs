@@ -19,8 +19,7 @@
         singleton: true,
 
         constructor: function() {
-            mh.module.ogc.Utils.loadScripts(
-                [
+            let scripts = [
                     'jsonix/3.0.0/Jsonix-min.js',
                     'w3c-schemas/1.4.0/lib/XLink_1_0.js',
                     'w3c-schemas/1.4.0/lib/XSD_1_0.js', //this is for unmarshalling DescribeFeatureType schema
@@ -34,24 +33,36 @@
                     'ogc-schemas/2.6.1/lib/WFS_1_1_0.js',
                     'ogc-schemas/2.6.1/lib/WFS_2_0.js'
                 ],
-                function(){
-                    context =  new Jsonix.Context([
-                        XLink_1_0,
-                        XSD_1_0,
-                        OWS_1_0_0,
-                        OWS_1_1_0,
-                        Filter_1_1_0,
-                        Filter_2_0,
-                        GML_3_1_1,
-                        SMIL_2_0,
-                        SMIL_2_0_Language,
-                        WFS_1_1_0,
-                        WFS_2_0
-                    ]);
-                    unmarshaller = context.createUnmarshaller();
-                },
-                this
-            );
+                callback = () => {
+                if(typeof Jsonix === 'undefined' || typeof XLink_1_0 === 'undefined'){
+                    loadScripts();
+                    return;
+                }
+                context =  new Jsonix.Context([
+                    XLink_1_0,
+                    XSD_1_0,
+                    OWS_1_0_0,
+                    OWS_1_1_0,
+                    Filter_1_1_0,
+                    Filter_2_0,
+                    GML_3_1_1,
+                    SMIL_2_0,
+                    SMIL_2_0_Language,
+                    WFS_1_1_0,
+                    WFS_2_0
+                ]);
+                unmarshaller = context.createUnmarshaller();
+            },
+            loadScripts = () => {
+                mh.module.ogc.Utils.loadScripts(
+                    scripts,
+                    callback,
+                    this
+                );
+            };
+
+            loadScripts();
+
         },
 
         /**
