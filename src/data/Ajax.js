@@ -245,7 +245,7 @@
             else {
                 //Houston we've got a problem - need to handle the error
                 this.self.handleFailedRequest(
-                    operation.error.response,
+                    ((operation || {}).error || {}).response,
                     cfg
                 );
             }
