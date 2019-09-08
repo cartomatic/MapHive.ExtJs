@@ -17,6 +17,10 @@
                 pl: {
                     en: 'Polish',
                     pl: 'Polski'
+                },
+                nl: {
+                    en: 'Dutch',
+                    pl: 'Holenderski'
                 }
             }
         }

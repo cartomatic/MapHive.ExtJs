@@ -23,7 +23,7 @@
                         html = [];
 
                     Object.getOwnPropertyNames(translations).forEach((lng) => {
-                       html.push(`<span style="font-weight: bolder; font-variant: small-caps;" >${lng}:</span> ${translations[lng]}`);
+                       html.push(`<span style="font-weight: bolder; font-variant: small-caps;" >${lng}:</span> ${translations[lng] || ''}`);
                     });
 
                     return html.join('<br/>');
