@@ -330,35 +330,180 @@
                     localizationClass;
 
                 if(clientLocalizationClass){
-                    localizationClass = {
+                    localizationClasses.push({
                         applicationName: lcn.substring(0, lcn.indexOf('.')),
                         className: lcn.substring(lcn.indexOf('.') + 1),
                         inheritedClassName: clientLocalizationClass.inherits,
-                        translationKeys: []
-                    };
-
-                    Ext.Array.each(Ext.Object.getKeys(clientLocalizationClass.localization), function(tk){
-
-                        if(tk === me.translationsSuperclass){
-                            return;
-                        }
-
-                        var translationKey = {
-                            key: tk,
-                            translations: {}
-                        };
-                        Ext.Array.each(Ext.Object.getKeys(clientLocalizationClass.localization[tk]), function(lng){
-                            translationKey.translations[lng] = clientLocalizationClass.localization[tk][lng];
-                        });
-
-                        localizationClass.translationKeys.push(translationKey);
+                        translationKeys: me.updateTranslationsInheritanceInfo(
+                            clientLocalizationClass,
+                            me.extractLocalizationClassTranslationKeys(clientLocalizationClass)
+                        )
                     });
-
-                    localizationClasses.push(localizationClass);
                 }
             });
 
             return localizationClasses;
+        },
+
+        /**
+         * extracts localization class translation keys. drills down the inheritance chain and extracts also the inherited keys.
+         * flags the keys as inherited / overwritten as required
+         * @param localizationClass
+         * @returns {[]}
+         */
+        extractLocalizationClassTranslationKeys: function(localizationClass){
+            let me = this,
+                translationKeys = [],
+                inheritedKeys = [];
+
+            Ext.Array.each(Ext.Object.getKeys(localizationClass.localization), function(tk){
+
+                //ignore the 'extends' key
+                if(tk === me.translationsSuperclass){
+                    return;
+                }
+
+                var translationKey = {
+                    key: tk,
+                    translations: {}
+                };
+                Ext.Array.each(Ext.Object.getKeys(localizationClass.localization[tk]), function(lng){
+                    translationKey.translations[lng] = localizationClass.localization[tk][lng];
+                });
+
+                translationKeys.push(translationKey);
+            });
+
+            //grab inherited keys and merge with own keys
+            if(localizationClass.inherits){
+                inheritedKeys = me.extractLocalizationClassTranslationKeys(Ext.ClassManager.get(localizationClass.inherits));
+                inheritedKeys.forEach((itk) => {
+                    if(!translationKeys.some((tk) => tk.key === itk.key)){
+                        translationKeys.push(itk);
+                    }
+                });
+            }
+
+            return translationKeys;
+        },
+
+        /**
+         * updates inheritance info of translations
+         * @param localizationClass
+         * @param translationKeys
+         * @returns {*}
+         */
+        updateTranslationsInheritanceInfo: function(localizationClass, translationKeys){
+            let me = this;
+
+            (translationKeys || []).forEach((tk) => {
+                tk.inherited = me.translationKeyInherited(localizationClass, tk);
+                tk.overwrites = me.translationKeyOverwrites(localizationClass, tk);
+            });
+
+            return translationKeys;
+        },
+
+        /**
+         * whether or not translation key is inherited
+         * @param localizationClass
+         * @param tk
+         * @returns {boolean}
+         */
+        translationKeyInherited: function(localizationClass, tk){
+            let inherited = false,
+                inheritedClass;
+
+            //it makes point to check only when class inherits ;)
+            if(localizationClass.inherits){
+                inheritedClass = Ext.ClassManager.get(localizationClass.inherits);
+
+                while(inheritedClass){
+
+                    Ext.Array.each(Ext.Object.getKeys(inheritedClass.localization), function(itk){
+
+                        if(tk.key === itk){
+                            inherited = true;
+                            return false;
+                        }
+                    });
+
+                    if(inherited){
+                        inheritedClass = false;
+                        break;
+                    }
+
+                    if(!inheritedClass.inherits){ //when undefined, ext class manager will return window...
+                        break;
+                    }
+
+                    inheritedClass = Ext.ClassManager.get(inheritedClass.inherits);
+                }
+            }
+
+            return inherited;
+        },
+
+        /**
+         * whether or not a translation key overwrites inherited value
+         * @param localizationClass
+         * @param tk
+         * @returns {boolean}
+         */
+        translationKeyOverwrites: function(localizationClass, tk){
+            let overwrites = false,
+                inheritedClass;
+
+            //it makes point to check only when class inherits ;)
+            if(localizationClass.inherits){
+                inheritedClass = Ext.ClassManager.get(localizationClass.inherits);
+
+                while(inheritedClass){
+
+                    Ext.Array.each(Ext.Object.getKeys(inheritedClass.localization), function(itk){
+
+                        if(tk.key === itk){
+
+                            let inheritedKey = inheritedClass.localization[itk],
+                                tkLangKeys = Ext.Object.getKeys(tk.translations),
+                                itkLangKeys = Ext.Object.getKeys(inheritedKey);
+
+                            //first check counts of translations
+                            if(tkLangKeys.length !== itkLangKeys.length){
+                                overwrites = true;
+                                return false;
+                            }
+
+                            //looks like lang key count is the same. check the values now
+                            Ext.Array.each(tkLangKeys, (lngKey) => {
+                                if(tk.translations[lngKey] !== inheritedKey[lngKey])
+                                {
+                                    overwrites = true;
+                                    return false;
+                                }
+                            });
+
+                            //break the loop
+                            if(overwrites){
+                                return false;
+                            }
+                        }
+                    });
+
+                    if(overwrites){
+                        inheritedClass = false;
+                        break;
+                    }
+
+                    if(!inheritedClass.inherits){ //when undefined, ext class manager will return window...
+                        break;
+                    }
+
+                    inheritedClass = Ext.ClassManager.get(inheritedClass.inherits);
+                }
+            }
+
+            return overwrites;
         },
 
         /**
@@ -378,6 +523,7 @@
                 url: Ext.create(apiMap).getApiEndPointUrl('appLocalizationsBulkSave'),
                 params: {
                     overwrite: overwrite,
+                    //TODO - App namespaces filter too!!! so can only import mh, SomeApp, etc.
                     langsToImport: langsToImport,
                     appLocalizations: this.getAppLocalizations()
                 },

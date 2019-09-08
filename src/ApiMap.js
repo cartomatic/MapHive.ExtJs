@@ -80,7 +80,7 @@
                 translationKeys: 'translationkeys',
                 langs: 'langs',
                 emailTemplateLocalizations: 'emailtemplatelocalizations',
-                appLocalizationsBulkSave: 'applocalizations/bulksave',
+                appLocalizationsBulkSave: 'applocalization/bulksave',
 
                 //reousrces
                 resources: 'resources',
