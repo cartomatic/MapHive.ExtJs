@@ -319,15 +319,20 @@
         /**
          * gets app localizations in a form of a list of LocalizationClass
          */
-        getAppLocalizations: function(){
+        getAppLocalizations: function(namespaces, langs){
             var me = this,
                 localizationClasses = [];
+
             Ext.Array.each(this.getLocalisedClassNames(), function(lcn){
                 //need to check if a class is actually defined in code. basically it should, but in some scenarios some localization classes may not be defined in code as such (dev mode, mistakes...)
                 //and therefore will not have a clientside equivalent
                 var clientLocalizationClassName = lcn + 'Localization',
-                    clientLocalizationClass = Ext.ClassManager.get(clientLocalizationClassName),
-                    localizationClass;
+                    clientLocalizationClass = Ext.ClassManager.get(clientLocalizationClassName);
+
+                //discard translations with namespaces other than required
+                if(namespaces && !namespaces.some(ns => clientLocalizationClassName.startsWith(`${ns}.`))){
+                    return;
+                }
 
                 if(clientLocalizationClass){
                     localizationClasses.push({
@@ -336,7 +341,7 @@
                         inheritedClassName: clientLocalizationClass.inherits,
                         translationKeys: me.updateTranslationsInheritanceInfo(
                             clientLocalizationClass,
-                            me.extractLocalizationClassTranslationKeys(clientLocalizationClass)
+                            me.extractLocalizationClassTranslationKeys(clientLocalizationClass, langs)
                         )
                     });
                 }
@@ -349,9 +354,10 @@
          * extracts localization class translation keys. drills down the inheritance chain and extracts also the inherited keys.
          * flags the keys as inherited / overwritten as required
          * @param localizationClass
+         * @param langsToExtract
          * @returns {[]}
          */
-        extractLocalizationClassTranslationKeys: function(localizationClass){
+        extractLocalizationClassTranslationKeys: function(localizationClass, langsToExtract){
             let me = this,
                 translationKeys = [],
                 inheritedKeys = [];
@@ -368,6 +374,10 @@
                     translations: {}
                 };
                 Ext.Array.each(Ext.Object.getKeys(localizationClass.localization[tk]), function(lng){
+                    //skip langs that are not required
+                    if(langsToExtract && langsToExtract.indexOf(lng) === -1){
+                        return;
+                    }
                     translationKey.translations[lng] = localizationClass.localization[tk][lng];
                 });
 
@@ -376,7 +386,7 @@
 
             //grab inherited keys and merge with own keys
             if(localizationClass.inherits){
-                inheritedKeys = me.extractLocalizationClassTranslationKeys(Ext.ClassManager.get(localizationClass.inherits));
+                inheritedKeys = me.extractLocalizationClassTranslationKeys(Ext.ClassManager.get(localizationClass.inherits), langsToExtract);
                 inheritedKeys.forEach((itk) => {
                     if(!translationKeys.some((tk) => tk.key === itk.key)){
                         translationKeys.push(itk);
@@ -508,10 +518,12 @@
 
         /**
          * Saves app localizations
-         * @param overwrite
-         * @param langsToImport
+         * @param cfg.overwrite
+         * @param cfg.upsert
+         * @param cfg.langsToImport
+         * @param cfg.namespaces
          */
-        saveAppLocalizations: function(overwrite, langsToImport){
+        saveAppLocalizations: function(cfg){
 
             //note: need to avoid recursion in mixing in classes, so just calling stuff via class instances...
             //note: the variables are there so WebStorm's Sencha plugin does not do auto requires, that in return triggers circular ref err
@@ -522,10 +534,9 @@
             Ext.create(ajax).doPost({
                 url: Ext.create(apiMap).getApiEndPointUrl('appLocalizationsBulkSave'),
                 params: {
-                    overwrite: overwrite,
-                    //TODO - App namespaces filter too!!! so can only import mh, SomeApp, etc.
-                    langsToImport: langsToImport,
-                    appLocalizations: this.getAppLocalizations()
+                    overwrite: cfg.overwrite,
+                    langsToImport: cfg.langsToImport,
+                    appLocalizations: this.getAppLocalizations(cfg.namespaces, cfg.langsToImport)
                 },
                 autoHandleExceptions: false,
                 success: Ext.emptyFn,
