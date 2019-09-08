@@ -70,7 +70,13 @@
                 translations = Ext.clone(record.get('translations')) || {};
 
             __mhcfg__.supportedLangs.forEach(lng => {
-                translations[lng] = me.lookupReference(`translation_${lng}`).getValue();
+                let value = me.lookupReference(`translation_${lng}`).getValue();
+                if(value){
+                    translations[lng] = value;
+                }
+                else {
+                    delete translations[lng];
+                }
             });
 
             record.set('translations', translations);
