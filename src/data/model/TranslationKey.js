@@ -17,7 +17,14 @@
             { name: 'localizationClassUuid', type: 'string', useNull: true },
 
             { name: 'key', type: 'string', useNull: true },
-            { name: 'translations', type: 'auto', useNull: true, defaultValue: [] }
+            { name: 'inherited', type: 'bool', useNull: true },
+            { name: 'overwrites', type: 'bool', useNull: true },
+            { name: 'translations', type: 'auto', useNull: true, defaultValue: [] },
+
+            //extended
+            { name: 'applicationName', type: 'string', useNull: true, persist: false },
+            { name: 'className', type: 'string', useNull: true, persist: false },
+            { name: 'inheritedClassName', type: 'string', useNull: true, persist: false }
 
         ],
         proxy: {

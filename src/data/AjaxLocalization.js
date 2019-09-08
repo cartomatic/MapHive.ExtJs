@@ -24,7 +24,7 @@
                 },
                 code403: {
                     en: 'You are not allowed to view or modify this resource.',
-                    pl: 'Nie masz uprawnień do wglądu i modyfikacji rządanego zasobu.'
+                    pl: 'Nie masz uprawnień do wglądu i modyfikacji żądanego zasobu.'
                 },
                 opTimedOut: {
                     en: 'Operation timed out.',
