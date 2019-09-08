@@ -32,7 +32,7 @@
                 ],
                 callback = () => {
                     if(typeof Jsonix === 'undefined' || typeof XLink_1_0 === 'undefined'){
-                        loadScripts();
+                        Ext.defer(loadScripts, 250, this);
                         return;
                     }
                     context =  new Jsonix.Context([
