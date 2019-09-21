@@ -9,6 +9,8 @@ docs/docs/
 
 builder/
 
+packages/local/mh-theme
+
 ############
 # Sencha #
 ############
