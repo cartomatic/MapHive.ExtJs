@@ -91,7 +91,12 @@
             /**
              * selection mode for the grid
              */
-            selMode: 'single'
+            selMode: 'single',
+
+            /**
+             * allows for customizing the retrieval of translations for this module; useful when dynamically creating an instance without inheritance
+             */
+            translationsNameSpace: null
         },
 
         layout: 'fit',

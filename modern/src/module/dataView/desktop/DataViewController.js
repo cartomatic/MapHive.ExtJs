@@ -14,7 +14,7 @@
      */
     Ext.define('mh.module.dataView.desktop.DataViewController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-data-view',
+        alias: 'controller.mh-desktop-data-view',
 
         requires: [
             'mh.FontIconsDictionary',
@@ -75,8 +75,12 @@
             }
         },
 
+        translationsNameSpace: null,
+
         init: function(){
             this.injectLocalizationToViewModel();
+
+            this.translationsNameSpace = this.getView().getTranslationsNameSpace();
 
             this.publishApi('reloadStore', 'getGridInstance', '__onViewActivate', 'getSelection', 'resetGrid', 'setPageSize');
 
@@ -298,7 +302,7 @@
                             widget: {
                                 xtype: 'button',
                                 ui: view.getGridBtnEditUi() || 'mh-data-view-grid-btn-edit',
-                                tooltip: this.getTranslation('btnEdit'),
+                                tooltip: this.getTranslation('btnEdit', this.translationsNameSpace),
                                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnEdit'),
                                 handler: function(btn){
                                     me.initRecordEdit(btn.ownerCmp.ownerCmp.getRecord());
@@ -322,19 +326,19 @@
                             widget: {
                                 xtype: 'button',
                                 ui: view.getGridBtnDestroyUi() || 'mh-data-view-grid-btn-destroy',
-                                tooltip: this.getTranslation('btnDestroy'),
+                                tooltip: this.getTranslation('btnDestroy', this.translationsNameSpace),
                                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDestroy'),
                                 handler: function(button){
                                     var rec = button.ownerCmp.ownerCmp.getRecord();
                                     if(rec) {
                                         var dialog = Ext.create({
                                             xtype: 'dialog',
-                                            title: me.getTranslation('confirmDestroySingleTitle'),
-                                            html: me.getTranslation('confirmDestroySingleRecord'),
+                                            title: me.getTranslation('confirmDestroySingleTitle', me.translationsNameSpace),
+                                            html: me.getTranslation('confirmDestroySingleRecord', me.translationsNameSpace),
                                             buttons: {
                                                 yes: {
                                                     ui: 'base',
-                                                    text: me.getTranslation('yes'),
+                                                    text: me.getTranslation('yes', me.translationsNameSpace),
                                                     handler: function () {
                                                         dialog.destroy();
                                                         me.destroyRecords([rec]);
@@ -342,7 +346,7 @@
                                                 },
                                                 no: {
                                                     ui: 'base',
-                                                    text: me.getTranslation('no'),
+                                                    text: me.getTranslation('no', me.translationsNameSpace),
                                                     handler: function () {
                                                         dialog.destroy();
                                                     }
@@ -554,18 +558,18 @@
             var me = this,
                 dialog = Ext.create({
                 xtype: 'dialog',
-                title: me.getTranslation(records.length > 1 ? 'confirmDeleteManyTitle' : 'confirmDestroySingleTitle'),
-                html: me.getTranslation(records.length > 1 ? 'confirmDeleteManyRecords' : 'confirmDestroySingleRecord'),
+                title: me.getTranslation(records.length > 1 ? 'confirmDeleteManyTitle' : 'confirmDestroySingleTitle', me.translationsNameSpace),
+                html: me.getTranslation(records.length > 1 ? 'confirmDeleteManyRecords' : 'confirmDestroySingleRecord', me.translationsNameSpace),
                 buttons: {
                     yes: {
-                        text: me.getTranslation('yes'),
+                        text: me.getTranslation('yes', me.translationsNameSpace),
                         handler: function() {
                             dialog.destroy();
                             me.destroyRecords(records);
                         }
                     },
                     no: {
-                        text: me.getTranslation('no'),
+                        text: me.getTranslation('no', me.translationsNameSpace),
                         handler: function() {
                             dialog.destroy();
                         }
@@ -629,7 +633,7 @@
                     scope: me,
                     success: success,
                     failure: failure,
-                    exceptionMsg: me.getTranslation('destroyFailureMsg'),
+                    exceptionMsg: me.getTranslation('destroyFailureMsg', me.translationsNameSpace),
                     autoIgnore404: false, //this is required to show msg on 404 which will often be the case in dev mode!
                     suppress400: true//so can handle 400 here
                 },
@@ -653,7 +657,7 @@
          * @returns {*}
          */
         getDeleteLoadMaskMsg: function(records, currentRec){
-            return this.getTranslation(records.length > 1 ? 'deleteLoadmaskMany' : 'deleteLoadmaskSingle');
+            return this.getTranslation(records.length > 1 ? 'deleteLoadmaskMany' : 'deleteLoadmaskSingle', this.translationsNameSpace);
         },
 
         /**
@@ -749,7 +753,7 @@
                     var checkboxItem = Ext.create('Ext.menu.CheckItem', {
                         checked: !col.hidden,
                         //assume the filter name is translated via dataIndex property
-                        text: this.getTranslation(col.getDataIndex()),
+                        text: this.getTranslation(col.getDataIndex(), this.translationsNameSpace),
                         listeners: {
                             //in order to make the component movable elsewhere, bind event explicitly
                             //this way it will be possible to take a comp and add ot to another container
@@ -774,11 +778,12 @@
                 tbar = this.lookupReference('dataviewtoolbar');
 
                 //TODO: consider this to be somewhat setup-able, maybe just put it in the bar by default, but hidden or something...
+
                 tbar.insert(0, [
                     this.filterInput = Ext.create('Ext.field.Search',{
                         xtype: 'searchfield',
                         reference: 'searchInput',
-                        placeholder: this.getTranslation('filterBlankText'),
+                        placeholder: this.getTranslation('filterBlankText', this.translationsNameSpace),
                         //bind: '{filters.search}',
                         enableKeyEvents: true,
                         listeners: {
@@ -793,8 +798,8 @@
                     this.btnFilterOn = Ext.create('Ext.Button', {
                         xtype: 'splitbutton',
                         iconCls: mh.FontIconsDictionary.getIcon('mhDataViewFilter'),
-                        text: this.getTranslation('btnFilterOn'),
-                        tooltip: this.getTranslation('btnFilterOnTooltip'),
+                        text: this.getTranslation('btnFilterOn', this.translationsNameSpace),
+                        tooltip: this.getTranslation('btnFilterOnTooltip', this.translationsNameSpace),
                         reference: 'btnFilterOn',
                         menu: {
                             xtype: 'menu',
