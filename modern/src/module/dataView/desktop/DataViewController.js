@@ -906,13 +906,24 @@
             }
         },
 
+        /**
+         * @private
+         */
         currentFilterSet: null,
+
+        /**
+         * a filter value that has been las set
+         * @private
+         */
+        lastAppliedFilerValue: null,
 
         /**
          * Sets filters value
          * @param value
          */
         setFilters: function(value){
+            this.lastAppliedFilerValue = value;
+
             //need to work out the filters to be applied. it's pretty much about parsing the values for filter types
             //other than string and if a value is parsable, then a filter should be applied
 
@@ -1033,13 +1044,17 @@
          */
         resetGrid: function(){
 
-            var store = this.getViewModel().get('gridstore');
+            let store = this.getViewModel().get('gridstore'),
+                reload = this.lastAppliedFilerValue === null;
 
             //reset the filters
             this.setFilters(null);
 
-            //and reload the store
-            //store.loadPage(1);
+            //in a case last applied filter value was null, store would not refresh
+            //because of that force refresh it
+            if(reload === null){
+                store.loadPage(1);
+            }
         },
 
         /**
