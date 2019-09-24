@@ -42,3 +42,4 @@ gwt-unitCache
 #merge backup files
 *.orig
 docs/docs
+packages/local/mh-theme/
