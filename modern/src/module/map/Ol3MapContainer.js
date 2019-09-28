@@ -18,7 +18,7 @@
         xtype: 'mh-ol3-map-container'
     },
     function(){
-        let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/ol/5.3.0`;
+        let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/ol/6.0.0`;
         mh.util.Loader.load({
             fileList: [
                 `${basePath}/ol.css`,
