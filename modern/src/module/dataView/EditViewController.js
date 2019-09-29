@@ -383,19 +383,28 @@
                 viewItems = me.getFormRootItems();
 
             viewItems.forEach(viewItem => {
-                ((viewItem.items || {}).items || []).forEach(item => {
-                    if(item.observeDirty !== false){
-                        if(bind){
-                            item.on('change', me.__onFieldChange, me);
-                        }
-                        else {
-                            item.un('change', me.__onFieldChange, me);
-                        }
-                    }
-                });
+                me.bindDirtyModeForItems((viewItem.items || {}).items || [], bind);
             });
 
             this.bindDirtyModeCustom(bind);
+        },
+
+        bindDirtyModeForItems: function(items, bind){
+            let me = this;
+
+            items.forEach(item => {
+                if(item && Ext.isFunction(item.on) && item.observeDirty !== false){
+                    if(bind){
+                        item.on('change', me.__onFieldChange, me);
+                    }
+                    else {
+                        item.un('change', me.__onFieldChange, me);
+                    }
+                }
+                if(item.items && item.items.items){
+                    me.bindDirtyModeForItems(item.items.items, bind)
+                }
+            });
         },
 
         bindDirtyModeCustom: Ext.emptyFn,
