@@ -22,15 +22,20 @@
             this.getView().on('painted', this.injectTranslationFields, this, {single: true});
         },
 
+        translationFields: null,
+
         injectTranslationFields: function(){
             let translationFields = [];
             __mhcfg__.supportedLangs.forEach(lng => {
                 translationFields.push({
                     xtype: 'textareafield',
+                    observeDirty: false, //wired up explicitly!
                     reference: `translation_${lng}`,
                     label: lng
                 });
             });
+
+            this.translationFields = translationFields;
 
             this.lookupReference('form').add({
                 xtype: 'fieldset',
@@ -53,12 +58,12 @@
             let me = this,
                 translations = record.get('translations') || {};
 
-            Object.getOwnPropertyNames(translations).forEach(lng => {
-                let field = me.lookupReference(`translation_${lng}`);
-                if(field){
-                    field.setValue(translations[lng]);
-                }
+            this.translationFields.forEach(tf => {
+                let fld = me.lookupReference(tf.reference);
+                fld.setValue(translations[tf.reference.replace('translation_', '')] || null);
             });
+
+            this.endDirtyMode(true);
         },
 
         /**
@@ -80,6 +85,23 @@
             });
 
             record.set('translations', translations);
+        },
+
+        /**
+         * binds dirty mode observers to translation fields
+         * @param bind
+         */
+        bindDirtyModeCustom: function(bind){
+            let me = this;
+            this.translationFields.forEach(tf => {
+                let fld = me.lookupReference(tf.reference);
+                if(bind){
+                    fld.on('change', me.__onFieldChangeForce, me);
+                }
+                else {
+                    fld.un('change', me.__onFieldChangeForce, me);
+                }
+            });
         }
     });
 }());
