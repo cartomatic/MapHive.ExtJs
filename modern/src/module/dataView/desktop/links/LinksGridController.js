@@ -499,6 +499,10 @@
         },
 
         /**
+         * @event change
+         */
+
+        /**
          * delete action column click handler
          * @param view
          * @param rowIdx
@@ -517,6 +521,8 @@
             }
 
             this.gridStore.remove(record);
+
+            this.getView().fireEvent('change', this.getView(), 'delete', record.getData());
         },
 
 
@@ -550,7 +556,7 @@
         },
 
         /**
-         * links ppicked callback
+         * links picked callback
          * @param records
          */
         onLinksPicked: function(records){
@@ -573,6 +579,7 @@
 
             if(clonedRecs.length > 0){
                 this.gridStore.loadRecords(clonedRecs, {addRecords: true});
+                this.getView().fireEvent('change', this.getView(), 'add', clonedRecs.map(r => r.getData()));
             }
         },
 
