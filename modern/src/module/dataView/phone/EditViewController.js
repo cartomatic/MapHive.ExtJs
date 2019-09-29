@@ -146,6 +146,13 @@
         },
 
         /**
+         * returns view items root for this module
+         */
+        getFormRootItems: function(){
+            return this.lookupReference('viewItemsHolder').getItems().items;
+        },
+
+        /**
          * whether or not the view is currently active
          */
         isActive: false,

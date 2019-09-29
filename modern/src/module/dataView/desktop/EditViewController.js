@@ -55,6 +55,24 @@
             this.callMeParent(arguments);
         },
 
+        onRecordLoadSuccess: function(record){
+            this.callMeParent(arguments);
+
+            //mark self as clean
+            this.endDirtyMode(true);
+        },
+
+        /**
+         * marks self as clean prior to finalising save
+         * @param record
+         */
+        onSaveSuccess: function(record){
+            //waive off dirty mode
+            this.endDirtyMode(true); //silent end - do not restore route!!!;
+
+            this.callMeParent(arguments);
+        },
+
         /**
          * cleans up view and closes it; special handling for floating / windowed editors
          */
@@ -184,6 +202,21 @@
 
                 this.redirectTo(route);
             }
+        },
+
+        /**
+         * returns view items root for this module
+         */
+        getFormRootItems: function(){
+            let items = [];
+            //return all the tabpanel's items that may hold form fields
+            this.lookupReference('tabPanel').getItems().items.forEach(item => {
+                if(item.tab){
+                    items.push(item.items.items[0]);
+                }
+            });
+
+            return items;
         },
 
         /**

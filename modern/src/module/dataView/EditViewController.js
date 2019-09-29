@@ -77,6 +77,10 @@
         onRecordLoadSuccess: function(record){
             this.callMeParent(arguments);
             this.resetValidationErrs();
+
+            if(this.getView().getDirtyModeOn()){
+                this.bindDirtyMode(true);
+            }
         },
 
         /**
@@ -99,6 +103,8 @@
             //not unbinding so when going back is dismissed rec does not clean up!
             //moved to loadRecord method
             //this.getViewModel().set('record', null);
+
+            this.bindDirtyMode(false);
             Ext.History.back();
         },
 
@@ -357,6 +363,56 @@
             }
 
             rec.set('links', links);
+        },
+
+        /**
+         * returns view items root for this module
+         * @template
+         */
+        getFormItemsRoot: function(){
+            let me = this;
+            console.error(`Module ${Ext.getClassName(me)} does not implement getFormItemsRoot!`);
+        },
+
+        /**
+         * binds dirty mode listeners on basic fields
+         * @param bind {boolean}
+         */
+        bindDirtyMode: function(bind){
+            let me = this,
+                viewItems = me.getFormRootItems();
+
+            viewItems.forEach(viewItem => {
+                ((viewItem.items || {}).items || []).forEach(item => {
+                    if(item.observeDirty !== false){
+                        if(bind){
+                            item.on('change', me.__onFieldChange, me);
+                        }
+                        else {
+                            item.un('change', me.__onFieldChange, me);
+                        }
+                    }
+                });
+            });
+
+            this.bindDirtyModeCustom(bind);
+        },
+
+        bindDirtyModeCustom: Ext.emptyFn,
+
+        /**
+         * generic field change handler
+         */
+        __onFieldChange: function(fld){
+            //start dirty mode, a value has been changed
+
+            //make sure though if rec is dirty.
+            //this is because fields get evts wired up early, after rec has loaded.
+            //the actual field data binding happens when fields show up and then fields fire change events. and this sucks!
+
+            if(this.getView().getDirtyModeOn() && this.getViewModel().get('record') && this.getViewModel().get('record').isDirty()){ //isDirty is private. may explode at some point when they decide to update it in new versions...
+                this.startDirtyMode();
+            }
         }
     });
 }());

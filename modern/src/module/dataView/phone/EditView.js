@@ -45,7 +45,13 @@
             /**
              * whether or not mobile nav menu back navigation from this view should be prevented
              */
-            preventBackNavigation: false
+            preventBackNavigation: false,
+
+            /**
+             * whether or not edit view should observe dirty mode; observing dirty mode means that whenever an edit view has modified a record and user changes url without
+             * saving rec changes (for example by pressing back button), there will be a prompt that lets user cancel an operation or proceed with the dismiss
+             */
+            dirtyModeOn: true
         },
 
         bind: {

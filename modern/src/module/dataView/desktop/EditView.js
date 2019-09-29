@@ -34,7 +34,13 @@
              * by default models use whatever url is defined on their proxies.
              * This enables customising urls but only for the needed save operation (either create or update)
              */
-            customUrl: null
+            customUrl: null,
+
+            /**
+             * whether or not edit view should observe dirty mode; observing dirty mode means that whenever an edit view has modified a record and user changes url without
+             * saving rec changes (for example by pressing back button), there will be a prompt that lets user cancel an operation or proceed with the dismiss
+             */
+            dirtyModeOn: true
         },
 
         bind: {

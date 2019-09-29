@@ -103,7 +103,14 @@
          * @returns {boolean}
          */
         getDirtyModeShouldPreventForCurrentRoute: function(){
-            return dirtyModeActive && window.location.hash.replace('#', '') !== dirtyModeRouteSnapshot;
+            //this only tests if a route is different.
+            //return dirtyModeActive && window.location.hash.replace('#', '') !== dirtyModeRouteSnapshot;
+
+            let hash = window.location.hash.replace('#', ''),
+                editRouteBase = (dirtyModeRouteSnapshot || '').substring(0, (dirtyModeRouteSnapshot || '').indexOf('/edit') + '/edit'.length);
+
+            //need to test if steel within edit route
+            return dirtyModeActive && hash.indexOf(editRouteBase) === -1;
         },
 
         /**
