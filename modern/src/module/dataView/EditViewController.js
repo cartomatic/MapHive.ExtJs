@@ -401,7 +401,7 @@
         bindDirtyModeCustom: Ext.emptyFn,
 
         /**
-         * generic field change handler
+         * generic field change handler - handles dirty mode on based on rec changes
          */
         __onFieldChange: function(fld){
             //start dirty mode, a value has been changed
@@ -411,6 +411,23 @@
             //the actual field data binding happens when fields show up and then fields fire change events. and this sucks!
 
             if(this.getView().getDirtyModeOn() && this.getViewModel().get('record') && this.getViewModel().get('record').isDirty()){ //isDirty is private. may explode at some point when they decide to update it in new versions...
+                this.startDirtyMode();
+            }
+        },
+
+        /**
+         * enforces dirty mode on regardless rec changes - should be used for fields that are not bound directly to record (such as composite fields, that require custom data collection procedures)
+         * @param fld
+         * @private
+         */
+        __onFieldChangeForce: function(fld){
+            //start dirty mode, a value has been changed
+
+            //make sure though if rec is dirty.
+            //this is because fields get evts wired up early, after rec has loaded.
+            //the actual field data binding happens when fields show up and then fields fire change events. and this sucks!
+
+            if(this.getView().getDirtyModeOn()){ //isDirty is private. may explode at some point when they decide to update it in new versions...
                 this.startDirtyMode();
             }
         }
