@@ -472,9 +472,7 @@
             else {
                 this.getAuthUiInstance().showLogonView();
             }
-            //</debug>
 
-            //<debug>
             return;
             //</debug>
 

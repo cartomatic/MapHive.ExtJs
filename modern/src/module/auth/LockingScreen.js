@@ -14,7 +14,7 @@
 
         fullscreen: true,
         maximized: true,
-        modal: true,
+        floated: true,
 
         cls: 'mh-locking-screen'
     });
