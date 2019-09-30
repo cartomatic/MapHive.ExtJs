@@ -387,7 +387,10 @@
                         //only report the request status if configured to do so...
                         //if one waved this off, then likely is about to handle it itself!
                         if (cfg.adviseRequestStatus !== false) {
-                            this.fireGlobal('ajax::unauthorised');
+                            this.fireGlobal('ajax::unauthorised', {
+                                request: response.request,
+                                retryFn: retry
+                            });
                         }
 
                         //auth failed, so service output will not be valid really

@@ -237,10 +237,20 @@
         //     //so far nothing to do here
         // },
 
+
+        /**
+         * @private
+         * @property nonAuthorizedContext.request request that triggered 401
+         * @property nonAuthorizedContext.retryFn retry fn if any
+         */
+        nonAuthorizedContext: null,
+
         /**
          * Ajax non-authorised callback; provided all the ajax requests are routed via ajax utils, this should intercept 401 and in return display auth window
          */
-        onAjaxNonAuthorised: function(){
+        onAjaxNonAuthorised: function(context){
+            this.nonAuthorizedContext = context;
+
             //just show the logon screen
             //depending on the scenario - host / vs hosted handle the auth properly!
             this.initiateUserAuthProcedure();
@@ -547,6 +557,7 @@
                 }
                 else {
                     this.broadcastUserAuthenticated(tokens);
+                    this.tryResumeFailedRequest();
                 }
 
                 this.currentAuthMode = null;
@@ -564,6 +575,54 @@
         authenticateUserFailure: function(response){
             this.currentUser = null;
             this.fireGlobal('auth::userauthenticationfailed');
+        },
+
+        /**
+         * tries to resume a failed request that lead to 401
+         */
+        tryResumeFailedRequest: function(){
+            if(this.nonAuthorizedContext){
+
+                //<debug>
+                console.log(this.cStdIcon('info'), this.cDbgHdr('auth ctrl'), 'resuming 401 failed request...', this.nonAuthorizedContext);
+                //</debug>
+
+                this.tryResumeFailedRequestInternal(this.nonAuthorizedContext);
+
+                this.nonAuthorizedContext = null;
+            }
+        },
+
+        /**
+         * internal try for 401 failure reactivation
+         */
+        tryResumeFailedRequestInternal: function(context){
+            //waiting a bit, ensures all the auth details data distribution completes prior to resuming a 401-ed request
+            Ext.defer(function(){
+
+                let op = context.request.operation;
+
+                //easy, squeazy - operation defines a retry function :)
+                if(context.retryFn){
+                    context.retryFn();
+                }
+                else if(op) {
+                    //using privates here, so may blow up in the future unfortunately
+                    op.setInternalCallback(op.initialConfig.internalCallback);
+                    op.setInternalScope(op.initialConfig.internalScope);
+                    op.setCallback(op.initialConfig.callback);
+                    op.setScope(op.initialConfig.scope);
+
+                    //this is still prone to failures - model, proxy op, request internals may have been wiped out on the way
+                    //so there is a chance redoo will not be possible
+                    try {
+                        op.execute();
+                    }
+                    catch(e){
+                        //silently fail...
+                    }
+                }
+            },1);
         },
 
         /**
