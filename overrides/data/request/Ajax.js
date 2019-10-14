@@ -54,8 +54,8 @@
                     console.log('Squeezed to ' + Math.round(data.length/origLen * 100) + '% of orig');
                     //</debug>
 
-                    //custom content type, so custom input formatter can kick in and decompress the data...
-                    me.headers['Content-Type'] = 'gzip/json';
+                    //custom content encoding, so custom input middleware can kick in and decompress the data...
+                    me.headers['Encoding'] = 'gzip';
                 }
                 else {
                     //<debug>
