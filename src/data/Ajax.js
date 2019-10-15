@@ -450,7 +450,7 @@
                 Ext.Msg.show({
                     title: title,
                     message: msg,
-                    width: 550,
+                    width: Ext.platformTags.desktop ? 550 : '100%' ,
 
                     //modify the buttons text so the
                     buttonText: //Note: looks like specifying alternate text for buttons actually makes them show up...
