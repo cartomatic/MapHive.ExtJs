@@ -21,7 +21,7 @@
         ],
 
         config: {
-            value: null,
+            angle: 0,
             editable: false
         },
 
@@ -51,7 +51,7 @@
         ],
 
         publishes: {
-            value: true
+            angle: true
         },
 
         d3Canvas: null,
@@ -93,13 +93,11 @@
          * @param value
          * @returns {*}
          */
-        applyValue: function(value){
+        applyAngle: function(value){
             if(!Ext.isNumber(value)){
                 value = 0;
             }
-
             value = value % 360;
-
 
             this.paintValue(value);
 
@@ -219,12 +217,12 @@
 
             if(editable) {
                 rotateRegion.bind(rotateTarget, 'rotate', function(e){
-                    var newV = me.getValue() + e.detail.distanceFromLast;
+                    var newV = me.getAngle() + e.detail.distanceFromLast;
                     //make sure we're always operating in 0-360 range;
                     if(newV < 0){
                         newV = 360 + newV;
                     }
-                    me.setValue(newV);
+                    me.setAngle(newV);
                 });
             }
 
