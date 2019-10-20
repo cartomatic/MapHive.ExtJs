@@ -8,7 +8,8 @@
          * access token issued by the IdentityServer
          * @type {string}
          */
-    var accessToken = null,
+    var scheme = null,
+        accessToken = null,
         /**
          * Value of the Authorization header to be appended in each request
          * @type {string}
@@ -52,12 +53,19 @@
              * @param {string} token
              * access token
              */
-            onUserAuthenticated: function(token){
-                accessToken = token
-                authorizationHeader = accessToken ? 'Bearer ' + accessToken : null;
+            onUserAuthenticated: function(tokens){
+                scheme = tokens.scheme;
+                accessToken = tokens.accessToken;
+                authorizationHeader = accessToken
+                    ? (scheme
+                        ? scheme
+                        : 'Bearer' //default to Bearer as this is what idsrv uses
+                        ) + ' ' + accessToken
+                    : null;
             },
 
             onUserLoggedOff: function(){
+                scheme = null;
                 accessToken = null;
                 authorizationHeader = null;
             },

@@ -83,7 +83,7 @@
          * @param at
          */
         onUserAuthenticated: function(at){
-            this.userAuthenticated = at !== null;
+            this.userAuthenticated = at.accessToken !== null;
             this.userOrgs = null;
 
             if(this.userAuthenticated){

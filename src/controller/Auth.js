@@ -362,10 +362,11 @@
             authTokens = {
                 accessToken: tokens.accessToken,
                 accessTokenExpirationTimeUtc: tokens.accessTokenExpirationTimeUtc,
-                refreshToken: tokens.refreshToken
+                refreshToken: tokens.refreshToken,
+                scheme: tokens.scheme
             };
 
-            this.fireGlobal('auth::userauthenticated', authTokens.accessToken);
+            this.fireGlobal('auth::userauthenticated', authTokens);
         },
 
         /**
@@ -546,7 +547,8 @@
                 var tokens = {
                     accessToken: response.accessToken,
                     refreshToken: response.refreshToken,
-                    accessTokenExpirationTimeUtc: response.accessTokenExpirationTimeUtc
+                    accessTokenExpirationTimeUtc: response.accessTokenExpirationTimeUtc,
+                    scheme: response.scheme
                 };
 
                 if(this.currentAuthMode === 'xwindow'){

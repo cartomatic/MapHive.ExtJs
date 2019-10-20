@@ -226,7 +226,7 @@
         msgBus = Ext.create(msgBus);
 
         msgBus.watchGlobal('auth::userauthenticated', function(at){
-            userAuthenticated = at !== null;
+            userAuthenticated = at.accessToken !== null;
         }, this);
 
     });

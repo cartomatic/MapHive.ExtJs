@@ -81,8 +81,8 @@
         /**
          * user authenticated, so need to get user orgs and load the first one
          */
-        onUserAuthenticated: function(authToken){
-            if(authToken){
+        onUserAuthenticated: function(tokens){
+            if(tokens.accessToken){
                 this.getUserOrgs();
             }
         },

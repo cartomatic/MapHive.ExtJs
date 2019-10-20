@@ -549,13 +549,13 @@
 
         /**
          * auth::userauthenticated evt listener
-         * @param accessToken
+         * @param tokens
          */
-        continueAppLaunchWhenUserAuthenticated: function(accessToken){
+        continueAppLaunchWhenUserAuthenticated: function(tokens){
             //Auth controller is responsible for handling the authentication. Whenever auth is happy to go, it fires the auth::userauthenticated event.
 
             //obtain client configuration and launch when ready
-            this.getUserConfiguration(accessToken);
+            this.getUserConfiguration(tokens);
         },
 
 
@@ -564,11 +564,11 @@
          * on success it should fire root::launchapp via this.fireGlobal('root::launchapp');
          * Note: if an application does not provide configuration, its root controller should overwrite this method and simply fire root::launchapp
          */
-        getUserConfiguration: function(accessToken){
+        getUserConfiguration: function(tokens){
 
             //for the apps that did not trigger the auth procedure auth token is null;
             //just let them fire up straight away
-            if(!accessToken){
+            if(!tokens.accessToken){
                 this.fireGlobal('root::launchapp');
                 return;
             }
