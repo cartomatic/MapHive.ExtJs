@@ -140,6 +140,11 @@
                     }
 
                     model.proxy.url = this.getApiEndPointUrl(model.proxy.apiMapKey);
+
+                    //if a proxy requires some extra setup after org context's changed, let it do the job
+                    if(Ext.isFunction(model.proxy.onOrgContextChanged)){
+                        model.proxy.onOrgContextChanged();
+                    }
                 }
             }
         },
