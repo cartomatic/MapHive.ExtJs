@@ -177,7 +177,7 @@
         },
 
         getAccessTokenUrlParam: function(){
-            return 'access_token=' + (accessToken || '');
+            return `${!scheme || scheme === 'Bearer' ? 'access_token' : scheme}=${accessToken || ''}`;
         },
 
         /**

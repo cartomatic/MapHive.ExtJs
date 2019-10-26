@@ -359,12 +359,13 @@
          */
         broadcastUserAuthenticated: function(tokens){
 
-            authTokens = {
-                accessToken: tokens.accessToken,
-                accessTokenExpirationTimeUtc: tokens.accessTokenExpirationTimeUtc,
-                refreshToken: tokens.refreshToken,
-                scheme: tokens.scheme
-            };
+            // authTokens = {
+            //     accessToken: tokens.accessToken,
+            //     accessTokenExpirationTimeUtc: tokens.accessTokenExpirationTimeUtc,
+            //     refreshToken: tokens.refreshToken,
+            //     scheme: tokens.scheme
+            // };
+            authTokens = tokens;
 
             this.fireGlobal('auth::userauthenticated', authTokens);
         },
@@ -378,14 +379,19 @@
 
             //Note: using complex scope here
             var me = this.me,
-                refreshToken = this.refreshToken;
+                refreshToken = this.refreshToken,
+                authData = response;
 
             //Note: this should be the very same object as the one returned from the login method
-            me.broadcastUserAuthenticated({
-                accessToken: response.accessToken,
-                refreshToken: response.refreshToken || refreshToken, //if no refresh token provided, use the one that is likely to have been obtained from the url part.
-                accessTokenExpirationTimeUtc: response.accessTokenExpirationTimeUtc
-            });
+
+            // me.broadcastUserAuthenticated({
+            //     accessToken: response.accessToken,
+            //     refreshToken: response.refreshToken || refreshToken, //if no refresh token provided, use the one that is likely to have been obtained from the url part.
+            //     accessTokenExpirationTimeUtc: response.accessTokenExpirationTimeUtc
+            // });
+
+            authData.refreshToken = authData.refreshToken || refreshToken;
+            me.broadcastUserAuthenticated(authData);
         },
 
         /**
@@ -544,12 +550,13 @@
             if(response.success){
 
                 //extract the auth token and refresh token and pass it further
-                var tokens = {
-                    accessToken: response.accessToken,
-                    refreshToken: response.refreshToken,
-                    accessTokenExpirationTimeUtc: response.accessTokenExpirationTimeUtc,
-                    scheme: response.scheme
-                };
+                // var tokens = {
+                //     accessToken: response.accessToken,
+                //     refreshToken: response.refreshToken,
+                //     accessTokenExpirationTimeUtc: response.accessTokenExpirationTimeUtc,
+                //     scheme: response.scheme
+                // };
+                var tokens = response;
 
                 if(this.currentAuthMode === 'xwindow'){
                     //broadcast locally
