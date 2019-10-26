@@ -31,7 +31,7 @@
         init: function() {
             this.injectLocalizationToViewModel();
 
-            this.publishApi('addAppSwitcherBtn', 'addOrgContextSwitcherBtn', 'getExpanded');
+            this.publishApi('addAppSwitcherBtn', 'addOrgContextSwitcherBtn', 'getExpanded', 'hideUserProfileBtn', 'showUserProfileBtn');
 
             var vw = this.getView();
 
@@ -239,6 +239,14 @@
          */
         getExpanded: function(){
             return this.sliderExpanded;
+        },
+
+        hideUserProfileBtn: function(){
+            this.lookupReference('profileBtn').hide();
+        },
+
+        showUserProfileBtn: function(){
+            this.lookupReference('profileBtn').show();
         }
 
     });
