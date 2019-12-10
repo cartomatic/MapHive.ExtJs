@@ -149,7 +149,7 @@
                         },
                         defer === true ? 1 : defer,
                         this
-                    )
+                    );
                 }
                 else {
                     this.dataView.resetGrid();

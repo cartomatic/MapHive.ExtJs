@@ -1052,7 +1052,7 @@
 
             //in a case last applied filter value was null, store would not refresh
             //because of that force refresh it
-            if(reload === null){
+            if(reload){
                 store.loadPage(1);
             }
         },
