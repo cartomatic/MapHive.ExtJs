@@ -186,11 +186,11 @@
             return new Promise(function (resolve, reject) {
 
                 var head = document.getElementsByTagName("head")[0],
-                    rnd = '?dc=' + (new Date()).getTime(),
+                    rnd = 'dc=' + (new Date()).getTime(),
                     script  = document.createElement('script');
 
                 script.type = "text/javascript";
-                script.src  = src + rnd;
+                script.src  = src + (src.indexOf('?') === -1 ? '?' : '&') + rnd;
                 script.async = false;
 
                 //IE has a different way of handling <script> loads, so check for it here
@@ -320,7 +320,7 @@
             saveLang(lng);
 
             //and load the appropriate data
-            return loadScript(__mhcfg__.apiEndPoints.coreApi.url + 'applocalization/localizeit/script?appidentifiers=' + namespaces + '&langcode=' + lng);
+            return loadScript(__mhcfg__.apiEndPoints.coreApi.url + 'applocalization/localizeit/script?appidentifiers=' + namespaces + '&langcodes=' + lng);
         },
 
         /**
