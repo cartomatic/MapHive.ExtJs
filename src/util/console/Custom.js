@@ -299,7 +299,7 @@
                 //obtain the url to the package resources based on the stylesheet location;
                 //this way it will work in dev mode too (all the styles is taken dynamically from build/development/......
                 for(s = 0; s < document.styleSheets.length; s++){
-                    sHref = document.styleSheets[s].href;
+                    sHref = document.styleSheets[s].href || '';
                     if(sHref.indexOf('-all') > -1){ //assume the style will have -all string; Ext.app.Application.instance.getName() is not instantiated yet!
                         this.baseUrl = sHref.substring(0, sHref.lastIndexOf('/') + 1);
                         break;
