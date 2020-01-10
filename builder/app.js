@@ -29,7 +29,11 @@ const hasLiveSwitch = () => {
  *
  */
 const getDeployEnv = () => {
-    return process.argv[4] || null;
+    if(hasLiveSwitch() || hasTestSwitch())
+        return process.argv[4] || null;
+
+    //std deploy
+    return process.argv[3] || null;
 }
 
 //content of app.json
@@ -83,7 +87,7 @@ const readDeployerConfigurationJson = () => {
         let appRoot = getCmdRoot(),
             deployEnv = getDeployEnv() || '';
         if(deployEnv){
-            deployEnv = `-${deployEnv()}`;
+            deployEnv = `-${deployEnv}`;
         };
         deployerConfiguration = JSON.parse(stripJsonComments(fs.readFileSync(appRoot + `/deployer-configuration${deployEnv}.json`, 'utf8')));
     }
@@ -238,10 +242,10 @@ const buildExtJsApp = () => {
             if (error instanceof Error) {
                 throw error;
             }
-                
+
             process.stderr.write(stderr);
             process.stdout.write(stdout);
-            
+
             resolve();
         });
     });
@@ -300,10 +304,10 @@ const copyJsLibs = () => {
 const copyResources = () => {
     return new Promise((resolve, reject) => {
         var root = getCmdRoot();
-        
+
         var dest = getBuildDirectory();
 
-        
+
         //compress maphive bootstrap for the live version
         var compressBootstrap = compressor.minify({
             compressor: 'uglifyjs',
@@ -318,7 +322,7 @@ const copyResources = () => {
         //this is true for single profile builds
         //Note: this seems to be not need
         //if (hasTestSwitch() && !buildProfiles) {
-        //    copyFile(dest + '\\app.json', dest + '\\bootstrap.json');    
+        //    copyFile(dest + '\\app.json', dest + '\\bootstrap.json');
         //}
 
         copyDir(root + '\\splash', dest + '\\splash')
@@ -390,7 +394,7 @@ const extractExtBootstrap = () => {
             startIdx,
             endIdx - startIdx
         );
-        
+
         fs.writeFileSync(dst + '\\generatedFiles\\bootstrap.js', bootstrap);
         console.log('ext.js bootstrap extracted');
 
@@ -449,18 +453,18 @@ const zipContent = () => {
 
         //zip file one lvl up as otherwise archiver would keep on spinning and zipping including app.zip over and over again...
         var zipTmpPath = buildDir + '\\..\\app.zip';
-       
+
 
         if (fs.existsSync(zipTmpPath)) {
             fs.unlinkSync(zipTmpPath);
         }
-        
+
         var output = fs.createWriteStream(zipTmpPath);
         var archive = archiver('zip');
 
         output.on('close', function () {
             console.log('app zipped! - ' + archive.pointer() + ' total bytes');
-            
+
             resolve();
         });
 
@@ -480,7 +484,7 @@ const zipContent = () => {
         archive.pipe(output);
 
         archive.directory(buildDir, false);
-        
+
         archive.finalize();
     });
 }
@@ -492,6 +496,7 @@ const zipContent = () => {
 const deployApp = () => {
     return new Promise((resolve, reject) => {
 
+        console.log(`Environment:  ${getDeployEnv() || 'default'}`);
         console.log(`Deploying application - branch name:  ${branchName}...`);
 
         var deployUrl, deployId;
@@ -544,6 +549,7 @@ const promoteToLive = () => {
         readDeployerConfigurationJson();
         var promoteUrl = deployerConfiguration.endPoint + 'promote?appId=' + deployerConfiguration.appId;
 
+        console.log(`Environment:  ${getDeployEnv() || 'default'}`);
         console.log(`Deploying dev master to LIVE @ ${promoteUrl}...`);
 
         var req = request({
