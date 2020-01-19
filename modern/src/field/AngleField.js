@@ -174,10 +174,6 @@
             if(this.drawingStuffSetUp){
                 return;
             }
-
-            while(!mh.FontIconsDictionary.getFontChar('.i54c-navigation-1::before')) {
-                //do nothing, just make it spin twice...
-            }
             this.angleTxt = String.fromCharCode(mh.FontIconsDictionary.getFontChar('.i54c-navigation-1::before'));
 
             var ctx = this.canvas.dom.getContext("2d");

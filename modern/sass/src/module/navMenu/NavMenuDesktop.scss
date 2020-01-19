@@ -211,9 +211,6 @@ some uis used by the nav menu
   $pressed-color: $neutral-light-color,
   $background-color:  $navmenu-sidebar-background-color, //$color, <- this one revereses in dark mode!
 
-  //$hovered-background-color: $highlight-color,
-  //$pressing-background-color: $base-light-color,
-  //$pressed-background-color: $base-light-color
   $hovered-background-color: $highlight-color,
   $pressing-background-color: $base-light-color,
   $pressed-background-color: $base-light-color
@@ -226,9 +223,9 @@ some uis used by the nav menu
 
   $background-color: $navmenu-sidebar-background-color, //$color, <- this one revereses in dark mode!
 
-    //$hovered-background-color: $highlight-color,
-    //$pressing-background-color: $base-light-color,
-    //$pressed-background-color: $base-light-color
+  //$hovered-background-color: $highlight-color,
+  //$pressing-background-color: $base-light-color,
+  //$pressed-background-color: $base-light-color
   //$hovered-background-color: $color,
   //$pressing-background-color: $color,
   //$pressed-background-color: $color,
@@ -239,6 +236,21 @@ some uis used by the nav menu
   $icon-only-padding-big: 0px,
   $padding: 2px,
   $padding-big: 2px
+);
+
+@include button-ui(
+  $ui: 'navmenu-app-btn',
+  $font-size: 14px,
+  $font-size-big: 14px,
+  $icon-size: 44px,
+  $icon-size-big: 44px,
+  $icon-font-size: 21px,
+  $icon-font-size-big: 21px,
+  $icon-only-padding: 0px,
+  $icon-only-padding-big: 0px,
+  $padding: 2px,
+  $padding-big: 2px,
+  $background-color: $navmenu-sidebar-background-color
 );
 
 @include dataview-ui(

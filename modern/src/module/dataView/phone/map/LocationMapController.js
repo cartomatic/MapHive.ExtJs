@@ -193,15 +193,6 @@
 
             this.setUpGeoLocation(map);
 
-            //this sucks a bit as the first call does not return the char because of some reason...
-
-            while(!mh.FontIconsDictionary.getFontChar('.i54c-location-4::before')){
-                //bleh
-                //<debug>
-                console.warn('Waiting for the bloody font icon...');
-                //</debug>
-            }
-
             var fontIcon = String.fromCharCode(mh.FontIconsDictionary.getFontChar('.i54c-location-4::before'));
 
             //set up center layer

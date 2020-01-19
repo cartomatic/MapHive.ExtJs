@@ -35,8 +35,8 @@
 );
 
 @include button-ui(
-        $ui: 'mh-data-view-grid-btn-create',
-        $color: #0b9f47
+  $ui: 'mh-data-view-grid-btn-create',
+  $color: #0b9f47
 );
 
 @include button-ui(

@@ -49,18 +49,54 @@
             if(this.fontCharCache[selector]){
                 return this.fontCharCache[selector];
             }
-            Ext.Array.each(document.styleSheets, function(ss){
-                var classes = ss.rules || ss.cssRules;
+
+            var brk = false;
+
+            Ext.Array.each(document.styleSheets, function(dSs){
+                var classes = (dSs.rules || dSs.cssRules);
+
                 Ext.Array.each(classes, function(c){
-                    if(c.selectorText === selector){
-                        this.fontCharCache[selector] = c.style.content
-                                .replace('"', '')
-                                .replace('"', '')
-                                .charCodeAt(0);
+                    if(c instanceof CSSImportRule){
+
+                        var classes1 = c.styleSheet.rules || c.styleSheet.cssRules;
+                        Ext.Array.each(classes1, function(c1){
+                            if(c1.selectorText === selector){
+                                this.fontCharCache[selector] = this.extractFontCharFromStyle(c1);
+                                brk = true;
+                            }
+                            if(brk){
+                                return false;
+                            }
+                        }, this);
+                    }
+                    else{
+                        if(c.selectorText === selector){
+                            this.fontCharCache[selector] = this.extractFontCharFromStyle(c);
+                            brk = true;
+                        }
+                    }
+                    if(brk){
+                        return false;
                     }
                 }, this);
+
+                if(brk){
+                    return false;
+                }
             }, this);
+
+            if(this.fontCharCache[selector]){
+                return this.fontCharCache[selector];
+            }
+        },
+
+        extractFontCharFromStyle: function(cssClass, selector){
+            return (cssClass.style.content
+                .replace('"', '')
+                .replace('"', '')
+                .charCodeAt(0));
         }
+
     });
     
 }());
