@@ -27,16 +27,32 @@
                     pl: 'Konto nie zostało jeszcze zweryfikowane. Kliknij, żeby wysłać ponownie email aktywacyjny.'
                 },
                 resendActivationTitle: {
-                    en: 'Resend activation email',
-                    pl: 'Wyślij email aktywacyjny'
+                    en: 'Account activation',
+                    pl: 'Aktywacja konta'
                 },
                 resendActivationMsg: {
-                    en: 'This account seems to not have been verified yet. Would you like to re-send an activation email?',
-                    pl: 'To konto zdaje się nie być jeszcze zweryfikowane. Czy wysłać ponownie email aktywacyjny?'
+                    en: 'This account seems to not have been verified yet. You can either re-send an activation email or force activate it.',
+                    pl: 'To konto zdaje się być niezweryfikowane. Możesz wysłać ponownie email aktywacyjny lub aktywować je manualnie.'
+                },
+                forceActivateBtn:{
+                    en: 'Activate',
+                    pl: 'Aktywuj'
+                },
+                resendEmailBtn: {
+                    en: 'Resend email',
+                    pl: 'Wyślij email'
+                },
+                cancelBtn: {
+                    en: 'Cancel',
+                    pl: 'Anuluj'
                 },
                 resendingActivationEmailLoadMask: {
                     en: 'Resending activation email...',
                     pl: 'Wysyłanie emaila aktywacyjnego...'
+                },
+                forceAccountActivateLoadMask: {
+                    en: 'Activating account...',
+                    pl: 'Aktywacja konta...'
                 },
                 accountActiveTitle: {
                     en: 'Account verified',

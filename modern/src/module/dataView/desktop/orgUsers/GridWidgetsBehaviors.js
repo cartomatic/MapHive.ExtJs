@@ -73,16 +73,36 @@
         verifiedAccountBtnHandler: function(btn){
             if(!btn.rec.get('isAccountVerified')){
 
-                Ext.Msg.show({
+                var w = Ext.create('Ext.Dialog', {
                     title: me.getTranslation('resendActivationTitle'),
-                    message: me.getTranslation('resendActivationMsg'),
-                    buttons: Ext.MessageBox.OKCANCEL,
-                    fn: function (msgBtn) {
-                        if(msgBtn === 'ok'){
-                            me.resendActivationEmail(btn.rec);
-                        }
-                    }
+                    html: me.getTranslation('resendActivationMsg'),
+                    buttons: [
+                        '->',
+                        {
+                            text: me.getTranslation('forceActivateBtn'),
+                            handler: () => {
+                                me.forceActivate(btn.rec);
+                                w.close();
+                            }
+                        },
+                        {
+                            text: me.getTranslation('resendEmailBtn'),
+                            handler: () => {
+                                me.resendActivationEmail(btn.rec);
+                                w.close();
+                            }
+                        },
+                        {
+                            text: me.getTranslation('cancelBtn'),
+                                handler: () => {
+                                w.close();
+                            }
+                        },
+                        '->'
+                    ]
                 });
+                w.show();
+
             }
             else {
                 Ext.Msg.show({
@@ -100,13 +120,34 @@
         resendActivationEmail: function(rec){
             me.fireGlobal('loadmask::show', this.getTranslation('resendingActivationEmailLoadMask'));
 
-            console.warn('Co jet urwa', rec.get('uuid'));
-
             me.doPost({
                 url: me.getApiEndPointUrl('resendActivation').replace(this.getApiMapResourceIdentifier(), rec.get('uuid')),
-                autoHandleExceptions: me,
+                autoHandleExceptions: true,
                 success: function(){
                     me.fireGlobal('loadmask::hide');
+                },
+                failure: function(){
+                    me.fireGlobal('loadmask::hide');
+                }
+            });
+        },
+
+        /**
+         * force activates a user account
+         * @param rec
+         */
+        forceActivate: function(rec){
+            me.fireGlobal('loadmask::show', this.getTranslation('forceAccountActivateLoadMask'));
+
+            me.doPut({
+                url: me.getApiEndPointUrl('forceAccountActivate'),
+                autoHandleExceptions: true,
+                params: {
+                    userId: rec.get('uuid')
+                },
+                success: function(){
+                    me.fireGlobal('loadmask::hide');
+                    rec.store.reload();
                 },
                 failure: function(){
                     me.fireGlobal('loadmask::hide');
