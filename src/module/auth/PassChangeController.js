@@ -12,14 +12,14 @@
         alias: 'controller.mh-auth-pass-change',
 
         requires: [
-            'mh.module.auth.PassChangeLocalization'
+            'mh.module.auth.PassChangeLocalization',
+            'mh.module.auth.Utils'
         ],
 
         mixins: [
             'mh.mixin.Localization',
             'mh.data.Ajax',
-            'mh.mixin.ApiMap',
-            'mh.module.auth.Utils'
+            'mh.mixin.ApiMap'
         ],
 
         /**
@@ -149,7 +149,7 @@
 
             this.unmask();
 
-            var msgBoxData = this.getPassChangeFailureMsg(e);
+            var msgBoxData = mh.module.auth.Utils.getPassChangeFailureMsg(e);
 
             //give a feedback msg
             Ext.Msg.show({

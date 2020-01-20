@@ -22,7 +22,8 @@
     requires: [
         'mh.data.model.Application',
         'mh.data.model.User',
-        'mh.module.auth.Auth'
+        'mh.module.auth.Auth',
+        'mh.module.auth.Utils'
     ],
 
     config: {
@@ -758,7 +759,7 @@
          * @param e
          */
         onResetPass: function(e){
-            var valid = this.validatePassword(e.newPass);
+            var valid = mh.module.auth.Utils.validatePassword(e.newPass);
 
             if(valid === true){
                 this.resetPass(e.newPass, e.verificationKey);
@@ -766,29 +767,6 @@
             else {
                 this.passResetFailure({ failureReason: valid });
             }
-        },
-
-        /**
-         * Validates password complexity
-         * @param password
-         * @param repeat
-         */
-        validatePassword: function(password){
-
-            if(password.length < 6){
-                return 'too_short';
-            }
-
-            var hasUpperCase = /[A-Z]/.test(password);
-            var hasLowerCase = /[a-z]/.test(password);
-            var hasNumbers = /\d/.test(password);
-            var hasNonalphas = /\W/.test(password);
-
-            if(hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3){
-                return 'not_complex_enough';
-            }
-
-            return true;
         },
 
         /**
@@ -889,7 +867,7 @@
          * @param e
          */
         onChangePass: function(e){
-            var valid = this.validatePassword(e.newPass);
+            var valid = mh.module.auth.Utils.validatePassword(e.newPass);
 
             if(valid === true){
                 this.changePass(e.newPass, e.oldPass);

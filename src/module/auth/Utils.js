@@ -14,6 +14,8 @@
             'mh.mixin.Localization'
         ],
 
+        singleton: true,
+
         /**
          * pass change failed callback
          */
@@ -41,6 +43,29 @@
                 title: title,
                 msg: msg
             }
+        },
+
+        /**
+         * validates password complexity
+         * @param password
+         * @returns {string|boolean}
+         */
+        validatePassword: function(password){
+
+            if(password.length < 6){
+                return 'too_short';
+            }
+
+            var hasUpperCase = /[A-Z]/.test(password);
+            var hasLowerCase = /[a-z]/.test(password);
+            var hasNumbers = /\d/.test(password);
+            var hasNonalphas = /\W/.test(password);
+
+            if(hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3){
+                return 'not_complex_enough';
+            }
+
+            return true;
         }
     });
 

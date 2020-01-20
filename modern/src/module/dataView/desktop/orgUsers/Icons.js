@@ -19,7 +19,8 @@
                 mhUserAccountVerified: 'x-i54 i54-user-security-male',
                 mhUserAccountNotVerified: 'x-i54c i54c-anonymous-2',
                 mhUserAccountActive: 'x-i54 i54-profile-voltage',
-                mhUserAccountClosed: 'x-i54c i54c-lock-user1'
+                mhUserAccountClosed: 'x-i54c i54c-lock-user1',
+                mhUserPassForceSet: 'x-i54c i54c-key-22'
             });
         }
     });

@@ -18,13 +18,45 @@
                     en: 'Local user',
                     pl: 'Użytkownik lokalny'
                 },
+                passForceSetTip: {
+                    en: 'Change user password',
+                    pl: 'Zmień hasło użytkownika'
+                },
+                passForceSetTitle: {
+                    en: 'Change user pass',
+                    pl: 'Zmień hasło użytkownika'
+                },
+                passForceSetMsg: {
+                    en: 'This operation will force change user password to an arbitrary one. Continue?',
+                    pl: 'Ta operacja zmieni hasło użytkownika na wskazane. Kontynuować?'
+                },
+                passForceSetLoadmask: {
+                    en: 'Setting user password...',
+                    pl: 'Ustawianie hasła użytkownika...'
+                },
+                newPassEmptyTitle: {
+                    en: 'New password empty',
+                    pl: 'Hasło puste'
+                },
+                newPassEmptyMsg: {
+                    en: 'New password cannot be empty',
+                    pl: 'Nowe hasło nie może być puste'
+                },
+                passForceChangedTitle: {
+                    en: 'Password changed',
+                    pl: 'Hasło zmienione'
+                },
+                passForceChangedMsg: {
+                    en: 'User password has been changed',
+                    pl: 'Hasło użytkownika zostało zmienione'
+                },
                 accountVerifiedTip: {
                     en: 'Account is verified',
                     pl: 'Konto zweryfikowane'
                 },
                 accountNotVerifiedTip: {
-                    en: 'Account has not yet been verified. Click to re-send an activation email.',
-                    pl: 'Konto nie zostało jeszcze zweryfikowane. Kliknij, żeby wysłać ponownie email aktywacyjny.'
+                    en: 'Account has not yet been verified. Click to activate it or re-send an activation email.',
+                    pl: 'Konto nie zostało jeszcze zweryfikowane. Kliknij, żeby aktywować lub wysłać ponownie email aktywacyjny.'
                 },
                 resendActivationTitle: {
                     en: 'Account activation',
@@ -35,7 +67,7 @@
                     pl: 'To konto zdaje się być niezweryfikowane. Możesz wysłać ponownie email aktywacyjny lub aktywować je manualnie.'
                 },
                 forceActivateBtn:{
-                    en: 'Activate',
+                    en: 'Force activate',
                     pl: 'Aktywuj'
                 },
                 resendEmailBtn: {

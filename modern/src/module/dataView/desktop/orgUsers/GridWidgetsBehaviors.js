@@ -18,7 +18,8 @@
             'mh.module.dataView.desktop.orgUsers.Icons',
             'mh.FontIconsDictionary',
             'mh.data.dictionaries.OrganizationRoles',
-            'mh.module.dataView.desktop.orgUsers.GridWidgetsBehaviorsLocalization'
+            'mh.module.dataView.desktop.orgUsers.GridWidgetsBehaviorsLocalization',
+            'mh.module.auth.Utils'
         ],
 
         mixins: [
@@ -31,6 +32,113 @@
 
         constructor: function(){
             me = this;
+        },
+
+        /**
+         * initiates force user pass change
+         * @param btn
+         */
+        passForceSeBtnHandler: function(btn){
+            var rec = btn.ownerCmp.ownerCmp.getRecord();
+            if(rec) {
+                Ext.Msg.prompt(
+                    me.getTranslation('passForceSetTitle'),
+                    me.getTranslation('passForceSetMsg'),
+                    function(button, newPass) {
+                        if(button === 'ok'){
+                            me.passForceChange(rec, newPass);
+                        }
+                    }
+                );
+            }
+        },
+
+        /**
+         *
+         * @param rec
+         * @param newPass
+         */
+        passForceChange: function(rec, newPass){
+
+            if(newPass === ''){
+                Ext.Msg.show({
+                    title: me.getTranslation('newPassEmptyTitle'),
+                    message: me.getTranslation('newPassEmptyMsg'),
+                    buttons: Ext.MessageBox.OK
+                });
+                return;
+            }
+
+            let passValid = mh.module.auth.Utils.validatePassword(newPass),
+                failureMsg;
+            if(passValid !== true){
+                failureMsg = mh.module.auth.Utils.getPassChangeFailureMsg({failureReason:passValid});
+                Ext.Msg.show({
+                    title: failureMsg.title,
+                    message: failureMsg.msg,
+                    buttons: Ext.MessageBox.OK
+                });
+                return;
+            }
+
+
+
+            //<debug>
+            console.log('Force changing user pass to: ', newPass);
+            //</debug>
+
+            me.fireGlobal('loadmask::show', me.getTranslation('passForceSetLoadmask'));
+
+            me.doPut({
+                url: me.getApiEndPointUrl('forceChangePass'),
+                params: {
+                    userId: rec.get('uuid'),
+                    newPass: newPass
+                },
+                autoHandleExceptions: true,
+                success: function(response){
+                    this.fireGlobal('loadmask::hide');
+
+                    let title = me.getTranslation('passForceChangedTitle'),
+                        msg = me.getTranslation('passForceChangedMsg');
+
+                    if(!response.success){
+                        let msgBoxData = me.getPassChangeFailureMsg(response);
+                        title = msgBoxData.title;
+                        msg = msgBoxData.msg;
+                    }
+
+                    //give a feedback msg
+                    Ext.Msg.show({
+                        title: title,
+                        message: msg,
+                        width: 350,
+                        styleHtmlContent: true,
+                        buttons: Ext.MessageBox.OK
+                    });
+                },
+                failure: function(e){
+                    me.fireGlobal('loadmask::hide');
+                },
+                scope: me
+            });
+        },
+
+        passForceSeBtnBehavior: function(widgetCell, rec){
+            let widget = widgetCell.getWidget();
+
+            if(!rec){
+                widget.hide();
+                return;
+            }
+
+            widget.setTooltip(me.getTranslation('passForceSetTip'));
+            widget.setIconCls(mh.FontIconsDictionary.getIcon('mhUserPassForceSet'));
+            widget.setUi('mh-data-view-btn-icon-soft-purple');
+
+            widget.rec = rec;
+
+            widget.show();
         },
 
         /**
