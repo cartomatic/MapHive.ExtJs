@@ -8,12 +8,12 @@
 
 @include button-ui(
   $ui: 'mh-record-view-btn-edit',
-  $color: $neutral-light-color
+  $color: $xmh-record-view-button-color
 );
 
 @include button-ui(
   $ui: 'mh-record-view-btn-back',
-  $color: $neutral-light-color
+  $color: $xmh-record-view-button-color
 );
 
 .mh-record-view-rec-name {

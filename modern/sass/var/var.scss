@@ -1,0 +1,187 @@
+//additional vars that are used to style components
+//are exported to css vars, so it is possible to modify them
+//via Fashion.css.setVariables
+//in order to make the variable export via fashion and be accessible via fashion
+//need to assign values via dynamic
+$xmh-grid-link-color: dynamic(darken(#3949AB, 15%)); //set this one to base color but explicitly, not via variable
+$xmh-panel-header-background-color: dynamic(darken(#3949AB, 10%)); //set this one to base color but explicitly, not via variable
+$xmh-panel-header-color: dynamic(white);
+$xmh-titlebar-background-color: dynamic(darken(#3949AB, 10%)); //set this one to base color but explicitly, not via variable
+$xmh-titlebar-color: dynamic(white);
+$xmh-button-color: dynamic(#3949AB); //set this one to base color but explicitly, not via variable
+$xmh-button-color: dynamic(#3949AB); //set this one to base color but explicitly, not via variable
+$xmh-button-disabled-color: dynamic(#b7b7b7);
+$xmh-button-pressed-color: dynamic(white);
+$xmh-thumb-background-color: dynamic(#3949AB); //set this one to base color but explicitly, not via variable
+
+$xmh-tab-color: dynamic(white);
+$xmh-tab-hovered-color: dynamic(white);
+$xmh-tab-active-color: dynamic(white);
+$xmh-tab-background-color: dynamic(darken(#3949AB, 4%)); //set this one to base color but explicitly, not via variable
+$xmh-tab-active-background-color: dynamic(darken(#3949AB, 10%)); //set this one to base color but explicitly, not via variable
+$xmh-tab-active-indicator-background-color: dynamic(darken(#3949AB, 25%));
+$xmh-tabbar-background-color: dynamic(#3949AB); //set this one to base color but explicitly, not via variable
+
+$xmh-record-view-button-color: dynamic(white);
+
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-grid-link-color: export;
+    --xmh-panel-header-background-color:export;
+    --xmh-panel-header-color: export;
+    --xmh-button-color: export;
+    --xmh-button-disabled-color:export;
+    --xmh-button-pressed-color:export;
+    --xmh-thumb-background-color: export;
+    --xmh-grid-header-background-color: export;
+    --xmh-titlebar-color:export;
+    --xmh-titlebar-background-color:export;
+    --xmh-tab-color:export;
+    --xmh-tab-background-color:export;
+    --xmh-tab-active-background-color:export;
+    --xmh-tab-active-indicator-background-color:export;
+    --xmh-tabbar-background-color:export;
+    --xmh-tab-hovered-color:export;
+    --xmh-tab-active-color:export;
+    --xmh-record-view-button-color:export;
+    --xmh-scrollbar-background-color:export;
+    --xmh-scrollbar-track-background-color:export;
+    --xmh-scrollbar-thumb-background-color:export;
+  }
+}
+
+$xmh-scrollbar-background-color: dynamic(#F5F5F5);
+$xmh-scrollbar-track-background-color: dynamic(#F5F5F5);
+$xmh-scrollbar-thumb-background-color: dynamic(lighten(#3949AB, 20%));
+
+//some global body styling, so can customize scrollbar
+//https://scotch.io/tutorials/customize-the-browsers-scrollbar-with-css
+.body ::-webkit-scrollbar {
+  width: 12px;
+  background-color: $xmh-scrollbar-background-color;
+}
+.body ::-webkit-scrollbar-thumb {
+  //border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: $xmh-scrollbar-thumb-background-color;
+}
+.body ::-webkit-scrollbar-track {
+  border: 1px solid $xmh-scrollbar-thumb-background-color;
+  //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  //border-radius: 10px;
+  background-color: $xmh-scrollbar-track-background-color;
+}
+
+//TODO - scrollbar
+//TODO - map color - text (coords readout, license info), location icon,
+
+
+//basic stuff
+$base-color: dynamic(#3949AB);
+$bee-yellow: #f3cd1d;
+
+//thumb
+$thumb-background-color: dynamic($xmh-thumb-background-color);
+
+//panel
+$panel-header-background-color: dynamic($xmh-panel-header-background-color);
+$panel-header-icon-color: dynamic($xmh-panel-header-color);
+$panel-header-color: dynamic($xmh-panel-header-color);
+$panel-tool-color: dynamic($xmh-panel-header-color);
+
+//titlebar
+$titlebar-background-color: dynamic($xmh-titlebar-background-color);
+$titlebar-color: dynamic($xmh-titlebar-color);
+
+//buttons
+$button-arrow-icon-color: dynamic($xmh-button-color);
+$button-color: dynamic($xmh-button-color);
+$button-icon-color: dynamic($xmh-button-color);
+$button-disabled-color: dynamic($xmh-button-disabled-color);
+$button-pressed-color: dynamic($xmh-button-pressed-color);
+
+//tab panel
+$tab-color: dynamic($xmh-tab-color);
+$tab-hovered-color: dynamic($xmh-tab-hovered-color);
+$tab-active-color: dynamic($xmh-tab-active-color);
+$tab-background-color: dynamic($xmh-tab-background-color);
+$tab-active-background-color: dynamic($xmh-tab-active-background-color);
+$tab-active-indicator-background-color: dynamic($xmh-tab-active-indicator-background-color);
+$tabbar-background-color: dynamic($xmh-tabbar-background-color);
+
+
+//bee nav menu
+//-----------------------------------------
+.navmenu-expander {
+
+  border: 1px solid $bee-yellow !important;
+
+  .x-inner-el {
+    padding: 0px!important;
+
+    .x-icon-el {
+      color: $bee-yellow !important;
+    }
+    .x-icon-el:before {
+      color: $bee-yellow !important;
+    }
+  }
+}
+
+@include dataview-ui(
+        $ui: 'navmenu-dark',
+        $background-color: $navmenu-sidebar-background-color,
+        $item-color: $bee-yellow !important,
+        $item-hovered-color: contrasted($navmenu-sidebar-neutral-light-color, -5%),
+        $item-selected-color: contrasted($navmenu-sidebar-neutral-light-color, -20%),
+        $item-pressed-color: contrasted($navmenu-sidebar-neutral-light-color, -10%),
+        $item-background-color: $navmenu-sidebar-background-color,
+        $item-alt-background-color: contrasted($navmenu-sidebar-background-color, -5%),
+        $item-hovered-background-color: contrasted($navmenu-sidebar-background-color, 5%),
+        $item-selected-background-color: $navmenu-sidebar-item-selected-color,
+        $item-pressed-background-color: contrasted($navmenu-sidebar-background-color, 15%)
+);
+
+@include button-ui(
+        $ui: 'navmenu-dark',
+        $color: $bee-yellow !important,
+        $pressed-color: $neutral-light-color,
+        $background-color:  $navmenu-sidebar-background-color,
+
+        $hovered-background-color: $highlight-color,
+        $pressing-background-color: $base-light-color,
+        $pressed-background-color: $base-light-color
+);
+
+@include button-ui(
+        $ui: 'navmenu-flat',
+        $background-color: rgba(white, 0),
+        $color: $bee-yellow !important,
+        $pressed-color: $base-color
+);
+
+@include button-ui(
+        $ui: 'navmenu-dark-app-btn',
+        $color: $neutral-light-color,
+        $pressed-color: $neutral-light-color,
+
+        $background-color: $navmenu-sidebar-background-color, //$color, <- this one revereses in dark mode!
+
+        $icon-size: 44px,
+        $icon-size-big: 44px,
+        $icon-only-padding: 0px,
+        $icon-only-padding-big: 0px,
+        $padding: 2px,
+        $padding-big: 2px
+);
+
+//-----------------------------------------
+
+
+//grid clickable link
+.mh-data-view-link {
+  color: $xmh-grid-link-color !important;
+}
+.mh-data-view-bold-text {
+  color: $xmh-grid-link-color !important;
+}
