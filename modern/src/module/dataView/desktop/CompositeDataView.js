@@ -17,8 +17,6 @@
             'mh.module.dataView.desktop.CompositeDataViewController'
         ],
 
-        controller: 'mh-desktop-composite-dataview',
-
-        cls: 'mh-desktop-composite-dataview'
+        controller: 'mh-desktop-composite-dataview'
     });
 }());
