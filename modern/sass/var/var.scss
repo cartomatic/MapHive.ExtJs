@@ -72,9 +72,12 @@ $xmh-scrollbar-thumb-background-color: dynamic(lighten(#3949AB, 20%));
   background-color: $xmh-scrollbar-track-background-color;
 }
 
-//TODO - scrollbar
 //TODO - map color - text (coords readout, license info), location icon,
 
+//map related
+.ol-mouse-position {
+  color: black !important;
+}
 
 //basic stuff
 $base-color: dynamic(#3949AB);

@@ -6,6 +6,8 @@
   $ui: 'mh-record-view-btn-next'
 );
 
+$xmh-record-view-button-color: dynamic(white);
+
 @include button-ui(
   $ui: 'mh-record-view-btn-edit',
   $color: $xmh-record-view-button-color
