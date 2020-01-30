@@ -96,7 +96,7 @@
                         },
                         iconAlign: 'left',
                         iconCls: 'x-li li-refresh',
-                        ui: 'action',
+                        ui: 'confirm',
                         margin: '0 10 0 0', //trbl
                         listeners: {
                             tap: 'onBtnChangePassClick'
@@ -113,7 +113,7 @@
                         },
                         iconAlign: 'right',
                         iconCls: 'x-li li-cross-circle',
-                        ui: 'confirm',
+                        ui: 'decline',
                         listeners: {
                             tap: 'onBtnCancelClick'
                         }

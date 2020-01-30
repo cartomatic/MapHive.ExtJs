@@ -79,13 +79,14 @@
                             {
                                 xtype: 'button',
                                 bind: {
-                                    text: '{localization.btnCancel}'
+                                    text: '{localization.btnCreate}'
                                 },
-                                iconCls: 'x-li li-cross-circle',
+                                iconAlign: 'left',
+                                iconCls: 'x-li li-user-plus',
                                 listeners: {
-                                    tap: 'onBtnCancelClick'
+                                    tap: 'onBtnCreateProfileClick'
                                 },
-                                ui: 'decline'
+                                ui: 'confirm'
                             },
                             {
                                 xtype: 'container',
@@ -94,14 +95,13 @@
                             {
                                 xtype: 'button',
                                 bind: {
-                                    text: '{localization.btnCreate}'
+                                    text: '{localization.btnCancel}'
                                 },
-                                iconAlign: 'left',
-                                iconCls: 'x-li li-user-plus',
+                                iconCls: 'x-li li-cross-circle',
                                 listeners: {
-                                    tap: 'onBtnCreateProfileClick'
+                                    tap: 'onBtnCancelClick'
                                 },
-                                ui: 'action'
+                                ui: 'decline'
                             }
                         ]
                     }

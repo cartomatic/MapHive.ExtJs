@@ -53,7 +53,7 @@
                                 },
                                 iconAlign: 'left',
                                 iconCls: 'x-i54c i54c-key-22',
-                                ui: 'action',
+                                ui: 'confirm',
                                 margin: '0 0 0 0', //trbl
                                 listeners: {
                                     tap: 'onPassResetRequestBtnClick'
@@ -70,7 +70,7 @@
                                 },
                                 iconAlign: 'right',
                                 iconCls: 'x-li li-chevron-right-circle',
-                                ui: 'confirm',
+                                ui: 'decline',
                                 listeners: {
                                     tap: 'onResetPassCancelBtnClick'
                                 }

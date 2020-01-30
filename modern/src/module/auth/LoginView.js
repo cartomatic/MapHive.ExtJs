@@ -102,7 +102,7 @@
                     },
                     {
                         layout: 'hbox',
-                        margin: '10 0 0 0',
+                        margin: '10 0 5 0',
                         items: [
                             {
                                 xtype: 'button',
@@ -111,7 +111,7 @@
                                 },
                                 iconAlign: 'right',
                                 iconCls: 'x-li li-chevron-right-circle', //FIXME - icon from dict
-                                ui: 'action',
+                                ui: 'confirm',
                                 flex: 1,
                                 listeners: {
                                     tap: 'onLoginBtnClick'
@@ -131,7 +131,7 @@
                     },
                     {
                         layout: 'hbox',
-                        margin: '10 0 0 0',
+                        margin: '5 0 0 0',
                         reference: 'createAccountBar',
                         items: [
                             {
