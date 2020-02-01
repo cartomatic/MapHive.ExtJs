@@ -102,7 +102,7 @@
                         listeners: {
                             tap: 'onSavePositionEditBtnTap'
                         },
-                        ui: 'mh-phone-location-map-save-green-btn raised',
+                        ui: 'mh-phone-green-btn raised',
                         top: 10,
                         right: 120,
                         width: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnWidth,
@@ -116,7 +116,7 @@
                         listeners: {
                             tap: 'onDiscardPositionEditBtnTap'
                         },
-                        ui: 'mh-phone-location-map-close-red-btn raised',
+                        ui: 'mh-phone-red-btn raised',
                         top: 10,
                         right: 65,
                         width: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnWidth,
@@ -130,7 +130,7 @@
                         listeners: {
                             tap: 'onGpsBtnTap'
                         },
-                        ui: 'mh-phone-location-map-purple-btn raised',
+                        ui: 'mh-phone-purple-btn raised',
                         top: 10,
                         right: 10,
                         width: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnWidth,
@@ -144,7 +144,7 @@
                         listeners: {
                             tap: 'onEnablePositionEditBtnTap'
                         },
-                        ui: 'mh-phone-location-map-action-blue-btn raised',
+                        ui: 'mh-phone-blue-btn raised',
                         top: 10,
                         right: 10,
                         width: (mh.module.commonConfig.CommonConfig.locationMap || {}).btnWidth,

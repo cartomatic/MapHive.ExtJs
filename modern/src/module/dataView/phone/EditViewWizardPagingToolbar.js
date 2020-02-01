@@ -18,7 +18,7 @@
             {
                 xtype: 'button',
                 reference: 'btnPrev',
-                ui: 'mh-phone-edit-view-wizard-nav-button',
+                ui: 'mh-phone-purple-btn',
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnPrev'),
                 width: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnWidth,
                 height: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnHeight,
@@ -30,7 +30,7 @@
             {
                 xtype: 'button',
                 reference: 'btnCancel',
-                ui: 'mh-phone-edit-view-wizard-gray-button',
+                ui: 'mh-phone-gray-btn',
                 listeners: {
                     tap: 'onBtnCancelTap'
                 },
@@ -42,7 +42,7 @@
             {
                 xtype: 'button',
                 reference: 'btnSave',
-                ui: 'mh-phone-edit-view-wizard-soft-green-button',
+                ui: 'mh-phone-soft-green-btn',
                 listeners: {
                     tap: 'onBtnSaveTap'
                 },
@@ -54,7 +54,7 @@
             {
                 xtype: 'button',
                 reference: 'btnNext',
-                ui: 'mh-phone-edit-view-wizard-nav-button',
+                ui: 'mh-phone-purple-btn',
                 iconCls: mh.FontIconsDictionary.getIcon('mhEditViewWizardBtnNext'),
                 width: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnWidth,
                 height: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnHeight,

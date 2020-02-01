@@ -72,7 +72,7 @@
             {
                 xtype: 'button',
                 reference: 'saveBtn',
-                ui: 'mh-phone-edit-view-save-btn raised',
+                ui: 'mh-phone-green-btn raised',
                 right: 15,
                 bottom: 15,
                 hidden: true,
@@ -84,7 +84,7 @@
             {
                 xtype: 'button',
                 reference: 'dismissBtn',
-                ui: 'mh-phone-edit-view-dismiss-btn raised',
+                ui: 'mh-phone-red-btn raised',
                 left: 15,
                 bottom: 15,
                 hidden: true,

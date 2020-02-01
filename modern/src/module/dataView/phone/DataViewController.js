@@ -109,7 +109,7 @@
             if(enableCreate){
                 this.btnEdit = vw.add({
                     xtype: 'button',
-                    ui: 'mh-phone-data-view-create-btn raised',
+                    ui: 'mh-phone-green-btn raised',
                     right: 15,
                     bottom: 15,
                     width: (mh.module.commonConfig.CommonConfig.dataView || {}).btnWidth,
@@ -125,7 +125,7 @@
                 swipeActions.push({
                     iconCls: mh.FontIconsDictionary.getIcon('mhListBtnEdit'),
                     text: this.getTranslation('btnEdit'),
-                    ui: 'action',
+                    ui: 'confirm',
                     commit: 'onSwipeEdit'
                 });
             }

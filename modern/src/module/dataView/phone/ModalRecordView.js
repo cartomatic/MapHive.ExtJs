@@ -67,7 +67,7 @@
                 height: (mh.module.commonConfig.CommonConfig.recView || {}).btnHeight,
                 hidden: true,
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewEdit'),
-                ui: 'mh-phone-modal-record-view-edit-btn raised',
+                ui: 'mh-phone-blue-btn raised',
                 listeners: {
                     tap: 'onEditBtnTap'
                 }
@@ -81,7 +81,7 @@
                 height: (mh.module.commonConfig.CommonConfig.recView || {}).btnHeight,
                 hidden: true,
                 iconCls: mh.FontIconsDictionary.getIcon('mhDataViewBtnDismiss'),
-                ui: 'mh-phone-modal-record-view-dismiss-btn raised',
+                ui: 'mh-phone-red-btn raised',
                 listeners: {
                     tap: 'onDismissBtnTap'
                 }

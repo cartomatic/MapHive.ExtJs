@@ -1,0 +1,141 @@
+$xmh-phone-btn-green-color: dynamic(white);
+$xmh-phone-btn-green-background-color: dynamic(#56B750);//$color-green
+
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-phone-btn-green-color:export;
+    --xmh-phone-btn-green-background-color:export;
+  }
+}
+
+@include button-ui(
+  $ui: 'mh-phone-green-btn',
+  $color: $xmh-phone-btn-green-color,
+  $icon-color: $xmh-phone-btn-green-color,
+  $background-color: $xmh-phone-btn-green-background-color,
+  $border-color: darken($xmh-phone-btn-green-background-color, 5%),
+  $border-radius: 50%,
+  $border-radius-big: 50%
+);
+
+
+$xmh-phone-soft-green-btn-color: dynamic(white);
+$xmh-phone-soft-green-btn-background-color: dynamic(#9cc96b); //$color-soft-green
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-phone-soft-green-btn-color:export;
+    --xmh-phone-soft-green-btn-background-color:export;
+  }
+}
+
+@include button-ui(
+  $ui: 'mh-phone-soft-green-btn',
+  $color: $xmh-phone-soft-green-btn-color,
+  $icon-color: $xmh-phone-soft-green-btn-color,
+  $pressed-color: $xmh-phone-soft-green-btn-color,
+  $background-color: $xmh-phone-soft-green-btn-background-color,
+  $border-color: darken($xmh-phone-soft-green-btn-background-color, 5%),
+  $border-radius: 50%,
+  $border-radius-big: 50%
+);
+
+
+$xmh-phone-gray-btn-color: dynamic(white);
+$xmh-phone-gray-btn-background-color: dynamic(#a7a7a7);
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-phone-gray-btn-color:export;
+    --xmh-phone-gray-btn-background-color:export;
+  }
+}
+
+@include button-ui(
+  $ui: 'mh-phone-gray-btn',
+  $color: $xmh-phone-gray-btn-color,
+  $icon-color: $xmh-phone-gray-btn-color,
+  $background-color: $xmh-phone-gray-btn-background-color,
+  $border-radius: 50%,
+  $border-radius-big: 50%
+);
+
+
+$xmh-phone-red-btn-color: dynamic(white);
+$xmh-phone-red-btn-background-color: dynamic(#af5e5e); //$color-close-red
+
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-phone-red-btn-color:export;
+    --xmh-phone-red-btn-background-color:export;
+  }
+}
+
+@include button-ui(
+  $ui: 'mh-phone-red-btn',
+  $color: $xmh-phone-red-btn-color,
+  $icon-color: $xmh-phone-red-btn-color,
+  $background-color: $xmh-phone-red-btn-background-color,
+  $border-color: darken($xmh-phone-red-btn-background-color, 5%),
+  $border-radius: 50%,
+  $border-radius-big: 50%
+);
+
+
+$xmh-phone-blue-btn-color: dynamic(white);
+$xmh-phone-blue-btn-background-color: dynamic(#6aa5db);//$color-action-blue
+
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-phone-blue-btn-color:export;
+    --xmh-phone-blue-btn-background-color:export;
+  }
+}
+
+@include button-ui(
+  $ui: 'mh-phone-blue-btn',
+  $color: $xmh-phone-blue-btn-color,
+  $icon-color: $xmh-phone-blue-btn-color,
+  $background-color: $xmh-phone-blue-btn-background-color,
+  $border-color: darken($xmh-phone-blue-btn-background-color, 5%),
+  $border-radius: 50%,
+  $border-radius-big: 50%
+);
+
+
+$xmh-phone-purple-btn-color: dynamic(white);
+$xmh-phone-purple-btn-background-color: dynamic(#925e8b); //$color-soft-purple
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-phone-purple-btn-color:export;
+    --xmh-phone-purple-btn-background-color:export;
+  }
+}
+
+@include button-ui(
+  $ui: 'mh-phone-purple-btn',
+  $color: $xmh-phone-purple-btn-color,
+  $icon-color: $xmh-phone-purple-btn-color,
+  $background-color: $xmh-phone-purple-btn-background-color,
+  $border-color: darken($xmh-phone-purple-btn-background-color, 5%),
+  $border-radius: 50%,
+  $border-radius-big: 50%
+);
+
+
+$xmh-phone-purple-btn-disabled-color: dynamic(darken(#925e8b, 35%));//$color-soft-purple
+$xmh-phone-purple-btn-disabled-background-color: dynamic(darken(#925e8b, 10%)); //$color-soft-purple
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-phone-purple-btn-disabled-color:export;
+    --xmh-phone-purple-btn-disabled-background-color:export;
+  }
+}
+
+@include button-ui(
+  $ui: 'mh-phone-purple-btn-disabled',
+  $color: $xmh-phone-purple-btn-disabled-color,
+  $icon-color: $xmh-phone-purple-btn-disabled-color,
+  $background-color: $xmh-phone-purple-btn-disabled-background-color,
+  $border-color: $xmh-phone-purple-btn-disabled-background-color,
+  $border-radius: 50%,
+  $border-radius-big: 50%
+);

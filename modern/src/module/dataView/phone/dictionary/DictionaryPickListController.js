@@ -45,9 +45,9 @@
         /**
          * selected value btn ui
          */
-        valueSetCounterBtnUi: 'mh-phone-dict-pick-list-blue',
+        valueSetCounterBtnUi: 'mh-phone-dict-pick-list-btn-selected',
 
-        valueUnSetCounterBtnUi: 'mh-phone-dict-pick-list-pale-gray',
+        valueUnSetCounterBtnUi: 'mh-phone-dict-pick-list-btn',
 
         /**
          * sets dictionary - creates btn value pickers. selects a btn with a value provided

@@ -8,6 +8,12 @@
 
 $xmh-record-view-button-color: dynamic(white);
 
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-record-view-button-color:export;
+  }
+}
+
 @include button-ui(
   $ui: 'mh-record-view-btn-edit',
   $color: $xmh-record-view-button-color

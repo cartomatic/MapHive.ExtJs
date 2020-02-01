@@ -1,19 +1,44 @@
+$xmh-phone-dict-pick-list-btn-selected-background-color: dynamic($base-color);
+$xmh-phone-dict-pick-list-btn-selected-color: dynamic(white);
+$xmh-phone-dict-pick-list-btn-background-color: dynamic(#aeaeae);
+$xmh-phone-dict-pick-list-btn-color: dynamic(#575757);
+$xmh-phone-dict-pick-list-panel-background-color: dynamic(#b2d0da);
+$xmh-phone-dict-pick-list-panel-header-color: dynamic(#000);
+
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-phone-dict-pick-list-btn-selected-background-color:export;
+    --xmh-phone-dict-pick-list-btn-selected-color:export;
+    --xmh-phone-dict-pick-list-btn-background-color:export;
+    --xmh-phone-dict-pick-list-btn-color:export;
+    --xmh-phone-dict-pick-list-panel-background-color:export;
+    --xmh-phone-dict-pick-list-panel-header-color:export;
+  }
+}
+
 @include button-ui(
-  $ui: 'mh-phone-dict-pick-list-blue',
-  $color: #fff,
-  $icon-color: #fff,
-  $background-color: #167abc,
+  $ui: 'mh-phone-dict-pick-list-btn-selected',
+  $color: $xmh-phone-dict-pick-list-btn-selected-color,
+  $icon-color: $xmh-phone-dict-pick-list-btn-selected-color,
+  $background-color: $xmh-phone-dict-pick-list-btn-selected-background-color,
+
+  $pressed-color: $xmh-phone-dict-pick-list-btn-selected-color,
+  $pressed-icon-color: $xmh-phone-dict-pick-list-btn-selected-color,
+  $pressed-background-color: $xmh-phone-dict-pick-list-btn-selected-background-color,
+
   $border-width: 0
 );
 
 @include button-ui(
-  $ui: 'mh-phone-dict-pick-list-pale-gray',
-  $background-color: #aeaeae,
+  $ui: 'mh-phone-dict-pick-list-btn',
+  $color: $xmh-phone-dict-pick-list-btn-color,
+  $icon-color: $xmh-phone-dict-pick-list-btn-color,
+  $background-color: $xmh-phone-dict-pick-list-btn-background-color,
   $border-width: 0
 );
 
 @include panel-ui(
   $ui: 'mh-phone-dict-pick-list-panel',
-  $header-background-color: #b2d0da,
-  $header-color: #000
+  $header-background-color: $xmh-phone-dict-pick-list-panel-background-color,
+  $header-color: $xmh-phone-dict-pick-list-panel-header-color
 )

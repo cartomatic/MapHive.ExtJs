@@ -62,7 +62,7 @@
             {
                 xtype: 'button',
                 reference: 'editBtn',
-                ui: 'mh-phone-record-view-edit-btn raised',
+                ui: 'mh-phone-blue-btn raised',
                 right: 15,
                 bottom: 15,
                 width: (mh.module.commonConfig.CommonConfig.recView || {}).btnWidth,
@@ -76,7 +76,7 @@
             {
                 xtype: 'button',
                 reference: 'dismissBtn',
-                ui: 'mh-phone-record-view-dismiss-btn raised',
+                ui: 'mh-phone-red-btn raised',
                 left: 15,
                 bottom: 15,
                 width: (mh.module.commonConfig.CommonConfig.recView || {}).btnWidth,

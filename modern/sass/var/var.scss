@@ -24,8 +24,6 @@ $xmh-tab-active-background-color: dynamic(darken(#3949AB, 10%)); //set this one 
 $xmh-tab-active-indicator-background-color: dynamic(darken(#3949AB, 25%));
 $xmh-tabbar-background-color: dynamic(#3949AB); //set this one to base color but explicitly, not via variable
 
-$xmh-record-view-button-color: dynamic(white);
-
 @if ($enable-css-variables) {
   #{$css-variable-selector} {
     --xmh-grid-link-color: export;
@@ -45,7 +43,6 @@ $xmh-record-view-button-color: dynamic(white);
     --xmh-tabbar-background-color:export;
     --xmh-tab-hovered-color:export;
     --xmh-tab-active-color:export;
-    --xmh-record-view-button-color:export;
     --xmh-scrollbar-background-color:export;
     --xmh-scrollbar-track-background-color:export;
     --xmh-scrollbar-thumb-background-color:export;

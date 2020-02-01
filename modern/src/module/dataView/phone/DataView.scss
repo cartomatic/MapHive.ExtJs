@@ -6,10 +6,16 @@ $xmh-tool-color:dynamic(#a4a4a4);
 $dataview-item-alt-background-color: dynamic($xmh-dataview-item-background-color);
 $dataview-item-background-color: dynamic($xmh-dataview-item-alt-background-color);
 $tool-color: dynamic($xmh-tool-color);
+
+//TODO - perhaps need more uis for the stepper buttons...
+$xmh-listswiperstepper-background-color: dynamic(#fafafa);
+$listswiperstepper-background-color: $xmh-listswiperstepper-background-color;
+
 @if ($enable-css-variables) {
   #{$css-variable-selector} {
     --xmh-dataview-item-alt-background-color:export;
     --xmh-dataview-item-background-color:export;
     --xmh-tool-color:export;
+    --xmh-listswiperstepper-background-color:export;
   }
 }
