@@ -45,7 +45,11 @@
                     "xmh-record-view-button-color":"#f3cd1d",
                     "xmh-scrollbar-background-color":"#404040",
                     "xmh-scrollbar-track-background-color":"#404040",
-                    "xmh-scrollbar-thumb-background-color":"#333333"
+                    "xmh-scrollbar-thumb-background-color":"#333333",
+                    "xmh-dataview-item-alt-background-color":"#303030",
+                    "xmh-dataview-item-background-color":"#353535",
+                    "xmh-tool-color": "#f3cd1d", /*dirty yellow*/
+                    "xmh-nav-menu-mobile-spacer-color": "#f3cd1d" /*bee yellow*/
                 };
             }
 

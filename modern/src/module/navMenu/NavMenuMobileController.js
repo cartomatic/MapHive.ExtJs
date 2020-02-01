@@ -350,9 +350,7 @@
                         this.userPictureDisplay,
                         this.userNameDisplay
                     ],
-                    style: {
-                        borderBottom: '1px solid gray'
-                    }
+                    cls: 'nav-menu-mobile-spacer'
                 });
 
                 //register nav route for the user profile view!

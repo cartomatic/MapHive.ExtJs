@@ -1,0 +1,9 @@
+$xmh-nav-menu-mobile-spacer-color: dynamic(#787878);
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-nav-menu-mobile-spacer-color:export;
+  }
+}
+.nav-menu-mobile-spacer {
+  border-bottom: 1px solid $xmh-nav-menu-mobile-spacer-color;
+}

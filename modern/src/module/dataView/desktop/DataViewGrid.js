@@ -30,6 +30,8 @@
             childdoubletap: 'onGridRowDblTap'
         },
 
-        itemCls: 'x-listitem-listing'
+        itemCls: 'x-listitem-listing',
+
+        striped: true
     });
 }());

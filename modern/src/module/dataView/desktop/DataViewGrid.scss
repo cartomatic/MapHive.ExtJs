@@ -1,0 +1,15 @@
+//$background-color: dynamic(if($dark-mode, #303030, #fafafa));
+//assuming a non-dark mode as the default one. dark mode will customize it via xmh classes
+$xmh-dataview-item-background-color: dynamic(#fafafa);
+$xmh-dataview-item-alt-background-color: dynamic(darken(#fafafa, 5));
+$xmh-tool-color:dynamic(#a4a4a4);
+$dataview-item-alt-background-color: dynamic($xmh-dataview-item-background-color);
+$dataview-item-background-color: dynamic($xmh-dataview-item-alt-background-color);
+$tool-color: dynamic($xmh-tool-color);
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-dataview-item-alt-background-color:export;
+    --xmh-dataview-item-background-color:export;
+    --xmh-tool-color:export;
+  }
+}
