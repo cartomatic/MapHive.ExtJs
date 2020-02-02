@@ -9,6 +9,7 @@
         requires: [
         ],
         mixins: [
+
         ],
 
         /**
@@ -92,7 +93,15 @@
                 "xmh-phone-purple-btn-disabled-color":"#9a822c", /*dirty yellow*/
                 "xmh-phone-purple-btn-disabled-background-color": "#202020",
 
-                "xmh-listswiperstepper-background-color":"#303030"
+                "xmh-listswiperstepper-background-color":"#303030",
+
+                "xmh-map-attribution-color": "#f3cd1d",
+                "xmh-map-attribution-shadow-color": "#9a822c", /*dirty yellow*/
+                "xmh-map-attribution-background-color": "#303030",
+                "xmh-map-control-color": "#f3cd1d",
+                "xmh-map-control-background-color": "#303030",
+                "xmh-map-scale-line-color": "#f3cd1d",
+                "xmh-map-control-halo-background-color" :"#9a822c", /*dirty yellow*/
             };
 
             return Ext.apply(vars, this.customDarkModeVars || {});

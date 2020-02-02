@@ -17,6 +17,10 @@
             'mh.mixin.PublishApi'
         ],
 
+        requires: [
+            'mh.module.map.Ol3MapUtils'
+        ],
+
         /**
          * @event mapcontainer::mapcreated
          * @param {ol.Map} map
@@ -133,8 +137,14 @@
                 baseL = baseL();
             }
 
+            baseL = baseL ? (Ext.isArray(baseL) ? baseL : [baseL]) : [];
+
+            baseL.forEach(l => {
+                mh.module.map.Ol3MapUtils.enableLayerDarkModeHandling(l);
+            });
+
             this.map = new ol.Map({
-                layers: baseL ? (Ext.isArray(baseL) ? baseL : [baseL]) : [],
+                layers: baseL,
                 target: mapContainerId,
                 controls: ol.control.defaults({
                     attributionOptions: {

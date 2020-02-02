@@ -71,12 +71,75 @@ $xmh-scrollbar-thumb-background-color: dynamic(lighten(#3949AB, 20%));
   background-color: $xmh-scrollbar-track-background-color;
 }
 
-//TODO - map color - text (coords readout, license info), location icon,
+
 
 //map related
-.ol-mouse-position {
-  color: black !important;
+$xmh-map-mouse-position-color: dynamic(black);
+$xmh-map-attribution-color: dynamic(black);
+$xmh-map-attribution-shadow-color: dynamic(white);
+$xmh-map-attribution-background-color: dynamic(white);
+$xmh-map-control-color: dynamic(white);
+$xmh-map-control-background-color: dynamic(#003C88);
+$xmh-map-scale-line-color: dynamic(white);
+$xmh-map-control-halo-background-color: #ffffff00;
+
+@if ($enable-css-variables) {
+  #{$css-variable-selector} {
+    --xmh-map-mouse-position-color: export;
+    --xmh-map-attribution-color: export;
+    --xmh-map-attribution-shadow-color: export;
+    --xmh-map-attribution-background-color: export;
+    --xmh-map-control-color: export;
+    --xmh-map-control-background-color: export;
+    --xmh-map-scale-line-color: export;
+    --xmh-map-control-halo-background-color:export;
+  }
 }
+
+.ol-mouse-position {
+  color: $xmh-map-mouse-position-color !important;
+}
+.ol-attribution {
+  opacity: 0.4;
+  background-color: $xmh-map-attribution-background-color !important;
+}
+.ol-attribution ul {
+  color: $xmh-map-attribution-color !important;
+  text-shadow: 0 0 2px $xmh-map-attribution-shadow-color;
+}
+.ol-rotate, .ol-zoom-in, .ol-zoom-out, .ol-scale-line {
+  opacity: 0.4;
+  color: $xmh-map-control-color !important;
+  background-color: $xmh-map-control-background-color !important;
+}
+.ol-zoom {
+  opacity: 1 !important;
+  background-color: transparent !important;
+  padding: 0px !important;
+  //border: 3px solid rgba(255, 255, 255, 1) !important;
+
+}
+.ol-scale-line-inner {
+  border: 1px solid $xmh-map-scale-line-color !important;
+  border-top: none !important;
+  color: $xmh-map-scale-line-color !important;
+  background-color: transparent !important;
+}
+//.ol-zoom-in {
+//  opacity: 0.7;
+//  color: $xmh-map-control-color !important;
+//  background-color: $xmh-map-control-background-color !important;
+//}
+//.ol-zoom-out {
+//  opacity: 0.7;
+//  color: $xmh-map-control-color !important;
+//  background-color: $xmh-map-control-background-color !important;
+//}
+//.ol-scale-line {
+//  opacity: 0.7;
+//  color: $xmh-map-control-color !important;
+//  background-color: $xmh-map-control-background-color !important;
+//}
 
 //basic stuff
 $base-color: dynamic(#3949AB);
