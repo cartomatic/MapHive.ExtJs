@@ -4,25 +4,31 @@
     //Make sure strict mode is on
     'use strict'
 
-    Ext.define('mh.util.Fashion', {
+    Ext.define('mh.util.DarkMode', {
         singleton: true,
         requires: [
+            'mh.util.Color'
         ],
         mixins: [
-
+            'mh.communication.MsgBus'
         ],
+
+        darkModeOn: false,
 
         /**
          * sets ui mode
          * @param mode
          */
         setUiMode: function(mode){
-            if(mode === 'dark'){
+            this.darkModeOn = mode === 'dark';
+            if(this.darkModeOn){
                 Fashion.css.setVariables(this.getDarkModeCssVars());
             }
             else {
                 Fashion.css.setVariables(this.getStdModeCssVars());
             }
+
+            this.fireGlobal('ui-mode-changed');
         },
 
         /**
@@ -31,7 +37,7 @@
          */
         getStdModeCssVars: function(){
             let vars = {
-                "dark-mode": false
+                "dark-mode": "false"
             };
             return Ext.apply(vars, this.customStdModeVars || {});
         },
@@ -46,13 +52,13 @@
                 /*"faded-color": "#222222",*/
                 "color": "#f3cd1d",
                 "selected-background-color": "#6D6D6D",
+
                 "xmh-grid-link-color": "#f3cd1d",
                 "xmh-panel-header-background-color": "#292929",
                 "xmh-panel-header-color": "#f3cd1d",
                 "xmh-button-color": "#f3cd1d",
                 "xmh-button-disabled-color": "#867a2b",
                 "xmh-button-pressed-color": "#292929",
-                /*"xmh-button-pressed-color": "#f3cd1d",*/
                 "xmh-thumb-background-color": "#222222",
                 "xmh-titlebar-background-color": "#292929",
                 "xmh-titlebar-color": "#f3cd1d",

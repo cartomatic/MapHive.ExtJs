@@ -12,8 +12,12 @@
         singleton: true,
 
         requires: [
-            'mh.util.Fashion',
+            'mh.util.DarkMode',
             'mh.util.Color'
+        ],
+
+        mixins: [
+            'mh.communication.MsgBus'
         ],
 
         enableLayerDarkModeHandling: function(l){
@@ -23,9 +27,24 @@
             l.un('postrender', this.layerPostRenderDarkModeHandler);
         },
 
+        /**
+         * makes map force re-render when ui mode is changed
+         * @param map
+         */
+        enableMapDarkModeHandling: function(map){
+            this.watchGlobal('ui-mode-changed', () => {
+                //debug>
+                console.log('ui mode changed - re-rendering map');
+                //</debug>
+                map.renderSync();
+            });
+        },
+
         layerPostRenderDarkModeHandler: function(e){
 
-            //todo - dark mode detection!
+            if(!mh.util.DarkMode.darkModeOn){
+                return;
+            }
 
             var ctx = e.context,
                 imgData = ctx.getImageData(0,0,ctx.canvas.width,ctx.canvas.height),

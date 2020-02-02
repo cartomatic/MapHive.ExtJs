@@ -144,8 +144,20 @@
             hcl[2] *= (lightness / 100);
 
             return this.hcl2rgb(hcl);
+        },
+
+        darken: function(color, ratio){
+            return tinycolor(color).darken(ratio);
         }
 
-    });
+    },
+        function(){
+            // let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/tinycolor/1.0.0`;
+            // mh.util.Loader.load({
+            //     fileList: [
+            //         `${basePath}/tinycolor.js`
+            //     ]
+            // });
+        });
     
 }());

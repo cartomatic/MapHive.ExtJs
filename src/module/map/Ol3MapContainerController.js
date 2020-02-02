@@ -139,6 +139,7 @@
 
             baseL = baseL ? (Ext.isArray(baseL) ? baseL : [baseL]) : [];
 
+            //enable dark mode handling for the base layers
             baseL.forEach(l => {
                 mh.module.map.Ol3MapUtils.enableLayerDarkModeHandling(l);
             });
@@ -168,6 +169,9 @@
                     zoom: 15
                 })
             });
+
+            //enable dark mode handling for the map itself
+            mh.module.map.Ol3MapUtils.enableMapDarkModeHandling(this.map);
 
             this.fireGlobal('mapcontainer::mapcreated', this.map);
         },
