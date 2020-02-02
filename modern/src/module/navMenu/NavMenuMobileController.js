@@ -14,7 +14,8 @@
         requires: [
             'mh.module.navMenu.NavMenuMobileLocalization',
             'Ext.ActionSheet',
-            'Ext.Label'
+            'Ext.Label',
+            'mh.module.settings.UserSettings'
         ],
 
         mixins: [
@@ -84,6 +85,9 @@
                 xtype: 'container',
                 flex: 1
             });
+
+            //settings btn
+            items.push(this.getUserSettingsMenuBtn());
 
             //log off btn
             items.push(this.getLogOffMenuBtn());
@@ -360,6 +364,36 @@
             return this.userProfileDisplay;
         },
 
+        /**
+         * private
+         */
+        userSettingsMenuBtn: null,
+
+        /**
+         * gets user settings menu btn
+         * @private
+         * @returns {null}
+         */
+        getUserSettingsMenuBtn: function(){
+            if(!this.userSettingsMenuBtn){
+                this.userSettingsMenuBtn = Ext.create('Ext.Button',{
+                    iconCls: mh.FontIconsDictionary.getIcon('mhUserSettings'),
+                    text: this.getTranslation('userSettings'),
+                    listeners: {
+                        tap: Ext.bind(this.onUserSettingsBtnTap, this)
+                    }
+                });
+            }
+            return this.userSettingsMenuBtn;
+        },
+
+        /**
+         * user settings tap
+         */
+        onUserSettingsBtnTap: function(){
+            this.redirectTo(this.getView().getUserSettingsRoute() || 'unknown');
+            this.hideNavMenu();
+        },
 
         /**
          * menu login btn instance

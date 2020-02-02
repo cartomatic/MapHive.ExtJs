@@ -48,6 +48,7 @@
                 xtype: 'panel',
                 width: 400,
                 padding: 10,
+                reference: 'itemsContainer',
                 items: [
                     {
                         xtype: 'fieldcontainer',

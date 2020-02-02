@@ -26,10 +26,29 @@
          */
         init: function() {
             this.injectLocalizationToViewModel();
+
+            //phones are different, ya know...
+            if(Ext.is.Phone){
+                let vw = this.getView(),
+                    itemsContainer = vw.lookupReference('itemsContainer');
+
+                //view titles are handled differently
+                vw.setHeader(false);
+
+                vw.items.items.forEach(item => {
+                    if(item !== itemsContainer){
+                        item.hide();
+                    }
+                });
+
+                itemsContainer.setFlex(1);
+                itemsContainer.setWidth(undefined);
+                itemsContainer.setPadding(20);
+            }
         },
 
         onDarkModeChange: function(sliderFld, newV, oldV, eOpts){
-            mh.util.DarkMode.setUiMode(newV ? 'dark' : undefined);
+            mh.util.DarkMode.setUiMode(newV ? 'dark' : 'light');
         },
 
         onShow: function(){

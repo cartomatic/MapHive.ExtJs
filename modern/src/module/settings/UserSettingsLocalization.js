@@ -12,8 +12,8 @@
             localization: {
                 viewName:
                 {
-                    en: 'User settings',
-                    pl: 'Ustawienia użytkownika'
+                    en: 'Settings',
+                    pl: 'Ustawienia'
                 },
                 uiLang: {
                     en: 'UI lang',

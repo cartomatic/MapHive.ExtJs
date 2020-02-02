@@ -23,7 +23,7 @@
                     deep: true
                 },
                 get: function(darkModeOn){
-                    return darkModeOn;
+                    return !!mh.util.DarkMode.darkModeOn;
                 }
             }
         }

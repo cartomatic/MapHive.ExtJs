@@ -7,13 +7,28 @@
     Ext.define('mh.util.DarkMode', {
         singleton: true,
         requires: [
-            'mh.util.Color'
+            'mh.util.Color',
+            'mh.util.Cookie'
         ],
         mixins: [
             'mh.communication.MsgBus'
         ],
 
         darkModeOn: false,
+
+        cookieProp: 'ui-mode',
+
+        /**
+         * sets ui mode with a value saved before or a specified default
+         * @param defaultMode
+         */
+        setUiModeSavedOrDefault: function(defaultMode){
+            let savedMode = mh.util.Cookie.getMhCookieProp(this.cookieProp);
+
+            this.setUiMode(
+                typeof savedMode !== 'undefined' ? savedMode : defaultMode
+            );
+        },
 
         /**
          * sets ui mode
@@ -27,7 +42,7 @@
             else {
                 Fashion.css.setVariables(this.getStdModeCssVars());
             }
-
+            mh.util.Cookie.setMhCookieProp(this.cookieProp, mode);
             this.fireGlobal('ui-mode-changed');
         },
 
