@@ -18,6 +18,10 @@
                     en: 'Log in',
                     pl: 'Zaloguj'
                 },
+                userSettings: {
+                    en: 'Settings',
+                    pl: 'Ustawienia'
+                },
                 profile: {
                     en: 'Profile',
                     pl: 'Profil'

@@ -15,7 +15,8 @@
             'mh.FontIconsDictionary',
             'mh.module.navMenu.NavMenuDesktopController',
             'mh.module.navMenu.NavMenuDesktopModel',
-            'mh.module.userProfile.UserProfile'
+            'mh.module.userProfile.UserProfile',
+            'mh.module.settings.UserSettings'
         ],
 
         mixins: [
@@ -41,6 +42,11 @@
             userProfileRoute: 'mh-user-profile',
 
             /**
+             * @cfg - route to load for user settings edits
+             */
+            userSettingsRoute: 'mh-user-settings',
+
+            /**
              * whether or not logout btn should be hidden
              */
             hideLogOffBtn: false,
@@ -49,6 +55,11 @@
              * whether or not profile btn should be hidden
              */
             hideProfileBtn: false,
+
+            /**
+             * whether or not should hide user settings btn
+             */
+            hideSettingsBtn: false,
 
             /**
              * instead of the default redirect to a common app (dashboard or home, etc), app will just force reload
@@ -127,6 +138,24 @@
                 //weight: 20,
                 listeners: {
                     tap: 'onProfileBtnTap'
+                }
+            },
+
+            settings: {
+                xtype: 'button',
+                reference: 'settingsBtn',
+                ui: 'navmenu-large navmenu-flat navmenu-dark',
+
+                iconCls: mh.FontIconsDictionary.getIcon('mhUserSettings'),
+
+                bind: {
+                    text: '{localization.userSettings}'
+                },
+
+                textAlign: 'left',
+                //weight: 20,
+                listeners: {
+                    tap: 'onSettingsBtnTap'
                 }
             },
 

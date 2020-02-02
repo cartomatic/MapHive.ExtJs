@@ -17,7 +17,9 @@
         requires: [
             'mh.FontIconsDictionary',
             'mh.module.navMenu.Icons',
-            'mh.module.commonConfig.CommonConfig'
+
+            //user profile
+            //user settings
         ],
 
         controller: 'mh-main-view-nav-menu-mobile',
@@ -37,6 +39,11 @@
              * @cfg - route to load for user profile edits
              */
             userProfileRoute: 'mh-user-profile',
+
+            /**
+             * @cfg - route to load for user settings edits
+             */
+            userSettingsRoute: 'mh-user-settings',
 
             /**
              * instead of the default redirect to a common app (dashboard or home, etc), app will just force reload

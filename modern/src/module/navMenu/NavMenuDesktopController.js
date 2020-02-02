@@ -43,6 +43,9 @@
             if(vw.getHideProfileBtn()){
                 this.lookupReference('profileBtn').hide();
             }
+            if(vw.getHideSettingsBtn()){
+                this.lookupReference('settingsBtn').hide();
+            }
 
             this.callMeParent(arguments);
 
@@ -193,6 +196,10 @@
             //also register user settings route
             if(!this.getView().getHideProfileBtn()){
                 this.fireGlobal('route::register', {route: this.getView().getUserProfileRoute() || 'unknown', type: 'nav'});
+            }
+
+            if(!this.getView().getHideSettingsBtn()){
+                this.fireGlobal('route::register', {route: this.getView().getUserSettingsRoute() || 'unknown', type: 'nav'});
             }
         },
 

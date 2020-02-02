@@ -355,6 +355,7 @@
 
                 //register nav route for the user profile view!
                 this.fireGlobal('route::register', {route: this.getView().getUserProfileRoute() || 'unknown', type: 'nav'});
+                this.fireGlobal('route::register', {route: this.getView().getUserSettingsRoute() || 'unknown', type: 'nav'});
             }
             return this.userProfileDisplay;
         },

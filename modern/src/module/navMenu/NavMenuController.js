@@ -57,6 +57,8 @@
          */
         userProfile: null,
 
+        userSettings: null,
+
         getUserProfile: function(){
             var tunnel = this.getTunnelId();
             this.watchGlobal('auth::userprofileretrieved', this.onUserProfileRetrieved, this, {single: true, tunnel: tunnel});
@@ -91,6 +93,13 @@
             else {
                 //just let the global Auth controller know user wants to authenticate
                 this.fireGlobal('auth::requestuserauth');
+            }
+        },
+
+        onSettingsBtnTap: function(){
+            if(this.userProfile){
+                this.redirectTo(this.getView().getUserSettingsRoute() || 'unknown');
+                this.collapse();
             }
         },
 

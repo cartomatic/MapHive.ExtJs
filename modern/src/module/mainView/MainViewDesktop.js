@@ -20,7 +20,9 @@
             'mh.module.orgContextSwitcher.OrgContextSwitcherDesktop',
             'mh.module.navMenu.NavMenuDesktop',
             //default user profile view for side nav menu
-            'mh.module.userProfile.UserProfile'
+            'mh.module.userProfile.UserProfile',
+            //default settings
+            'mh.module.settings.UserSettings'
         ],
 
         xtype: 'mh-main-view-desktop',

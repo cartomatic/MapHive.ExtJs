@@ -39,7 +39,7 @@
                     pl: 'Zapisz zmiany'
                 },
                 profileSaveLoadMask: {
-                    en: 'aving profile...',
+                    en: 'Saving profile...',
                     pl: 'Zapisywanie profilu...'
                 },
                 profileSaveFailure: {
