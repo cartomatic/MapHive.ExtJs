@@ -17,6 +17,8 @@ $navmenu-sidebar-micro-expanded-width: dynamic(256px);
 
 $navmenu-neutral-light-color: dynamic($neutral-light-color);
 
+$bee-yellow: #f3cd1d;
+
 .navmenu-sidebar {
   $navmenu-sidebar-picture-size: $navmenu-sidebar-icon-size*1.6;
   $navmenu-sidebar-picture-size-big: $navmenu-sidebar-icon-size-big*1.8;
@@ -81,7 +83,7 @@ $navmenu-neutral-light-color: dynamic($neutral-light-color);
   width: 20px!important;
   height: 20px;
   background-color: #353535;
-  border: 1px solid #FEFEFE;
+  border: 1px solid $bee-yellow;
   border-radius: 20px;
   position: fixed;
   z-index: 1000;
@@ -92,7 +94,7 @@ $navmenu-neutral-light-color: dynamic($neutral-light-color);
     .x-icon-el {
       width: 18px;
       height: 18px;
-      color: #FEFEFE;
+      color: $bee-yellow;
       font-weight: 700;
     }
     .x-icon-el:before {
@@ -100,7 +102,7 @@ $navmenu-neutral-light-color: dynamic($neutral-light-color);
       font-size: 8px;
       text-align: center;
       font-weight: 700;
-      color: #FEFEFE;
+      color: $bee-yellow;
     }
   }
 }
@@ -201,13 +203,13 @@ some uis used by the nav menu
 @include button-ui(
   $ui: 'navmenu-flat',
   $background-color: rgba(white, 0),
-  $color: $neutral-medium-dark-color,
+  $color: $bee-yellow,
   $pressed-color: $base-color
 );
 
 @include button-ui(
   $ui: 'navmenu-dark',
-  $color: $neutral-light-color,
+  $color: $bee-yellow,
   $pressed-color: $neutral-light-color,
   $background-color:  $navmenu-sidebar-background-color, //$color, <- this one revereses in dark mode!
 
@@ -269,7 +271,7 @@ some uis used by the nav menu
 @include dataview-ui(
   $ui: 'navmenu-dark',
   $background-color: $navmenu-sidebar-background-color,
-  $item-color: $navmenu-sidebar-neutral-light-color,
+  $item-color: $bee-yellow ,
   $item-hovered-color: contrasted($navmenu-sidebar-neutral-light-color, -5%),
   $item-selected-color: contrasted($navmenu-sidebar-neutral-light-color, -20%),
   $item-pressed-color: contrasted($navmenu-sidebar-neutral-light-color, -10%),
@@ -309,3 +311,74 @@ some uis used by the nav menu
   height:45px;
   background-position: center center;
 }
+
+/*
+//use stuff below to customize the left hand side menu appearance
+
+//custom nav menu
+//-----------------------------------------
+.navmenu-expander {
+
+  border: 1px solid $bee-yellow !important;
+
+  .x-inner-el {
+    padding: 0px!important;
+
+    .x-icon-el {
+      color: $bee-yellow !important;
+    }
+    .x-icon-el:before {
+      color: $bee-yellow !important;
+    }
+  }
+}
+
+@include dataview-ui(
+  $ui: 'navmenu-dark',
+  $background-color: $navmenu-sidebar-background-color,
+  $item-color: $bee-yellow !important,
+  $item-hovered-color: contrasted($navmenu-sidebar-neutral-light-color, -5%),
+  $item-selected-color: contrasted($navmenu-sidebar-neutral-light-color, -20%),
+  $item-pressed-color: contrasted($navmenu-sidebar-neutral-light-color, -10%),
+  $item-background-color: $navmenu-sidebar-background-color,
+  $item-alt-background-color: contrasted($navmenu-sidebar-background-color, -5%),
+  $item-hovered-background-color: contrasted($navmenu-sidebar-background-color, 5%),
+  $item-selected-background-color: $navmenu-sidebar-item-selected-color,
+  $item-pressed-background-color: contrasted($navmenu-sidebar-background-color, 15%)
+);
+
+@include button-ui(
+  $ui: 'navmenu-dark',
+  $color: $bee-yellow !important,
+  $pressed-color: $neutral-light-color,
+  $background-color:  $navmenu-sidebar-background-color,
+
+  $hovered-background-color: $highlight-color,
+  $pressing-background-color: $base-light-color,
+  $pressed-background-color: $base-light-color
+);
+
+@include button-ui(
+  $ui: 'navmenu-flat',
+  $background-color: rgba(white, 0),
+  $color: $bee-yellow !important,
+  $pressed-color: $base-color
+);
+
+@include button-ui(
+  $ui: 'navmenu-dark-app-btn',
+  $color: $neutral-light-color,
+  $pressed-color: $neutral-light-color,
+
+  $background-color: $navmenu-sidebar-background-color, //$color, <- this one revereses in dark mode!
+
+  $icon-size: 44px,
+  $icon-size-big: 44px,
+  $icon-only-padding: 0px,
+  $icon-only-padding-big: 0px,
+  $padding: 2px,
+  $padding-big: 2px
+);
+
+//-----------------------------------------
+*/
