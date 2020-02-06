@@ -38,12 +38,14 @@
                 navMenu = vw.getNavMenu(),
                 appSwitcher = vw.getAppSwitcher(),
                 orgSwitcher = vw.getOrgContextSwitcher(),
-                navMenuLogOffReload = !!vw.getNavMenuLogOffReload();
+                navMenuLogOffReload = !!vw.getNavMenuLogOffReload(),
+                navMenuhideSettingsBtn = !!vw.getNavMenuHideSettingsBtn();
 
             if(navMenu){
                 navMenu.zIndex = 4;
                 navMenu.reference = 'navmenu';
                 navMenu.logOffReload = navMenuLogOffReload;
+                navMenu.hideSettingsBtn = navMenuhideSettingsBtn;
 
                 vw.setLbar(navMenu);
             }

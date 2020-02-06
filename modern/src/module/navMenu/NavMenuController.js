@@ -97,10 +97,8 @@
         },
 
         onSettingsBtnTap: function(){
-            if(this.userProfile){
-                this.redirectTo(this.getView().getUserSettingsRoute() || 'unknown');
-                this.collapse();
-            }
+            this.redirectTo(this.getView().getUserSettingsRoute() || 'unknown');
+            this.collapse();
         },
 
         /**

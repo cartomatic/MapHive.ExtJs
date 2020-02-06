@@ -57,6 +57,11 @@
             navMenuLogOffReload: false,
 
             /**
+             * whether or not user settings section should be on by default
+             */
+            navMenuHideSettingsBtn: false,
+
+            /**
              * store with main menu routes to be registered; should contain mh.data.model.Route models
              */
             menuRoutesStore: 'routes-main-menu', //registered via application.stores, but id explicitly enforced by a store def
