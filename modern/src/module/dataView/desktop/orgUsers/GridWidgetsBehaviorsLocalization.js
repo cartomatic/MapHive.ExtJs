@@ -27,8 +27,8 @@
                     pl: 'Zmień hasło użytkownika'
                 },
                 passForceSetMsg: {
-                    en: 'This operation will force change user password to an arbitrary one. Continue?',
-                    pl: 'Ta operacja zmieni hasło użytkownika na wskazane. Kontynuować?'
+                    en: 'Type a new user password below.',
+                    pl: 'Podaj nowe hasło użytkownika.'
                 },
                 passForceSetLoadmask: {
                     en: 'Setting user password...',
