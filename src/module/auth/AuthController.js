@@ -135,6 +135,9 @@
          * @param cmp
          */
         unmask: function(cmp){
+            if(!cmp){
+                return;
+            }
             if(Ext.toolkit === 'modern'){
                 cmp.setMasked(false);
             }
