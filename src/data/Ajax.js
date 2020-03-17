@@ -169,17 +169,25 @@
          * @param {mh.data.AjaxRequestCfg} cfg
          */
         _doRequest: function (cfg) {
+
+            //<debug>
+            console.warn('[AJAX REQUEST CFG]', cfg);
+            //</debug>
+
             //perform a standard post request and set up proxy for the needed callbacks
             Ext.Ajax.request({
                 cors: true,
                 url: cfg.url,
                 method: cfg.method || 'POST',
                 headers: Ext.merge(this.getStandardHeaders(), cfg.headers),
-                params: Ext.isObject(cfg.params) ? (cfg.method === 'GET' ? Ext.Object.toQueryString(cfg.params) : Ext.JSON.encode(cfg.params)) : null,
+                //params: Ext.isObject(cfg.params) ? (cfg.method === 'GET' ? Ext.Object.toQueryString(cfg.params) : Ext.JSON.encode(cfg.params)) : null,
+                params: Ext.isObject(cfg.params) && cfg.method === 'GET' ? Ext.Object.toQueryString(cfg.params) : null,
+                rawData: Ext.isObject(cfg.params) && cfg.method !== 'GET' ? JSON.stringify(cfg.params) : null,
                 callback: Ext.bind(this._requestCallback, {self: this, cfg: cfg}),
                 disableCaching: cfg.disableCaching,
                 timeout: cfg.timeout
             });
+
         },
 
         /**
