@@ -171,7 +171,7 @@
         _doRequest: function (cfg) {
 
             //<debug>
-            console.warn('[AJAX REQUEST CFG]', cfg);
+            console.log('[AJAX REQUEST CFG]', cfg);
             //</debug>
 
             //perform a standard post request and set up proxy for the needed callbacks
