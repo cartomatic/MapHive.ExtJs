@@ -287,7 +287,7 @@
          * @param dataRoute
          */
         getNavRouteFromDataRoute: function(dataRoute){
-            var routeParams = this.getDataRouteParamsForRoute(dataRoute),
+            var routeParams = this.getDataRouteParamsForRoute(dataRoute) || [],
                 route,
                 rp = 1, rplen = routeParams.length;
 

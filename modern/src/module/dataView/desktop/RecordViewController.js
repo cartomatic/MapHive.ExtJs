@@ -158,7 +158,7 @@
 
             var previousRoute = this.getPreviousRoute(),
                 previousRouteParams = this.getDataRouteParamsForRoute(previousRoute) || [], //previous route may not be a data route, and will not yield data route params!
-                currentRouteParams = this.getDataRouteParamsForCurrentRoute(),
+                currentRouteParams = this.getDataRouteParamsForCurrentRoute() || [],
                 rp = 1, rplen = currentRouteParams.length,
                 sameRouteFamily;
 
