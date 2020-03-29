@@ -86,7 +86,7 @@
         shouldPreventReload: function(id, route){
             var previousRoute = this.getPreviousRoute(),
                 previousRouteParts = this.getDataRouteParamsForRoute(previousRoute) || [],
-                currentRouteParams = (route ? this.getDataRouteParamsForRoute(route) : this.getDataRouteParamsForCurrentRoute()),
+                currentRouteParams = (route ? this.getDataRouteParamsForRoute(route) : this.getDataRouteParamsForCurrentRoute()) || [],
                 rp = 1, rplen = currentRouteParams.length - 1,
                 prevent;
 
