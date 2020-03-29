@@ -104,6 +104,9 @@
          * Note: borowed from http://stackoverflow.com/a/13653180 (https://jsfiddle.net/mshaffer/6e2Ljh97/)
          */
         isGuid: function(wouldBeGuid){
+            if(!wouldBeGuid){
+                return false;
+            }
             if (wouldBeGuid[0] === "{")
             {
                 wouldBeGuid = wouldBeGuid.substring(1, wouldBeGuid.length - 1);
