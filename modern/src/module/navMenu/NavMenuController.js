@@ -108,6 +108,7 @@
             var me = this,
                 currentApp = me.getCurrentApp(),
                 logOffReload = me.getView().getLogOffReload(),
+                logOffCustomHandler = me.getView().getLogOffCustomHandler(),
                 msg = currentApp && currentApp.get('requiresAuth') && logOffReload ?
                     me.getTranslation('logOffConfirmMsgWithReload') :
                     me.getTranslation('logOffConfirmMsgNoReload'),
@@ -137,10 +138,14 @@
                                     //TODO - log off reload should really be the default behavior when app is wrapped into cordova; otherwise should redirect i think. USsrs should be able to go back anyway
                                     //<debug>
                                     console.log('Nav menu logOffReload', logOffReload);
+                                    console.log('Nav menu logOffCustomHandler', !!logOffCustomHandler && !!logOffCustomHandler.fn);
                                     //</debug>
 
                                     if(logOffReload){
                                         window.location.reload();
+                                    }
+                                    else if(logOffCustomHandler && logOffCustomHandler.fn && Ext.isFunction(logOffCustomHandler.fn)){
+                                        logOffCustomHandler.fn();
                                     }
                                     else if(currentApp && currentApp.get('requiresAuth')){
                                         //need to reload to home as the current app requires auth!

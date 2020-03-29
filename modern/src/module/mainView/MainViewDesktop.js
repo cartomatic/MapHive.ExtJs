@@ -57,6 +57,11 @@
             navMenuLogOffReload: false,
 
             /**
+             * custom log off handler for scenarios where default log off reload or redirect to dashboard do not fit
+             */
+            navMenuLogOffCustomHandler: null,
+
+            /**
              * whether or not user settings section should be on by default
              */
             navMenuHideSettingsBtn: false,

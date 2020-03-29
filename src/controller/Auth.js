@@ -19,14 +19,14 @@
             'mh.data.Ajax'
         ],
 
-    requires: [
-        'mh.data.model.Application',
-        'mh.data.model.User',
-        'mh.module.auth.Auth',
-        'mh.module.auth.Utils'
-    ],
+        requires: [
+            'mh.data.model.Application',
+            'mh.data.model.User',
+            'mh.module.auth.Auth',
+            'mh.module.auth.Utils'
+        ],
 
-    config: {
+        config: {
             /**
              * @cfg {string} [authUi='mh.module.auth.Auth']
              * Auth UI to be used by the Auth controller. Required to expose some standardised API.

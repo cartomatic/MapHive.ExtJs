@@ -64,7 +64,12 @@
             /**
              * instead of the default redirect to a common app (dashboard or home, etc), app will just force reload
              */
-            logOffReload: false
+            logOffReload: false,
+
+            /**
+             * custom log off handler for scenarios where default log off reload or redirect to dashboard do not fit
+             */
+            logOffCustomHandler: null
         },
 
         controller: 'mh-main-view-nav-menu-desktop',
