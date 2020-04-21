@@ -21,7 +21,11 @@
                 },
                 uiMode: {
                     en: 'Enable UI dark mode',
-                    pl: 'Włącz tryb ciemny'
+                    pl: 'Włącz tryb ciemny interfejsu użytkownika'
+                },
+                mapMode: {
+                    en: 'Enable map dark mode',
+                    pl: 'Włącz tryb ciemny dla mapy'
                 }
             }
         }

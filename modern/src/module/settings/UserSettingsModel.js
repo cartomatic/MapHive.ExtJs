@@ -25,6 +25,15 @@
                 get: function(darkModeOn){
                     return !!mh.util.DarkMode.darkModeOn;
                 }
+            },
+            darkMapMode: {
+                bind: {
+                    bindTo: mh.util.DarkMode.darkMapModeOn,
+                    deep: true
+                },
+                get: function(darkModeOn){
+                    return !!mh.util.DarkMode.darkMapModeOn;
+                }
             }
         }
     });

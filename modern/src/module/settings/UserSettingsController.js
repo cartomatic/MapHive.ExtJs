@@ -50,6 +50,9 @@
         onDarkModeChange: function(sliderFld, newV, oldV, eOpts){
             mh.util.DarkMode.setUiMode(newV ? 'dark' : 'light');
         },
+        onDarkMapModeChange: function(sliderFld, newV, oldV, eOpts){
+            mh.util.DarkMode.setMapMode(newV ? 'dark' : 'light');
+        },
 
         onShow: function(){
 

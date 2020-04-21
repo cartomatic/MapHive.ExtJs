@@ -112,20 +112,21 @@
                             tap: 'onBtnChangePassTap'
                         },
                         width: '100%'
-                    },
-                    {
-                        xtype: 'fieldcontainer',
-                        bind: {
-                            label: '{localization.uiLang}'
-                        },
-                        margin: '50 0 0 0',
-                        items: [
-                            {
-                                xtype: 'mh-lang-switcher',
-                                flex: 1
-                            }
-                        ]
                     }
+                    // ,
+                    // {
+                    //     xtype: 'fieldcontainer',
+                    //     bind: {
+                    //         label: '{localization.uiLang}'
+                    //     },
+                    //     margin: '50 0 0 0',
+                    //     items: [
+                    //         {
+                    //             xtype: 'mh-lang-switcher',
+                    //             flex: 1
+                    //         }
+                    //     ]
+                    // }
                 ]
             },
             { xtype: 'container', flex: 1}

@@ -72,6 +72,16 @@
                         listeners: {
                             change: 'onDarkModeChange'
                         }
+                    },
+                    {
+                        xtype: 'togglefield',
+                        bind: {
+                            label: '{localization.mapMode}',
+                            value: '{darkMapMode}'
+                        },
+                        listeners: {
+                            change: 'onDarkMapModeChange'
+                        }
                     }
                 ]
             },

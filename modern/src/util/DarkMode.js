@@ -16,17 +16,24 @@
 
         darkModeOn: false,
 
-        cookieProp: 'ui-mode',
+        darkMapModeOn: false,
+
+        cookieUiModeProp: 'ui-mode',
+        cookieMapModeProp: 'ui-map-mode',
 
         /**
          * sets ui mode with a value saved before or a specified default
          * @param defaultMode
          */
         setUiModeSavedOrDefault: function(defaultMode){
-            let savedMode = mh.util.Cookie.getMhCookieProp(this.cookieProp);
+            let savedUiMode = mh.util.Cookie.getMhCookieProp(this.cookieUiModeProp),
+                savedMapMode = mh.util.Cookie.getMhCookieProp(this.cookieMapModeProp);;
 
             this.setUiMode(
-                typeof savedMode !== 'undefined' ? savedMode : defaultMode
+                typeof savedUiMode !== 'undefined' ? savedUiMode : defaultMode
+            );
+            this.setMapMode(
+                typeof savedMapMode !== 'undefined' ? savedMapMode : defaultMode
             );
         },
 
@@ -42,8 +49,14 @@
             else {
                 Fashion.css.setVariables(this.getStdModeCssVars());
             }
-            mh.util.Cookie.setMhCookieProp(this.cookieProp, mode);
+            mh.util.Cookie.setMhCookieProp(this.cookieUiModeProp, mode);
             this.fireGlobal('ui-mode-changed');
+        },
+
+        setMapMode: function(mode){
+            this.darkMapModeOn = mode === 'dark';
+            mh.util.Cookie.setMhCookieProp(this.cookieMapModeProp, mode);
+            this.fireGlobal('ui-map-mode-changed');
         },
 
         /**
