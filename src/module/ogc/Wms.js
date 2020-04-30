@@ -31,7 +31,17 @@
                     'ogc-schemas/2.6.1/lib/WMS_1_3_0_Exceptions.js'
                 ],
                 callback = () => {
-                    if(typeof Jsonix === 'undefined' || typeof XLink_1_0 === 'undefined'){
+                    if(
+                        typeof Jsonix === 'undefined' ||
+                        typeof XLink_1_0 === 'undefined' ||
+                        typeof INSPIRE_VS_1_0 === 'undefined' ||
+                        typeof OWS_1_0_0 === 'undefined' ||
+                        typeof OWS_1_1_0 === 'undefined' ||
+                        typeof WMS_1_0_0 === 'undefined' ||
+                        typeof WMS_1_1_1 === 'undefined' ||
+                        typeof WMS_1_3_0 === 'undefined' ||
+                        typeof WMS_1_3_0_Exceptions === 'undefined'
+                    ){
                         Ext.defer(loadScripts, 250, this);
                         return;
                     }

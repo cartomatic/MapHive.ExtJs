@@ -34,7 +34,20 @@
                     'ogc-schemas/2.6.1/lib/WFS_2_0.js'
                 ],
                 callback = () => {
-                if(typeof Jsonix === 'undefined' || typeof XLink_1_0 === 'undefined'){
+                if(
+                    typeof Jsonix === 'undefined' ||
+                    typeof XLink_1_0 === 'undefined' ||
+                    typeof XSD_1_0 === 'undefined' ||
+                    typeof OWS_1_0_0 === 'undefined' ||
+                    typeof OWS_1_1_0 === 'undefined' ||
+                    typeof Filter_1_1_0 === 'undefined' ||
+                    typeof Filter_2_0 === 'undefined' ||
+                    typeof GML_3_1_1 === 'undefined' ||
+                    typeof SMIL_2_0 === 'undefined' ||
+                    typeof SMIL_2_0_Language === 'undefined' ||
+                    typeof WFS_1_1_0 === 'undefined' ||
+                    typeof WFS_2_0 === 'undefined'
+                ){
                     Ext.defer(loadScripts, 250, this);
                     return;
                 }
