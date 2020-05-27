@@ -123,12 +123,37 @@
             //TODO - maybe in the future support some more default layers...
             var baseL = this.getView().getBaseLayer();
             if(Ext.isString(baseL)){
+
                 switch(baseL){
 
                     case 'OSM':
                     default:
                         baseL = new ol.layer.Tile({
                             source: new ol.source.OSM()
+                        });
+                        break;
+
+                    case 'STAMEN-WATERCOLOR':
+                        baseL = new ol.layer.Tile({
+                            source: new ol.source.Stamen({
+                                layer: 'watercolor'
+                            })
+                        });
+                        break;
+
+                    case 'STAMEN-TERRAIN':
+                        baseL = new ol.layer.Tile({
+                            source: new ol.source.Stamen({
+                                layer: 'terrain'
+                            })
+                        });
+                        break;
+
+                    case 'STAMEN-TONER':
+                        baseL = new ol.layer.Tile({
+                            source: new ol.source.Stamen({
+                                layer: 'toner'
+                            })
                         });
                         break;
                 }

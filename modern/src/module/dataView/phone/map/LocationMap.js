@@ -40,7 +40,12 @@
         config: {
             editAllowed: true,
             initialLongitude: null,
-            initialLatitude: null
+            initialLatitude: null,
+
+            /**
+             * pushed into map component as a base layer
+             */
+            baseLayer: 'OSM'
         },
 
         items: [
@@ -90,11 +95,12 @@
                 flex: 1,
                 reference: 'mapOuterContainer',
                 items: [
-                    {
-                        xtype: 'mh-ol3-map-container',
-                        reference: 'mapContainer',
-                        cls: 'edit-wizard-swipe-ignore'
-                    },
+                    //created in controller so can pass through a base layer for a map
+                    // {
+                    //     xtype: 'mh-ol3-map-container',
+                    //     reference: 'mapContainer',
+                    //     cls: 'edit-wizard-swipe-ignore'
+                    // },
                     {
                         xtype: 'button',
                         reference: 'savePositionEditBtn',
