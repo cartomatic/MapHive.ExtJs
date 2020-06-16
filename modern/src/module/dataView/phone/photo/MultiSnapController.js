@@ -99,9 +99,82 @@
          * show snap dialog btn tap listener
          */
         onShowSnapPhotoDialog: function(){
-            this.showSnapperDialog(this.getActiveImgRef());
+            if(this.getView().getUpload()){
+                this.showUploadDialog(this.getActiveImgRef());
+            }
+            else {
+                this.showSnapperDialog(this.getActiveImgRef());
+            }
         },
 
+        /**
+         *
+         * @param imgRef
+         */
+        showUploadDialog: function(imgRef){
+
+            if(!this.uploadField){
+                this.uploadField = document.createElement('input');
+                this.uploadField.type = 'file';
+                this.uploadField.accept = ".png, .jpg, .gif";
+                this.uploadField.style.display = 'none';
+                document.body.appendChild(this.uploadField);
+                this.uploadField.addEventListener('change', {
+                    handleEvent: this.onUploadPicture,
+                    scope: this
+                });
+            }
+
+            this.uploadField.imgRef = imgRef;
+
+            this.uploadField.click();
+        },
+
+        /**
+         * upload field for picture uploads
+         * @private
+         */
+        uploadField: null,
+
+        /**
+         * on upload profile picture handler
+         * @param e
+         * @param me
+         * @param file
+         */
+        onUploadPicture: function(e, me, file){
+            if(typeof file === 'undefined'){
+                file = e.target.files[0];
+            }
+            if(typeof me === 'undefined'){
+                me = this.scope;
+            }
+
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+
+                //reset input, so can pick the same file again
+                me.uploadField.value = '';
+
+                me.applyPickedPhoto(reader.result);
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        },
+
+        applyPickedPhoto: function(data){
+
+            var ref = this.uploadField.imgRef,
+                img = this.lookupReference(ref),
+                oldSrc = img.getSrc();
+
+            img.setSrc(data);
+
+            this.reportChange(ref, data, oldSrc);
+        },
 
         /**
          * @event snapchanged

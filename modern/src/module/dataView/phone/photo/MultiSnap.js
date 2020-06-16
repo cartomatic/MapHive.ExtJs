@@ -22,7 +22,12 @@
             /**
              * output mime when collecting data off the canvas; supported mime are: 'image/png', 'image/jpeg', 'image/gif'
              */
-            outputMime: 'image/png'
+            outputMime: 'image/png',
+
+            /**
+             * whether or not module should work in upload mode instead
+             */
+            upload: false
         },
 
         layout: 'fit',
