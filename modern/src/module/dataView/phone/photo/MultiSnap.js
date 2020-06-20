@@ -80,7 +80,11 @@
             {
                 xtype: 'tabpanel',
                 tabBarPosition: 'top',
-                reference: 'tabPanel'
+                reference: 'tabPanel',
+                layout: {
+                    type: 'card',
+                    animation: 'fade'
+                }
             }
         ],
         listeners: {

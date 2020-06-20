@@ -114,6 +114,10 @@
         items: [{
             xtype: 'tabpanel',
             reference: 'tabPanel',
+            layout: {
+                type: 'card',
+                animation: 'fade'
+            },
 
             defaults: {
                 //userCls: 'wizard-screen',

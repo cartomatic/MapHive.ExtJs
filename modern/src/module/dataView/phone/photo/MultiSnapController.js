@@ -27,7 +27,7 @@
          * Called when the view is created
          */
         init: function() {
-            this.publishApi('setSnappers', 'setPhotos', 'setPhoto', 'getPhotos', 'getPhoto', 'isComplete');
+            this.publishApi('setSnappers', 'setPhotos', 'setPhoto', 'getPhotos', 'getPhoto', 'isComplete', 'preventShow');
 
             this.setUpCameras();
 
@@ -44,6 +44,15 @@
             if(!allowPhoto){
                 this.lookupReference('snapPhotoBtn').hide();
             }
+        },
+
+        /**
+         * whether or not view show should be prevented when used in phone wizard editor;
+         * basically returns true when there are no snappers set and false otherwise
+         * @returns {boolean}
+         */
+        preventShow: function(){
+            return this.lookupReference('tabPanel').getItems().items.length < 2;
         },
 
         /**

@@ -17,6 +17,11 @@
             'mh.module.dataView.desktop.CompositeDataViewController'
         ],
 
-        controller: 'mh-desktop-composite-dataview'
+        controller: 'mh-desktop-composite-dataview',
+
+        layout: {
+            type: 'card',
+            animation: 'fade'
+        }
     });
 }());
