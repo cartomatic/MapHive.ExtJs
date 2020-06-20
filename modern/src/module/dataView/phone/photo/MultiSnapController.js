@@ -165,16 +165,83 @@
             }
         },
 
+        /**
+         * private
+         */
+        standardizeImgSizeCanvas: null,
+
+
+        /**
+         * loads a picked photo onto an img element
+         * @param data
+         */
         applyPickedPhoto: function(data){
 
-            var ref = this.uploadField.imgRef,
+            let ref = this.uploadField.imgRef,
                 img = this.lookupReference(ref),
-                oldSrc = img.getSrc();
+                oldSrc = img.getSrc(),
+                newSrc,
+                destWidth = 720,
+                destHeight = 1280;
 
-            img.setSrc(data);
+            //need to standardize img size
+            //--------------------------------------------------------------------------------
+            if(!this.standardizeImgSizeCanvas) {
+                this.standardizeImgSizeCanvas = document.createElement("canvas");
+                this.standardizeImgSizeCanvas.width = destWidth;
+                this.standardizeImgSizeCanvas.height = destHeight;
+            }
 
-            this.reportChange(ref, data, oldSrc);
+            let me = this,
+                mime = this.getView().getOutputMime() || 'image/png',
+                ctx = this.standardizeImgSizeCanvas.getContext('2d'),
+                tmpImg = document.createElement('img'),
+                scaleRatio, newWidth, newHeight;
+
+            ctx.clearRect(0, 0, destWidth, destHeight);
+
+            //if non-transparent, need to make background white
+            if(mime !== 'image/png'){
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, destWidth, destHeight);
+            }
+
+            tmpImg.onload = () => {
+                console.warn('tmpImg.width', tmpImg.width, 'tmpImg.height', tmpImg.height);
+
+                scaleRatio = Math.min(
+                    destWidth / tmpImg.width,
+                    destHeight / tmpImg.height
+                );
+                newWidth = tmpImg.width * scaleRatio;
+                newHeight = tmpImg.height * scaleRatio;
+
+                console.warn('newWidth', newWidth, 'newHeight', newHeight);
+
+                ctx.drawImage(
+                    tmpImg, 0, 0, tmpImg.width, tmpImg.height,
+                    (destWidth - newWidth) / 2,
+                    (destHeight - newHeight) / 2,
+                    newWidth,
+                    newHeight
+                );
+
+                tmpImg.remove();
+
+                newSrc = this.standardizeImgSizeCanvas.toDataURL(mime);
+
+                img.setSrc(newSrc);
+
+                me.reportChange(ref, newSrc, oldSrc);
+
+            };
+
+            tmpImg.src = data;
+
+            //--------------------------------------------------------------------------------
         },
+
+
 
         /**
          * @event snapchanged
