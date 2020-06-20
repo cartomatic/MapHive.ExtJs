@@ -30,6 +30,20 @@
             this.publishApi('setSnappers', 'setPhotos', 'setPhoto', 'getPhotos', 'getPhoto', 'isComplete');
 
             this.setUpCameras();
+
+            let vw = this.getView(),
+                allowUpload = vw.getAllowUpload(),
+                allowPhoto = vw.getAllowPhoto();
+
+            if(allowUpload){
+                this.lookupReference('uploadBtn').show();
+                if(!allowPhoto){
+                    this.lookupReference('uploadBtn').setBottom(15);
+                }
+            }
+            if(!allowPhoto){
+                this.lookupReference('snapPhotoBtn').hide();
+            }
         },
 
         /**
@@ -99,12 +113,14 @@
          * show snap dialog btn tap listener
          */
         onShowSnapPhotoDialog: function(){
-            if(this.getView().getUpload()){
-                this.showUploadDialog(this.getActiveImgRef());
-            }
-            else {
-                this.showSnapperDialog(this.getActiveImgRef());
-            }
+            this.showSnapperDialog(this.getActiveImgRef());
+        },
+
+        /**
+         * show file upload dialog
+         */
+        onUploadPhotoDialog: function(){
+            this.showUploadDialog(this.getActiveImgRef());
         },
 
         /**

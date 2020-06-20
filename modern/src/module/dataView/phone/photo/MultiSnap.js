@@ -25,9 +25,14 @@
             outputMime: 'image/png',
 
             /**
+             * whether or not photo snapping is allowed
+             */
+            allowPhoto: true,
+
+            /**
              * whether or not module should work in upload mode instead
              */
-            upload: false
+            allowUpload: false
         },
 
         layout: 'fit',
@@ -47,6 +52,7 @@
             },
             {
                 xtype: 'button',
+                reference: 'snapPhotoBtn',
                 iconCls: mh.FontIconsDictionary.getIcon('mhPhotoSnap'),
                 ui: 'mh-phone-green-btn raised',
                 right: 15,
@@ -55,6 +61,20 @@
                 height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
                 listeners: {
                     tap: 'onShowSnapPhotoDialog'
+                }
+            },
+            {
+                xtype: 'button',
+                reference: 'uploadBtn',
+                hidden: true,
+                iconCls: mh.FontIconsDictionary.getIcon('mhPhotoUpload'),
+                ui: 'mh-phone-purple-btn raised',
+                right: 15,
+                bottom: 55,
+                width: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnWidth,
+                height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
+                listeners: {
+                    tap: 'onUploadPhotoDialog'
                 }
             },
             {
