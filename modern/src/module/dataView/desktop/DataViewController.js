@@ -249,18 +249,20 @@
          * @param pageSize
          */
         setPageSize: function(pageSize, silent){
-            var cmb = this.lookupReference('pageSizeCmb'),
+            var gridStore = this.getViewModel().getStore('gridstore'),
+                cmb = this.lookupReference('pageSizeCmb'),
                 store = cmb.getStore();
 
             store.each(function(ps){
                 if(ps.get('value') === pageSize){
                     if(!silent){
+                        //this will trigger store page size change and reload
                         cmb.setValue(ps);
-                        store.load();
                     }
                     else {
                         cmb.suspendEvent('change');
                         cmb.setValue(ps);
+                        gridStore.setPageSize(pageSize);
                         cmb.resumeEvent('change');
                     }
                 }
