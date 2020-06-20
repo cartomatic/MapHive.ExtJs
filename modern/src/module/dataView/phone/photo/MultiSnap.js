@@ -70,7 +70,7 @@
                 iconCls: mh.FontIconsDictionary.getIcon('mhPhotoUpload'),
                 ui: 'mh-phone-purple-btn raised',
                 right: 15,
-                bottom: 55,
+                bottom: ((mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight || 50) + 10,
                 width: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnWidth,
                 height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
                 listeners: {
