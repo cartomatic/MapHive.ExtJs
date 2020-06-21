@@ -23,7 +23,9 @@
                 width: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnWidth,
                 height: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnHeight,
                 listeners: {
-                    tap: 'displayPreviousView'
+                    element: 'element', //because longpress can be observed at an element lvl, not a btn
+                    tap: 'displayPreviousView',
+                    longpress: 'displayFirstView'
                 }
             },
             '->',
@@ -59,7 +61,9 @@
                 width: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnWidth,
                 height: (mh.module.commonConfig.CommonConfig.wizardPagingToolbar || {}).btnHeight,
                 listeners: {
-                    tap: 'displayNextView'
+                    element: 'element', //because longpress can be observed at an element lvl, not a btn
+                    tap: 'displayNextView',
+                    longpress: 'displayLastView'
                 }
             }
         ]

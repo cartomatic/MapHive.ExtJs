@@ -98,6 +98,20 @@
          * displays next view if any
          */
         displayNextView: function(){
+
+            //if a long press has been activated, skip own action but unflag long press
+            if(this.longPressActivated){
+                //<debug>
+                console.log('skipping next view tap due to long press');
+                //</debug>
+                this.longPressActivated = false;
+                return;
+            }
+
+            //<debug>
+            console.log('next view tap');
+            //</debug>
+
             var currentViewIdx = this.viewSubRoutes.indexOf(this.viewSwitcher.getActiveItem().route),
                 nextView = this.viewSubRoutes[currentViewIdx + 1],
                 activeView = this.viewSwitcher.getActiveItem();
@@ -117,10 +131,36 @@
             }
         },
 
+        longPressActivated: false,
+
+        displayLastView: function(){
+            //<debug>
+            console.log('last view longpress');
+            //</debug>
+
+            this.longPressActivated = true;
+
+            let nextView = this.viewSubRoutes[this.viewSubRoutes.length - 1];
+            this.displayView(nextView);
+        },
+
         /**
          * displays previous view if any
          */
         displayPreviousView: function(){
+            //if a long press has been activated, skip own action but unflag long press
+            if(this.longPressActivated){
+                //<debug>
+                console.log('skipping prev view tap due to long press');
+                //</debug>
+                this.longPressActivated = false;
+                return;
+            }
+
+            //<debug>
+            console.log('prev view tap');
+            //</debug>
+
             var currentViewIdx = this.viewSubRoutes.indexOf(this.viewSwitcher.getActiveItem().route),
 
                 prevView = this.viewSubRoutes[currentViewIdx - 1];
@@ -128,6 +168,20 @@
             if(prevView){
                 this.displayView(prevView, true); //true to indicate the direction is backwards
             }
+        },
+
+        /**
+         * longpress handler - displays first view
+         */
+        displayFirstView: function(){
+            //<debug>
+            console.log('first view longpress');
+            //</debug>
+
+            this.longPressActivated = true;
+
+            let prevView = this.viewSubRoutes[0];
+            this.displayView(prevView, true); //true to indicate the direction is backwards
         },
 
         /**
