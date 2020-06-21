@@ -745,10 +745,18 @@
          * finalizes camera setup
          */
         finaliseCameraSetup: function(){
+
+            //<debug>
+            window['videoDevices'] = this.videoDevices;
+            console.log('this.videoDevices', this.videoDevices);
+            //</debug>
+
             if(this.videoDevices.length === 0){
                 this.noCamerasDetected = true;
                 return;
             }
+
+            //Potential fix required for iphone!!!
 
             this.currentVideoDevice = this.videoDevices[this.videoDevices.length - 1]; //this should be the main rear camera
             this.currentVideoDeviceIdx = this.videoDevices.length - 1;
@@ -765,10 +773,21 @@
          * swaps cameras
          */
         swapCameras: function(){
-            var newIdx = 0;
-            if(this.currentVideoDeviceIdx === 0){
-                newIdx = 1;
+
+            //cycle cameras
+            var newIdx = this.currentVideoDeviceIdx + 1;
+            //rewind, as max has been reached
+            if(this.currentVideoDeviceIdx >= this.videoDevices.length - 1){
+                newIdx = 0;
             }
+            // if(this.currentVideoDeviceIdx === 0){
+            //     newIdx = 1;
+            // }
+
+            //<debug>
+            console.log('WTF', 'this.currentVideoDeviceIdx', this.currentVideoDeviceIdx, 'newIdx', newIdx);
+            //</debug>
+
             this.currentVideoDeviceIdx = newIdx;
             this.currentVideoDevice = this.videoDevices[newIdx];
 
