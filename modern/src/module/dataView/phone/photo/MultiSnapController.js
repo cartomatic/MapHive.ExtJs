@@ -12,6 +12,7 @@
         alias: 'controller.mh-phone-photo-multi-snap',
 
         requires: [
+            'mh.util.Loader',
             'mh.FontIconsDictionary',
             'mh.module.dataView.phone.photo.Icons',
             'mh.module.dataView.phone.photo.MultiSnapLocalization'
@@ -348,7 +349,7 @@
         },
 
         getShittyUploaderId: function(){
-            return this.getId() + '-camera-input';
+            return this.getId() + '-camera-input-container';
         },
 
         getShittyCameraId: function(){
@@ -376,7 +377,9 @@
                         : '<div style="height:100%;width:100%; overflow: hidden; position: absolute;">' +
                             '<video id="' + this.getVideoElId() + '" muted autoplay style="width: 100%; height: 100%; left: 0px; top:0px; position: absolute; background-color: #404040; "></video>' +
                         '</div>' +
-                        '<div id="' + this.getShittyUploaderId() + '" style="display:none;"> <label>Take a picture</label><input type="file" id="' + this.getShittyCameraId() + '" accept="image/*"></div>',
+                        '<div id="' + this.getShittyUploaderId() + '" style="display:none;" >' +
+                            '<label>Take a picture</label><input type="file" id="' + this.getShittyCameraId() + '" accept="image/*">' +
+                        '</div>',
 
                     width: '100%',
                     height: '100%',
@@ -395,7 +398,7 @@
                             top: 15,
                             width: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnWidth,
                             height: (mh.module.commonConfig.CommonConfig.photoSnapper || {}).btnHeight,
-                            hidden: this.noCamerasDetected, // || !this.canSwapCameras,
+                            hidden: this.noCamerasDetected || !this.canSwapCameras,
                             handler: function(){
                                 me.swapCameras()
                             }
@@ -438,10 +441,20 @@
 
             this.snapperDialog.imgRef = ref;
             this.snapperDialog.show();
+
+
+
             //wire up history change listener so can hide dialog on back btn press
             Ext.util.History.on('change', this.hideSnapperDialog, this);
             this.startModalMode();
             this.getView().fireEvent('snappershow', this.getView());
+
+            //force photo snap interaction straight away - there will not be a live camera feed as with modern devices
+            if(this.useShittyDeviceInput){
+                this.hideSnapperDialog();
+                this.snapPhoto();
+            }
+
         },
 
         /**
@@ -480,15 +493,57 @@
             if(this.useShittyDeviceInput){
 
                 var me = this,
+                    mime = this.getView().getOutputMime() || 'image/png',
                     input = document.getElementById(this.getShittyCameraId());
 
                 input.onchange = function(){
-
                     if(input.files[0]){
                         var reader = new FileReader();
                         reader.addEventListener("load", function () {
 
-                            me.applySnappedPhoto(reader.result);
+                            //iOS image will be rotated counter clockwise by 90 degrees. need to fix it
+
+                            //exif lib:
+                            //https://github.com/exif-js/exif-js
+
+                            //img manipulation
+                            //https://github.com/blueimp/JavaScript-Load-Image
+
+                            //or by hand:
+                            //https://chariotsolutions.com/blog/post/take-and-manipulate-photo-with-web-page/
+
+                            if(Ext.os.name === 'iOS' && typeof EXIF !== 'undefined' && typeof loadImage !== 'undefined'){
+
+                                try {
+
+                                    EXIF.getData({src: reader.result}, function () {
+                                        //see https://stackoverflow.com/questions/20600800/js-client-side-exif-orientation-rotate-and-mirror-jpeg-images
+                                        //alert(EXIF.getTag(this, 'Orientation'));
+
+                                        loadImage(
+                                            input.files[0],
+                                            function(canvas){
+                                                me.applySnappedPhoto(canvas.toDataURL(mime));
+                                            },
+                                            {
+                                                maxWidth: 720,
+                                                maxHeight: 1280,
+                                                canvas: true,
+                                                orientation: EXIF.getTag(this, 'Orientation') //pass actual img orientation so it is 'fixed' on load!
+                                            }
+                                        );
+                                    });
+                                }
+                                catch (e) {
+                                    //silent so far...
+                                    //TODO - log to rollbar!
+                                }
+                            }
+                            else {
+                                //non iOs
+                                me.applySnappedPhoto(reader.result);
+                            }
+
                             reader = null;
 
                         }, false);
@@ -496,9 +551,10 @@
                         reader.readAsDataURL(input.files[0]);
                     }
                 }
-
                 //reset field and click!
                 input.value = '';
+
+                //input is now shown, so requires user's interaction
                 input.click();
 
                 return;
@@ -545,7 +601,9 @@
             //modal mode on
 
             //snapper video feed on
-            this.startVideoFeed();
+            if(!this.useShittyDeviceInput){
+                this.startVideoFeed();
+            }
         },
 
         /**
@@ -555,7 +613,9 @@
             //modal mode off
 
             //snapper video feed off
-            this.stopVideoFeed();
+            if(!this.useShittyDeviceInput) {
+                this.stopVideoFeed();
+            }
         },
 
         /**
@@ -746,6 +806,12 @@
          */
         finaliseCameraSetup: function(){
 
+            //enforce shitty device mode for iOS
+            if(Ext.os.name === 'iOS'){
+                this.setUpPlateScannerForShittyDevices();
+                return;
+            }
+
             //<debug>
             window['videoDevices'] = this.videoDevices;
             console.log('this.videoDevices', this.videoDevices);
@@ -761,7 +827,7 @@
             this.currentVideoDevice = this.videoDevices[this.videoDevices.length - 1]; //this should be the main rear camera
             this.currentVideoDeviceIdx = this.videoDevices.length - 1;
 
-            this.canSwapCameras = this.videoDevices.length === 2;
+            this.canSwapCameras = this.videoDevices.length > 1;
         },
 
         /**
@@ -816,5 +882,18 @@
 
             return complete;
         }
+    }, function(){
+        //if(Ext.os.name === 'iOS'){
+            let basePath = `${Ext.manifest.resources.path}/mh/jsLibs`;
+            mh.util.Loader.load({
+                fileList: [
+                    //https://github.com/exif-js/exif-js
+                    `${basePath}/exif-js/2.3.0/exif-js.js`,
+
+                    //https://github.com/blueimp/JavaScript-Load-Image
+                    `${basePath}/load-image/5.13.0/load-image.all.min.js`
+                ]
+            });
+        //}
     });
 }());
