@@ -780,6 +780,7 @@
             if(this.currentVideoDeviceIdx >= this.videoDevices.length - 1){
                 newIdx = 0;
             }
+            //cannot assume there are at max 2 cameras anymore. galaxy s10 reports 4 devices (2 front & 2 rear with different zoom / close up mode)
             // if(this.currentVideoDeviceIdx === 0){
             //     newIdx = 1;
             // }
