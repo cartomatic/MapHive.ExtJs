@@ -27,7 +27,8 @@
             'mh.util.console.Formatters',
             'mh.mixin.Localization',
             'mh.mixin.UrlUtils',
-            'mh.mixin.UserAppsUtils'
+            'mh.mixin.UserAppsUtils',
+            'mh.mixin.Clipboard'
         ],
 
         //global shared controllers - they fire up automatically
@@ -171,7 +172,13 @@
 
             var me = this,
                 orgToken = this.getUrlOrgIdentifier(),
-                appIdentifyingUrl = this.standardiseAppIdentifyingUrl(this.getAppIdentifyingUrl()),
+
+                //see comments in the Root controller @appRequiresAuth
+                //for electron scenarios with file based app entry point, need to save successfully validated app identifier
+                //as it changes in the meantime, when url gets customised to display some extra data
+                appIdentifyingUrl = location.protocol === 'file:'
+                    ? this.clipboardGet('app-identifier') || this.standardiseAppIdentifyingUrl(this.getAppIdentifyingUrl())
+                    : this.standardiseAppIdentifyingUrl(this.getAppIdentifyingUrl()),
                 alternateOrg,
                 //gets an org by slug off the cfg
                 getOrg = function(slug){

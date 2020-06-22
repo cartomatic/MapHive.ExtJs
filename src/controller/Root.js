@@ -19,7 +19,8 @@
             'mh.mixin.ModalMode',
             'mh.mixin.InitialCfg',
             'mh.mixin.ApiMap',
-            'mh.mixin.UrlUtils'
+            'mh.mixin.UrlUtils',
+            'mh.mixin.Clipboard'
         ],
 
     requires: [
@@ -412,11 +413,18 @@
                 //Depending on mode - HOST / HOSTED app is recognised by url or the app id / short name
                 for(ai; ai < ailen; ai++){
                     var localIdentifier = appIdentifiers[ai];
-                    if(Ext.String.startsWith(localIdentifier, 'http')){
+                    if(Ext.String.startsWith(localIdentifier, 'http') || Ext.String.startsWith(localIdentifier, 'file')){
                         localIdentifier = this.standardiseAppIdentifyingUrl(localIdentifier);
                     }
+
                     if(localIdentifier === appIdentifier){
                         requiresAuth = true;
+
+                        //store app identifier in clipboard, so can use it later on, when application starts.
+                        //this is important for the file: protocol - this is electron scenario - in such case initial app identifier looks like file:///index.html
+                        //index.html gets then replaced during app launch and therefore appIdentifier is reported wrongly as file:///@org-slug
+                        this.clipboardSet('app-identifier', appIdentifier);
+
                         break;
                     }
                 }
