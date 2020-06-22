@@ -153,7 +153,8 @@
             'throwFailures=',
             'catch=',
             'debug=',
-            'platformTags='
+            'platformTags=',
+            'mode='
         ],
 
         /**
@@ -212,6 +213,13 @@
                     outUrl += '?' + outParams.join('&');
                 }
             }
+
+            //with file uris assume the app identifier is simply file:///some.html, basically last token from location.href.split('/')
+            if(location.protocol === 'file:'){
+                url = location.href.split('#')[0].split('?')[0].split('/').reverse()[0];
+                outUrl = `${location.protocol}///${url}/`;
+            }
+
             return outUrl;
         },
 
