@@ -7,16 +7,16 @@
     /**
      * Created by info_000 on 04-Aug-16.
      */
-    Ext.define('mh.module.map.Ol3MapContainer', {
+    Ext.define('mh.module.map.ol.MapContainer', {
         extend: 'Ext.Container',
     
-        xtype: 'mh-ol3-map-container',
+        xtype: 'mh-ol-map-container',
 
         requires: [
-            'mh.module.map.Ol3MapContainerController'
+            'mh.module.map.ol.Ol3MapContainerController'
         ],
 
-        controller: 'mh-ol3-map-container',
+        controller: 'mh-ol-map-container',
 
         items: [
 

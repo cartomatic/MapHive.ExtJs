@@ -7,7 +7,7 @@
     /**
      * some more commonly used ol3 map utils
      */
-    Ext.define('mh.module.map.Ol3MapUtils', {
+    Ext.define('mh.module.map.ol.MapUtils', {
 
         singleton: true,
 

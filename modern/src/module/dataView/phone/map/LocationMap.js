@@ -97,7 +97,7 @@
                 items: [
                     //created in controller so can pass through a base layer for a map
                     // {
-                    //     xtype: 'mh-ol3-map-container',
+                    //     xtype: 'mh-ol-map-container',
                     //     reference: 'mapContainer',
                     //     cls: 'edit-wizard-swipe-ignore'
                     // },

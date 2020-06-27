@@ -35,13 +35,13 @@
                 mapOuterContainer = this.lookupReference('mapOuterContainer'),
                 baseLayer = this.getView().getBaseLayer(),
                 mapContainer = mapOuterContainer.insert(0, {
-                    xtype: 'mh-ol3-map-container',
+                    xtype: 'mh-ol-map-container',
                     baseLayer: baseLayer,
                     reference: 'mapContainer',
                     cls: 'edit-wizard-swipe-ignore'
                 });
 
-            //this.getView().down('mh-ol3-map-container').registerChannel(commChannel);
+            //this.getView().down('mh-ol-map-container').registerChannel(commChannel);
             mapContainer.registerChannel(commChannel);
 
             this.watchGlobal('mapcontainer::mapcreated', this.onMapCreated, this, { channel: commChannel });

@@ -7,9 +7,9 @@
     /**
      * Created by info_000 on 04-Aug-16.
      */
-    Ext.define('mh.module.map.Ol3MapContainerController', {
+    Ext.define('mh.module.map.ol.MapContainerController', {
         extend: 'Ext.app.ViewController',
-        alias: 'controller.mh-ol3-map-container',
+        alias: 'controller.mh-ol-map-container',
 
         mixins: [
             'mh.communication.MsgBus',
@@ -18,7 +18,7 @@
         ],
 
         requires: [
-            'mh.module.map.Ol3MapUtils'
+            'mh.module.map.ol.MapUtils'
         ],
 
         /**
@@ -166,7 +166,7 @@
 
             //enable dark mode handling for the base layers
             baseL.forEach(l => {
-                mh.module.map.Ol3MapUtils.enableLayerDarkModeHandling(l);
+                mh.module.map.ol.MapUtils.enableLayerDarkModeHandling(l);
             });
 
             this.map = new ol.Map({
@@ -196,7 +196,7 @@
             });
 
             //enable dark mode handling for the map itself
-            mh.module.map.Ol3MapUtils.enableMapDarkModeHandling(this.map);
+            mh.module.map.ol.MapUtils.enableMapDarkModeHandling(this.map);
 
             this.fireGlobal('mapcontainer::mapcreated', this.map);
         },

@@ -8,14 +8,14 @@
      * ol map container that automatically loads all the required ol scripts.
      * usually will load a current ol version
      */
-    Ext.define('mh.module.map.Ol3MapContainer', {
-        extend: 'mh.module.map.Ol3MapContainerBase',
+    Ext.define('mh.module.map.ol.MapContainer', {
+        extend: 'mh.module.map.ol.MapContainerBase',
 
         requires: [
             'mh.util.Loader'
         ],
     
-        xtype: 'mh-ol3-map-container'
+        xtype: 'mh-ol-map-container'
     },
     function(){
         let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/ol/6.3.1`;
