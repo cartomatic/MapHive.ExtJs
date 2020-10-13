@@ -189,14 +189,26 @@
          */
         getFeatureUrlFromCaps: function(caps){
             let getFeatureOp = caps.operationsMetadata.operation.find(o => o.name === 'GetFeature') || {},
-                dcp = (getFeatureOp.dcp || [])[0];
+                dcp = (getFeatureOp.dcp || [])[0],
+                url, baseUrl, params;
 
             if(dcp && dcp.http && dcp.http.getOrPost){
                 let get = dcp.http.getOrPost.find(x => x.name.localPart === 'Get');
                 if(get){
-                    return get.value.href;
+                    url = get.value.href;
                 }
             }
+
+            //need to filter out some params that will get appended anyway;
+            //some services tend to specify addresses with params for example:
+            //https://geodata.nationaalgeoregister.nl/bag/wfs/v1_1?SERVICE=WFS&language=dut&
+
+            baseUrl = mh.module.ogc.Utils.extractBaseUrl(url);
+            params = mh.module.ogc.Utils.extractUrlParams(url, ['service', 'version', 'request']) || [];
+
+            url = `${baseUrl}?${params.join('&')}`;
+
+            return url;
         },
 
         /**
