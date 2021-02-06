@@ -24,6 +24,12 @@
                     'inspire-schemas/1.0.0/lib/INSPIRE_VS_1_0.js',
                     'ogc-schemas/2.6.1/lib/OWS_1_0_0.js',
                     'ogc-schemas/2.6.1/lib/OWS_1_1_0.js',
+                    'ogc-schemas/2.6.1/lib/SMIL_2_0.js',
+                    'ogc-schemas/2.6.1/lib/SMIL_2_0_Language.js',
+                    'ogc-schemas/2.6.1/lib/GML_3_1_1.js',
+                    'ogc-schemas/2.6.1/lib/Filter_1_1_0.js',
+                    'ogc-schemas/2.6.1/lib/SE_1_1_0.js',
+                    'ogc-schemas/2.6.1/lib/SLD_1_1_0.js',
                     'ogc-schemas/2.6.1/lib/WMS_1_0_0.js',
                     'ogc-schemas/2.6.1/lib/WMS_1_1_0.js',
                     'ogc-schemas/2.6.1/lib/WMS_1_1_1.js',
@@ -37,6 +43,12 @@
                         typeof INSPIRE_VS_1_0 === 'undefined' ||
                         typeof OWS_1_0_0 === 'undefined' ||
                         typeof OWS_1_1_0 === 'undefined' ||
+                        typeof SMIL_2_0 === 'undefined' ||
+                        typeof SMIL_2_0_Language === 'undefined' ||
+                        typeof GML_3_1_1 === 'undefined' ||
+                        typeof Filter_1_1_0 === 'undefined' ||
+                        typeof SE_1_1_0 === 'undefined' ||
+                        typeof SLD_1_1_0 === 'undefined' ||
                         typeof WMS_1_0_0 === 'undefined' ||
                         typeof WMS_1_1_1 === 'undefined' ||
                         typeof WMS_1_3_0 === 'undefined' ||
@@ -50,6 +62,12 @@
                         INSPIRE_VS_1_0,
                         OWS_1_0_0,
                         OWS_1_1_0,
+                        SMIL_2_0,
+                        SMIL_2_0_Language,
+                        GML_3_1_1,
+                        Filter_1_1_0,
+                        SE_1_1_0,
+                        SLD_1_1_0,
                         WMS_1_0_0,
                         WMS_1_1_0,
                         WMS_1_1_1,
