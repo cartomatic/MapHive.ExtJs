@@ -267,7 +267,7 @@
             console.log(this.cStdIcon('info'), this.cDbgHdr('rot ctrl'), 'launched');
             //</debug>
 
-            //need to check wht to do - basically app may require to start in the activate account mode or pass reset mode.
+            //need to check what to do - basically app may require to start in the activate account mode or pass reset mode.
             //in such case need to poke the auth module to take over from here
             if(this.getCustomHashParam(this.appHashProperties.auth)){
                 this.authActionLaunch();
