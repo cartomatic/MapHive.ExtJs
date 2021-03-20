@@ -18,11 +18,13 @@
         xtype: 'mh-ol-map-container'
     },
     function(){
-        let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/ol/6.3.1`;
+        let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/`,
+            olSubPath = 'ol/6.3.1/';
         mh.util.Loader.load({
             fileList: [
-                `${basePath}/ol.css`,
-                `${basePath}/ol.js`
+                `${basePath}${olSubPath}ol.css`,
+                `${basePath}${olSubPath}ol.js`,
+                `${basePath}proj4js/2.2.7/proj4.js`
             ]
         });
     });
