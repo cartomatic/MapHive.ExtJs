@@ -21,7 +21,8 @@
             { name: 'initZoom', type: 'number', allowNull: true, defaultValue: null },
             { name: 'clients', type: 'string', defaultValue: null },
             { name: 'layers', type: 'auto', defaultValue: null },
-            { name: 'archived', type: 'boolean', defaultValue: null }
+            { name: 'archived', type: 'boolean', defaultValue: null },
+            { name: 'baseLayerIdx', type: 'int',  allowNull: true, defaultValue: null}
         ],
 
         proxy: {

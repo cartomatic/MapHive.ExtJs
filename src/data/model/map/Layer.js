@@ -30,6 +30,8 @@
             { name: 'visible', type: 'bool', defaultValue: null, allowNull: true },
             { name: 'visibilityScaleMin', type: 'number', defaultValue: null, allowNull: true },
             { name: 'visibilityScaleMax', type: 'number', defaultValue: null, allowNull: true },
+            { name: 'queryable', type: 'bool', defaultValue: null, allowNull: true },
+            { name: 'selectable', type: 'bool', defaultValue: null, allowNull: true },
             { name: 'metadata', type: 'auto', defaultValue: null, allowNull: true },
             { name: 'dataSource', type: 'auto', defaultValue: null, allowNull: true },
             { name: 'dataStoreId', type: 'string', defaultValue: null },
