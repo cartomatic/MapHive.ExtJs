@@ -13,7 +13,8 @@
             {name: 'type', type: 'int', defaultValue: 0, allowNull: false},
             {name: 'queryable', type: 'bool', defaultValue: true, allowNull: false},
             {name: 'styleable', type: 'bool', defaultValue: true, allowNull: false},
-            {name: 'info', type: 'bool', defaultValue: true, allowNull: false}
+            {name: 'info', type: 'bool', defaultValue: true, allowNull: false},
+            {name: 'virtual', type: 'bool', defaultValue: false, allowNull: false}
         ]
     });
 }());
