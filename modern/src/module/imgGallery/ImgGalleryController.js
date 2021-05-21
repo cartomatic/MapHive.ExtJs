@@ -31,6 +31,31 @@
 
             this.publishApi('loadImgsFromMetadataAndShow');
 
+            let me = this;
+            this.pannellumId = `img-gallery-pannellum-${me.getId()}`;
+            this.leafletId = `img-gallery-leaflet-${me.getId()}`;
+
+            //dynamically added containers, so can uniquely id them
+            this.getView().add([
+                {
+                    xtype: 'container',
+                    reference: 'img3dPannellum',
+                    margin: '0 0 0 10',
+                    flex: 1,
+                    html: `<div id="${me.pannellumId}" style="width: 100%; height: 100%; position: absolute;"></div>`,
+                    hidden: true
+                },
+                {
+                    xtype: 'container',
+                    reference: 'img3dLeaflet',
+                    margin: '0 0 0 10',
+                    flex: 1,
+                    html: `<div id="${me.leafletId}" style="width: 100%; height: 100%; position: absolute;"></div>`,
+                    hidden: true
+                }
+            ]);
+
+            //ol is tricky to set up with a single 180° wrapped image
 
             // let commChannel = 'img-gallery-map_' + new Date().getTime();
             //
@@ -124,7 +149,7 @@
             if(url.indexOf('360_equirectangular') > -1 || url.indexOf('360_eqr') > -1){
                 this.lookupReference('img3dPannellum').setVisibility(true);
 
-                pannellum.viewer('panorama', {
+                pannellum.viewer(this.pannellumId, {
                     "type": "equirectangular",
                     "autoLoad": true,
                     "panorama": url
@@ -134,10 +159,10 @@
                 this.lookupReference('img3dLeaflet').setVisibility(true);
 
                 if(!this.leafletMap){
-                    this.leafletMap = new L.Map('leaflet', {
-                        center: [0, 0],
-                        zoom: 0,
-                        minZoom: -1,
+                    this.leafletMap = new L.Map(this.leafletId, {
+                        // center: [0, 0],
+                        // zoom: 0,
+                        minZoom: -2,
                         crs: L.CRS.Simple
                     });
                 }
@@ -156,7 +181,10 @@
 
                 this.leafletLayer.addTo(this.leafletMap);
 
-                this.leafletMap.setView([0,0], 0);
+                let center = [Math.round(height/2), Math.round(width/2)];
+                console.log('center', center);
+
+                this.leafletMap.setView(center, 0);
 
             }
         }

@@ -97,28 +97,6 @@
                 reference: 'imgStd',
                 flex: 1,
                 hidden: true
-            },
-            // {
-            //     xtype: 'mh-ol-map-container',
-            //     margin: '0 0 0 10',
-            //     reference: 'img3d',
-            //     flex: 1
-            // }
-            {
-                xtype: 'container',
-                reference: 'img3dPannellum',
-                margin: '0 0 0 10',
-                flex: 1,
-                html: '<div id="panorama" style="width: 100%; height: 100%; position: absolute;"></div>',
-                hidden: true
-            },
-            {
-                xtype: 'container',
-                reference: 'img3dLeaflet',
-                margin: '0 0 0 10',
-                flex: 1,
-                html: '<div id="leaflet" style="width: 100%; height: 100%; position: absolute;"></div>',
-                hidden: true
             }
         ]
     });
