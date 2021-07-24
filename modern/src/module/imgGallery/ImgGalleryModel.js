@@ -15,6 +15,7 @@
             gridstore: {
                 fields: [
                     { name: 'name', type: 'string'},
+                    { name: 'dateTakenOrCreated', type: 'mh-date-time' },
                     { name: 'url', type: 'string' },
                     { name: 'is360', type: 'bool'},
                     { name: 'width', type: 'number'},

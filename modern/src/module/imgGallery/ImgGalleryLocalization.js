@@ -33,6 +33,10 @@
                 fName: {
                     en: 'File name',
                     pl: 'Nazwa pliku'
+                },
+                dateTakenOrCreated: {
+                    en: 'Date taken',
+                    pl: 'Data'
                 }
             }
         }

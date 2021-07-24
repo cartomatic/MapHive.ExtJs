@@ -53,7 +53,7 @@
         items: [
             {
                 xtype: 'grid',
-                width: 250,
+                width: 375,
                 reference: 'filesGrid',
                 bind: {
                     title: '{localization.gridTitle}',
@@ -78,6 +78,15 @@
                                 }
                             }
                         ]
+                    },
+                    {
+                        xtype: 'datecolumn',
+                        dataIndex: 'dateTakenOrCreated',
+                        format: 'Y-m-d H:i',
+                        width: 130,
+                        bind: {
+                            text: '{localization.dateTakenOrCreated}'
+                        }
                     },
                     {
                         dataIndex: 'name',
