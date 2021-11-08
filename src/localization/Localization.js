@@ -591,6 +591,31 @@
             });
 
             return langs;
+        },
+
+        getLocalizedString: function(wouldBeMultiLangString){
+            if(!wouldBeMultiLangString){
+                return wouldBeMultiLangString;
+            }
+            //assume a pipe is a multilang string delimiter
+            if(wouldBeMultiLangString.indexOf('|') > -1){
+                let me = this,
+                    translated,
+                    dflt;
+
+                (wouldBeMultiLangString.split('|')).forEach(str => {
+                    if(str.startsWith(`${me.langCode}:`)){
+                        translated = str.substring(3);
+                    }
+                    if(str.startsWith(`${me.defaultLangCode}:`)){
+                        dflt = str.substring(3);
+                    }
+                });
+
+                return translated || dflt || `Multi lang string does not contain translation for neither corrent lang (${me.langCode}) nor default lang (${me.defaultLangCode})`;
+
+            }
+            return wouldBeMultiLangString;
         }
     });
 

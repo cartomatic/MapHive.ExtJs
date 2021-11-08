@@ -44,6 +44,14 @@
             }
 
             this.getViewModel().set('localization', localization);
+        },
+
+        /**
+         * gets a localized value for a multilang string
+         * @param wouldBeMultiLangString
+         */
+        getLocalizedString: function(wouldBeMultiLangString){
+            return mh.localization.Localization.getLocalizedString(wouldBeMultiLangString);
         }
     });
 
