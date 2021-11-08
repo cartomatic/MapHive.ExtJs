@@ -612,7 +612,7 @@
                     }
                 });
 
-                return translated || dflt || `Multi lang string does not contain translation for neither corrent lang (${me.langCode}) nor default lang (${me.defaultLangCode})`;
+                return translated || dflt || `Multi lang string does not contain translation for neither current lang (${me.langCode}) nor default lang (${me.defaultLangCode})`;
 
             }
             return wouldBeMultiLangString;
