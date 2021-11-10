@@ -188,7 +188,7 @@
          */
         _doRequest: function (cfg) {
             //perform a standard post request and set up proxy for the needed callbacks
-            Ext.Ajax.request({
+            return Ext.Ajax.request({
                 cors: true,
                 url: cfg.url,
                 method: cfg.method || 'POST',
@@ -546,7 +546,7 @@
          */
         doGet: function (cfg) {
             cfg.method = 'GET';
-            this._doRequest(cfg);
+            return this._doRequest(cfg);
         },
 
         /**
@@ -555,7 +555,7 @@
          */
         doPost: function (cfg) {
             cfg.method = 'POST';
-            this._doRequest(cfg);
+            return this._doRequest(cfg);
         },
 
         /**
@@ -564,7 +564,7 @@
          */
         doPut: function (cfg) {
             cfg.method = 'PUT';
-            this._doRequest(cfg);
+            return this._doRequest(cfg);
         },
 
         /**
@@ -573,7 +573,7 @@
          */
         doDelete: function (cfg) {
             cfg.method = 'DELETE';
-            this._doRequest(cfg);
+            return this._doRequest(cfg);
         }
     },
     function(){
