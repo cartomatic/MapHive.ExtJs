@@ -177,8 +177,9 @@
                         collapsible: false
                     }
                 }).extend([
-                    new ol.control.ScaleLine(),
-                    new ol.control.MousePosition({
+                    new ol.control.ScaleLine()
+                    //<debug>
+                    ,new ol.control.MousePosition({
                         projection: ol.proj.get('EPSG:4326'),
                         coordinateFormat: function (coords) {
                             var output = '';
@@ -188,6 +189,7 @@
                             return output;
                         }
                     })
+                    //</debug>
                 ]),
                 view: new ol.View({
                     center: [2340195, 6837328],
