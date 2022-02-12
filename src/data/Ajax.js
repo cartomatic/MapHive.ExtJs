@@ -410,6 +410,10 @@
                 //server error
                 case 500:
                     showMsg = true;
+
+                    if(cfg.hideExceptionDetails !== true && response.responseText){
+                        msg += response.responseText && response.responseText !== '""' ? '<br/><br/>' + response.responseText : '';
+                    }
                     break;
 
                 default:

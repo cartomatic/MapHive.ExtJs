@@ -256,6 +256,16 @@
         currentToolbarAfterLayoutScheduler: null,
 
         /**
+         * extra btns to be handled on toolbar layout evt
+         */
+        extraTbarBtns: null,
+
+        /**
+         * tbar width for btns to observe when collapsing text
+         */
+        tBarCutOffWidth: 670,
+
+        /**
          * tbar after layout callback; takes care of showing / hiding the text on the edit btns depending on the tbar width
          * @param tbar
          */
@@ -283,15 +293,25 @@
                     if(this.lastToolbarWidth !== w){
                         this.lastToolbarWidth = w;
 
-                        if(w > 670){
+                        if(w > me.tBarCutOffWidth){
                             restoreTxt('btnCreate');
                             restoreTxt('btnEdit');
                             restoreTxt('btnDelete');
+                            if(Ext.isArray(me.extraTbarBtns)){
+                                Ext.Array.each(me.extraTbarBtns, function(btn) {
+                                    restoreTxt(btn);
+                                });
+                            }
                         }
                         else {
                             hideTxt('btnCreate');
                             hideTxt('btnEdit');
                             hideTxt('btnDelete');
+                            if(Ext.isArray(me.extraTbarBtns)){
+                                Ext.Array.each(me.extraTbarBtns, function(btn) {
+                                    hideTxt(btn);
+                                });
+                            }
                         }
                     }
                 },

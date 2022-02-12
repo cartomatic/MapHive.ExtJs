@@ -119,6 +119,9 @@
                         if (err.message && err.message != '') {
                             msg = msg.replace('{err_msg}', err.message);
                         }
+                        else {
+                            msg = msg.replace('{err_msg}', err);
+                        }
                         break;
                 }
             }
