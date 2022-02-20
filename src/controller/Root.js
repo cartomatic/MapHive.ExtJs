@@ -576,7 +576,7 @@
 
             //for the apps that did not trigger the auth procedure auth token is null;
             //just let them fire up straight away
-            if(!tokens.accessToken){
+            if(!tokens || !tokens.accessToken){
                 this.fireGlobal('root::launchapp');
                 return;
             }
