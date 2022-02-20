@@ -10,7 +10,7 @@
 
         getMhCookie: function(){
             try {
-                return (Cookies.getJSON(__mhcfg__.mhCookie) || {});
+                return (JSON.parse(Cookies.get(__mhcfg__.mhCookie)) || {});
             }
             catch(e){
                 return {}
@@ -18,7 +18,7 @@
         },
 
         setMhCookie: function(cookie){
-            Cookies.set(__mhcfg__.mhCookie, cookie, {expires: __mhcfg__.cookieValidSeconds / (60*60*24)});
+            Cookies.set(__mhcfg__.mhCookie, JSON.stringify(cookie), {expires: __mhcfg__.cookieValidSeconds / (60*60*24)});
         },
 
         setMhCookieProp: function(pName, pValue){
