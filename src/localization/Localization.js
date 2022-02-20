@@ -551,7 +551,7 @@
         switchLang: function(langCode){
 
             //make sure changing lang makes sense at all...
-            if(this.getMhCfgProperty('langCode') === langCode || !Ext.Array.contains(this.getMhCfgProperty('supportedLangs'), langCode)){
+            if(this.getMhCfgProperty('langCode') === langCode || !Ext.Array.contains(this.getMhCfgProperty('supportedLangs') || [], langCode)){
                 return;
             }
 
