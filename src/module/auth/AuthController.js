@@ -569,7 +569,7 @@
             //in such case assume an app requires auth and on cancel redirect to home.
 
             if(!currentApp || currentApp.get('requiresAuth')){
-                this.cancelAuthForAppsRequiringAuth();
+                this.cancelAuthForAppsRequiringAuth(btn);
             }
             else {
                 this.reset();
@@ -581,7 +581,7 @@
         /**
          * cancels auth for apps requiring auth
          */
-        cancelAuthForAppsRequiringAuth: function(){
+        cancelAuthForAppsRequiringAuth: function(btn){
             var me = this;
 
             //TODO - different msg for modern / classic toolkits!
