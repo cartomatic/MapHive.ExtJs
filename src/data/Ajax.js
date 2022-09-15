@@ -345,7 +345,7 @@
              //Note: need to explicitly specify the localizations namespace, as this class is meant to be used as a mixin and otherwise would use the class name of a classes it gets mixed into
                 title = this.getTranslation('error', 'mh.data.Ajax') + (cfg.exceptionMsg ? ' :: ' + cfg.exceptionMsg : ''),
 
-                errMsg = (Ext.JSON.decode(response.responseText, true) || {} ).errorMessage || response.responseText || response.statusText,
+                //errMsg = (Ext.JSON.decode(response.responseText, true) || {} ).errorMessage || response.responseText || response.statusText,
 
                 msg =
                     this.getTranslation('srvErrMsg', 'mh.data.Ajax') +
@@ -380,9 +380,35 @@
                         //and there is no point in allowing user to retry
                         allowRetry = false;
 
+                        var msgs = [];
+
                         if(cfg.hideExceptionDetails !== true && response.responseText){
-                            msg += response.responseText && response.responseText !== '""' ? '<br/><br/>' + response.responseText : '';
+                            msgs.push(response.responseText);
                         }
+
+                        if(cfg.hideExceptionDetails !== true && response.responseJson){
+                            var inMsgs = response.responseJson;
+
+                            if(!Ext.isArray(inMsgs))
+                            {
+                                inMsgs = [inMsgs];
+                            }
+                            for(var i = 0; i < inMsgs.length; i++){
+                                var m;
+                                if(Ext.isObject(inMsgs[i])){
+                                    m = inMsgs[i].message || inMsgs[i].exceptionMessage || inMsgs[i].msg;
+                                }
+                                else if(typeof(inMsgs[i]) === 'string'){
+                                    m = inMsgs[i];
+                                }
+                                if(m){
+                                    msgs.push(m);
+                                }
+                            }
+                        }
+
+                        msg += msgs.length > 0 ? '<br/><br/>' + msgs.join('<br/>') : '';
+
                     }
 
                     break;
