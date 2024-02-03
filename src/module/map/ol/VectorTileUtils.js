@@ -49,7 +49,7 @@
 
                 src.setTileLoadFunction(function (t) {
 
-                    //todo - should wipe out cache from time to time. prefereably in the same cycles as the source itself
+                    //todo - should wipe out cache from time to time. preferably in the same cycles as the source itself
                     //potential problem though is that orig src tile cache seems to be empty for specific map zooms and bounds
                     //and in such cases widgets would not recalculate properly
                     //so initially not cleaning the cache
