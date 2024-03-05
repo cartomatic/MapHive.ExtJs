@@ -31,6 +31,7 @@
             var error;
 
             try {
+
                 //extract the data and wrap it into an object with root, so can avoid polluting the response data itself
                 //after all it would be possible to override a total property on an object if present.
                 //debugging such shit would be fun, huh...
@@ -44,18 +45,24 @@
 
                 //grab the response header and set a total property based on it;
                 //this sets a property on the actual output object though!
-                var total = response.getResponseHeader(this.getMhCfgProperty('headerTotal'));
-                if(total !== undefined){
-                    total = parseInt(total);
-                    if(!isNaN(total)){
-                        data[this.getTotalProperty()] = total;
+                var totalHdr = this.getMhCfgProperty('headerTotal');
+                if(totalHdr){
+                    var total = response.getResponseHeader(totalHdr);
+                    if(total !== undefined){
+                        total = parseInt(total);
+                        if(!isNaN(total)){
+                            data[this.getTotalProperty()] = total;
+                        }
                     }
                 }
+
                 return data;
             } catch (ex) {
                 error = this.createReadError(ex.message);
 
                 Ext.Logger.warn('Unable to parse the JSON returned by the server');
+                console.warn('ex', ex);
+                console.warn('response', response);
                 this.fireEvent('exception', this, response, error);
                 return error;
             }
