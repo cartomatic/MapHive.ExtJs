@@ -9,6 +9,10 @@
      */
     Ext.define('mh.module.map.style.Loader', {
 
+        requires: [
+            'mh.util.Loader'
+        ],
+
         singleton: true,
 
         /**
@@ -18,11 +22,49 @@
          * @param callback
          */
         loadSld: function(sld, colMapper, callback){
-            let me = this,
+            let me = mh.module.map.style.Loader,
                 parser = new GeoStylerSLDParser.SldStyleParser();
 
+            //<debug>
+            //console.log('sld', sld);
+            //</debug>
+
             parser.readStyle(sld)
-                .then((parsed) => callback(me.mhStylesFromGeoStyle(parsed.output, colMapper)))
+                .then(function(parsed) {
+                    //<debug>
+                    console.log('parsed', parsed);
+                    //</debug>
+                    callback(me.mhStylesFromGeoStyle(parsed.output, colMapper));
+                })
+                .catch(error => console.log(error));
+        },
+
+        /**
+         * reads a style from QML - returns a collection of mh.data.model.map.Style objects by calling a provided callback
+         * @param qml
+         * @param colMapper an object allowing for column mapping: friendly names -> actual names; ignored if not provided
+         * @param callback
+         */
+        loadQml: function(qml, colMapper, callback){
+            let me = mh.module.map.style.Loader,
+                parser = new GeoStylerQGISParser.QGISStyleParser();
+
+            //<debug>
+            console.log('qml', qml);
+            //</debug>
+
+            parser.readStyle(qml)
+                .then(function(parsed) {
+                    //<debug>
+                    console.log('parsed', parsed);
+                    //</debug>
+                    if(parsed.errors && parsed.errors.length > 0){
+                        callback();
+                    }
+                    else {
+                        callback(me.mhStylesFromGeoStyle(parsed.output, colMapper));
+                    }
+                })
                 .catch(error => console.log(error));
         },
 
@@ -37,13 +79,14 @@
             console.log('geoStyle', geoStyle);
             //</debug>
 
-            let geoStyleRules = geoStyle.rules || [],
+            let me = mh.module.map.style.Loader,
+                geoStyleRules = geoStyle.rules || [],
                 mhStyles = [];
 
             //basically a single geoStyle rule maps to a mhStyle
 
             for(let i = 0; i < geoStyleRules.length; i++){
-                let styles = this.mhStylesFromGeoStyleRule(geoStyleRules[i], colMapper);
+                let styles = me.mhStylesFromGeoStyleRule(geoStyleRules[i], colMapper);
                 for(let s = 0; s < styles.length; s++){
                     mhStyles.push(styles[s]);
                 }
@@ -79,8 +122,9 @@
             //</debug>
 
             //work out a filter first
-            let styles = [],
-                filters = geoStyleRule.filter ? this.mhFilterGroupsFromGeoStyleFilter(geoStyleRule.filter, colMapper) : undefined;
+            let me = mh.module.map.style.Loader,
+                styles = [],
+                filters = geoStyleRule.filter ? me.mhFilterGroupsFromGeoStyleFilter(geoStyleRule.filter, colMapper) : undefined;
 
             //<debug>
             //console.log('mh filters', filters);
@@ -88,7 +132,7 @@
 
             //for each symbolizer create a style with the above filter
             for(let s = 0; s < geoStyleRule.symbolizers.length; s++){
-                let style = this.mhStyleSymbolizerFromGeoStyleSymbolizer(geoStyleRule.symbolizers[s]);
+                let style = me.mhStyleSymbolizerFromGeoStyleSymbolizer(geoStyleRule.symbolizers[s]);
                 style.allObjects = !filters;
                 style.filters = filters;
                 style.name = geoStyleRule.name;
@@ -110,11 +154,12 @@
          * @param geoStyleSymbolizer
          */
         mhStyleSymbolizerFromGeoStyleSymbolizer: function(geoStyleSymbolizer){
-            let mhSymbolizer = {};
+            let me = mh.module.map.style.Loader,
+                mhSymbolizer = {};
 
-            this.mhPointSymbolizerFromGeoStyleSymbolizer(geoStyleSymbolizer, mhSymbolizer);
-            this.mhLineSymbolizerFromGeoStyleSymbolizer(geoStyleSymbolizer, mhSymbolizer);
-            this.mhPolySymbolizerFromGeoStyleSymbolizer(geoStyleSymbolizer, mhSymbolizer);
+            me.mhPointSymbolizerFromGeoStyleSymbolizer(geoStyleSymbolizer, mhSymbolizer);
+            me.mhLineSymbolizerFromGeoStyleSymbolizer(geoStyleSymbolizer, mhSymbolizer);
+            me.mhPolySymbolizerFromGeoStyleSymbolizer(geoStyleSymbolizer, mhSymbolizer);
 
             return mhSymbolizer;
         },
@@ -136,13 +181,14 @@
          * @param mhSymbolizer
          */
         mhPointSymbolizerFromGeoStyleSymbolizer: function(geoStyleSymbolizer, mhSymbolizer){
+            let me = mh.module.map.style.Loader;
             if(geoStyleSymbolizer.kind === 'Mark'){
                 mhSymbolizer.point = true;
-                mhSymbolizer.pointShape = this.mhPointShapeFromGeoStyleWellKnownName(geoStyleSymbolizer.wellKnownName);
+                mhSymbolizer.pointShape = me.mhPointShapeFromGeoStyleWellKnownName(geoStyleSymbolizer.wellKnownName);
                 mhSymbolizer.pointSize = geoStyleSymbolizer.radius  || 5;
-                mhSymbolizer.pointStrokeColor = geoStyleSymbolizer.strokeWidth ? this.mhColor(geoStyleSymbolizer.strokeColor, geoStyleSymbolizer.strokeOpacity) : undefined;
+                mhSymbolizer.pointStrokeColor = geoStyleSymbolizer.strokeWidth ? me.mhColor(geoStyleSymbolizer.strokeColor, geoStyleSymbolizer.strokeOpacity) : undefined;
                 mhSymbolizer.pointStrokeWidth = geoStyleSymbolizer.strokeWidth;
-                mhSymbolizer.pointFillColor = this.mhColor(geoStyleSymbolizer.color, geoStyleSymbolizer.fillOpacity);
+                mhSymbolizer.pointFillColor = me.mhColor(geoStyleSymbolizer.color, geoStyleSymbolizer.fillOpacity);
 
                 // pointLabels:false
                 // pointLabelAlign:"center"
@@ -197,9 +243,10 @@
          * @param mhSymbolizer
          */
         mhLineSymbolizerFromGeoStyleSymbolizer: function(geoStyleSymbolizer, mhSymbolizer){
+            let me = mh.module.map.style.Loader;
             if(geoStyleSymbolizer.kind === 'Line'){
                 mhSymbolizer.line = true;
-                mhSymbolizer.lineStrokeColor = geoStyleSymbolizer.width ? this.mhColor(geoStyleSymbolizer.color, geoStyleSymbolizer.opacity) : undefined;
+                mhSymbolizer.lineStrokeColor = geoStyleSymbolizer.width ? me.mhColor(geoStyleSymbolizer.color, geoStyleSymbolizer.opacity) : undefined;
                 mhSymbolizer.lineStrokeWidth = geoStyleSymbolizer.width;
 
                 // mhSymbolizer.lineLabels:false
@@ -254,10 +301,11 @@
          * @param mhSymbolizer
          */
         mhPolySymbolizerFromGeoStyleSymbolizer: function(geoStyleSymbolizer, mhSymbolizer){
+            let me = mh.module.map.style.Loader;
             if(geoStyleSymbolizer.kind === 'Fill'){
                 mhSymbolizer.poly = true;
-                mhSymbolizer.polyFillColor = this.mhColor(geoStyleSymbolizer.color, geoStyleSymbolizer.fillOpacity);
-                mhSymbolizer.polyStrokeColor = geoStyleSymbolizer.outlineWidth ? this.mhColor(geoStyleSymbolizer.outlineColor, geoStyleSymbolizer.outlineOpacity) : undefined;
+                mhSymbolizer.polyFillColor = me.mhColor(geoStyleSymbolizer.color, geoStyleSymbolizer.fillOpacity);
+                mhSymbolizer.polyStrokeColor = geoStyleSymbolizer.outlineWidth ? me.mhColor(geoStyleSymbolizer.outlineColor, geoStyleSymbolizer.outlineOpacity) : undefined;
                 mhSymbolizer.polyStrokeWidth = geoStyleSymbolizer.outlineWidth || 1;
 
                 // mhSymbolizer.polyLabels:false
@@ -315,9 +363,10 @@
             //initially supporting only a 2 level nesting for a rule - filter group + filters
             //operator in the filter specifies the actual relation between filter objects
 
-            let fg = [{
+            let me = mh.module.map.style.Loader,
+                fg = [{
                 join: 0, //single filter groups at the time being, so OR join between groups
-                filters: this.mhFiltersFromGeoStyleFilter(geoStyleFilter, colMapper)
+                filters: me.mhFiltersFromGeoStyleFilter(geoStyleFilter, colMapper)
             }];
 
             return fg;
@@ -329,15 +378,16 @@
          * @param colMapper
          */
         mhFiltersFromGeoStyleFilter: function(geoStyleFilter, colMapper){
-            let filters = [],
-                join = this.mhJoinFromGeoStyleFilterJoin(geoStyleFilter[0]);
+            let me = mh.module.map.style.Loader,
+                filters = [],
+                join = me.mhJoinFromGeoStyleFilterJoin(geoStyleFilter[0]);
 
             if(join === undefined){ //not a nested filter
-                filters.push(this.mhFilterFromGeoStyleFilter(geoStyleFilter, join, colMapper));
+                filters.push(me.mhFilterFromGeoStyleFilter(geoStyleFilter, join, colMapper));
             }
             else {
                 for(let i = 1; i < geoStyleFilter.length; i++){
-                    filters.push(this.mhFilterFromGeoStyleFilter(geoStyleFilter[i], join, colMapper));
+                    filters.push(me.mhFilterFromGeoStyleFilter(geoStyleFilter[i], join, colMapper));
                 }
             }
 
@@ -352,9 +402,10 @@
          * @returns {{column: *, join: number, value: *, operator: number}}
          */
         mhFilterFromGeoStyleFilter: function(geoStyleFilter, join, colMapper){
+            let me = mh.module.map.style.Loader;
             return {
                 join: join || 0, //default to OR
-                operator: this.mhFilterOperatorFromGeoStyleFilterOperator(geoStyleFilter[0]),
+                operator: me.mhFilterOperatorFromGeoStyleFilterOperator(geoStyleFilter[0]),
                 column: (colMapper || {})[geoStyleFilter[1]] || geoStyleFilter[1],
                 value: geoStyleFilter[2]
             };
