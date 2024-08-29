@@ -14,23 +14,25 @@
         /**
          * reads a style from SLD - returns a collection of mh.data.model.map.Style objects by calling a provided callback
          * @param sld
+         * @param colMapper an object allowing for column mapping: friendly names -> actual names; ignored if not provided
          * @param callback
          */
-        loadSld: function(sld, callback){
+        loadSld: function(sld, colMapper, callback){
             let me = this,
                 parser = new GeoStylerSLDParser.SldStyleParser();
 
             parser.readStyle(sld)
-                .then((parsed) => callback(me.mhStylesFromGeoStyle(parsed.output)))
+                .then((parsed) => callback(me.mhStylesFromGeoStyle(parsed.output, colMapper)))
                 .catch(error => console.log(error));
         },
 
         /**
          * transforms a geoStyle into mh styles
          * @param geoStyle
+         * @param colMapper
          * @returns {*[]}
          */
-        mhStylesFromGeoStyle: function(geoStyle){
+        mhStylesFromGeoStyle: function(geoStyle, colMapper){
             //<debug>
             console.log('geoStyle', geoStyle);
             //</debug>
@@ -41,7 +43,7 @@
             //basically a single geoStyle rule maps to a mhStyle
 
             for(let i = 0; i < geoStyleRules.length; i++){
-                let styles = this.mhStylesFromGeoStyleRule(geoStyleRules[i]);
+                let styles = this.mhStylesFromGeoStyleRule(geoStyleRules[i], colMapper);
                 for(let s = 0; s < styles.length; s++){
                     mhStyles.push(styles[s]);
                 }
@@ -57,8 +59,9 @@
         /**
          * transforms a geoStyle rule into a mh style object
          * @param geoStyleRule
+         * @param colMapper
          */
-        mhStylesFromGeoStyleRule: function(geoStyleRule){
+        mhStylesFromGeoStyleRule: function(geoStyleRule, colMapper){
             //geostyle rule is an obj with the following properties: filter, name, symbolizers
             //when no filters are specified a style applies to all objects
             //filter is a 3 position array: operator, fieldName, field value
@@ -77,7 +80,7 @@
 
             //work out a filter first
             let styles = [],
-                filters = geoStyleRule.filter ? this.mhFilterGroupsFromGeoStyleFilter(geoStyleRule.filter) : undefined;
+                filters = geoStyleRule.filter ? this.mhFilterGroupsFromGeoStyleFilter(geoStyleRule.filter, colMapper) : undefined;
 
             //<debug>
             //console.log('mh filters', filters);
@@ -300,8 +303,9 @@
         /**
          * transforms geoStyle filter into mh filter groups
          * @param geoStyleFilter
+         * @param colMapper
          */
-        mhFilterGroupsFromGeoStyleFilter: function(geoStyleFilter){
+        mhFilterGroupsFromGeoStyleFilter: function(geoStyleFilter, colMapper){
             //filter is an array:
             //0: operator
             //1: field name OR sub filter
@@ -313,7 +317,7 @@
 
             let fg = [{
                 join: 0, //single filter groups at the time being, so OR join between groups
-                filters: this.mhFiltersFromGeoStyleFilter(geoStyleFilter)
+                filters: this.mhFiltersFromGeoStyleFilter(geoStyleFilter, colMapper)
             }];
 
             return fg;
@@ -322,17 +326,18 @@
         /**
          * transforms geoStyleFilter into mh filters
          * @param geoStyleFilter
+         * @param colMapper
          */
-        mhFiltersFromGeoStyleFilter: function(geoStyleFilter){
+        mhFiltersFromGeoStyleFilter: function(geoStyleFilter, colMapper){
             let filters = [],
                 join = this.mhJoinFromGeoStyleFilterJoin(geoStyleFilter[0]);
 
             if(join === undefined){ //not a nested filter
-                filters.push(this.mhFilterFromGeoStyleFilter(geoStyleFilter, join));
+                filters.push(this.mhFilterFromGeoStyleFilter(geoStyleFilter, join, colMapper));
             }
             else {
                 for(let i = 1; i < geoStyleFilter.length; i++){
-                    filters.push(this.mhFilterFromGeoStyleFilter(geoStyleFilter[i], join));
+                    filters.push(this.mhFilterFromGeoStyleFilter(geoStyleFilter[i], join, colMapper));
                 }
             }
 
@@ -343,13 +348,14 @@
          * transforms geostyle filter into mh filter
          * @param geoStyleFilter
          * @param join
+         * @param colMapper
          * @returns {{column: *, join: number, value: *, operator: number}}
          */
-        mhFilterFromGeoStyleFilter: function(geoStyleFilter, join){
+        mhFilterFromGeoStyleFilter: function(geoStyleFilter, join, colMapper){
             return {
                 join: join || 0, //default to OR
                 operator: this.mhFilterOperatorFromGeoStyleFilterOperator(geoStyleFilter[0]),
-                column: geoStyleFilter[1],
+                column: (colMapper || {})[geoStyleFilter[1]] || geoStyleFilter[1],
                 value: geoStyleFilter[2]
             };
         },
