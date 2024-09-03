@@ -168,7 +168,15 @@
             if(!hex){
                 return undefined;
             }
-            return `${hex.replace('#', '')}${Ext.util.Format.hex(255*(opacity || 1))}`;
+            let fixedOpacity = 255 * (Ext.isNumber(opacity) ? opacity : 1);
+            if(fixedOpacity < 0){
+                fixedOpacity = 0;
+            }
+            if(fixedOpacity > 255){
+                fixedOpacity = 255;
+            }
+
+            return `${hex.replace('#', '')}${Ext.util.Format.hex(fixedOpacity)}`;
         },
 
         mhPointShapeFromGeoStyleWellKnownName: function(geoStyleWellKnownName){
