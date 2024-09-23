@@ -176,7 +176,11 @@
                 fixedOpacity = 255;
             }
 
-            return `${hex.replace('#', '')}${Ext.util.Format.hex(fixedOpacity)}`;
+            //<debug>
+            //console.log(hex, opacity, fixedOpacity, `${hex.replace('#', '')}${Ext.util.Format.hex(fixedOpacity, 2)}`);
+            //</debug>
+
+            return `${hex.replace('#', '')}${Ext.util.Format.hex(fixedOpacity, 2)}`;
         },
 
         mhPointShapeFromGeoStyleWellKnownName: function(geoStyleWellKnownName){
