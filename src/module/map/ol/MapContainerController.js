@@ -172,7 +172,7 @@
             this.map = new ol.Map({
                 layers: baseL,
                 target: mapContainerId,
-                controls: ol.control.defaults({
+                controls: ol.control.defaults.defaults({
                     attributionOptions: {
                         collapsible: false
                     }

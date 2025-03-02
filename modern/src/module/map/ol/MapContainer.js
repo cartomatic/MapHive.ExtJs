@@ -19,7 +19,7 @@
     },
     function(){
         let basePath = `${Ext.manifest.resources.path}/mh/jsLibs/`,
-            olSubPath = 'ol/6.5.0/';
+            olSubPath = 'ol/10.4.0/';
         mh.util.Loader.load({
             fileList: [
                 `${basePath}${olSubPath}ol.css`,
