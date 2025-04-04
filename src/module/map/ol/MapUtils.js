@@ -13,7 +13,8 @@
 
         requires: [
             'mh.util.DarkMode',
-            'mh.util.Color'
+            'mh.util.Color',
+            'mh.util.Generator'
         ],
 
         mixins: [
@@ -149,42 +150,57 @@
             const viewResolution = map.getView().getResolution();
 
             map.once('rendercomplete', function () {
-                const mapCanvas = document.createElement('canvas');
-                mapCanvas.width = width;
-                mapCanvas.height = height;
-                const mapContext = mapCanvas.getContext('2d');
-                Array.prototype.forEach.call(
-                    document.querySelectorAll('.ol-layer canvas'),
-                    function (canvas) {
-                        if (canvas.width > 0) {
-                            const opacity = canvas.parentNode.style.opacity;
-                            mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
-                            const transform = canvas.style.transform;
-                            // Get the transform parameters from the style's transform matrix
-                            const matrix = transform
-                                .match(/^matrix\(([^\(]*)\)$/)[1]
-                                .split(',')
-                                .map(Number);
-                            // Apply the transform to the export map context
-                            CanvasRenderingContext2D.prototype.setTransform.apply(
-                                mapContext,
-                                matrix,
-                            );
-                            mapContext.drawImage(canvas, 0, 0);
+                Ext.defer(
+                    () => {
+                        const mapCanvas = document.createElement('canvas');
+                        mapCanvas.width = width;
+                        mapCanvas.height = height;
+                        const mapContext = mapCanvas.getContext('2d');
+                        Array.prototype.forEach.call(
+                            document.querySelectorAll('.ol-layer canvas'),
+                            function (canvas) {
+                                if (canvas.width > 0) {
+                                    const opacity = canvas.parentNode.style.opacity;
+                                    mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+                                    const transform = canvas.style.transform;
+                                    // Get the transform parameters from the style's transform matrix
+                                    const matrix = transform
+                                        .match(/^matrix\(([^\(]*)\)$/)[1]
+                                        .split(',')
+                                        .map(Number);
+                                    // Apply the transform to the export map context
+                                    CanvasRenderingContext2D.prototype.setTransform.apply(
+                                        mapContext,
+                                        matrix,
+                                    );
+                                    mapContext.drawImage(canvas, 0, 0);
+                                }
+                            },
+                        );
+                        mapContext.globalAlpha = 1;
+                        mapContext.setTransform(1, 0, 0, 1, 0, 0);
+
+                        //let the map return to its orig size before assembling a pdf - render canvas in mem first, then resize map, then do pdf
+                        const imgData = mapCanvas.toDataURL('image/jpeg');
+
+                        if(cfg.debugImgFileDump){
+                            let a = document.createElement('a');
+
+                            a.href = imgData;
+                            a.setAttribute('download', `${mh.util.Generator.getShortUuid()}.png`);
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
                         }
+
+                        // Reset original map size
+                        map.setSize(size);
+                        map.getView().setResolution(viewResolution);
+
+                        cfg.callback(imgData);
                     },
+                    1000
                 );
-                mapContext.globalAlpha = 1;
-                mapContext.setTransform(1, 0, 0, 1, 0, 0);
-
-                //let the map return to its orig size before assembling a pdf - render canvas in mem first, then resize map, then do pdf
-                const imgData = mapCanvas.toDataURL('image/jpeg');
-
-                // Reset original map size
-                map.setSize(size);
-                map.getView().setResolution(viewResolution);
-
-                cfg.callback(imgData);
             });
 
             // Set print size
